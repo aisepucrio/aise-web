@@ -38,7 +38,6 @@ export default function DottedBlueBackground({
         height,
         marginTop: negative(overlap),
         display: "flex",
-        alignItems: "center",
         justifyContent: "center",
         position: "relative",
         backgroundColor: "#5b8fadff",
@@ -51,7 +50,7 @@ export default function DottedBlueBackground({
         maskImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,1) ${fadeSize}px)`,
       }}
     >
-      {children}
+      <Box style={{ marginTop: "8rem" }}>{children}</Box>
     </Box>
   );
 }
