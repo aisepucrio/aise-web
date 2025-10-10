@@ -13,6 +13,34 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import InfoCard from "@/components/InfoCard";
 import Titulo from "@/components/Titulo";
 
+// Dados
+const TITLE = "About Us";
+
+const MISSION_DATA = {
+  title: "Our Mission",
+  description:
+    "Transform the software development lifecycle, enhancing productivity, accelerating time-to-market, and raising the bar for quality in software deliverables. We are committed to exploring how AI can reshape every phase of software engineering, from streamlining design and optimizing coding practices to automating testing, refining maintenance strategies, and supporting the human-centric aspects of development.",
+  icon: "/icons/goal.svg",
+  alt: "Goal icon",
+};
+
+const HIGHLIGHTS_DATA = [
+  {
+    title: "Collaborative Innovation",
+    description:
+      "We actively engage with industry partners and academic institutions to foster interdisciplinary research collaborations. These partnerships enable us to tackle complex challenges at the intersection of AI and software engineering, driving forward the boundaries of technological innovation.",
+    icon: "/icons/teamwork.svg",
+    alt: "Teamwork icon",
+  },
+  {
+    title: "Join Us in Shaping the Future",
+    description:
+      "Researcher, industry professional, or student passionate about AI and software engineering, we invite you on our journey to redefine the future of technology. Together, let's innovate, collaborate, and pioneer solutions that will shape the next generation of software engineering practices.",
+    icon: "/icons/rocket.svg",
+    alt: "Rocket icon",
+  },
+];
+
 // Configuração das animações de entrada
 const ANIMATION_CONFIG = {
   initial: { opacity: 0, y: 24 },
@@ -26,32 +54,6 @@ const ANIMATION_CONFIG = {
     },
   }),
   idle: { opacity: 1, y: 0, transition: { duration: 0 } },
-};
-
-// Dados dos destaques
-const HIGHLIGHTS_DATA = [
-  {
-    title: "Collaborative Innovation",
-    description:
-      "We actively engage with industry partners and academic institutions to foster interdisciplinary research collaborations. These partnerships enable us to tackle complex challenges at the intersection of AI and software engineering, driving forward the boundaries of technological innovation.",
-    icon: "/icons/teamwork.svg",
-    alt: "Teamwork icon",
-  },
-  {
-    title: "Join Us in Shaping the Future",
-    description:
-      "We actively engage with industry partners and academic institutions to foster interdisciplinary research collaborations. These partnerships enable us to tackle complex challenges at the intersection of AI and software engineering, driving forward the boundaries of technological innovation.",
-    icon: "/icons/rocket.svg",
-    alt: "Rocket icon",
-  },
-];
-
-const MISSION_DATA = {
-  title: "Our Mission",
-  description:
-    "Transform the software development lifecycle, enhancing productivity, accelerating time-to-market, and raising the bar for quality in software deliverables. We are committed to exploring how AI can reshape every phase of software engineering, from streamlining design and optimizing coding practices to automating testing, refining maintenance strategies, and supporting the human-centric aspects of development.",
-  icon: "/icons/goal.svg",
-  alt: "Goal icon",
 };
 
 const MotionBox = motion(Box as any);
@@ -163,10 +165,10 @@ export default function MissionHighlightsSection() {
 
   return (
     <Box component="section" py="xl">
-      <Container size="xl" px="md">
+      <Container size="xl" style={{ padding: 0 }}>
         {/* Título da seção */}
         <AnimatedInView>
-          <Titulo>About Us</Titulo>
+          <Titulo>{TITLE}</Titulo>
         </AnimatedInView>
 
         {/* Seção da missão */}

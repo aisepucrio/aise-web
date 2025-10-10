@@ -5,10 +5,20 @@ import { Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 // Componente para título padronizado
-// - branco
+// - branco (padrão) ou cor customizada
 // - peso 800
 // - tamanho fixo que diminui em mobile via media query
-export default function Titulo({ children }: { children: React.ReactNode }) {
+export default function Titulo({
+  children,
+  color = "#fff",
+  verticalMarginMobile = 36,
+  verticalMarginDesktop = 48,
+}: {
+  children: React.ReactNode;
+  color?: string;
+  verticalMarginMobile?: number;
+  verticalMarginDesktop?: number;
+}) {
   const isMobile = useMediaQuery("(max-width: 62em)", false, {
     getInitialValueInEffect: true,
   });
@@ -16,12 +26,14 @@ export default function Titulo({ children }: { children: React.ReactNode }) {
   // Tamanhos
   const size = isMobile ? 38 : 56;
   // Margem vertical
-  const verticalMargin = isMobile ? 36 : 48;
+  const verticalMargin = isMobile
+    ? verticalMarginMobile
+    : verticalMarginDesktop;
 
   return (
     <Text
       style={{
-        color: "#fff",
+        color: color,
         fontWeight: 800,
         fontSize: `${size}px`,
         textAlign: "center",

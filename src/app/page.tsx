@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Hero
-        height="120vh"
+        height="150vh"
         title={
           "Welcome to AISE Lab Artificial Intelligence and Software Engineering Laboratory"
         }
@@ -13,7 +13,7 @@ export default function Home() {
           "Where we are dedicated to advancing the frontiers of software engineering through innovative Artificial Intelligence (AI) technologies"
         }
       />
-      <BlockTwoMain height="300vh" />
+      <BlockTwoMain height="200rem" />
     </>
   );
 }
