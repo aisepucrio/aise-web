@@ -97,7 +97,9 @@ export const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
   const x = useMotionValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useMediaQuery("(max-width: 62em)", false, {
     getInitialValueInEffect: true,
   });
@@ -117,17 +119,56 @@ export const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
     controls.set({ x: initialPosition });
   }, [x, controls, initialPosition]);
 
+  // Intersection Observer para detectar visibilidade
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1, // Considera visível quando 10% do carrossel está na tela
+      }
+    );
+
+    if (carouselRef.current) {
+      observer.observe(carouselRef.current);
+    }
+
+    return () => {
+      if (carouselRef.current) {
+        observer.unobserve(carouselRef.current);
+      }
+    };
+  }, []);
+
   // Controle do auto-play
   useEffect(() => {
-    if (!autoPlay || isPaused || totalSlides === 0) return;
+    if (!autoPlay || isPaused || !isVisible || totalSlides === 0) {
+      // Limpar intervalo quando qualquer condição não for atendida
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      return;
+    }
 
+    // Iniciar novo intervalo apenas se não houver um ativo
     intervalRef.current = setInterval(nextSlide, autoPlayInterval);
+
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
-  }, [autoPlay, autoPlayInterval, isPaused, currentIndex]);
+  }, [
+    autoPlay,
+    autoPlayInterval,
+    isPaused,
+    isVisible,
+    currentIndex,
+    totalSlides,
+  ]);
 
   // Funções de navegação
   const nextSlide = useCallback(() => {
@@ -204,6 +245,7 @@ export const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
       }}
     >
       <Box
+        ref={carouselRef}
         style={{
           position: "relative",
           overflow: "hidden",
