@@ -9,7 +9,7 @@ import Image from "next/image";
 export interface PersonCardProps {
   name: string;
   position: string;
-  imageUrl?: string;
+  imageUrl: string;
   description?: string;
   onClick?: () => void;
   cardWidth?: number;
@@ -31,7 +31,7 @@ const generateSlug = (name: string): string => {
 export const PersonCard: React.FC<PersonCardProps> = ({
   name,
   position,
-  imageUrl = "/team/placeholder-person.jpeg",
+  imageUrl,
   onClick,
   cardWidth: propCardWidth,
 }) => {
@@ -42,7 +42,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
       onClick();
     } else {
       const slug = generateSlug(name);
-      window.location.href = `/team/${slug}`;
+      window.location.href = `/images/team/${slug}`;
     }
   };
 

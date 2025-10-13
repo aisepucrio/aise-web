@@ -53,7 +53,7 @@ export default function Hero({
   return (
     <BackgroundImage
       id="hero-root"
-      src="/foto-do-time.jpg"
+      src="images/foto-do-time.jpg"
       style={{
         width: "100%",
         height: heroHeight,

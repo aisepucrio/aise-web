@@ -35,7 +35,9 @@ const useTeamData = () => {
 
     const loadTeamData = async () => {
       try {
-        const res = await fetch("/team/team-data.json", { cache: "no-store" });
+        const res = await fetch("/json/team-data.json", {
+          cache: "no-store",
+        });
 
         if (!res.ok) {
           throw new Error("Falha ao carregar dados");
@@ -169,7 +171,7 @@ export default function TeamSection() {
             <InfiniteCarousel
               people={teamData}
               autoPlay
-              autoPlayInterval={4000}
+              autoPlayInterval={5000}
               showDots
             />
           ) : (
