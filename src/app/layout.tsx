@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import "@mantine/core/styles.css";
 import "./globals.css";
 import Header from "@/pages/header/Header";
+import Footer from "@/pages/footer/Footer";
 
 // Carrega a fonte Montserrat via next/font
 const montserrat = Montserrat({
@@ -45,6 +46,7 @@ export default function RootLayout({
         <MantineProvider theme={theme} defaultColorScheme="light">
           <Header />
           {children}
+          <Footer />
         </MantineProvider>
       </body>
     </html>
