@@ -12,8 +12,6 @@ import { usePathname } from "next/navigation";
 type NavItem = { label: string; href: string };
 type HeaderProps = { items?: NavItem[] };
 
-const ACTIVE_COLOR = "#52AFE1";
-
 /**
  * Header fixo: logo (esq), nav (centro), CTA (dir).
  * - Home: transparente sobre o hero; fica branco após passar do hero.
@@ -22,9 +20,9 @@ const ACTIVE_COLOR = "#52AFE1";
 export default function Header({
   items = [
     { label: "Home", href: "/" },
-    { label: "Team", href: "/tm" },
-    { label: "Papers", href: "/pa" },
-    { label: "Projects", href: "/pj" },
+    { label: "Team", href: "/team" },
+    { label: "Papers", href: "/papers" },
+    { label: "Projects", href: "/projects" },
   ],
 }: HeaderProps) {
   const pathname = usePathname();
@@ -167,7 +165,7 @@ export default function Header({
                   items={items}
                   pathname={pathname}
                   linkColor={linkColor}
-                  activeColor={ACTIVE_COLOR}
+                  activeColor={"var(--primary)"}
                 />
               </Box>
             </nav>
@@ -178,7 +176,7 @@ export default function Header({
                 component={Link}
                 href="/"
                 size="sm"
-                style={{ backgroundColor: ACTIVE_COLOR, border: "none" }}
+                style={{ backgroundColor: "var(--primary)", border: "none" }}
               >
                 Send resume
               </Button>
@@ -226,7 +224,7 @@ export default function Header({
             items={items}
             pathname={pathname}
             linkColor="#111"
-            activeColor={ACTIVE_COLOR}
+            activeColor={"var(--primary)"}
             vertical
             size={20}
           />
@@ -237,7 +235,7 @@ export default function Header({
             component={Link}
             href="/"
             onClick={close}
-            style={{ backgroundColor: ACTIVE_COLOR, border: "none" }}
+            style={{ backgroundColor: "var(--primary)", border: "none" }}
             size="md"
           >
             Send resume

@@ -101,7 +101,7 @@ export default function Hero({
               variant="filled"
               size={buttonSize}
               radius="md"
-              style={{ backgroundColor: "#52AFE1" }}
+              style={{ backgroundColor: "var(--primary)" }}
             >
               Learn More
             </Button>

@@ -1,5 +1,5 @@
-import Hero from "@/pages/block-1/Hero";
-import BlockTwoMain from "@/pages/block-2/BlockTwoMain";
+import Hero from "@/components/home/block-1/Hero";
+import BlockTwoMain from "@/components/home/block-2/BlockTwoMain";
 
 export default function Home() {
   return (

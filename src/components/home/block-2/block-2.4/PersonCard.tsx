@@ -48,8 +48,10 @@ export const PersonCard: React.FC<PersonCardProps> = ({
 
   // Utilizando o cardWidth se fornecido, senão usa valores padrão
   const cardWidth = propCardWidth ?? (isMobile ? 150 : 280);
-  const cardHeight = isMobile ? 320 : 360;
-  const imageHeight = isMobile ? 240 : 280;
+
+  // Proporções baseadas na largura do card (imagem ~70% da altura total)
+  const imageHeight = Math.floor(cardWidth); // Proporção 1:1 para a imagem
+  const cardHeight = imageHeight + (isMobile ? 80 : 100); // Espaço para texto
 
   return (
     <MotionCard
@@ -114,7 +116,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
       <Box p={isMobile ? "md" : "lg"} ta="center">
         <Text
           fw={700}
-          size={isMobile ? "md" : "lg"}
+          size={isMobile ? "sm" : "lg"}
           mb="xs"
           c="dark.7"
           lh={1.3}

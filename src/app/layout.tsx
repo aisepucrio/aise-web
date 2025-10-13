@@ -8,8 +8,8 @@ import { Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import "@mantine/core/styles.css";
 import "./globals.css";
-import Header from "@/pages/header/Header";
-import Footer from "@/pages/footer/Footer";
+import Header from "@/components/header/Header";
+import Footer from "@/components/footer/Footer";
 
 // Carrega a fonte Montserrat via next/font
 const montserrat = Montserrat({

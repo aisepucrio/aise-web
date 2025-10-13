@@ -73,7 +73,7 @@ export default function Footer() {
           </Grid.Col>
 
           {/* Section 2: Description & Stats */}
-          <Grid.Col span={{ base: 12, sm: 6, md: 5.5 }}>
+          <Grid.Col span={{ base: 12, md: 5.5 }}>
             <Stack gap="lg" h="100%" justify="center">
               {/* Description */}
               <Stack gap="md">
@@ -88,7 +88,7 @@ export default function Footer() {
               {/* Quick Stats */}
               <Group gap="xl">
                 <Flex align="center" gap="xs">
-                  <IconBrain size={20} color="#52AFE1" />
+                  <IconBrain size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
                       {footerData.stats.projects}
@@ -99,7 +99,7 @@ export default function Footer() {
                   </Stack>
                 </Flex>
                 <Flex align="center" gap="xs">
-                  <IconUsers size={20} color="#52AFE1" />
+                  <IconUsers size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
                       {footerData.stats.members}
@@ -110,7 +110,7 @@ export default function Footer() {
                   </Stack>
                 </Flex>
                 <Flex align="center" gap="xs">
-                  <IconCode size={20} color="#52AFE1" />
+                  <IconCode size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
                       {footerData.stats.publications}
@@ -173,7 +173,7 @@ export default function Footer() {
                     <Flex align="center" gap="xs">
                       <IconMail size={16} color="#6b7280" />
                       <Anchor
-                        c="#52AFE1"
+                        c="var(--primary)"
                         td="none"
                         href={`mailto:${footerData.contact.email}`}
                         size="sm"

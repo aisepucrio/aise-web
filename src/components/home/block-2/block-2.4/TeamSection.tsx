@@ -1,12 +1,21 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { Box, Paper, Container, Text, Loader, Center } from "@mantine/core";
+import {
+  Box,
+  Paper,
+  Container,
+  Text,
+  Loader,
+  Center,
+  Button,
+} from "@mantine/core";
+import Link from "next/link";
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";
 import InfiniteCarousel from "./InfiniteCarousel";
-import Titulo from "../../../components/Titulo";
+import Titulo from "@/components/Titulo";
 import type { PersonCardProps } from "./PersonCard";
 
 // Dados
@@ -152,7 +161,7 @@ export default function TeamSection() {
     >
       <Paper
         component="section"
-        py={isMobile ? 32 : 64}
+        py={isMobile ? 24 : 42}
         px={8}
         shadow="md"
         style={{
@@ -177,6 +186,17 @@ export default function TeamSection() {
           ) : (
             <EmptyState />
           )}
+          {/* Centered See team button */}
+          <Center mt={24}>
+            <Button
+              component={Link}
+              href="/team"
+              size="lg"
+              style={{ backgroundColor: "var(--primary)", border: "none" }}
+            >
+              See more
+            </Button>
+          </Center>
         </Container>
       </Paper>
     </motion.div>

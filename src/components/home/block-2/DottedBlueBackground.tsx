@@ -40,7 +40,7 @@ export default function DottedBlueBackground({
         display: "flex",
         justifyContent: "center",
         position: "relative",
-        backgroundColor: "#5b8fadff",
+        backgroundColor: "var(--primary)",
         backgroundImage: dot,
         backgroundSize: "26px 26px",
         backgroundRepeat: "repeat",

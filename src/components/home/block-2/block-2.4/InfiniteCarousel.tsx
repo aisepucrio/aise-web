@@ -79,7 +79,7 @@ const Dots: React.FC<DotsProps> = ({ total, current, onDotClick }) => (
           borderRadius: "50%",
           border: "none",
           cursor: "pointer",
-          backgroundColor: index === current ? "#52AFE1" : "#e5e7eb",
+          backgroundColor: index === current ? "var(--primary)" : "#e5e7eb",
           transition: "background-color 0.2s",
         }}
       />
