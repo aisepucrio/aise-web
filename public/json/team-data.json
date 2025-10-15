@@ -4,7 +4,21 @@
       "name": "Juliana Alves",
       "position": "Laboratory Head",
       "imageUrl": "/images/team/juliana-foto.png",
-      "description": "Descrever..."
+      "description": "Dr. Juliana Alves is the head of the AISE Laboratory, bringing over 15 years of experience in artificial intelligence and software engineering research. Her work focuses on the intersection of AI and practical software applications.",
+      "email": "juliana.alves@example.com",
+      "researchInterests": [
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Software Engineering",
+        "Deep Learning",
+        "AI Ethics"
+      ],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/in/juliana-alves",
+        "github": "https://github.com/juliana-alves",
+        "googleScholar": "https://scholar.google.com/citations?user=example",
+        "orcid": "https://orcid.org/0000-0000-0000-0000"
+      }
     },
     {
       "name": "Heraldo Borges",
