@@ -2,6 +2,9 @@
 
 import React from "react";
 import { Card, Text, Box, ActionIcon } from "@mantine/core";
+// === INÍCIO EDIÇÃO: ícone para indicar ação de ir ao perfil ===
+import { IconArrowRight } from "@tabler/icons-react";
+// === FIM EDIÇÃO ===
 import { motion } from "framer-motion";
 import { useMediaQuery } from "@mantine/hooks";
 import Image from "next/image";
@@ -16,6 +19,18 @@ export interface PersonCardProps {
 }
 
 const MotionCard = motion(Card as any);
+// === INÍCIO EDIÇÃO: motion Box para overlay ===
+const MotionBox = motion(Box as any);
+// Variantes para animar overlay no hover
+const overlayVariants = {
+  rest: { opacity: 0, y: 8, transition: { duration: 0.15 } },
+  hover: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 320, damping: 22 },
+  },
+};
+// === FIM EDIÇÃO ===
 
 // Função para gerar slug da URL
 const generateSlug = (name: string): string => {
@@ -42,7 +57,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
       onClick();
     } else {
       const slug = generateSlug(name);
-      window.location.href = `/images/team/${slug}`;
+      window.location.href = `/team/${slug}`;
     }
   };
 
@@ -66,17 +81,17 @@ export const PersonCard: React.FC<PersonCardProps> = ({
         width: cardWidth,
         margin: "0 auto",
       }}
-      whileHover={{
-        scale: 1.05,
-        boxShadow: "0 8px 15px rgba(0,0,0,0.15)",
-      }}
       whileTap={{ scale: 0.98 }}
-      transition={{
-        type: "spring",
-        stiffness: 300,
-        damping: 20,
-      }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
       onClick={handleCardClick}
+      // === INÍCIO EDIÇÃO: faz o overlay responder ao hover do card ===
+      initial="rest"
+      animate="rest"
+      whileHover="hover"
+      // === FIM EDIÇÃO ===
+      role="button"
+      aria-label={`Abrir perfil de ${name}`}
+      title={`Abrir perfil de ${name}`}
     >
       {/* Container da imagem */}
       <Box
@@ -99,7 +114,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
           priority={false}
         />
 
-        {/* Overlay gradient sutil */}
+        {/* Overlay gradient sutil na base */}
         <Box
           style={{
             position: "absolute",
@@ -110,6 +125,55 @@ export const PersonCard: React.FC<PersonCardProps> = ({
             background: "linear-gradient(to top, rgba(0,0,0,0.3), transparent)",
           }}
         />
+
+        {/* Overlay informativo no hover */}
+        <MotionBox
+          variants={overlayVariants}
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // Fundo semitransparente para destacar a ação
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.55))",
+            backdropFilter: "blur(2px)",
+            pointerEvents: "none", // Deixa cliques passarem para o card
+          }}
+        >
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "10px 14px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.35)",
+              background: "rgba(0,0,0,0.25)",
+            }}
+          >
+            <Text
+              c="white"
+              fw={700}
+              size={isMobile ? "xs" : "sm"}
+              lh={1}
+              style={{ letterSpacing: 0.2 }}
+            >
+              Ver perfil
+            </Text>
+            <ActionIcon
+              variant="light"
+              color="var(--primary)"
+              radius="xl"
+              size={isMobile ? "sm" : "md"}
+              aria-hidden
+              style={{ pointerEvents: "none" }}
+            >
+              <IconArrowRight size={16} />
+            </ActionIcon>
+          </Box>
+        </MotionBox>
       </Box>
 
       {/* Informações */}

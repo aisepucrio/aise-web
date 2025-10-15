@@ -14,11 +14,9 @@ import {
 import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
 import { notifications } from "@mantine/notifications";
-import {
-  PersonCard,
-  PersonCardProps,
-} from "@/components/home/block-2/block-2.4/PersonCard";
+import { PersonCard, PersonCardProps } from "@/components/PersonCard";
 import FlickeringGrid from "@/components/FlickeringGrid";
+import teamPageContent from "@/../public/json/team-page-content.json";
 
 type TeamMember = {
   name: string;
@@ -268,15 +266,21 @@ export default function TeamPage() {
         overflow: "hidden",
       }}
     >
-      {/* Fundo animado */}
-      <FlickeringGrid
-        key={gridKey}
-        squareSize={8}
-        gridGap={6}
-        color="rgb(255, 255, 255)"
-        maxOpacity={0.4}
-        flickerChance={0.01}
-      />
+      {isLoading ? (
+        <Center h={400}>
+          <Loader size="lg" color={"var(--primary)"} />
+        </Center>
+      ) : (
+        /* Fundo animado */
+        <FlickeringGrid
+          key={gridKey}
+          squareSize={8}
+          gridGap={6}
+          color="rgb(255, 255, 255)"
+          maxOpacity={0.4}
+          flickerChance={0.005}
+        />
+      )}
 
       <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
         {/* Cabeçalho */}
@@ -297,7 +301,7 @@ export default function TeamPage() {
             mt={isMobile ? 24 : 32}
             mb={isMobile ? 24 : 32}
           >
-            Our Team
+            {teamPageContent.hero.title}
           </Text>
 
           <Box
@@ -317,9 +321,7 @@ export default function TeamPage() {
               lh={1.6}
               style={{ fontWeight: 400, flex: 1 }}
             >
-              Meet the brilliant minds behind our research and innovation. Our
-              diverse team brings together expertise from various fields to push
-              the boundaries of knowledge and technology.
+              {teamPageContent.hero.subtitle}
             </Text>
 
             {/* Estatísticas */}
@@ -333,8 +335,10 @@ export default function TeamPage() {
                   flexShrink: 0,
                 }}
               >
-                <StatsCard value={membersCount} label="Team Members" />
-                <StatsCard value={positionsCount} label="Positions" />
+                <StatsCard
+                  value={membersCount}
+                  label={teamPageContent.members.label}
+                />
               </Group>
             )}
           </Box>
@@ -353,11 +357,7 @@ export default function TeamPage() {
             borderBottomRightRadius: 24,
           }}
         >
-          {isLoading ? (
-            <Center h={400}>
-              <Loader size="lg" color={"var(--primary)"} />
-            </Center>
-          ) : positionsCount > 0 ? (
+          {positionsCount > 0 ? (
             <Box>
               {effectiveOrderedPositions.map((position, index) => (
                 <TeamCategory
