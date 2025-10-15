@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import {
   BackgroundImage,
   Overlay,
@@ -8,27 +9,20 @@ import {
   Title,
   Text,
   Button,
-  Box,
-  Stack,
   rem,
   useMantineTheme,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import homeContent from "@/../public/json/home-content.json";
 
 type HeroProps = {
   height?: number | string; // aceita px (número) ou unidade CSS (ex.: '70vh')
-  title: string;
-  subtitle?: string;
 };
 
 /* Hero com imagem de fundo + overlay escuro.
    - Responsividade via useMediaQuery
    - Mantém aparência e comportamento do original */
-export default function Hero({
-  height = "70vh",
-  title,
-  subtitle = "",
-}: HeroProps) {
+export default function Hero({ height = "70vh" }: HeroProps) {
   const theme = useMantineTheme();
 
   const isSm = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
@@ -49,6 +43,24 @@ export default function Hero({
   const titleFontSize = isXs ? rem(26) : "clamp(1.6rem, 4vw, 2.6rem)";
   const textSize: "sm" | "md" = isXs ? "sm" : "md";
   const buttonSize: "sm" | "md" = isXs ? "sm" : "md";
+
+  // Framer Motion variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.12, when: "beforeChildren" },
+    },
+  } as const;
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.45, ease: "easeOut" },
+    },
+  } as const;
 
   return (
     <BackgroundImage
@@ -72,41 +84,61 @@ export default function Hero({
         fluid
         style={{ position: "relative", zIndex: 2, width: containerWidth }}
       >
-        <Stack gap={12} style={{ color: "#fff" }}>
-          <Box style={{ width: titleWidth, minWidth: 200 }}>
-            <Title
-              order={1}
-              style={{
-                color: "#fff",
-                fontWeight: 800,
-                fontSize: titleFontSize,
-                lineHeight: 1.05,
-                whiteSpace: "pre-line",
-              }}
+        {/* Motion container - anima entrada dos filhos */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+              color: "#fff",
+            }}
+          >
+            <motion.div
+              variants={itemVariants}
+              style={{ width: titleWidth, minWidth: 200 }}
             >
-              {title}
-            </Title>
-          </Box>
+              <Title
+                order={1}
+                style={{
+                  color: "#fff",
+                  fontWeight: 800,
+                  fontSize: titleFontSize,
+                  lineHeight: 1.05,
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {homeContent.hero.title}
+              </Title>
+            </motion.div>
 
-          <Box style={{ width: subtitleWidth }}>
-            <Text c="white" size={textSize}>
-              {subtitle}
-            </Text>
-          </Box>
-
-          <Box mt={8}>
-            <Button
-              component="a"
-              href="#"
-              variant="filled"
-              size={buttonSize}
-              radius="md"
-              style={{ backgroundColor: "var(--primary)" }}
+            <motion.div
+              variants={itemVariants}
+              style={{ width: subtitleWidth }}
             >
-              Learn More
-            </Button>
-          </Box>
-        </Stack>
+              <Text c="white" size={textSize}>
+                {homeContent.hero.subtitle}
+              </Text>
+            </motion.div>
+
+            <motion.div variants={itemVariants} style={{ marginTop: 8 }}>
+              <Button
+                component="a"
+                href="#"
+                variant="filled"
+                size={buttonSize}
+                radius="md"
+                style={{ backgroundColor: "var(--primary)" }}
+              >
+                {homeContent.hero.button.text}
+              </Button>
+            </motion.div>
+          </div>
+        </motion.div>
       </Container>
     </BackgroundImage>
   );

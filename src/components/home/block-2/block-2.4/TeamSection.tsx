@@ -16,12 +16,8 @@ import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";
 import InfiniteCarousel from "./InfiniteCarousel";
 import Titulo from "@/components/Titulo";
-import type { PersonCardProps } from "./PersonCard";
-
-// Dados
-const TITLE = "Researchers & Creators";
-const SUBTITLE =
-  "Behind every line of code, every research paper, and every prototype, there’s a dedicated team of thinkers, builders, and learners.";
+import type { PersonCardProps } from "../../../PersonCard";
+import homeContent from "@/../public/json/home-content.json";
 
 interface TeamMember {
   name: string;
@@ -103,10 +99,10 @@ const SectionHeader = () => {
         verticalMarginMobile={12}
         color="#000000ff"
       >
-        {TITLE}
+        {homeContent.teamSection.title}
       </Titulo>
       <Text size={isMobile ? "sm" : "md"} c="dimmed" w="90%" mx="auto" lh={1.6}>
-        {SUBTITLE}
+        {homeContent.teamSection.subtitle}
       </Text>
     </Box>
   );
@@ -190,11 +186,11 @@ export default function TeamSection() {
           <Center mt={24}>
             <Button
               component={Link}
-              href="/team"
+              href={homeContent.teamSection.button.href}
               size="lg"
               style={{ backgroundColor: "var(--primary)", border: "none" }}
             >
-              See more
+              {homeContent.teamSection.button.text}
             </Button>
           </Center>
         </Container>

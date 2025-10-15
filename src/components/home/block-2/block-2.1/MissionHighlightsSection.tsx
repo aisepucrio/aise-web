@@ -12,34 +12,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import InfoCard from "@/components/InfoCard";
 import Titulo from "@/components/Titulo";
-
-// Dados
-const TITLE = "About Us";
-
-const MISSION_DATA = {
-  title: "Our Mission",
-  description:
-    "Transform the software development lifecycle, enhancing productivity, accelerating time-to-market, and raising the bar for quality in software deliverables. We are committed to exploring how AI can reshape every phase of software engineering, from streamlining design and optimizing coding practices to automating testing, refining maintenance strategies, and supporting the human-centric aspects of development.",
-  icon: "/images/icons/goal.svg",
-  alt: "Goal icon",
-};
-
-const HIGHLIGHTS_DATA = [
-  {
-    title: "Collaborative Innovation",
-    description:
-      "We actively engage with industry partners and academic institutions to foster interdisciplinary research collaborations. These partnerships enable us to tackle complex challenges at the intersection of AI and software engineering, driving forward the boundaries of technological innovation.",
-    icon: "/images/icons/teamwork.svg",
-    alt: "Teamwork icon",
-  },
-  {
-    title: "Join Us in Shaping the Future",
-    description:
-      "Researcher, industry professional, or student passionate about AI and software engineering, we invite you on our journey to redefine the future of technology. Together, let's innovate, collaborate, and pioneer solutions that will shape the next generation of software engineering practices.",
-    icon: "/images/icons/rocket.svg",
-    alt: "Rocket icon",
-  },
-];
+import homeContent from "@/../public/json/home-content.json";
 
 // Configuração das animações de entrada
 const ANIMATION_CONFIG = {
@@ -105,11 +78,11 @@ function MissionSection({ multiplier }: { multiplier: number }) {
   return (
     <AnimatedInView>
       <InfoCard
-        title={MISSION_DATA.title}
-        description={MISSION_DATA.description}
+        title={homeContent.mission.card.title}
+        description={homeContent.mission.card.description}
         multiplyer={multiplier}
-        iconSrc={MISSION_DATA.icon}
-        iconAlt={MISSION_DATA.alt}
+        iconSrc={homeContent.mission.card.icon}
+        iconAlt={homeContent.mission.card.alt}
       />
     </AnimatedInView>
   );
@@ -120,7 +93,7 @@ function HighlightsSection({ isMobile }: { isMobile: boolean }) {
   if (isMobile) {
     return (
       <Stack gap="md">
-        {HIGHLIGHTS_DATA.map((item, index) => (
+        {homeContent.highlights.map((item, index) => (
           <AnimatedInView key={item.title} index={index + 1}>
             <InfoCard
               title={item.title}
@@ -137,7 +110,7 @@ function HighlightsSection({ isMobile }: { isMobile: boolean }) {
 
   return (
     <SimpleGrid cols={2} spacing="lg">
-      {HIGHLIGHTS_DATA.map((item, index) => (
+      {homeContent.highlights.map((item, index) => (
         <AnimatedInView key={item.title} index={index + 1}>
           <InfoCard
             title={item.title}
@@ -168,7 +141,7 @@ export default function MissionHighlightsSection() {
       <Container size="xl" style={{ padding: 0 }}>
         {/* Título da seção */}
         <AnimatedInView>
-          <Titulo>{TITLE}</Titulo>
+          <Titulo>{homeContent.mission.sectionTitle}</Titulo>
         </AnimatedInView>
 
         {/* Seção da missão */}
