@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Anchor, Box, Button, Divider, Drawer, Burger } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { motion, useAnimation } from "framer-motion";
 import NavLinks from "./NavLinks";
+import headerContent from "@/../public/json/header-content.json";
 import { usePathname } from "next/navigation";
 
 type NavItem = { label: string; href: string };
@@ -17,14 +17,7 @@ type HeaderProps = { items?: NavItem[] };
  * - Home: transparente sobre o hero; fica branco após passar do hero.
  * - Mobile: permanece transparente na home enquanto o menu estiver FECHADO; ao abrir o Drawer, fica branco.
  */
-export default function Header({
-  items = [
-    { label: "Home", href: "/" },
-    { label: "Team", href: "/team" },
-    { label: "Papers", href: "/papers" },
-    { label: "Projects", href: "/projects" },
-  ],
-}: HeaderProps) {
+export default function Header({ items = headerContent.items }: HeaderProps) {
   const pathname = usePathname();
   const controls = useAnimation();
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
@@ -148,12 +141,11 @@ export default function Header({
               href="/"
               aria-label="Ir para a página inicial"
             >
-              <Image
-                src="/logo.png"
-                alt="logo"
-                width={135}
-                height={0}
-                style={{ display: "inline-block" }}
+              <img
+                src={headerContent.logo.src}
+                alt={headerContent.logo.alt}
+                width={headerContent.logo.width}
+                style={{ display: "inline-block", height: "auto" }}
                 draggable={false}
               />
             </Anchor>
@@ -174,11 +166,11 @@ export default function Header({
             <Box visibleFrom="md">
               <Button
                 component={Link}
-                href="/"
-                size="sm"
+                href={headerContent.cta.href}
+                size={(headerContent.cta.size as any) || "sm"}
                 style={{ backgroundColor: "var(--primary)", border: "none" }}
               >
-                Send resume
+                {headerContent.cta.text}
               </Button>
             </Box>
 
@@ -233,12 +225,12 @@ export default function Header({
 
           <Button
             component={Link}
-            href="/"
+            href={headerContent.cta.href}
             onClick={close}
             style={{ backgroundColor: "var(--primary)", border: "none" }}
             size="md"
           >
-            Send resume
+            {headerContent.cta.text}
           </Button>
         </Box>
       </Drawer>

@@ -1,0 +1,18 @@
+{
+  "logo": {
+    "src": "/images/logos/logo.png",
+    "alt": "AISE Lab logo",
+    "width": 135
+  },
+  "items": [
+    { "label": "Home", "href": "/" },
+    { "label": "Team", "href": "/team" },
+    { "label": "Papers", "href": "/papers" },
+    { "label": "Projects", "href": "/projects" }
+  ],
+  "cta": {
+    "text": "Send resume",
+    "href": "/",
+    "size": "sm"
+  }
+}
