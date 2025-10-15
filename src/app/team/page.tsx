@@ -10,6 +10,8 @@ import {
   Center,
   Group,
   Badge,
+  ThemeIcon,
+  Title,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
@@ -17,6 +19,7 @@ import { notifications } from "@mantine/notifications";
 import { PersonCard, PersonCardProps } from "@/components/PersonCard";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import teamPageContent from "@/../public/json/team-page-content.json";
+import { IconUsers } from "@tabler/icons-react";
 
 type TeamMember = {
   name: string;
@@ -289,20 +292,29 @@ export default function TeamPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Text
-            component="h2"
-            style={{
-              color: "#ffffff",
-              fontWeight: 800,
-              fontSize: isMobile ? "38px" : "56px",
-              lineHeight: 1,
-            }}
-            ta="left"
-            mt={isMobile ? 24 : 32}
-            mb={isMobile ? 24 : 32}
-          >
-            {teamPageContent.hero.title}
-          </Text>
+          <Group gap="xs" mb={isMobile ? 24 : 32} mt={isMobile ? 24 : 32}>
+            <ThemeIcon
+              size={isMobile ? 42 : 56}
+              radius="lg"
+              variant="white"
+              color="var(--primary)"
+              style={{ boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)" }}
+            >
+              <IconUsers size={isMobile ? 24 : 32} />
+            </ThemeIcon>
+            <Title
+              order={1}
+              style={{
+                color: "#ffffff",
+                fontWeight: 800,
+                fontSize: isMobile ? "38px" : "56px",
+                lineHeight: 1,
+                textShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              {teamPageContent.hero.title}
+            </Title>
+          </Group>
 
           <Box
             style={{
