@@ -3,6 +3,9 @@
     "title": "Publications",
     "subtitle": "Explore our research in Artificial Intelligence and Software Engineering. Our publications reflect our commitment to advancing knowledge and pushing the boundaries of technology."
   },
+  "stats": {
+    "totalLabel": "Total Papers"
+  },
   "filter": {
     "icon": {
       "ariaLabel": "Filter publications"

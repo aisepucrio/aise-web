@@ -12,12 +12,14 @@ import {
   Box,
   Select,
   Pagination,
+  TextInput,
 } from "@mantine/core";
 import {
   IconExternalLink,
   IconQuote,
   IconFilter,
   IconFileText,
+  IconSearch,
 } from "@tabler/icons-react";
 import paperData from "@/../public/json/paper-data.json";
 import papersContent from "@/../public/json/papers-page-content.json";
@@ -50,6 +52,7 @@ export default function PapersPage() {
   const [gridKey, setGridKey] = useState(0);
   const [sortBy, setSortBy] = useState<SortOption>("year-desc");
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 10;
 
   // Re-renderiza o grid quando o componente monta
@@ -68,30 +71,40 @@ export default function PapersPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Re-renderiza o grid somente quando mudarmos entre a última página e uma página não-última (ou vice-versa).
-  const prevIsLastRef = useRef<boolean | null>(null);
+  // Ref para armazenar o número anterior de papers exibidos
+  const prevDisplayedCountRef = useRef<number | null>(null);
 
-  // Ordena os papers baseado na opção selecionada
+  // Total de papers (sempre o total original, não filtrado)
+  const totalPapersCount = allPapers.length;
+
+  // Filtra e ordena os papers baseado na busca e opção selecionada
   const sortedPapers = useMemo(() => {
-    const sorted = [...allPapers];
+    // Primeiro filtra pela busca
+    let filtered = [...allPapers];
+    if (searchQuery.trim()) {
+      filtered = filtered.filter((paper) =>
+        paper.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
 
+    // Depois ordena
     switch (sortBy) {
       case "year-desc":
-        return sorted.sort((a, b) => parseInt(b.year) - parseInt(a.year));
+        return filtered.sort((a, b) => parseInt(b.year) - parseInt(a.year));
       case "year-asc":
-        return sorted.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+        return filtered.sort((a, b) => parseInt(a.year) - parseInt(b.year));
       case "citations-desc":
-        return sorted.sort((a, b) => b.citation_number - a.citation_number);
+        return filtered.sort((a, b) => b.citation_number - a.citation_number);
       case "citations-asc":
-        return sorted.sort((a, b) => a.citation_number - b.citation_number);
+        return filtered.sort((a, b) => a.citation_number - b.citation_number);
       case "name-asc":
-        return sorted.sort((a, b) => a.title.localeCompare(b.title));
+        return filtered.sort((a, b) => a.title.localeCompare(b.title));
       case "name-desc":
-        return sorted.sort((a, b) => b.title.localeCompare(a.title));
+        return filtered.sort((a, b) => b.title.localeCompare(a.title));
       default:
-        return sorted;
+        return filtered;
     }
-  }, [allPapers, sortBy]);
+  }, [allPapers, sortBy, searchQuery]);
 
   // Calcula os papers da página atual
   const paginatedPapers = useMemo(() => {
@@ -103,31 +116,31 @@ export default function PapersPage() {
   // Total de páginas
   const totalPages = Math.ceil(sortedPapers.length / itemsPerPage);
 
-  // Re-renderiza o grid quando mudamos entre a última página e uma página não-última (ou vice-versa).
+  // Re-renderiza o grid quando o número de papers exibidos na página mudar
   useEffect(() => {
-    const isLast = currentPage === totalPages;
+    const currentDisplayedCount = paginatedPapers.length;
 
     // Se for a primeira vez, só inicializa
-    if (prevIsLastRef.current === null) {
-      prevIsLastRef.current = isLast;
+    if (prevDisplayedCountRef.current === null) {
+      prevDisplayedCountRef.current = currentDisplayedCount;
       return;
     }
 
-    // Só dispara se mudou o estado de "é última página"
-    if (prevIsLastRef.current !== isLast) {
+    // Só dispara se mudou o número de papers exibidos
+    if (prevDisplayedCountRef.current !== currentDisplayedCount) {
       const timer = setTimeout(() => setGridKey((prev) => prev + 1), 60);
-      prevIsLastRef.current = isLast;
+      prevDisplayedCountRef.current = currentDisplayedCount;
       return () => clearTimeout(timer);
     }
 
     // Update o ref
-    prevIsLastRef.current = isLast;
-  }, [currentPage, totalPages]);
+    prevDisplayedCountRef.current = currentDisplayedCount;
+  }, [paginatedPapers.length]);
 
-  // Reset para página 1 quando mudar a ordenação
+  // Reset para página 1 quando mudar a ordenação ou busca
   useEffect(() => {
     setCurrentPage(1);
-  }, [sortBy]);
+  }, [sortBy, searchQuery]);
 
   return (
     <Box
@@ -150,51 +163,101 @@ export default function PapersPage() {
         flickerChance={0.005}
       />
       <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
-        {/* Header Section */}
+        {/* Header */}
         <PagesHeader
           icon={IconFileText}
           title={papersContent.hero.title}
           subtitle={papersContent.hero.subtitle}
           metrics={
-            sortedPapers.length > 0
-              ? [{ label: "Total Papers", value: sortedPapers.length }]
+            totalPapersCount > 0
+              ? [
+                  {
+                    label: papersContent?.stats?.totalLabel,
+                    value: totalPapersCount,
+                  },
+                ]
               : []
           }
         />
 
-        {/* Compact filter (top-left) */}
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "flex-start",
-            marginBottom: 18,
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.4,
+            ease: "easeOut",
           }}
         >
+          {/* Filtro e Busca */}
           <Box
             style={{
               display: "flex",
-              gap: 8,
+              justifyContent: isMobile ? "center" : "space-between",
               alignItems: "center",
-              background: "rgba(255,255,255,0.95)",
-              padding: 12,
-              borderRadius: 12,
-              boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+              marginBottom: 18,
+              gap: 16,
             }}
           >
-            <IconFilter size={24} color="var(--primary)" />
-            <Select
-              value={sortBy}
-              onChange={(value) => setSortBy(value as SortOption)}
-              data={papersContent.filter.sortOptions}
-              style={{ width: isMobile ? 140 : 180 }}
-              styles={{
-                input: {
-                  fontSize: isMobile ? 14 : 16,
-                },
+            {/* Filtro */}
+            <Box
+              style={{
+                display: "flex",
+                gap: 8,
+                alignItems: "center",
+                background: "rgba(255, 255, 255, 1)",
+                padding: 12,
+                borderRadius: 12,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
               }}
-            />
+            >
+              <IconFilter size={24} color="var(--primary)" />
+              <Select
+                value={sortBy}
+                onChange={(value) => setSortBy(value as SortOption)}
+                data={papersContent.filter.sortOptions}
+                style={{ width: isMobile ? 140 : 180 }}
+                styles={{
+                  input: {
+                    fontSize: isMobile ? 14 : 16,
+                  },
+                }}
+              />
+            </Box>
+
+            {/* Barra de Busca (escondida no mobile) */}
+            {!isMobile && (
+              <Box
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  alignItems: "center",
+                  background: "rgba(255,255,255,0.95)",
+                  padding: 12,
+                  borderRadius: 12,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                }}
+              >
+                <IconSearch size={24} color="var(--primary)" />
+                <TextInput
+                  placeholder="Buscar por título..."
+                  value={searchQuery}
+                  onChange={(event) =>
+                    setSearchQuery(event.currentTarget.value)
+                  }
+                  style={{ width: 300 }}
+                  styles={{
+                    input: {
+                      fontSize: 16,
+                      border: "none",
+                      backgroundColor: "transparent",
+                      padding: 0,
+                    },
+                  }}
+                />
+              </Box>
+            )}
           </Box>
-        </Box>
+        </motion.div>
 
         {/* Lista de Publicações */}
         <Stack gap="xl" mb={40}>

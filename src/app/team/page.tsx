@@ -277,7 +277,7 @@ export default function TeamPage() {
             !isLoading && positionsCount > 0
               ? [
                   {
-                    label: teamPageContent.members.label,
+                    label: teamPageContent.stats.label,
                     value: membersCount,
                   },
                 ]
