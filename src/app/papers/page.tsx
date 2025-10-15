@@ -9,15 +9,20 @@ import {
   Group,
   Stack,
   Anchor,
-  Divider,
   Box,
   Select,
   Pagination,
 } from "@mantine/core";
-import { IconExternalLink, IconQuote, IconFilter } from "@tabler/icons-react";
+import {
+  IconExternalLink,
+  IconQuote,
+  IconFilter,
+  IconFileText,
+} from "@tabler/icons-react";
 import paperData from "@/../public/json/paper-data.json";
 import papersContent from "@/../public/json/papers-page-content.json";
 import FlickeringGrid from "@/components/FlickeringGrid";
+import PagesHeader from "@/components/PagesHeader";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
@@ -129,7 +134,7 @@ export default function PapersPage() {
       style={{
         position: "relative",
         minHeight: "100vh",
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--primary)",
         paddingTop: isMobile ? 80 : 100,
         paddingBottom: isMobile ? 60 : 80,
         overflow: "hidden",
@@ -140,46 +145,22 @@ export default function PapersPage() {
         key={gridKey}
         squareSize={8}
         gridGap={6}
-        color="rgb(82, 175, 225)"
+        color="rgba(255, 255, 255, 1)"
         maxOpacity={0.35}
         flickerChance={0.005}
       />
       <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
         {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Stack gap="md" mb={40}>
-            <Title
-              order={1}
-              style={{
-                fontSize: "2.5rem",
-                fontWeight: 700,
-                color: "var(--primary)",
-                textAlign: "center",
-              }}
-            >
-              {papersContent.hero.title}
-            </Title>
-            <Text
-              size={isMobile ? "md" : "lg"}
-              ta="center"
-              maw={800}
-              lh={1.6}
-              style={{
-                fontWeight: 400,
-                flex: 1,
-                color: "var(--primary)",
-                margin: "0 auto",
-              }}
-            >
-              {papersContent.hero.subtitle}
-            </Text>
-            <Divider my="md" />
-          </Stack>
-        </motion.div>
+        <PagesHeader
+          icon={IconFileText}
+          title={papersContent.hero.title}
+          subtitle={papersContent.hero.subtitle}
+          metrics={
+            sortedPapers.length > 0
+              ? [{ label: "Total Papers", value: sortedPapers.length }]
+              : []
+          }
+        />
 
         {/* Compact filter (top-left) */}
         <Box
@@ -297,7 +278,8 @@ export default function PapersPage() {
                         fw={600}
                         style={{ color: "var(--primary)" }}
                       >
-                        {paper.citation_number} {papersContent.paperCard.citationsLabel.toLowerCase()}
+                        {paper.citation_number}{" "}
+                        {papersContent.paperCard.citationsLabel.toLowerCase()}
                       </Text>
                     </Group>
 
@@ -326,8 +308,10 @@ export default function PapersPage() {
         </Stack>
 
         {/* Contagem de Resultados */}
-        <Text size="sm" c="dimmed" mt={30} ta="center">
-          {papersContent.resultsText.showing} {paginatedPapers.length} {papersContent.resultsText.of} {sortedPapers.length} {papersContent.resultsText.publications}
+        <Text size="md" c="white" mt={30} ta="center" fw={500}>
+          {papersContent.resultsText.showing} {paginatedPapers.length}{" "}
+          {papersContent.resultsText.of} {sortedPapers.length}{" "}
+          {papersContent.resultsText.publications}
         </Text>
 
         {/* Paginação */}
@@ -350,17 +334,46 @@ export default function PapersPage() {
             box-shadow: 0 8px 24px rgba(82, 175, 225, 0.15) !important;
             border-color: var(--primary) !important;
           }
-          /* Estilos globais para os controles de paginação do Mantine usarem a cor primária do site */
+          /* Estilos globais para os controles de paginação */
+          :global(.mantine-Pagination-control) {
+            background-color: white !important;
+            border-color: white !important;
+            color: var(--primary) !important;
+          }
           :global(.mantine-Pagination-control[data-active]) {
-            background-color: var(--primary) !important;
+            background-color: white !important;
             border-color: var(--primary) !important;
-            color: #ffffff !important;
+            border-width: 1px !important;
+            color: var(--primary) !important;
+            font-weight: 700 !important;
           }
           :global(.mantine-Pagination-control:hover):not(
               :global([data-active])
             ) {
-            background-color: rgba(82, 175, 225, 0.1) !important;
-            border-color: var(--primary) !important;
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            border-color: white !important;
+          }
+          :global(.mantine-Pagination-control[data-disabled]) {
+            background-color: rgba(255, 255, 255, 0.5) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            color: rgba(82, 175, 225, 0.5) !important;
+          }
+          /* Força os 3 pontinhos a ficarem brancos */
+          :global(.mantine-Pagination-ellipsis),
+          :global(.mantine-Pagination-dots),
+          :global(.mantine-Pagination-control[data-type="dots"]),
+          :global(
+              .mantine-Pagination-control[aria-disabled][data-type="dots"]
+            ) {
+            color: #ffffff !important;
+            background-color: transparent !important;
+            border-color: transparent !important;
+          }
+
+          /* If ellipsis is rendered as a span inside a control */
+          :global(.mantine-Pagination-control[data-type="dots"] span),
+          :global(.mantine-Pagination-ellipsis span) {
+            color: #ffffff !important;
           }
         `}</style>
       </Container>

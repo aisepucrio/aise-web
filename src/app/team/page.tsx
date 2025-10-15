@@ -10,14 +10,13 @@ import {
   Center,
   Group,
   Badge,
-  ThemeIcon,
-  Title,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
 import { notifications } from "@mantine/notifications";
 import { PersonCard, PersonCardProps } from "@/components/PersonCard";
 import FlickeringGrid from "@/components/FlickeringGrid";
+import PagesHeader from "@/components/PagesHeader";
 import teamPageContent from "@/../public/json/team-page-content.json";
 import { IconUsers } from "@tabler/icons-react";
 
@@ -84,23 +83,6 @@ const useTeamData = () => {
 
   return { teamData, isLoading, orderedPositions };
 };
-
-// Cartão simples para evitar duplicação nas estatísticas
-const StatsCard = ({ value, label }: { value: number; label: string }) => (
-  <Paper
-    shadow="md"
-    radius="lg"
-    p="lg"
-    style={{ background: "rgba(255,255,255,0.95)" }}
-  >
-    <Text fz={32} fw={800} ta="center" style={{ color: "var(--primary)" }}>
-      {value}
-    </Text>
-    <Text size="sm" ta="center" c="dimmed" fw={600}>
-      {label}
-    </Text>
-  </Paper>
-);
 
 // Hook para calcular colunas e largura dos cards baseado na largura da tela
 const useResponsiveGrid = () => {
@@ -287,74 +269,21 @@ export default function TeamPage() {
 
       <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
         {/* Cabeçalho */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Group gap="xs" mb={isMobile ? 24 : 32} mt={isMobile ? 24 : 32}>
-            <ThemeIcon
-              size={isMobile ? 42 : 56}
-              radius="lg"
-              variant="white"
-              color="var(--primary)"
-              style={{ boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)" }}
-            >
-              <IconUsers size={isMobile ? 24 : 32} />
-            </ThemeIcon>
-            <Title
-              order={1}
-              style={{
-                color: "#ffffff",
-                fontWeight: 800,
-                fontSize: isMobile ? "38px" : "56px",
-                lineHeight: 1,
-                textShadow: "0 2px 12px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              {teamPageContent.hero.title}
-            </Title>
-          </Group>
-
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: isMobile ? "column" : "row",
-              gap: isMobile ? 16 : 24,
-              alignItems: isMobile ? "flex-start" : "flex-end",
-              marginBottom: isMobile ? 40 : 60,
-            }}
-          >
-            <Text
-              size={isMobile ? "md" : "lg"}
-              ta="left"
-              c="white"
-              maw={800}
-              lh={1.6}
-              style={{ fontWeight: 400, flex: 1 }}
-            >
-              {teamPageContent.hero.subtitle}
-            </Text>
-
-            {/* Estatísticas */}
-            {!isLoading && positionsCount > 0 && (
-              <Group
-                justify="flex-end"
-                gap={isMobile ? "md" : "xl"}
-                style={{
-                  marginLeft: isMobile ? 0 : "auto",
-                  marginTop: isMobile ? 20 : 0,
-                  flexShrink: 0,
-                }}
-              >
-                <StatsCard
-                  value={membersCount}
-                  label={teamPageContent.members.label}
-                />
-              </Group>
-            )}
-          </Box>
-        </motion.div>
+        <PagesHeader
+          icon={IconUsers}
+          title={teamPageContent.hero.title}
+          subtitle={teamPageContent.hero.subtitle}
+          metrics={
+            !isLoading && positionsCount > 0
+              ? [
+                  {
+                    label: teamPageContent.members.label,
+                    value: membersCount,
+                  },
+                ]
+              : []
+          }
+        />
 
         {/* Conteúdo */}
         <Paper
