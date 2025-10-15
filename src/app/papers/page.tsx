@@ -239,7 +239,10 @@ export default function PapersPage() {
               >
                 <IconSearch size={24} color="var(--primary)" />
                 <TextInput
-                  placeholder="Buscar por título..."
+                  placeholder={
+                    // Fallback to English text if JSON property is missing
+                    papersContent?.filter?.searchPlaceholder || "Search by title..."
+                  }
                   value={searchQuery}
                   onChange={(event) =>
                     setSearchQuery(event.currentTarget.value)

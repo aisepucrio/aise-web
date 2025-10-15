@@ -19,6 +19,7 @@
       { "value": "name-desc", "label": "Title Z-A" }
     ]
   },
+  "searchPlaceholder": "Search by title...",
   "resultsText": {
     "showing": "Showing",
     "of": "of",
