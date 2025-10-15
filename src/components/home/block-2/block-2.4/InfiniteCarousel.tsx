@@ -5,7 +5,7 @@ import { Box, Container, ActionIcon, Group } from "@mantine/core";
 import { motion, useAnimation, useMotionValue } from "framer-motion";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { useMediaQuery } from "@mantine/hooks";
-import PersonCard, { PersonCardProps } from "./PersonCard";
+import PersonCard, { PersonCardProps } from "@/components/PersonCard";
 
 interface InfiniteCarouselProps {
   people: PersonCardProps[];

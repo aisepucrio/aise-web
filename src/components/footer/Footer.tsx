@@ -23,7 +23,7 @@ import {
   IconCode,
   IconUsers,
 } from "@tabler/icons-react";
-import footerData from "@/../public/json/footer.json";
+import footerData from "@/../public/json/footer-content.json";
 
 export default function Footer() {
   const scrollToTop = () => {
