@@ -10,15 +10,19 @@ import {
   Center,
   Group,
   Badge,
+  Stack,
+  Card,
+  Avatar,
+  SimpleGrid,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
 import { notifications } from "@mantine/notifications";
-import { PersonCard, PersonCardProps } from "@/components/PersonCard";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";
 import teamPageContent from "@/../public/json/team-page-content.json";
 import { IconUsers } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 type TeamMember = {
   name: string;
@@ -84,73 +88,263 @@ const useTeamData = () => {
   return { teamData, isLoading, orderedPositions };
 };
 
-// Hook para calcular colunas e largura dos cards baseado na largura da tela
-const useResponsiveGrid = () => {
-  const [gridConfig, setGridConfig] = useState({ columns: 4, cardWidth: 280 });
+// Gera slug a partir do nome
+const generateSlug = (name: string): string =>
+  name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
 
-  useEffect(() => {
-    const calculateGrid = () => {
-      const width = window.innerWidth;
-      const gap = 48;
-      const containerPadding = width < 992 ? 32 : 64; // Padding do Container + Paper
-      const availableWidth = Math.min(width - containerPadding, 1200); // Max container width
+// Componente de item de membro na lista vertical
+const TeamMemberListItem = ({
+  member,
+  index,
+}: {
+  member: TeamMember;
+  index: number;
+}) => {
+  const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 62em)");
+  const slug = generateSlug(member.name);
 
-      let columns: number;
-      let cardWidth: number;
+  const [isHovered, setIsHovered] = useState(false);
 
-      if (width < 480) {
-        // Telas muito pequenas: 2 colunas
-        columns = 2;
-        cardWidth = Math.floor((availableWidth - gap) / 2);
-      } else if (width < 768) {
-        // Mobile: 2-3 colunas dependendo do espaço
-        const testWidth3 = (availableWidth - gap * 2) / 3;
-        if (testWidth3 >= 140) {
-          columns = 3;
-          cardWidth = Math.floor(testWidth3);
-        } else {
-          columns = 2;
-          cardWidth = Math.floor((availableWidth - gap) / 2);
-        }
-      } else if (width < 992) {
-        // Tablet: 3 colunas
-        columns = 3;
-        cardWidth = Math.floor((availableWidth - gap * 2) / 3);
-      } else {
-        // Desktop: 4 colunas
-        columns = 4;
-        cardWidth = Math.floor((availableWidth - gap * 3) / 4);
-      }
-
-      // Limita a largura máxima e mínima dos cards
-      cardWidth = Math.max(120, Math.min(cardWidth, 300));
-
-      setGridConfig({ columns, cardWidth });
-    };
-
-    calculateGrid();
-    window.addEventListener("resize", calculateGrid);
-    return () => window.removeEventListener("resize", calculateGrid);
-  }, []);
-
-  return gridConfig;
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+    >
+      <Card
+        padding={isMobile ? "sm" : "md"}
+        radius="md"
+        withBorder
+        style={{
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+          borderColor: isHovered ? "var(--primary)" : "#e9ecef",
+          backgroundColor: "#ffffff",
+          transform: isHovered ? "translateX(4px)" : "translateX(0)",
+          boxShadow: isHovered
+            ? "0 2px 8px rgba(0, 123, 255, 0.15)"
+            : "0 1px 3px rgba(0, 0, 0, 0.05)",
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => router.push(`/team/${slug}`)}
+      >
+        <Group gap="md" wrap="nowrap">
+          <Avatar
+            src={member.imageUrl}
+            alt={member.name}
+            size={isMobile ? 60 : 90}
+            radius="md"
+            style={{
+              flexShrink: 0,
+            }}
+          />
+          <Box style={{ flex: 1, minWidth: 0 }}>
+            <Text
+              fw={600}
+              size={isMobile ? "sm" : "md"}
+              style={{
+                color: "var(--primary)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {member.name}
+            </Text>
+            <Text
+              size={isMobile ? "xs" : "sm"}
+              c="dimmed"
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {member.description}
+            </Text>
+          </Box>
+        </Group>
+      </Card>
+    </motion.div>
+  );
 };
 
-// Lista de membros por cargo
-const TeamCategory = ({
+// Componente de categoria com lista vertical (MOBILE)
+const TeamCategoryColumn = ({
   position,
   members,
   index,
-  columns,
-  cardWidth,
 }: {
   position: string;
   members: TeamMember[];
   index: number;
-  columns: number;
-  cardWidth: number;
 }) => {
-  const isMobile = useMediaQuery("(max-width: 62em)");
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+      style={{ height: "100%" }}
+    >
+      <Paper
+        shadow="none"
+        p="md"
+        radius={0}
+        style={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "transparent",
+          border: "none",
+          borderLeft: "6px solid var(--primary)",
+          paddingLeft: 16,
+        }}
+      >
+        {/* Cabeçalho da categoria */}
+        <Badge
+          size="md"
+          variant="filled"
+          mb="md"
+          style={{
+            fontSize: "0.85rem",
+            fontWeight: 700,
+            padding: "10px 16px",
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+            backgroundColor: "var(--primary)",
+            color: "#ffffff",
+            width: "fit-content",
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
+          }}
+        >
+          {position}
+        </Badge>
+
+        {/* Lista vertical de membros */}
+        <Stack gap="xs" style={{ flex: 1 }}>
+          {members.map((member, idx) => (
+            <TeamMemberListItem key={member.name} member={member} index={idx} />
+          ))}
+        </Stack>
+      </Paper>
+    </motion.div>
+  );
+};
+
+// Componente de item de membro em grid (DESKTOP)
+const TeamMemberGridItem = ({
+  member,
+  index,
+}: {
+  member: TeamMember;
+  index: number;
+}) => {
+  const router = useRouter();
+  const slug = generateSlug(member.name);
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3, delay: index * 0.05 }}
+    >
+      <Card
+        padding="md"
+        radius="md"
+        withBorder
+        style={{
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+          borderColor: isHovered ? "var(--primary)" : "#e9ecef",
+          backgroundColor: "#ffffff",
+          transform: isHovered ? "translateY(-4px)" : "translateY(0)",
+          boxShadow: isHovered
+            ? "0 4px 12px rgba(0, 123, 255, 0.2)"
+            : "0 1px 3px rgba(0, 0, 0, 0.05)",
+          height: "100%",
+          position: "relative",
+          overflow: "hidden",
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={() => router.push(`/team/${slug}`)}
+      >
+        <Stack gap="sm" align="center">
+          <Avatar
+            src={member.imageUrl}
+            alt={member.name}
+            size={120}
+            radius="md"
+          />
+          <Box style={{ textAlign: "center", width: "100%" }}>
+            <Text
+              fw={600}
+              size="lg"
+              style={{
+                color: "var(--primary)",
+              }}
+            >
+              {member.name}
+            </Text>
+            <Text
+              size="sm"
+              c="dimmed"
+              lineClamp={3}
+              style={{
+                marginTop: 4,
+              }}
+            >
+              {member.description}
+            </Text>
+          </Box>
+        </Stack>
+
+        {/* Indicador "Ver mais" no hover */}
+        <Box
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: "var(--primary)",
+            color: "#ffffff",
+            padding: "8px",
+            textAlign: "center",
+            transform: isHovered ? "translateY(0)" : "translateY(100%)",
+            transition: "transform 0.3s ease",
+            fontSize: "0.875rem",
+            fontWeight: 600,
+          }}
+        >
+          Ver mais
+        </Box>
+      </Card>
+    </motion.div>
+  );
+};
+
+// Componente de categoria horizontal (DESKTOP)
+const TeamCategoryHorizontal = ({
+  position,
+  members,
+  index,
+}: {
+  position: string;
+  members: TeamMember[];
+  index: number;
+}) => {
+  // Centraliza quando há menos de 3 membros
+  const shouldCenter = members.length < 3;
 
   return (
     <motion.div
@@ -158,51 +352,52 @@ const TeamCategory = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
     >
-      <Box mb={isMobile ? 32 : 64}>
-        {/* Cabeçalho da categoria */}
-        <Group justify="flex-start" mb={isMobile ? 20 : 30}>
-          <Badge
-            size={isMobile ? "lg" : "xl"}
-            variant="filled"
-            style={{
-              fontSize: isMobile ? "0.9rem" : "1.1rem",
-              fontWeight: 700,
-              padding: isMobile ? "12px 20px" : "16px 28px",
-              textTransform: "uppercase",
-              letterSpacing: "0.5px",
-              backgroundColor: "var(--primary)",
-              color: "#ffffff",
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-            }}
-          >
-            {position}
-          </Badge>
-        </Group>
+      <Box
+        style={{
+          marginBottom: 40,
+        }}
+      >
+        {/* Título centralizado */}
+        <Text
+          size="xl"
+          fw={700}
+          ta="center"
+          mb="xs"
+          style={{
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+            color: "var(--primary)",
+          }}
+        >
+          {position}
+        </Text>
+
+        {/* Barra azul abaixo do título */}
+        <Box
+          style={{
+            width: "100%",
+            height: 6,
+            backgroundColor: "var(--primary)",
+            marginBottom: 24,
+          }}
+        />
 
         {/* Grid de membros */}
         <Box
           style={{
             display: "grid",
-            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-            gap: isMobile ? 16 : 24,
-            justifyItems: "start",
+            gridTemplateColumns: shouldCenter
+              ? `repeat(${members.length}, 1fr)`
+              : "repeat(auto-fill, minmax(300px, 1fr))",
+            gap: "1.5rem",
+            justifyContent: shouldCenter ? "center" : "start",
+            maxWidth: shouldCenter ? `${members.length * 350}px` : "100%",
+            margin: shouldCenter ? "0 auto" : "0",
           }}
         >
-          {members.map((member) => {
-            const personCardData: PersonCardProps = {
-              name: member.name,
-              position: member.position,
-              imageUrl: member.imageUrl,
-              description: member.description,
-              cardWidth: cardWidth,
-            };
-            return (
-              <Box key={member.name}>
-                <PersonCard {...personCardData} />
-              </Box>
-            );
-          })}
+          {members.map((member, idx) => (
+            <TeamMemberGridItem key={member.name} member={member} index={idx} />
+          ))}
         </Box>
       </Box>
     </motion.div>
@@ -212,8 +407,8 @@ const TeamCategory = ({
 // Página principal
 export default function TeamPage() {
   const { teamData, isLoading, orderedPositions } = useTeamData();
-  const { columns, cardWidth } = useResponsiveGrid();
   const isMobile = useMediaQuery("(max-width: 62em)");
+  const isTablet = useMediaQuery("(max-width: 75em)");
   const [gridKey, setGridKey] = useState(0);
 
   // Fallback para ordem de cargos caso não haja em state
@@ -231,6 +426,9 @@ export default function TeamPage() {
     () => effectiveOrderedPositions.length,
     [effectiveOrderedPositions]
   );
+
+  // Define número de colunas baseado na tela
+  const gridCols = isMobile ? 1 : isTablet ? 2 : 3;
 
   // Re-renderiza o grid quando o loading termina
   useEffect(() => {
@@ -292,25 +490,34 @@ export default function TeamPage() {
           style={{
             background: "rgba(255, 255, 255, 0.98)",
             backdropFilter: "blur(10px)",
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-            borderTopRightRadius: 24,
-            borderBottomRightRadius: 24,
           }}
         >
           {positionsCount > 0 ? (
-            <Box>
-              {effectiveOrderedPositions.map((position, index) => (
-                <TeamCategory
-                  key={position}
-                  position={position}
-                  members={teamData[position]}
-                  index={index}
-                  columns={columns}
-                  cardWidth={cardWidth}
-                />
-              ))}
-            </Box>
+            isMobile ? (
+              // Layout MOBILE: colunas verticais com barra lateral
+              <SimpleGrid cols={1} spacing="md" verticalSpacing="md">
+                {effectiveOrderedPositions.map((position, index) => (
+                  <TeamCategoryColumn
+                    key={position}
+                    position={position}
+                    members={teamData[position]}
+                    index={index}
+                  />
+                ))}
+              </SimpleGrid>
+            ) : (
+              // Layout DESKTOP: barras horizontais com grid
+              <Stack gap="xl">
+                {effectiveOrderedPositions.map((position, index) => (
+                  <TeamCategoryHorizontal
+                    key={position}
+                    position={position}
+                    members={teamData[position]}
+                    index={index}
+                  />
+                ))}
+              </Stack>
+            )
           ) : (
             <Center h={300}>
               <Text ta="center" c="dimmed" size="lg">

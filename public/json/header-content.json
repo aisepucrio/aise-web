@@ -12,7 +12,7 @@
   ],
   "cta": {
     "text": "Send resume",
-    "href": "/",
+    "href": "https://docs.google.com/forms/d/e/1FAIpQLSdIwBSkUVBoM7CsRHUljqIO381GaNfz6Yr4_iV9A039aiirsA/viewform?usp=send_form",
     "size": "sm"
   }
 }

@@ -1,0 +1,165 @@
+{
+  "projects": [
+    {
+      "id": "annotaise",
+      "name": "AnnotAISE",
+      "tagline": "Human-in-the-loop Annotation Platform",
+      "description": "A form-driven platform that replaces messy spreadsheets with guided workflows for creating, distributing, and auditing large-scale manual annotations.",
+      "longDescription": "AnnotAISE is a comprehensive web-based annotation platform designed to streamline the entire lifecycle of data labeling projects. Born from the challenges faced by research teams managing large-scale annotation campaigns through spreadsheets and email chains, AnnotAISE provides a centralized solution that handles everything from project setup to quality assurance. The platform features an intuitive admin dashboard for creating and managing labeling campaigns, a clean and keyboard-friendly interface for annotators, and powerful analytics tools that calculate inter-annotator agreement metrics in real-time. With support for multiple annotation schemas, role-based access control, and audit-ready exports with full provenance tracking, AnnotAISE enables research teams to scale their annotation efforts while maintaining high quality standards. The system is particularly optimized for Portuguese and English corpora, addressing the unique challenges of multilingual NLP research.",
+      "imageUrl": "/images/projects/annotaise/LoginPageLight.png",
+      "category": "Data Science",
+      "status": "Active",
+      "gallery": [
+        "/images/projects/annotaise/LoginPageLight.png",
+        "/images/projects/annotaise/AdminPageExample1Light.png",
+        "/images/projects/annotaise/CreateRotulationExample1Light.png",
+        "/images/projects/annotaise/FormExample1Light.png",
+        "/images/projects/annotaise/FormExample2Light.png",
+        "/images/projects/annotaise/UserPageViewExample1Light.png",
+        "/images/projects/annotaise/LoginPageDark.png"
+      ],
+      "duration": "Jan 2025 – present",
+      "sponsor": "AISE Lab (PUC-Rio)",
+      "objectives": [
+        "Reduce setup time for a new labeling campaign from days to hours",
+        "Increase annotation throughput and agreement for Portuguese/English corpora",
+        "Provide audit-ready exports with full provenance"
+      ],
+      "features": [
+        "Admin space for project and campaign management",
+        "Clean labeler UI with keyboard-friendly forms",
+        "QA & analytics with inter-annotator agreement metrics",
+        "Role-based access and audit logs"
+      ],
+      "techStack": [
+        "Next.js",
+        "TypeScript",
+        "Mantine UI",
+        "NestJS",
+        "PostgreSQL",
+        "Prisma"
+      ],
+      "team": [
+        {
+          "name": "Robbie Santos",
+          "role": "Project Lead / Frontend"
+        },
+        {
+          "name": "Bruna Nascimento",
+          "role": "Backend & Data Pipelines"
+        },
+        {
+          "name": "Lucas Almeida",
+          "role": "ML Ops / Metrics"
+        },
+        {
+          "name": "Dr. Helena Vieira",
+          "role": "PI / Methodology"
+        },
+        {
+          "name": "Prof. João Martins",
+          "role": "Advisor / Ethics & QA"
+        }
+      ],
+      "links": {
+        "webapp": "https://annotaise.ai/lab",
+        "github": "https://github.com/aise-lab/annotaise-web",
+        "api": "https://github.com/aise-lab/annotaise-api",
+        "docs": "https://docs.annotaise.ai/api"
+      },
+      "publications": [
+        {
+          "title": "AnnotAISE: A Lightweight Form-Driven Platform for Dataset Annotation in Portuguese and English",
+          "type": "Working Paper",
+          "year": 2025
+        },
+        {
+          "title": "Evaluating Emotion Taxonomies for Social Media in PT-BR: A Human-in-the-Loop Study",
+          "type": "Under Review",
+          "year": 2025
+        }
+      ]
+    },
+    {
+      "id": "smp",
+      "name": "SMP (BuddyMents)",
+      "tagline": "Mental Health & Productivity for Teams",
+      "description": "A mobile-first app that helps companies track mental-health and productivity signals—without creepy surveillance—using short daily check-ins and team dashboards.",
+      "longDescription": "BuddyMents (SMP - Saúde Mental e Produtividade) represents a paradigm shift in how organizations monitor and support employee wellbeing. Rather than relying on intrusive surveillance or infrequent surveys, the platform uses brief daily check-ins that take just 10 seconds to complete. Employees use intuitive sliders to rate their mental health state and productivity levels, creating a continuous stream of data that reveals trends and potential issues before they become critical. The system measures both Individual Perceived Productivity (IPP) and Team Perceived Productivity (TPP), with research showing that misalignment between these metrics serves as an early warning sign of burnout. Company dashboards provide HR and team leads with actionable insights through trend analysis, alignment gap detection, and anomaly alerts—all while maintaining strict privacy protections. Unlike traditional wellness programs that feel like checkbox exercises, BuddyMents integrates seamlessly into daily workflows and provides value to both employees and employers through its privacy-first, non-surveillance approach.",
+      "imageUrl": "/images/projects/smp/LoginFrame.png",
+      "category": "Health Tech",
+      "status": "Pilot",
+      "gallery": [
+        "/images/projects/smp/LoginFrame.png",
+        "/images/projects/smp/SelectionsAndHomeFrame.png",
+        "/images/projects/smp/MetricsFrame.png"
+      ],
+      "duration": "Feb 2025 – present",
+      "sponsor": "AISE Lab (PUC-Rio)",
+      "objectives": [
+        "Track mental health and productivity metrics in real-time",
+        "Provide actionable insights for HR and team leads",
+        "Ensure privacy-first approach without surveillance",
+        "Replace clunky spreadsheet surveys with guided flows"
+      ],
+      "features": [
+        "10-second daily check-ins with intuitive sliders",
+        "Team dashboards with trends and alignment gaps",
+        "Admin console for team management and exports",
+        "Privacy-first design with audit-ready exports"
+      ],
+      "techStack": [
+        "React Native",
+        "Node.js",
+        "PostgreSQL",
+        "OpenAPI",
+        "Mobile-first Design"
+      ],
+      "team": [
+        {
+          "name": "Robbie Santos",
+          "role": "Product & Frontend (Lead)"
+        },
+        {
+          "name": "Bruna Nascimento",
+          "role": "Backend/API"
+        },
+        {
+          "name": "Lucas Almeida",
+          "role": "Data/ML & Metrics"
+        },
+        {
+          "name": "Dr. Helena Vieira",
+          "role": "Research Lead"
+        },
+        {
+          "name": "Prof. João Martins",
+          "role": "Ethics & Study Design"
+        }
+      ],
+      "links": {
+        "webapp": "https://buddymnts.ai",
+        "github": "https://github.com/aise-lab/smp-mobile",
+        "api": "https://github.com/aise-lab/smp-api",
+        "docs": "https://docs.buddymnts.ai/api"
+      },
+      "publications": [
+        {
+          "title": "BuddyMents: Translating Mental-Health & Productivity Metrics into a Workplace App",
+          "type": "Preprint",
+          "year": 2025
+        },
+        {
+          "title": "Measuring Alignment: IPP vs. TPP as a Leading Indicator of Burnout",
+          "type": "Under Review",
+          "year": 2026
+        },
+        {
+          "title": "'I am always tired': Perceptions on Mental Health and Productivity Metrics",
+          "type": "Working Paper",
+          "year": 2025
+        }
+      ]
+    }
+  ]
+}

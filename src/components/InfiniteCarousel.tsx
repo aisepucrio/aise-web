@@ -12,15 +12,13 @@ interface InfiniteCarouselProps {
   autoPlay?: boolean;
   autoPlayInterval?: number;
   showDots?: boolean;
+  cardWidth?: number;
+  cardWidthMobile?: number;
+  cardGap?: number;
+  cardGapMobile?: number;
 }
 
 const MotionBox = motion(Box as any);
-
-// Configurações do carrossel
-const CARD_WIDTH = 300;
-const CARD_WIDTH_MOBILE = 200;
-const CARD_GAP = 20;
-const CARD_GAP_MOBILE = 10;
 
 // Botão de navegação reutilizável
 interface NavButtonProps {
@@ -92,6 +90,10 @@ export const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
   autoPlay = true,
   autoPlayInterval = 20000,
   showDots = true,
+  cardWidth: propCardWidth,
+  cardWidthMobile: propCardWidthMobile,
+  cardGap: propCardGap,
+  cardGapMobile: propCardGapMobile,
 }) => {
   const controls = useAnimation();
   const x = useMotionValue(0);
@@ -105,8 +107,16 @@ export const InfiniteCarousel: React.FC<InfiniteCarouselProps> = ({
   });
 
   // Calcular dimensões do carrossel baseado no dispositivo
-  const cardWidth = isMobile ? CARD_WIDTH_MOBILE : CARD_WIDTH;
-  const cardGap = isMobile ? CARD_GAP_MOBILE : CARD_GAP;
+  const defaultCardWidthDesktop = 340;
+  const defaultCardWidthMobile = 260;
+  const defaultCardGapDesktop = 20;
+  const defaultCardGapMobile = 12;
+  const cardWidth = isMobile
+    ? propCardWidthMobile ?? defaultCardWidthMobile
+    : propCardWidth ?? defaultCardWidthDesktop;
+  const cardGap = isMobile
+    ? propCardGapMobile ?? defaultCardGapMobile
+    : propCardGap ?? defaultCardGapDesktop;
   const totalSlides = people.length;
 
   // Incluir gaps no cálculo total do container

@@ -14,9 +14,9 @@ import Link from "next/link";
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";
-import InfiniteCarousel from "./InfiniteCarousel";
+import InfiniteCarousel from "@/components/InfiniteCarousel";
 import Titulo from "@/components/Titulo";
-import type { PersonCardProps } from "../../../PersonCard";
+import type { PersonCardProps } from "@/components/PersonCard";
 import homeContent from "@/../public/json/home-content.json";
 
 interface TeamMember {
@@ -178,6 +178,8 @@ export default function TeamSection() {
               autoPlay
               autoPlayInterval={5000}
               showDots
+              cardWidth={280}
+              cardWidthMobile={200}
             />
           ) : (
             <EmptyState />

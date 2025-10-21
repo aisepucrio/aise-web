@@ -14,9 +14,7 @@ import {
   Stack,
   Divider,
   Button,
-  ActionIcon,
   Title,
-  ThemeIcon,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
@@ -24,15 +22,14 @@ import { notifications } from "@mantine/notifications";
 import Image from "next/image";
 import {
   IconArrowLeft,
-  IconBrandLinkedin,
-  IconBrandGithub,
-  IconMail,
   IconBulb,
   IconCopy,
-  IconId,
-  IconSchool,
+  IconCode,
+  IconBriefcase,
 } from "@tabler/icons-react";
 import FlickeringGrid from "@/components/FlickeringGrid";
+import { BadgeBox } from "@/components/BadgeBox";
+import LinkGroup from "@/components/LinkGroup";
 
 // Tipos essenciais
 type TeamMember = {
@@ -43,11 +40,15 @@ type TeamMember = {
   bio?: string;
   email?: string;
   researchInterests?: string[];
+  technologies?: string[];
+  expertise?: string[];
   socialLinks?: {
     linkedin?: string;
     github?: string;
     googleScholar?: string;
     orcid?: string;
+    lattes?: string;
+    personalWebsite?: string;
   };
 };
 type TeamData = { team: TeamMember[] };
@@ -128,90 +129,7 @@ const SocialLinks = ({
 }) => {
   if (!links) return null;
 
-  // Define ícones e sombras de foco/hover
-  const items = [
-    links.linkedin && {
-      href: links.linkedin,
-      aria: "LinkedIn",
-      icon: <IconBrandLinkedin size={isMobile ? 22 : 26} />,
-      hoverShadow: "0 4px 12px rgba(0, 119, 181, 0.3)",
-      color: "blue" as const,
-    },
-    links.github && {
-      href: links.github,
-      aria: "GitHub",
-      icon: <IconBrandGithub size={isMobile ? 22 : 26} />,
-      hoverShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-      color: "dark" as const,
-    },
-    links.googleScholar && {
-      href: links.googleScholar,
-      aria: "Google Scholar",
-      icon: <IconSchool size={isMobile ? 22 : 26} />,
-      hoverShadow: "0 4px 12px rgba(66, 133, 244, 0.3)",
-      color: "blue" as const,
-    },
-    links.orcid && {
-      href: links.orcid,
-      aria: "ORCID",
-      icon: <IconId size={isMobile ? 22 : 26} />,
-      hoverShadow: "0 4px 12px rgba(166, 206, 57, 0.3)",
-      color: "green" as const,
-    },
-  ].filter(Boolean) as Array<{
-    href: string;
-    aria: string;
-    icon: React.ReactNode;
-    hoverShadow: string;
-    color: "blue" | "dark" | "green";
-  }>;
-
-  if (items.length === 0) return null;
-
-  const justifyMap: Record<string, any> = {
-    left: "flex-start",
-    center: "center",
-    right: "flex-end",
-  };
-
-  return (
-    <>
-      <Group gap="sm" justify={justifyMap[align ?? "center"]}>
-        {items.map((item, idx) => (
-          <ActionIcon
-            key={idx}
-            size={isMobile ? 36 : 44}
-            radius="xl"
-            variant="light"
-            color={item.color}
-            component="a"
-            href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={item.aria}
-            className="socialIcon"
-            style={
-              {
-                transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                // CSS var consumida no :hover (abaixo)
-                ["--hoverShadow" as any]: item.hoverShadow,
-              } as React.CSSProperties
-            }
-          >
-            {item.icon}
-          </ActionIcon>
-        ))}
-      </Group>
-
-      {/* Estilo de hover isolado, mantendo aparência sem depender de arquivos externos */}
-      <style jsx>{`
-        .socialIcon:hover {
-          transform: translateY(-2px);
-          box-shadow: var(--hoverShadow);
-        }
-      `}</style>
-    </>
-  );
+  return <LinkGroup links={links} isMobile={isMobile} align={align} />;
 };
 
 export default function TeamMemberPage() {
@@ -234,10 +152,7 @@ export default function TeamMemberPage() {
     () => ({
       background: "rgba(255, 255, 255, 0.98)",
       backdropFilter: "blur(10px)",
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-      borderTopRightRadius: 24,
-      borderBottomRightRadius: 24,
+      borderRadius: 24,
     }),
     []
   );
@@ -346,14 +261,16 @@ export default function TeamMemberPage() {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 10,
+                  gap: 16,
                   width: isMobile ? "100%" : 300,
                   flexShrink: 0,
+                  alignItems: "center",
                 }}
               >
                 <Box
                   style={{
                     position: "relative",
+                    width: "100%",
                     height: isMobile ? 280 : 360,
                     borderRadius: 16,
                     overflow: "hidden",
@@ -368,6 +285,36 @@ export default function TeamMemberPage() {
                     priority
                   />
                 </Box>
+
+                {/* Botão de e-mail com cópia para área de transferência */}
+                {member.email && (
+                  <Button
+                    variant="light"
+                    color="var(--primary)"
+                    rightSection={<IconCopy size={20} />}
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(member.email!);
+                        notifications.show({
+                          message: "Email copiado!",
+                          color: "teal",
+                          withCloseButton: false,
+                        });
+                      } catch {
+                        notifications.show({
+                          title: "Erro",
+                          message: "Não foi possível copiar o email.",
+                          color: "red",
+                          withCloseButton: true,
+                        });
+                      }
+                    }}
+                    fullWidth
+                    style={{ textTransform: "none", fontWeight: 600 }}
+                  >
+                    {member.email}
+                  </Button>
+                )}
               </Box>
 
               {/* Coluna de conteúdo */}
@@ -442,89 +389,37 @@ export default function TeamMemberPage() {
 
                 {/* Interesses de pesquisa (se houver) */}
                 {member.researchInterests?.length ? (
-                  <>
-                    <Divider
-                      style={{
-                        width: isMobile ? "100%" : undefined,
-                        alignSelf: isMobile ? "stretch" : undefined,
-                        marginTop: isMobile ? 8 : undefined,
-                        marginBottom: isMobile ? 8 : undefined,
-                      }}
-                    />
-                    <Paper
-                      shadow="xs"
-                      radius="md"
-                      p="md"
-                      style={{
-                        background: "rgba(245,245,245,0.6)",
-                        flex: 1,
-                        minWidth: isMobile ? "100%" : "60%",
-                      }}
-                    >
-                      <Group
-                        mb="xs"
-                        style={{
-                          justifyContent: isMobile ? "center" : undefined,
-                        }}
-                      >
-                        <ThemeIcon variant="light" color="var(--primary)">
-                          <IconBulb size={18} />
-                        </ThemeIcon>
-                        <Text fw={600} c="dimmed" size="sm">
-                          Research Interests
-                        </Text>
-                      </Group>
-                      <Group
-                        gap="xs"
-                        wrap="wrap"
-                        style={{
-                          justifyContent: isMobile ? "center" : undefined,
-                        }}
-                      >
-                        {member.researchInterests.map((interest, i) => (
-                          <Badge
-                            key={i}
-                            color="var(--primary)"
-                            variant="light"
-                            radius="sm"
-                            size="md"
-                          >
-                            {interest}
-                          </Badge>
-                        ))}
-                      </Group>
-                    </Paper>
-                  </>
+                  <BadgeBox
+                    title="Research Interests"
+                    icon={<IconBulb size={18} />}
+                    items={member.researchInterests}
+                  />
                 ) : null}
 
-                {/* Botão de e-mail com cópia para área de transferência */}
-                {member.email && (
-                  <Button
-                    variant="light"
-                    color="var(--primary)"
-                    rightSection={<IconCopy size={20} />}
-                    onClick={async () => {
-                      try {
-                        await navigator.clipboard.writeText(member.email!);
-                        notifications.show({
-                          message: "Email copiado!",
-                          color: "teal",
-                          withCloseButton: false,
-                        });
-                      } catch {
-                        notifications.show({
-                          title: "Erro",
-                          message: "Não foi possível copiar o email.",
-                          color: "red",
-                          withCloseButton: true,
-                        });
-                      }
-                    }}
-                    fullWidth
-                    style={{ textTransform: "none", fontWeight: 600 }}
+                {/* Technologies e Expertise na mesma linha */}
+                {(member.technologies?.length || member.expertise?.length) && (
+                  <Group
+                    grow
+                    align="flex-start"
+                    gap="md"
+                    style={{ flexDirection: isMobile ? "column" : "row" }}
                   >
-                    {member.email}
-                  </Button>
+                    {member.technologies?.length ? (
+                      <BadgeBox
+                        title="Technologies"
+                        icon={<IconCode size={18} />}
+                        items={member.technologies}
+                      />
+                    ) : null}
+
+                    {member.expertise?.length ? (
+                      <BadgeBox
+                        title="Expertise"
+                        icon={<IconBriefcase size={18} />}
+                        items={member.expertise}
+                      />
+                    ) : null}
+                  </Group>
                 )}
               </Stack>
             </Group>

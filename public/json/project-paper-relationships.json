@@ -1,0 +1,21 @@
+{
+  "relationships": [
+    {
+      "projectId": "annotaise",
+      "papers": [
+        "Learning software configuration spaces: A systematic literature review",
+        "Sampling effect on performance prediction of configurable systems: A case study",
+        "A feature-based personalized recommender system for product-line configuration",
+        "Personalized recommender systems for product-line configuration processes"
+      ]
+    },
+    {
+      "projectId": "smp",
+      "papers": [
+        "Lean r&d: An agile research and development approach for digital transformation",
+        "Predicting design impactful changes in modern code review: A large-scale empirical study",
+        "A Multi-Criteria Strategy for Redesigning Legacy Features as Microservices: An Industrial Case Study"
+      ]
+    }
+  ]
+}

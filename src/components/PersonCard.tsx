@@ -16,6 +16,7 @@ export interface PersonCardProps {
   description?: string;
   onClick?: () => void;
   cardWidth?: number;
+  roles?: string[];
 }
 
 const MotionCard = motion(Card as any);
@@ -49,6 +50,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
   imageUrl,
   onClick,
   cardWidth: propCardWidth,
+  roles,
 }) => {
   const isMobile = useMediaQuery("(max-width: 62em)");
 
@@ -191,12 +193,44 @@ export const PersonCard: React.FC<PersonCardProps> = ({
         <Text
           size={isMobile ? "xs" : "sm"}
           c="dimmed"
-          mb="xs"
+          mb={roles && roles.length > 0 ? "xs" : "xs"}
           lh={1.4}
           fw={500}
         >
           {position}
         </Text>
+
+        {/* Tags de roles */}
+        {roles && roles.length > 0 && (
+          <Box
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: isMobile ? 4 : 6,
+              justifyContent: "center",
+              marginTop: 8,
+            }}
+          >
+            {roles.map((role, idx) => (
+              <Box
+                key={idx}
+                style={{
+                  fontSize: isMobile ? "9px" : "10px",
+                  fontWeight: 600,
+                  padding: isMobile ? "3px 8px" : "4px 10px",
+                  borderRadius: 12,
+                  backgroundColor: "#52afe11f",
+                  color: "var(--primary)",
+                  letterSpacing: "0.3px",
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                }}
+              >
+                {role}
+              </Box>
+            ))}
+          </Box>
+        )}
       </Box>
     </MotionCard>
   );
