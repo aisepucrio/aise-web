@@ -24,17 +24,24 @@ export default function NavLinks({
 }) {
   const Links = items.map((it) => {
     const selected =
-      pathname === it.href || (pathname === "/" && it.href === "/");
+      it.href === "/"
+        ? pathname === "/"
+        : pathname === it.href ||
+          (pathname?.startsWith(it.href + "/") ?? false);
     return (
       <Anchor
         key={it.label}
         component={Link}
         href={it.href}
+        aria-current={selected ? "page" : undefined}
         style={{
           textDecoration: "none",
           fontWeight: 500,
           fontSize: size,
           color: selected ? activeColor : linkColor,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
         }}
       >
         {it.label}
