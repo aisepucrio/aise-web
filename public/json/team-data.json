@@ -175,27 +175,27 @@
       "description": "Igor Soares de Oliveira holds a degree in Information Systems from University Estácio de Sá, where he participated in a Scientific Initiation project aimed at applying Gamification as a strategy for logical reasoning activities targeted at learners facing difficulties in their studies. During his undergraduate program, Igor was recognized as the Best Student of the Class, an award granted by the course coordination in recognition of his academic performance. Subsequently, he completed a postgraduate degree in Software Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), where he was distinguished as an MVP Highlight by the university. He is currently pursuing a Master’s degree at the same institution, with research areas including Software Engineering, Machine Learning, and Code Quality. As a Software Engineer at Stone, in the financial sector, Igor has developed applications related to financial adjustments, directly impacting the business of clients who requested corrections in transactions. He is currently working in the Accounts Receivable area, focusing on providing a corporate view of the amounts the company expects to receive from completed transactions. His work encompasses distributed software architecture, legacy project maintenance, bug fixing, user story refinement, and ensuring the scalability and resilience of applications. Igor also contributes by mentoring team members and assisting in decision-making processes related to applications.",
       "email": "",
       "researchInterests": [
-        "“Software Engineering”",
-        "“ Artificial Intelligence",
-        "“Health”",
-        "“Games”"
+        "Software Engineering",
+        "Artificial Intelligence",
+        "Health",
+        "Games"
       ],
       "technologies": [
-        "“Python”",
-        "“Node.js”",
-        "“C#”",
-        "“SQL”",
-        "“NoSQL”",
-        "“JavaScript”",
-        "“HTML”",
-        "“CSS”",
-        "“Kafka”",
-        "“GCP”",
-        "“Git”",
-        "“Kubernetes”",
-        "“Azure DevOps”"
+        "Python",
+        "Node.js",
+        "C#",
+        "SQL",
+        "NoSQL",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Kafka",
+        "GCP",
+        "Git",
+        "Kubernetes",
+        "Azure DevOps"
       ],
-      "expertise": ["“Backend”", "“Code review”"],
+      "expertise": ["Backend", "Code review"],
       "socialLinks": {
         "lattes": "https://buscatextual.cnpq.br/buscatextual/visualizacv.do?metodo=apresentar&id=K2039173Y4",
         "linkedin": "https://br.linkedin.com/in/developer-igorsoares",
@@ -377,7 +377,7 @@
       "name": "Lucas Lopes",
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/lucas-lopes.jpeg",
-      "description": "Graduando de Engenharia da computação, estou em busca de oportunidades para atuar na área compucional. Utilizarei os conhecimentos absorvidos nesta graduação e em cursos complementares de tecnologia e ciência da computação para atender às novas demandas tecnológicas que vêm ocorrendo com o avançar das técnicas. Viso exercitar minhas habilidades em programção e comportamento em ambientes corporativos.",
+      "description": "Undergraduate student in Computer Engineering, I am seeking opportunities to work in the computational field. I will apply the knowledge gained during this degree and in complementary courses in technology and computer science to meet the new technological demands that arise as techniques advance. I aim to practice my programming skills and professional behavior in corporate environments.",
       "email": "",
       "researchInterests": [
         "Cybersecurity”",
@@ -386,26 +386,26 @@
         "Software Engineering",
         "LLM",
         "Health",
-        "“Data Science”"
+        "Data Science"
       ],
       "technologies": [
-        "“Python”",
-        "“C”",
-        "“Rust”",
-        "“FastAPI”",
-        "“Django”",
-        "“RabbitMQ”",
-        "“Git”",
-        "“GitHub”",
-        "“Scikit-Learn”",
-        "“Deep Learning”",
-        "“Machine Learning”",
-        "“LLMs”",
-        "“NLP”",
+        "Python",
+        "C",
+        "Rust",
+        "FastAPI",
+        "Django",
+        "RabbitMQ",
+        "Git",
+        "GitHub",
+        "Scikit-Learn",
+        "Deep Learning",
+        "Machine Learning",
+        "LLMs",
+        "NLP",
         "C#",
         "SQL"
       ],
-      "expertise": ["“Backend”", "“Data Science”", "Frontend", "GitHub"],
+      "expertise": ["Backend", "Data Science", "Frontend", "GitHub"],
       "socialLinks": {
         "lattes": "http://lattes.cnpq.br/3231557031176772",
         "linkedin": "https://www.linkedin.com/in/lucas-lopes-430554255",
@@ -548,19 +548,19 @@
       "email": "",
       "researchInterests": ["“Software Engineering”", "“Health”"],
       "technologies": [
-        "“Python”",
-        "“Docker”",
-        "“Next.Js”",
-        "“Typescript”",
-        "“GitHub”",
-        "“Django”",
-        "“LLM”",
-        "“Vite”",
-        "“React”",
-        "“GCP”",
-        "“AWS”"
+        "Python",
+        "Docker",
+        "Next.Js",
+        "Typescript",
+        "GitHub",
+        "Django",
+        "LLM",
+        "Vite",
+        "React",
+        "GCP",
+        "AWS"
       ],
-      "expertise": ["“Fullstack”", "“GitHub”", "“Data Science”"],
+      "expertise": ["Fullstack", "GitHub", "Data Science"],
       "socialLinks": {
         "lattes": "http://lattes.cnpq.br/9989884529496237",
         "linkedin": "https://www.linkedin.com/in/breno-neves-31189925b",
@@ -668,6 +668,24 @@
         "lattes": "http://lattes.cnpq.br/5735649337230977",
         "linkedin": "www.linkedin.com/in/maria-isabel-soares-brandão-nicolau-304b7526b",
         "github": "https://github.com/bebelsbn"
+      }
+    },
+    {
+      "name": "Gabriel Gervasio de Santana",
+      "position": "Undergraduate Student",
+      "imageUrl": "/images/team/gabriel-gervasio.jpg",
+      "description": "Gabriel Gervasio de Santana is an undergraduate Computer Science student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). He works in the field of Software Engineering, with a focus on code smells and the application of Machine Learning techniques. He developed Scylla, a tool for detecting code smells in Python using Abstract Syntax Trees (AST).",
+      "email": "",
+      "researchInterests": [
+        "Software Engineering",
+        "Artificial Intelligence",
+        "Code Smells"
+      ],
+      "technologies": ["Python", "C", "Git", "HTML", "CSS", "Javascript"],
+      "expertise": ["Backend"],
+      "socialLinks": {
+        "github": "https://github.com/GabrielGervasio",
+        "lattes": "https://lattes.cnpq.br/0491338661953396"
       }
     }
   ]
