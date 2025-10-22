@@ -2,25 +2,15 @@
 
 import {
   Container,
-  Title,
   Text,
-  Card,
-  Badge,
   Group,
   Stack,
-  Anchor,
   Box,
   Select,
   Pagination,
   TextInput,
 } from "@mantine/core";
-import {
-  IconExternalLink,
-  IconQuote,
-  IconFilter,
-  IconFileText,
-  IconSearch,
-} from "@tabler/icons-react";
+import { IconFilter, IconFileText, IconSearch } from "@tabler/icons-react";
 import paperData from "@/../public/json/paper-data.json";
 import papersContent from "@/../public/json/papers-page-content.json";
 import FlickeringGrid from "@/components/FlickeringGrid";
@@ -28,6 +18,7 @@ import PagesHeader from "@/components/PagesHeader";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
+import PaperCard from "@/components/PaperCard";
 
 interface Paper {
   title: string;
@@ -63,10 +54,7 @@ export default function PapersPage() {
 
   // Re-renderiza o grid quando a tela muda de tamanho
   useEffect(() => {
-    const handleResize = () => {
-      setGridKey((prev) => prev + 1);
-    };
-
+    const handleResize = () => setGridKey((prev) => prev + 1);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -163,7 +151,6 @@ export default function PapersPage() {
         flickerChance={0.005}
       />
       <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
-        {/* Header */}
         <PagesHeader
           icon={IconFileText}
           title={papersContent.hero.title}
@@ -183,10 +170,7 @@ export default function PapersPage() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.4,
-            ease: "easeOut",
-          }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           {/* Filtro e Busca */}
           <Box
@@ -216,11 +200,7 @@ export default function PapersPage() {
                 onChange={(value) => setSortBy(value as SortOption)}
                 data={papersContent.filter.sortOptions}
                 style={{ width: isMobile ? 140 : 180 }}
-                styles={{
-                  input: {
-                    fontSize: isMobile ? 14 : 16,
-                  },
-                }}
+                styles={{ input: { fontSize: isMobile ? 14 : 16 } }}
               />
             </Box>
 
@@ -272,100 +252,16 @@ export default function PapersPage() {
                 ease: "easeOut",
               }}
             >
-              <Card
-                shadow="sm"
-                padding="xl"
-                radius="md"
-                withBorder
-                style={{
-                  transition: "all 0.3s ease",
-                  cursor: "pointer",
-                  borderColor: "#e9ecef",
-                }}
-                className="paper-card"
-              >
-                <Stack gap="md">
-                  {/* Título e ano */}
-                  <Group justify="space-between" align="flex-start">
-                    <Title
-                      order={3}
-                      style={{
-                        flex: 1,
-                        fontSize: "1.3rem",
-                        fontWeight: 600,
-                        lineHeight: 1.4,
-                        color: "#2c3e50",
-                      }}
-                    >
-                      {paper.title}
-                    </Title>
-                    <Badge
-                      size="lg"
-                      variant="light"
-                      color="var(--primary)"
-                      style={{ minWidth: "60px" }}
-                    >
-                      {paper.year}
-                    </Badge>
-                  </Group>
-
-                  {/* Autores */}
-                  <Text
-                    size="sm"
-                    c="dimmed"
-                    style={{
-                      fontStyle: "italic",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    {paper.authors_list}
-                  </Text>
-
-                  {/* Local de Publicação */}
-                  <Text
-                    size="sm"
-                    style={{
-                      color: "#495057",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    {paper.publication_place}
-                  </Text>
-
-                  {/* Footer: Citações e Link */}
-                  <Group justify="space-between" mt="md">
-                    <Group gap="xs">
-                      <IconQuote size={20} color="var(--primary)" />
-                      <Text
-                        size="sm"
-                        fw={600}
-                        style={{ color: "var(--primary)" }}
-                      >
-                        {paper.citation_number}{" "}
-                        {papersContent.paperCard.citationsLabel.toLowerCase()}
-                      </Text>
-                    </Group>
-
-                    <Anchor
-                      href={paper.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Group gap="xs">
-                        <Text
-                          size="sm"
-                          fw={600}
-                          style={{ color: "var(--primary)" }}
-                        >
-                          {papersContent.paperCard.viewPaperButton}
-                        </Text>
-                        <IconExternalLink size={18} color="var(--primary)" />
-                      </Group>
-                    </Anchor>
-                  </Group>
-                </Stack>
-              </Card>
+              <PaperCard
+                title={paper.title}
+                link={paper.link}
+                authors_list={paper.authors_list}
+                publication_place={paper.publication_place}
+                citation_number={paper.citation_number}
+                year={paper.year}
+                index={index}
+                viewLabel={papersContent.paperCard.viewPaperButton}
+              />
             </motion.div>
           ))}
         </Stack>

@@ -34,7 +34,7 @@ import {
 import FlickeringGrid from "@/components/FlickeringGrid";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import InfiniteCarousel from "@/components/InfiniteCarousel";
-import PublicationCard from "@/components/PublicationCard";
+import PaperCard from "@/components/PaperCard";
 import { PersonCardProps } from "@/components/PersonCard";
 import { BadgeBox } from "@/components/BadgeBox";
 import { SectionTitle } from "@/components/SectionTitle";
@@ -591,7 +591,7 @@ export default function ProjectDetailPage() {
                 />
                 <Stack gap="lg">
                   {papers.map((paper, idx) => (
-                    <PublicationCard
+                    <PaperCard
                       key={idx}
                       title={paper.title}
                       link={paper.link}
@@ -599,6 +599,7 @@ export default function ProjectDetailPage() {
                       publication_place={paper.publication_place}
                       citation_number={paper.citation_number}
                       year={paper.year}
+                      viewLabel={"View Publication"}
                       index={idx}
                     />
                   ))}

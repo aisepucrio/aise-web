@@ -37,7 +37,7 @@
       "position": "DSc. Candidate",
       "imageUrl": "/images/team/jessica-ribas.jpg",
       "description": "Jessica Ribas is a PhD student in Computer Science at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). She holds a Master’s degree in Electrical Engineering from Mackenzie Presbyterian University and a Bachelor’s degree in Computer Science from Guarulhos University. Her research focuses on the intersection of Artificial Intelligence and Software Engineering, with a particular emphasis on Natural Language Processing, sentiment and emotion analysis, hate speech and offensive content detection, irony detection, and topic modeling using BERTopic and LDA. She works with data extraction and opinion mining from Reddit communities to analyze discourse across subreddits. Jessica also explores the use of Large Language Models (such as ChatGPT, Gemini, and LLaMA), as well as Retrieval-Augmented Generation (RAG) and LangChain frameworks to build intelligent text analysis pipelines.",
-      "email": "",
+      "email": "jessicabarbarasr@gmail.com",
       "researchInterests": [
         "Crowd knowledge in Software Engineering",
         "Artificial Intelligence",
@@ -64,7 +64,7 @@
       "position": "DSc. Candidate",
       "imageUrl": "/images/team/jailma-januario.jpeg",
       "description": "PhD candidate at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), Master’s degree in Information Systems from the University of São Paulo (USP), and Bachelor’s degree in Computer Science from the Federal University of Paraíba (UFPB). Conducts research in the field of Machine Learning applied to Software Engineering, with a particular interest in the application of Machine Learning and Natural Language Processing (NLP) techniques in the domains of education and healthcare.",
-      "email": "",
+      "email": "jailmajanuario@gmail.com",
       "researchInterests": ["Machine Learning"],
       "technologies": [
         "Python",
@@ -105,7 +105,7 @@
       "position": "MSc. Student",
       "imageUrl": "/images/team/arthur-souza.jpg",
       "description": "Arthur Alesi is a Master's student in Informatics at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), with a focus on Software Engineering. He participated in a year-long project in partnership with the LES Laboratory and the company Flopo, working on front-end development using Next.js. Currently, he is involved in a research internship with the company Stone on automated documentation using large language models (GitHubDocs). He is also a co-author of the paper RAISE: A Self-Hosted API for Efficient Data Mining from GitHub and Jira.",
-      "email": "",
+      "email": "arthuralesi@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
         "Machine Learning",
@@ -132,7 +132,7 @@
       "position": "MSc. Student",
       "imageUrl": "/images/team/joanne-carneiro.jpg",
       "description": "Joanne Carneiro is a Master's student in Informatics at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio) and holds a Bachelor's degree in Computer Science from the same university. She participates in research in the areas of Software Engineering, Machine Learning and Deep Learning with her main topics of interest being: Human Aspects in Software Engineering using Large Language Models. SEhe participated of the 5th LATAM School - The Latin American School in Software Engineering and an article called ImprovMLCQ: A Feature-Enriched Dataset for Advancing Code Smell Detection was accepted for the SBCARS 2025 track - XIX Brazilian Symposium on Components, Architectures and Software Reuse.",
-      "email": "",
+      "email": "fale.joanne@gmail.com",
       "researchInterests": [
         "Large Language Models",
         "Artificial Intelligence",
@@ -173,7 +173,7 @@
       "position": "MSc. Student",
       "imageUrl": "/images/team/igor-soares.jpeg",
       "description": "Igor Soares de Oliveira holds a degree in Information Systems from University Estácio de Sá, where he participated in a Scientific Initiation project aimed at applying Gamification as a strategy for logical reasoning activities targeted at learners facing difficulties in their studies. During his undergraduate program, Igor was recognized as the Best Student of the Class, an award granted by the course coordination in recognition of his academic performance. Subsequently, he completed a postgraduate degree in Software Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), where he was distinguished as an MVP Highlight by the university. He is currently pursuing a Master’s degree at the same institution, with research areas including Software Engineering, Machine Learning, and Code Quality. As a Software Engineer at Stone, in the financial sector, Igor has developed applications related to financial adjustments, directly impacting the business of clients who requested corrections in transactions. He is currently working in the Accounts Receivable area, focusing on providing a corporate view of the amounts the company expects to receive from completed transactions. His work encompasses distributed software architecture, legacy project maintenance, bug fixing, user story refinement, and ensuring the scalability and resilience of applications. Igor also contributes by mentoring team members and assisting in decision-making processes related to applications.",
-      "email": "",
+      "email": "igorsoaresoliver@hotmail.com",
       "researchInterests": [
         "Software Engineering",
         "Artificial Intelligence",
@@ -207,7 +207,7 @@
       "position": "MSc. Student",
       "imageUrl": "/images/team/pedro-lopes.png",
       "description": "I am a Computer Science student at PUC-Rio with a strong foundation in software development and practical experience through internships. My background combines deep learning expertise and backend development from my time at Tecgraf Institute with software quality and product line experience gained at Stone Lab. I am passionate about developing efficient, scalable solutions that empower people and companies to enhance their activities.",
-      "email": "",
+      "email": "pedro.lopesverardo@gmail.com",
       "researchInterests": [
         "Software Engineering",
         "Health",
@@ -226,7 +226,7 @@
       "position": "MSc. Student",
       "imageUrl": "/images/team/eduardo-tavares.jpeg",
       "description": "Currently pursuing a Master’s degree in Data Science at PUC-Rio, specializing in AI/ML research with a focus on Large Language Models (LLMs). My goal is to explore cutting-edge AI solutions while leveraging my extensive software engineering background to bridge the gap between research and practical applications.",
-      "email": "",
+      "email": "eduardo.sardenberg99@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
         "Machine Learning",
@@ -321,7 +321,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/marcelo-machado.jpg",
       "description": "Marcelo Machado is a Computer Engineering undergraduate student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). He focused on Software Engineering, developing a platform for mining data from software repositories like Jira, GitHub, and Stack Overflow. His main interests include DevOps, Process Automation, A.I. and Data Engineering. He co-authored a paper detailing this platform's architecture, which was accepted at the Brazilian Symposium on Components, Architectures, and Software Reuse (SBCARS).",
-      "email": "",
+      "email": "marcelo.bdmachado@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
         "Software Engineering",
@@ -358,7 +358,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/theo-canuto.jpg",
       "description": "Theo is an undergraduate Computer Science student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio).He is currently a CNPq research fellow focusing on human aspects of software engineering, particularly mental health and diversity in the field. His work explores how these factors influence software development and the broader tech industry.",
-      "email": "",
+      "email": "canutoeotheo@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
         "Machine Learning",
@@ -378,7 +378,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/lucas-lopes.jpeg",
       "description": "Undergraduate student in Computer Engineering, I am seeking opportunities to work in the computational field. I will apply the knowledge gained during this degree and in complementary courses in technology and computer science to meet the new technological demands that arise as techniques advance. I aim to practice my programming skills and professional behavior in corporate environments.",
-      "email": "",
+      "email": "lucasfalopes66@gmail.com",
       "researchInterests": [
         "Cybersecurity”",
         "Artificial Intelligence",
@@ -417,7 +417,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/ana-cavalcante.JPG",
       "description": "Ana Luísa Cavalcante is a Design student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). She is currently involved in the social media of the Artificial Intelligence and Software Engineering Laboratory, and also focusing on UX and UI Design in app interfaces. Ana is passionate about creating innovative design solutions and enhancing user experiences through research and creative problem-solving.",
-      "email": "",
+      "email": "cavalcanteana98@gmail.com",
       "researchInterests": [
         "UX/UI Design",
         "Graphic Design",
@@ -441,8 +441,7 @@
       "socialLinks": {
         "lattes": "http://lattes.cnpq.br/6125027491902668",
         "personalWebsite": "https://www.behance.net/analucavalca",
-        "linkedin": "https://www.linkedin.com/in/ana-lu%C3%ADsa-cavalcante-473bb0245/",
-        "github": "-"
+        "linkedin": "https://www.linkedin.com/in/ana-lu%C3%ADsa-cavalcante-473bb0245/"
       }
     },
     {
@@ -450,7 +449,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/alexandre-scofield.jpg",
       "description": "Alexandre Vieira Scofield is an undergraduate Computer Science student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio) and a research assistant at the Artificial Intelligence for Software Engineering Lab (AISE Lab). His research focuses on applying Machine Learning techniques to software engineering problems, with experience in system architecture analysis and front-end development. He contributed to the EASE 2025 paper “Linux Kernel Configurations at Scale,” developing ML-based code for performance and evolution analysis, and to the SBCARS 2025 paper “RAISE,” assisting in the system’s architecture design and building the platform’s front-end.",
-      "email": "",
+      "email": "alexandrescof@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
         "Machine Learning",
@@ -501,6 +500,34 @@
       }
     },
     {
+      "name": "Robbie Carvalho",
+      "position": "Undergraduate Student",
+      "imageUrl": "/images/team/robbie-carvalho.jpg",
+      "description": "Robbie Carvalho is an undergraduate student in Computer Engineering at PUC-Rio. With interests in a wide variety of topics, especially in games and interface design, she is a more practice-oriented person. Focused on front-end development but with additional knowledge in other areas, she is currently involved in the RAISE and ANNOTAISE projects and also assists in several other laboratory activities.",
+      "email": "robbie.xovs@gmail.com",
+      "researchInterests": ["Games", "AI and Machine Learning", "UX/UI Design"],
+      "technologies": [
+        "Python",
+        "C",
+        "SQL",
+        "TypeScript",
+        "Next.js",
+        "Nest.Js",
+        "React/React Native"
+      ],
+      "expertise": [
+        "Frontend",
+        "Backend",
+        "Data Science",
+        "Data Base",
+        "Automation"
+      ],
+      "socialLinks": {
+        "linkedin": "https://www.linkedin.com/in/giovana-a-a33877226/",
+        "github": "https://github.com/R0bbyt3"
+      }
+    },
+    {
       "name": "Bruno Tardin",
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/bruno-tardin.jpeg",
@@ -545,7 +572,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/breno-neves.jpg",
       "description": "Breno Braga Neves is a Computer Engineering student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). His academic and research interests lie at the intersection of Large Language Models, API development, Full-Stack systems, and Machine Learning applications. Throughout his undergraduate studies, he has actively engaged in multiple research initiatives exploring software quality and intelligent automation. He co-authored a study on the impact of code smells in software systems, published at SBES 2024, and was first author of a paper on sentiment analysis using LLMs, presented at CTIC 2024. More recently, he contributed to the design and implementation of a data mining API integrating GitHub and Jira repositories, resulting in a publication at SBCARS 2025. He currently holds a CNPq PIBIC scholarship for his ongoing research in empirical software engineering.",
-      "email": "",
+      "email": "brenobraganevs@gmail.com",
       "researchInterests": ["“Software Engineering”", "“Health”"],
       "technologies": [
         "Python",
@@ -600,7 +627,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/thomas-mello.png",
       "description": "Thomas de Mello Oliva is an undergraduate student in Computer Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), expected to graduate in 2025. He works as a Software Developer at ExACTa’s FIT Program, contributing to co-creation projects with industry partners such as Eletrobras, Americanas, and EXA. His interests include Artificial Intelligence and Machine Learning, particularly Natural Language Processing (NLP) and back-end systems design for AI applications.",
-      "email": "",
+      "email": "thomas.mello301@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
         "Machine Learning",
@@ -639,7 +666,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/guilherme-cunha.jpg",
       "description": "Guilherme Cunha is an undergraduate student in Computer Science at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). He participates in research on Code Smells, with a focus on the intersection between computing and sustainability. He is also involved in a project in partnership with Stone, working on code documentation automation using Large Language Models.",
-      "email": "",
+      "email": "guicunharib@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
         "Machine Learning",
@@ -660,7 +687,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/maria-nicolau.jpg",
       "description": "Maria Isabel Soares Brandão Nicolau is an undergraduate student in Computer Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). She is actively involved in research across areas such as Software Engineering, Machine Learning, Data Science, and Anonymization.Currently, Maria Isabel is a part of the FLOPO project, where she contributes to the development of a scientific search system for agricultural innovations. Her focus is on backend development, APIs, and database management. Additionally, she is a PIBIC fellow, researching the topic Preserving Privacy in Open Science: Strategies for Anonymizing Sensitive Data, aiming to balance privacy and data utility effectively.",
-      "email": "",
+      "email": "bebelsbn@gmail.com",
       "researchInterests": [],
       "technologies": [],
       "expertise": [],
@@ -675,7 +702,7 @@
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/gabriel-gervasio.jpg",
       "description": "Gabriel Gervasio de Santana is an undergraduate Computer Science student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). He works in the field of Software Engineering, with a focus on code smells and the application of Machine Learning techniques. He developed Scylla, a tool for detecting code smells in Python using Abstract Syntax Trees (AST).",
-      "email": "",
+      "email": "gabrieldesantana2002@gmail.com",
       "researchInterests": [
         "Software Engineering",
         "Artificial Intelligence",

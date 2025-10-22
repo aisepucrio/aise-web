@@ -1,23 +1,24 @@
 "use client";
 
 import React from "react";
-import { Card, Title, Text, Group, Badge, Anchor, Stack } from "@mantine/core";
+import { Card, Title, Text, Group, Badge, Stack } from "@mantine/core";
 import { IconExternalLink, IconQuote } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 
-interface PublicationCardProps {
+interface PaperCardProps {
   title: string;
   link: string;
   authors_list: string;
   publication_place: string;
   citation_number: number;
-  year: string;
+  year: string | number;
+  viewLabel?: string;
   index?: number;
 }
 
 const MotionCard = motion(Card as any);
 
-export const PublicationCard: React.FC<PublicationCardProps> = ({
+export const PaperCard: React.FC<PaperCardProps> = ({
   title,
   link,
   authors_list,
@@ -25,11 +26,10 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
   citation_number,
   year,
   index = 0,
+  viewLabel,
 }) => {
   const handleClick = () => {
-    if (link) {
-      window.open(link, "_blank", "noopener,noreferrer");
-    }
+    if (link) window.open(link, "_blank", "noopener,noreferrer");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -50,25 +50,19 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
         cursor: "pointer",
         borderColor: "#e9ecef",
       }}
-      className="paper-card"
       onClick={handleClick}
       role="link"
       tabIndex={0}
       onKeyDown={handleKeyDown}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.4,
-        delay: index * 0.1,
-        ease: "easeOut",
-      }}
+      transition={{ duration: 0.4, delay: index * 0.1, ease: "easeOut" }}
       whileHover={{
         transform: "translateY(-4px)",
         boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
       }}
     >
       <Stack gap="md">
-        {/* Título e ano */}
         <Group justify="space-between" align="flex-start">
           <Title
             order={3}
@@ -92,30 +86,18 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
           </Badge>
         </Group>
 
-        {/* Autores */}
         <Text
           size="sm"
           c="dimmed"
-          style={{
-            fontStyle: "italic",
-            lineHeight: 1.6,
-          }}
+          style={{ fontStyle: "italic", lineHeight: 1.6 }}
         >
           {authors_list}
         </Text>
 
-        {/* Local de Publicação */}
-        <Text
-          size="sm"
-          style={{
-            color: "#495057",
-            lineHeight: 1.6,
-          }}
-        >
+        <Text size="sm" style={{ color: "#495057", lineHeight: 1.6 }}>
           {publication_place}
         </Text>
 
-        {/* Footer: Citações e Link */}
         <Group justify="space-between" mt="md">
           <Group gap="xs">
             <IconQuote size={20} color="var(--primary)" />
@@ -125,28 +107,22 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
             </Text>
           </Group>
 
-          <Anchor
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Indicação visual, o card todo já é o link */}
+          <Group
+            gap="6px"
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
               fontSize: "0.9rem",
               fontWeight: 600,
               color: "var(--primary)",
-              textDecoration: "none",
             }}
-            onClick={(e) => e.stopPropagation()}
           >
-            View Publication
+            <span>{viewLabel}</span>
             <IconExternalLink size={18} />
-          </Anchor>
+          </Group>
         </Group>
       </Stack>
     </MotionCard>
   );
 };
 
-export default PublicationCard;
+export default PaperCard;
