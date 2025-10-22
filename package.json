@@ -13,6 +13,7 @@
     "@mantine/hooks": "^8.3.3",
     "@mantine/notifications": "^8.3.3",
     "@tabler/icons-react": "^3.35.0",
+    "dotenv": "^17.2.3",
     "framer-motion": "^12.23.22",
     "next": "15.5.4",
     "react": "19.1.0",
