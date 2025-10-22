@@ -698,10 +698,10 @@
       }
     },
     {
-      "name": "Gabriel Gervasio de Santana",
+      "name": "Gabriel Gervasio",
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/gabriel-gervasio.jpg",
-      "description": "Gabriel Gervasio de Santana is an undergraduate Computer Science student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). He works in the field of Software Engineering, with a focus on code smells and the application of Machine Learning techniques. He developed Scylla, a tool for detecting code smells in Python using Abstract Syntax Trees (AST).",
+      "description": "Gabriel Gervasio is an undergraduate Computer Science student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). He works in the field of Software Engineering, with a focus on code smells and the application of Machine Learning techniques. He developed Scylla, a tool for detecting code smells in Python using Abstract Syntax Trees (AST).",
       "email": "gabrieldesantana2002@gmail.com",
       "researchInterests": [
         "Software Engineering",

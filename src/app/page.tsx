@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Hero height="100vh" />
-      <BlockTwoMain height="200rem" />
+      <BlockTwoMain height="100%" />
     </>
   );
 }

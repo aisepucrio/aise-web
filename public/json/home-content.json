@@ -38,5 +38,13 @@
       "text": "See more",
       "href": "/team"
     }
+  },
+  "callToAction": {
+    "title": "Be part of AISE Lab",
+    "subtitle": "We're growing our network of researchers, students and collaborators.  Build what’s next. Bring your curiosity (and a CV).",
+    "button": {
+      "text": "Send your resume",
+      "href": "https://docs.google.com/forms/d/e/1FAIpQLSdIwBSkUVBoM7CsRHUljqIO381GaNfz6Yr4_iV9A039aiirsA/viewform?usp=send_form"
+    }
   }
 }

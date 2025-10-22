@@ -12,7 +12,6 @@ import {
   Group,
   Badge,
   Stack,
-  Divider,
   Button,
   Title,
 } from "@mantine/core";
