@@ -400,7 +400,7 @@ export default function TeamMemberPage() {
                 {(member.technologies?.length || member.expertise?.length) && (
                   <Group
                     grow
-                    align="flex-start"
+                    align="stretch"
                     gap="md"
                     style={{ flexDirection: isMobile ? "column" : "row" }}
                   >
