@@ -307,10 +307,12 @@ export default function ProjectDetailPage() {
               </Text>
               <Button
                 leftSection={<IconArrowLeft size={20} />}
-                onClick={() => router.push("/projects")}
                 variant="white"
+                color="var(--primary)"
+                mb={isMobile ? 20 : 32}
+                onClick={() => router.push("/projects")}
               >
-                {pageContent.notFoundPage.backButton}
+                {pageContent.backButton.label}
               </Button>
             </Stack>
           </Center>

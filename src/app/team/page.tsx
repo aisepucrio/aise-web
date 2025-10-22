@@ -521,7 +521,7 @@ export default function TeamPage() {
           ) : (
             <Center h={300}>
               <Text ta="center" c="dimmed" size="lg">
-                No team members found.
+                {teamPageContent.noMembersFound}
               </Text>
             </Center>
           )}

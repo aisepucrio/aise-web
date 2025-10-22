@@ -30,6 +30,7 @@ import {
 import FlickeringGrid from "@/components/FlickeringGrid";
 import { BadgeBox } from "@/components/BadgeBox";
 import LinkGroup from "@/components/LinkGroup";
+import teamMemberContent from "@/../public/json/team-member-page-content.json";
 
 // Tipos essenciais
 type TeamMember = {
@@ -186,14 +187,14 @@ export default function TeamMemberPage() {
           <Center h={400}>
             <Stack align="center" gap="lg">
               <Text size="xl" c="white" fw={600}>
-                Team member not found
+                {teamMemberContent.memberNotFoundTitle}
               </Text>
               <Button
                 leftSection={<IconArrowLeft size={20} />}
                 onClick={() => router.push("/team")}
                 variant="white"
               >
-                Back to Team
+                {teamMemberContent.backButton}
               </Button>
             </Stack>
           </Center>
@@ -295,19 +296,7 @@ export default function TeamMemberPage() {
                     onClick={async () => {
                       try {
                         await navigator.clipboard.writeText(member.email!);
-                        notifications.show({
-                          message: "Email copiado!",
-                          color: "teal",
-                          withCloseButton: false,
-                        });
-                      } catch {
-                        notifications.show({
-                          title: "Erro",
-                          message: "Não foi possível copiar o email.",
-                          color: "red",
-                          withCloseButton: true,
-                        });
-                      }
+                      } catch {}
                     }}
                     fullWidth
                     style={{ textTransform: "none", fontWeight: 600 }}
@@ -390,7 +379,7 @@ export default function TeamMemberPage() {
                 {/* Interesses de pesquisa (se houver) */}
                 {member.researchInterests?.length ? (
                   <BadgeBox
-                    title="Research Interests"
+                    title={teamMemberContent.researchInterestsTitle}
                     icon={<IconBulb size={18} />}
                     items={member.researchInterests}
                   />
@@ -406,7 +395,7 @@ export default function TeamMemberPage() {
                   >
                     {member.technologies?.length ? (
                       <BadgeBox
-                        title="Technologies"
+                        title={teamMemberContent.technologiesTitle}
                         icon={<IconCode size={18} />}
                         items={member.technologies}
                       />
@@ -414,7 +403,7 @@ export default function TeamMemberPage() {
 
                     {member.expertise?.length ? (
                       <BadgeBox
-                        title="Expertise"
+                        title={teamMemberContent.expertiseTitle}
                         icon={<IconBriefcase size={18} />}
                         items={member.expertise}
                       />

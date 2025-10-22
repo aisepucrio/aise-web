@@ -9,10 +9,8 @@ import {
   Center,
   Stack,
   ThemeIcon,
-  Card,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { motion } from "framer-motion";
 import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import ProjectHeroCard from "@/components/ProjectHeroCard";
@@ -78,40 +76,6 @@ const useProjectsData = () => {
   }, []);
 
   return { projects, isLoading };
-};
-
-// Mapeia status para cor/ícone/rótulo e fundo
-const getStatusConfig = (status: string) => {
-  switch (status.toLowerCase()) {
-    case "active":
-      return {
-        color: "#10b981",
-        icon: IconRocket,
-        label: "Active",
-        bgColor: "rgba(16, 185, 129, 0.1)",
-      };
-    case "pilot":
-      return {
-        color: "#3b82f6",
-        icon: IconFlask,
-        label: "Pilot",
-        bgColor: "rgba(59, 130, 246, 0.1)",
-      };
-    case "archived":
-      return {
-        color: "#9ca3af",
-        icon: IconArchive,
-        label: "Archived",
-        bgColor: "rgba(156, 163, 175, 0.1)",
-      };
-    default:
-      return {
-        color: "#6b7280",
-        icon: IconSparkles,
-        label: status,
-        bgColor: "rgba(107, 114, 128, 0.1)",
-      };
-  }
 };
 
 export default function ProjectsPage() {
@@ -192,10 +156,10 @@ export default function ProjectsPage() {
                   <IconSparkles size={40} />
                 </ThemeIcon>
                 <Text ta="center" c="white" size="xl" fw={600}>
-                  No projects found
+                  {projectsPageContent?.noProjects?.title}
                 </Text>
                 <Text ta="center" c="rgba(255, 255, 255, 0.8)" size="md">
-                  Check back soon for exciting new projects!
+                  {projectsPageContent?.noProjects?.subtitle}
                 </Text>
               </Stack>
             </Center>

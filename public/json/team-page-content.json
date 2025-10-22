@@ -5,5 +5,6 @@
   },
   "stats": {
     "label": "Team Members"
-  }
+  },
+  "noMembersFound": "No team members found."
 }

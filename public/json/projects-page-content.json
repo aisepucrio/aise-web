@@ -5,5 +5,9 @@
   },
   "stats": {
     "totalLabel": "Total Projects"
+  },
+  "noProjects": {
+    "title": "No projects found",
+    "subtitle": "Check back soon for exciting new projects!"
   }
 }
