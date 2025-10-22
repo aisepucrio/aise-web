@@ -8,12 +8,13 @@
     "description": "Artificial Intelligence and Software Engineering Laboratory at PUC-Rio. Promoting research, innovation, and knowledge in AI to transform the technological future."
   },
   "stats": {
-    "projects": "10+",
+    "projects": "5+",
     "members": "20+",
     "publications": "70+"
   },
   "contact": {
     "address": {
+      "floor": "9th Floor, Padre Leonel Franca Building",
       "street": "Rua Marquês de São Vicente, 225",
       "neighborhood": "Gávea, Rio de Janeiro - RJ",
       "zipCode": "CEP: 22451-900"

@@ -24,6 +24,10 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import footerData from "@/../public/json/footer-content.json";
+import projectsData from "@/../public/json/projects-data.json";
+import teamData from "@/../public/json/team-data.json";
+import paperData from "@/../public/json/paper-data.json";
+import formatCountFromArray from "@/components/footer/formatCount";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -87,33 +91,42 @@ export default function Footer() {
 
               {/* Quick Stats */}
               <Group gap="xl">
-                <Flex align="center" gap="xs">
+                <Flex align="center" gap={"xs"}>
                   <IconBrain size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
-                      {footerData.stats.projects}
+                      {formatCountFromArray(
+                        projectsData.projects,
+                        footerData.stats.projects
+                      )}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Projects
                     </Text>
                   </Stack>
                 </Flex>
-                <Flex align="center" gap="xs">
+                <Flex align="center" gap={"xs"}>
                   <IconUsers size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
-                      {footerData.stats.members}
+                      {formatCountFromArray(
+                        teamData.team?.filter(Boolean),
+                        footerData.stats.members
+                      )}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Members
                     </Text>
                   </Stack>
                 </Flex>
-                <Flex align="center" gap="xs">
+                <Flex align="center" gap={"xs"}>
                   <IconCode size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
-                      {footerData.stats.publications}
+                      {formatCountFromArray(
+                        paperData.paper_data,
+                        footerData.stats.publications
+                      )}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Publications
@@ -154,6 +167,8 @@ export default function Footer() {
                         {footerData.contact.address.neighborhood}
                         <br />
                         {footerData.contact.address.zipCode}
+                        <br />
+                        {footerData.contact.address.floor}
                       </Text>
                     </Flex>
                     <Flex align="center" gap="xs">
