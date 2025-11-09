@@ -11,7 +11,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { IconFilter, IconFileText, IconSearch } from "@tabler/icons-react";
-import paperData from "@/../public/json/paper-data.json";
+import paperData from "@/../public/json/data/paper-data.json";
 import papersContent from "@/../public/json/papers-page-content.json";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";

@@ -2,9 +2,7 @@
 
 import React from "react";
 import { Card, Text, Box, ActionIcon } from "@mantine/core";
-// === INÍCIO EDIÇÃO: ícone para indicar ação de ir ao perfil ===
 import { IconArrowRight } from "@tabler/icons-react";
-// === FIM EDIÇÃO ===
 import { motion } from "framer-motion";
 import { useMediaQuery } from "@mantine/hooks";
 import Image from "next/image";
@@ -20,9 +18,7 @@ export interface PersonCardProps {
 }
 
 const MotionCard = motion(Card as any);
-// === INÍCIO EDIÇÃO: motion Box para overlay ===
 const MotionBox = motion(Box as any);
-// Variantes para animar overlay no hover
 const overlayVariants = {
   rest: { opacity: 0, y: 8, transition: { duration: 0.15 } },
   hover: {
@@ -31,8 +27,6 @@ const overlayVariants = {
     transition: { type: "spring", stiffness: 320, damping: 22 },
   },
 };
-// === FIM EDIÇÃO ===
-
 // Função para gerar slug da URL
 const generateSlug = (name: string): string => {
   return name

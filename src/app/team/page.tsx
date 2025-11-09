@@ -45,7 +45,7 @@ const useTeamData = () => {
 
     const load = async () => {
       try {
-        const res = await fetch("/json/team-data.json", { cache: "no-store" });
+        const res = await fetch("/json/data/team-data.json", { cache: "no-store" });
         if (!res.ok) throw new Error("Falha ao carregar dados");
         const data: TeamData = await res.json();
 

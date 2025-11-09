@@ -32,16 +32,24 @@
     }
   ],
   "teamSection": {
-    "title": "Researchers & Creators",
+    "title": "Our Team",
     "subtitle": "Behind every line of code, every research paper, and every prototype, there's a dedicated team of thinkers, builders, and learners.",
     "button": {
-      "text": "See more",
+      "text": "See Team",
       "href": "/team"
+    }
+  },
+  "projectsSection": {
+    "title": "Our Projects",
+    "subtitle": "Discover the innovative solutions we're building. Each project tackles real-world challenges to advance in the software engineering field.",
+    "button": {
+      "text": "See All Projects",
+      "href": "/projects"
     }
   },
   "callToAction": {
     "title": "Be part of AISE Lab",
-    "subtitle": "We're growing our network of researchers, students and collaborators.  Build what’s next. Bring your curiosity (and a CV).",
+    "subtitle": "We're growing our network of researchers, students and collaborators.  Build what's next. Bring your curiosity (and a CV).",
     "button": {
       "text": "Send your resume",
       "href": "https://docs.google.com/forms/d/e/1FAIpQLSdIwBSkUVBoM7CsRHUljqIO381GaNfz6Yr4_iV9A039aiirsA/viewform?usp=send_form"

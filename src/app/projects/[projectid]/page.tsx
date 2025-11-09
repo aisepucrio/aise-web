@@ -96,7 +96,7 @@ const useProject = (id: string) => {
 
     const load = async () => {
       try {
-        const res = await fetch("/json/projects-data.json", {
+        const res = await fetch("/json/data/projects-data.json", {
           cache: "no-store",
           signal: controller.signal,
         });
@@ -149,7 +149,7 @@ const useProjectPapers = (projectId: string) => {
       try {
         const [relationshipsRes, papersRes] = await Promise.all([
           fetch("/json/project-paper-relationships.json"),
-          fetch("/json/paper-data.json"),
+          fetch("/json/data/paper-data.json"),
         ]);
 
         const relationshipsData = await relationshipsRes.json();
@@ -188,7 +188,7 @@ const useProjectTeam = (projectId: string) => {
       try {
         const [relationshipsRes, teamRes] = await Promise.all([
           fetch("/json/project-person-relationships.json"),
-          fetch("/json/team-data.json"),
+          fetch("/json/data/team-data.json"),
         ]);
 
         const relationshipsData = await relationshipsRes.json();

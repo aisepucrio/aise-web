@@ -1,22 +1,13 @@
 "use client";
 
 import React, { useRef } from "react";
-import {
-  Paper,
-  Container,
-  Title,
-  Text,
-  Button,
-  Center,
-  Box,
-} from "@mantine/core";
-import Link from "next/link";
+import { Paper, Container, Title, Text, Center, Box } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { motion, useInView } from "framer-motion";
-import { IconArrowRight } from "@tabler/icons-react";
+import CTAButton from "../../../CTAButton";
 import homeContent from "@/../public/json/home-content.json";
 
-/* EDIT: micro-interactions consistentes com o resto do site */
+/* micro-interactions consistentes com o resto do site */
 const sectionMotion = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -27,7 +18,6 @@ const buttonMotion = {
   whileTap: { scale: 0.99 },
   transition: { type: "spring" as const, stiffness: 280, damping: 20 },
 } as const;
-/* END EDIT */
 
 export default function CallToActionSection() {
   const isMobile = useMediaQuery("(max-width: 62em)");
@@ -42,7 +32,7 @@ export default function CallToActionSection() {
       transition={sectionMotion.transition}
       style={{ width: "100%" }}
     >
-      {/* EDIT: wrapper com “dotted background” sutil (mesma vibe do carrossel) */}
+      {/* wrapper com “dotted background” sutil */}
       <Box
         component="section"
         mb={80}
@@ -56,9 +46,8 @@ export default function CallToActionSection() {
           backgroundSize: "12px 12px",
         }}
       >
-        {/* END EDIT */}
 
-        {/* EDIT: card branco simples, com borda suave e sombra leve (sem glassmorphism) */}
+        {/* card branco simples, com borda suave e sombra leve (sem glassmorphism) */}
         <Paper
           py={isMobile ? 28 : 44}
           px={isMobile ? 12 : 20}
@@ -70,10 +59,9 @@ export default function CallToActionSection() {
             background: "#fff",
           }}
         >
-          {/* END EDIT */}
 
           <Container size="xl" style={{ padding: 0, textAlign: "center" }}>
-            {/* EDIT: tipografia mais próxima do restante (título forte, sem efeitos) */}
+            {/* tipografia mais próxima do restante (título forte, sem efeitos) */}
             <Title
               order={2}
               style={{
@@ -97,35 +85,23 @@ export default function CallToActionSection() {
             >
               {homeContent.callToAction.subtitle}
             </Text>
-            {/* END EDIT */}
 
-            {/* EDIT: botão sólido e direto, com micro-interação e ícone */}
+            {/* botão sólido e direto, com micro-interação e ícone */}
             <Center mt={24}>
               <motion.div
                 whileHover={buttonMotion.whileHover}
                 whileTap={buttonMotion.whileTap}
                 transition={buttonMotion.transition}
               >
-                <Button
-                  component={Link}
+          
+                <CTAButton
                   href={homeContent.callToAction.button.href}
-                  size={isMobile ? "md" : "lg"}
-                  radius="xl"
-                  aria-label={homeContent.callToAction.button.text}
-                  rightSection={<IconArrowRight size={18} stroke={2} />}
-                  style={{
-                    background: "var(--primary)",
-                    border: "1px solid rgba(0,0,0,0.06)",
-                    fontWeight: 700,
-                    letterSpacing: 0.2,
-                    paddingInline: isMobile ? 18 : 24,
-                  }}
-                >
-                  {homeContent.callToAction.button.text}
-                </Button>
+                  text={homeContent.callToAction.button.text}
+                  isMobile={isMobile}
+                  ariaLabel={homeContent.callToAction.button.text}
+                />
               </motion.div>
             </Center>
-            {/* END EDIT */}
           </Container>
         </Paper>
       </Box>

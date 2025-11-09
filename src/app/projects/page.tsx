@@ -38,7 +38,7 @@ type Project = {
 
 type ProjectsData = { projects: Project[] };
 
-// Carrega /json/projects-data.json sem cache; mostra toast em erro
+// Carrega /json/data/projects-data.json sem cache; mostra toast em erro
 const useProjectsData = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +48,7 @@ const useProjectsData = () => {
 
     const load = async () => {
       try {
-        const res = await fetch("/json/projects-data.json", {
+        const res = await fetch("/json/data/projects-data.json", {
           cache: "no-store",
         });
         if (!res.ok) throw new Error("Falha ao carregar dados");
@@ -145,6 +145,7 @@ export default function ProjectsPage() {
                 key={project.id}
                 project={project}
                 index={index}
+                ctaLabel={projectsPageContent?.hero?.ctaLabel}
               />
             ))}
           </Box>

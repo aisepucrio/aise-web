@@ -98,7 +98,7 @@ function HighlightsSection({ isMobile }: { isMobile: boolean }) {
             <InfoCard
               title={item.title}
               description={item.description}
-              multiplyer={0.8}
+              multiplyer={0.9}
               iconSrc={item.icon}
               iconAlt={item.alt}
             />
@@ -115,7 +115,7 @@ function HighlightsSection({ isMobile }: { isMobile: boolean }) {
           <InfoCard
             title={item.title}
             description={item.description}
-            multiplyer={0.8}
+            multiplyer={0.9}
             iconSrc={item.icon}
             iconAlt={item.alt}
           />

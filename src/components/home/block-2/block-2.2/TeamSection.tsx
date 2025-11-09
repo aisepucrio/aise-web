@@ -1,21 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import {
-  Box,
-  Paper,
-  Container,
-  Text,
-  Loader,
-  Center,
-  Button,
-} from "@mantine/core";
-import Link from "next/link";
+import { Box, Paper, Container, Text, Loader, Center } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";
 import InfiniteCarousel from "@/components/InfiniteCarousel";
-import Titulo from "@/components/Titulo";
+import SectionWithHeader from "@/components/SectionWithHeader";
 import type { PersonCardProps } from "@/components/PersonCard";
 import homeContent from "@/../public/json/home-content.json";
 
@@ -40,7 +31,7 @@ const useTeamData = () => {
 
     const loadTeamData = async () => {
       try {
-        const res = await fetch("/json/team-data.json", {
+        const res = await fetch("/json/data/team-data.json", {
           cache: "no-store",
         });
 
@@ -88,25 +79,7 @@ const useTeamData = () => {
   return { teamData, isLoading };
 };
 
-// Componente do cabeçalho da seção
-const SectionHeader = () => {
-  const isMobile = useMediaQuery("(max-width: 62em)");
-
-  return (
-    <Box ta="center" mb={isMobile ? 20 : 40}>
-      <Titulo
-        verticalMarginDesktop={24}
-        verticalMarginMobile={12}
-        color="#000000ff"
-      >
-        {homeContent.teamSection.title}
-      </Titulo>
-      <Text size={isMobile ? "sm" : "md"} c="dimmed" w="90%" mx="auto" lh={1.6}>
-        {homeContent.teamSection.subtitle}
-      </Text>
-    </Box>
-  );
-};
+// Using SectionWithHeader for consistent layout
 
 // Componente de loading
 const LoadingState = () => (
@@ -155,21 +128,14 @@ export default function TeamSection() {
       animate={isInView ? animationConfig.animate : animationConfig.initial}
       transition={animationConfig.transition}
     >
-      <Paper
-        component="section"
-        py={isMobile ? 24 : 42}
-        px={8}
-        shadow="md"
-        style={{
-          width: "100%",
-          borderRadius: 24,
-          background: "rgba(255, 255, 255, 1)",
-          backdropFilter: "blur(10px)",
-        }}
+      <SectionWithHeader
+        title={homeContent.teamSection.title}
+        subtitle={homeContent.teamSection.subtitle}
+        button={homeContent.teamSection.button}
+        isMobile={isMobile}
+        paperProps={{ px: 8 }}
       >
         <Container size="xl" style={{ padding: 0 }}>
-          <SectionHeader />
-
           {isLoading ? (
             <LoadingState />
           ) : teamData.length > 0 ? (
@@ -184,19 +150,8 @@ export default function TeamSection() {
           ) : (
             <EmptyState />
           )}
-          {/* Centered See team button */}
-          <Center mt={24}>
-            <Button
-              component={Link}
-              href={homeContent.teamSection.button.href}
-              size="lg"
-              style={{ backgroundColor: "var(--primary)", border: "none" }}
-            >
-              {homeContent.teamSection.button.text}
-            </Button>
-          </Center>
         </Container>
-      </Paper>
+      </SectionWithHeader>
     </motion.div>
   );
 }

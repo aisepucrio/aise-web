@@ -1,7 +1,8 @@
 {
   "hero": {
     "title": "Our Projects",
-    "subtitle": "Explore the cutting-edge research projects and applications developed by AISE Lab. From AI-driven tools to innovative platforms, our work pushes the boundaries of technology and human collaboration."
+    "subtitle": "Explore the cutting-edge research projects and applications developed by AISE Lab. From AI-driven tools to innovative platforms, our work pushes the boundaries of technology and human collaboration.",
+    "ctaLabel": "View Project Details"
   },
   "stats": {
     "totalLabel": "Total Projects"

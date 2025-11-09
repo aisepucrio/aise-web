@@ -35,9 +35,11 @@ const MotionBox = motion(Box as any);
 export default function ProjectHeroCard({
   project,
   index,
+  ctaLabel,
 }: {
   project: Project;
   index: number;
+  ctaLabel?: string;
 }) {
   // Router para navegação ao clicar no cartão
   const router = useRouter();
@@ -216,7 +218,7 @@ export default function ProjectHeroCard({
             {/* CTA: ver detalhes do projeto */}
             <Group gap="xs" style={{ color: "var(--primary)" }}>
               <Text size="md" fw={700}>
-                View Project Details
+                {ctaLabel}
               </Text>
               <ThemeIcon
                 size={32}

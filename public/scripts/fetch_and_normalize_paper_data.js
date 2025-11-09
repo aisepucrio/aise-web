@@ -1,11 +1,11 @@
 /**
- * Script de Normalização de Dados de Papers
+ * fetch_and_normalize_paper_data.js
+ * Script para buscar e normalizar dados de papers (SerpAPI)
  * ==========================================
  * Setup: Vá até https://serpapi.com/ e crie uma conta gratuita para obter uma API key.
  * Adicione a API key no arquivo .env como SERPAPI_KEY=your_api_key_here
- * O script busca direto o perfil da Juliana (com author id) da SerpAPI.
- * Pagina 100 resultados, e salva em public/json/paper-data.json.
- * Normalização: limpa dados antes de 2016 ou dados com info faltando e reorganiza a estrutura
+ * O script busca o perfil do autor via SerpAPI, pagina resultados e salva em public/json/data/paper-data.json.
+ * Normalização: limpa dados antes de 2016 ou dados com informação faltando e reorganiza a estrutura
  */
 
 /// ==== Carregar .env e deps
@@ -14,7 +14,7 @@ const fs = require("fs");
 const path = require("path");
 
 // ==== Configs principais
-const yearCutoff = 2015; // filtro: mantém de 2016+
+const yearCutoff = 2022; // filtro: mantém de 2016+
 const AUTHOR_ID = "mCaYwHAAAAAJ";
 const TOTAL_RESULTS = 200;
 const PAGE_SIZE = 100; // SerpAPI: máx 100 por página
@@ -28,9 +28,8 @@ if (!API_KEY) {
 const filePath = path.join(
   __dirname,
   "..",
-  "public",
   "json",
-  "paper-data.json"
+  "data/paper-data.json"
 );
 
 // Normalização de um item

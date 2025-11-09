@@ -24,9 +24,9 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import footerData from "@/../public/json/footer-content.json";
-import projectsData from "@/../public/json/projects-data.json";
-import teamData from "@/../public/json/team-data.json";
-import paperData from "@/../public/json/paper-data.json";
+import projectsData from "@/../public/json/data/projects-data.json";
+import teamData from "@/../public/json/data/team-data.json";
+import paperData from "@/../public/json/data/paper-data.json";
 import formatCountFromArray from "@/components/footer/formatCount";
 
 export default function Footer() {

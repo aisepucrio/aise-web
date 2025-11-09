@@ -2,55 +2,17 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import {
-  Container,
-  Box,
-  Text,
-  Paper,
-  Loader,
-  Center,
-  Group,
-  Badge,
-  Stack,
-  Button,
-  Title,
-} from "@mantine/core";
+import { Container, Box, Text, Loader, Center, Button, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { motion } from "framer-motion";
 import { notifications } from "@mantine/notifications";
-import Image from "next/image";
-import {
-  IconArrowLeft,
-  IconBulb,
-  IconCopy,
-  IconCode,
-  IconBriefcase,
-} from "@tabler/icons-react";
+import { IconArrowLeft } from "@tabler/icons-react";
 import FlickeringGrid from "@/components/FlickeringGrid";
-import { BadgeBox } from "@/components/BadgeBox";
-import LinkGroup from "@/components/LinkGroup";
+import TeamMemberProfile, { TeamMember as TeamMemberType } from "@/components/TeamMemberProfile";
 import teamMemberContent from "@/../public/json/team-member-page-content.json";
 
 // Tipos essenciais
-type TeamMember = {
-  name: string;
-  position: string;
-  imageUrl: string;
-  description: string;
-  bio?: string;
-  email?: string;
-  researchInterests?: string[];
-  technologies?: string[];
-  expertise?: string[];
-  socialLinks?: {
-    linkedin?: string;
-    github?: string;
-    googleScholar?: string;
-    orcid?: string;
-    lattes?: string;
-    personalWebsite?: string;
-  };
-};
+// Local TeamMember type is compatible with the one exported by the profile component
+type TeamMember = TeamMemberType;
 type TeamData = { team: TeamMember[] };
 
 // Slug simples a partir do nome
@@ -74,7 +36,7 @@ const useTeamMember = (slug: string) => {
 
     const load = async () => {
       try {
-        const res = await fetch("/json/team-data.json", {
+        const res = await fetch("/json/data/team-data.json", {
           cache: "no-store",
           signal: controller.signal,
         });
@@ -117,20 +79,7 @@ const useTeamMember = (slug: string) => {
   return { member, isLoading };
 };
 
-// Links sociais/acadêmicos
-const SocialLinks = ({
-  links,
-  isMobile,
-  align,
-}: {
-  links?: TeamMember["socialLinks"];
-  isMobile: boolean;
-  align?: "left" | "center" | "right";
-}) => {
-  if (!links) return null;
-
-  return <LinkGroup links={links} isMobile={isMobile} align={align} />;
-};
+// (SocialLinks was moved into the external TeamMemberProfile component)
 
 export default function TeamMemberPage() {
   const params = useParams<{ name?: string }>();
@@ -223,197 +172,7 @@ export default function TeamMemberPage() {
         flickerChance={0.005}
       />
 
-      <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Button
-            leftSection={<IconArrowLeft size={20} />}
-            variant="white"
-            color="var(--primary)"
-            mb={isMobile ? 20 : 32}
-            onClick={() => router.push("/team")}
-          >
-            Back to Team
-          </Button>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <Paper
-            shadow="xl"
-            p={isMobile ? "lg" : "xl"}
-            mb={isMobile ? 24 : 32}
-            style={paperStyle}
-          >
-            <Group
-              align="flex-start"
-              gap={isMobile ? "lg" : "xl"}
-              style={{ flexDirection: isMobile ? "column" : "row" }}
-            >
-              {/* Coluna da foto */}
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 16,
-                  width: isMobile ? "100%" : 300,
-                  flexShrink: 0,
-                  alignItems: "center",
-                }}
-              >
-                <Box
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: isMobile ? 280 : 360,
-                    borderRadius: 16,
-                    overflow: "hidden",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                  }}
-                >
-                  <Image
-                    src={member.imageUrl}
-                    alt={member.name}
-                    fill
-                    style={{ objectFit: "cover", objectPosition: "top" }}
-                    priority
-                  />
-                </Box>
-
-                {/* Botão de e-mail com cópia para área de transferência */}
-                {member.email && (
-                  <Button
-                    variant="light"
-                    color="var(--primary)"
-                    rightSection={<IconCopy size={20} />}
-                    onClick={async () => {
-                      try {
-                        await navigator.clipboard.writeText(member.email!);
-                      } catch {}
-                    }}
-                    fullWidth
-                    style={{ textTransform: "none", fontWeight: 600 }}
-                  >
-                    {member.email}
-                  </Button>
-                )}
-              </Box>
-
-              {/* Coluna de conteúdo */}
-              <Stack
-                gap="md"
-                align={isMobile ? "center" : "stretch"}
-                style={{ flex: 1 }}
-              >
-                <Box>
-                  {/* Linha com nome à esquerda e redes sociais à direita (desktop) */}
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: isMobile ? "center" : "start",
-                      justifyContent: isMobile ? "center" : "space-between",
-                      gap: 12,
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <div
-                      style={{
-                        flex: isMobile ? "none" : "1 1 auto",
-                        minWidth: 0,
-                        textAlign: isMobile ? "center" : undefined,
-                      }}
-                    >
-                      <Title
-                        order={1}
-                        size={isMobile ? "h2" : "h1"}
-                        mb="xs"
-                        style={{
-                          color: "var(--primary)",
-                          textAlign: isMobile ? "center" : undefined,
-                        }}
-                      >
-                        {member.name}
-                      </Title>
-
-                      <Badge
-                        size={isMobile ? "lg" : "xl"}
-                        variant="light"
-                        color="var(--primary)"
-                        style={{
-                          fontSize: isMobile ? "0.9rem" : "1rem",
-                          fontWeight: 600,
-                          padding: isMobile ? "12px 20px" : "14px 24px",
-                        }}
-                      >
-                        {member.position}
-                      </Badge>
-                    </div>
-
-                    {/* No mobile deixa centralizado/agrupado abaixo; no desktop alinha à direita */}
-                    <div style={{ flex: "0 0 auto" }}>
-                      <SocialLinks
-                        links={member.socialLinks}
-                        isMobile={isMobile}
-                        align={isMobile ? "center" : "right"}
-                      />
-                    </div>
-                  </div>
-                </Box>
-
-                <Text
-                  size={isMobile ? "md" : "lg"}
-                  c="dimmed"
-                  lh={1.6}
-                  style={{ textAlign: isMobile ? "center" : undefined }}
-                >
-                  {member.description}
-                </Text>
-
-                {/* Interesses de pesquisa (se houver) */}
-                {member.researchInterests?.length ? (
-                  <BadgeBox
-                    title={teamMemberContent.researchInterestsTitle}
-                    icon={<IconBulb size={18} />}
-                    items={member.researchInterests}
-                  />
-                ) : null}
-
-                {/* Technologies e Expertise na mesma linha */}
-                {(member.technologies?.length || member.expertise?.length) && (
-                  <Group
-                    grow
-                    align="stretch"
-                    gap="md"
-                    style={{ flexDirection: isMobile ? "column" : "row" }}
-                  >
-                    {member.technologies?.length ? (
-                      <BadgeBox
-                        title={teamMemberContent.technologiesTitle}
-                        icon={<IconCode size={18} />}
-                        items={member.technologies}
-                      />
-                    ) : null}
-
-                    {member.expertise?.length ? (
-                      <BadgeBox
-                        title={teamMemberContent.expertiseTitle}
-                        icon={<IconBriefcase size={18} />}
-                        items={member.expertise}
-                      />
-                    ) : null}
-                  </Group>
-                )}
-              </Stack>
-            </Group>
-          </Paper>
-        </motion.div>
-      </Container>
+      <TeamMemberProfile member={member} isMobile={isMobile} onBack={() => router.push("/team")} />
     </Box>
   );
 }
