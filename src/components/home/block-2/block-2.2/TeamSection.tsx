@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { Box, Paper, Container, Text, Loader, Center } from "@mantine/core";
+import { Container, Text, Loader, Center } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";

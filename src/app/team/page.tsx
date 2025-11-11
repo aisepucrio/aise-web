@@ -12,7 +12,6 @@ import {
   Badge,
   Stack,
   Card,
-  Avatar,
   SimpleGrid,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
@@ -20,6 +19,7 @@ import { motion } from "framer-motion";
 import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";
+import ImgboxImage from "@/components/ImgboxImage";
 import teamPageContent from "@/../public/json/team-page-content.json";
 import { IconUsers } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -137,15 +137,24 @@ const TeamMemberListItem = ({
         onClick={() => router.push(`/team/${slug}`)}
       >
         <Group gap="md" wrap="nowrap">
-          <Avatar
-            src={member.imageUrl}
-            alt={member.name}
-            size={isMobile ? 60 : 90}
-            radius="md"
+          <Box
             style={{
               flexShrink: 0,
+              width: isMobile ? 60 : 90,
+              height: isMobile ? 60 : 90,
+              borderRadius: 8,
+              overflow: "hidden",
+              position: "relative",
             }}
-          />
+          >
+            <ImgboxImage
+              src={member.imageUrl}
+              alt={member.name}
+              width={isMobile ? 60 : 90}
+              height={isMobile ? 60 : 90}
+              style={{ objectFit: "cover" }}
+            />
+          </Box>
           <Box style={{ flex: 1, minWidth: 0 }}>
             <Text
               fw={600}
@@ -280,12 +289,23 @@ const TeamMemberGridItem = ({
         onClick={() => router.push(`/team/${slug}`)}
       >
         <Stack gap="sm" align="center">
-          <Avatar
-            src={member.imageUrl}
-            alt={member.name}
-            size={120}
-            radius="md"
-          />
+          <Box
+            style={{
+              width: 120,
+              height: 120,
+              borderRadius: 8,
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            <ImgboxImage
+              src={member.imageUrl}
+              alt={member.name}
+              width={120}
+              height={120}
+              style={{ objectFit: "cover" }}
+            />
+          </Box>
           <Box style={{ textAlign: "center", width: "100%" }}>
             <Text
               fw={600}

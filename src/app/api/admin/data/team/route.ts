@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { TeamPayload } from "@/lib/schemas";
 import { requireBearer } from "@/lib/auth";
 import { saveJson } from "@/lib/blob";
-import { normalizeImgboxInData } from "@/lib/imgbox";
 
 export const runtime = "nodejs";
 
@@ -34,15 +33,14 @@ export async function POST(req: NextRequest) {
     const teamData = Array.isArray(body) ? body : body.team;
     
     const parsed = TeamPayload.parse(teamData);
-    const normalized = normalizeImgboxInData(parsed);
     
-    // Salva com a estrutura { "team": [...] } para manter compatibilidade
-    const blob = await saveJson("lab/team.json", { team: normalized });
+    // Salva direto no Blob - ImgboxImage vai converter no cliente
+    const blob = await saveJson("lab/team.json", { team: parsed });
     
     return NextResponse.json({
       ok: true,
-      count: normalized.length,
-      message: `${normalized.length} membros publicados com sucesso`,
+      count: parsed.length,
+      message: `${parsed.length} membros publicados com sucesso`,
       blob: { url: blob.url, pathname: blob.pathname },
     }, { headers: corsHeaders() });
     

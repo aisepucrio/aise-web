@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { ToolsPayload } from "@/lib/schemas";
 import { requireBearer } from "@/lib/auth";
 import { saveJson } from "@/lib/blob";
-import { normalizeImgboxInData } from "@/lib/imgbox";
 
 export const runtime = "nodejs";
 
@@ -33,15 +32,14 @@ export async function POST(req: NextRequest) {
     const toolsData = Array.isArray(body) ? body : body.tools;
     
     const parsed = ToolsPayload.parse(toolsData);
-    const normalized = normalizeImgboxInData(parsed);
     
-    // Salva com a estrutura { "tools": [...] } para manter compatibilidade
-    const blob = await saveJson("lab/tools.json", { tools: normalized });
+    // Salva direto no Blob - ImgboxImage vai converter no cliente
+    const blob = await saveJson("lab/tools.json", { tools: parsed });
     
     return NextResponse.json({
       ok: true,
-      count: normalized.length,
-      message: `${normalized.length} ferramentas publicadas com sucesso`,
+      count: parsed.length,
+      message: `${parsed.length} ferramentas publicadas com sucesso`,
       blob: { url: blob.url, pathname: blob.pathname },
     }, { headers: corsHeaders() });
     
