@@ -188,7 +188,7 @@ const useToolTeam = (toolId: string) => {
       try {
         const [relationshipsRes, teamRes] = await Promise.all([
           fetch("/json/tool-person-relationships.json"),
-          fetch("/json/data/team-data.json"),
+          fetch("/api/data/team"),
         ]);
 
         const relationshipsData = await relationshipsRes.json();

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { TeamPayload } from "@/lib/schemas";
 import { requireBearer } from "@/lib/auth";
 import { saveJson } from "@/lib/blob";
+import { normalizeImgboxInData } from "@/lib/imgbox";
 
 export const runtime = "nodejs";
 
@@ -19,8 +20,20 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const parsed = TeamPayload.parse(body); // valida JSON
-    await saveJson("lab/team.json", parsed); // sobrescreve no Blob
-    return NextResponse.json({ ok: true, key: "lab/team.json", count: parsed.length });
+    
+    // Normaliza URLs imgbox curtas para URLs reais de imagem
+    const normalized = normalizeImgboxInData(parsed);
+    
+    const putResult = await saveJson("lab/team.json", normalized); // sobrescreve no Blob (retorna diagnóstico)
+    // Retorna contagem, mensagem amigável e resultado do put para confirmar gravação
+    return NextResponse.json({
+      ok: true,
+      key: "lab/team.json",
+      count: normalized.length,
+      message: `${normalized.length} membros publicados com sucesso`,
+      data: { team: normalized },
+      blob: putResult,
+    });
   } catch (e: any) {
     const msg = e?.issues ? "invalid payload" : (e?.message ?? "error");
     const code = e?.issues ? 400 : 500;

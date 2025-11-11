@@ -36,7 +36,7 @@ const useTeamMember = (slug: string) => {
 
     const load = async () => {
       try {
-        const res = await fetch("/json/data/team-data.json", {
+        const res = await fetch("/api/data/team", {
           cache: "no-store",
           signal: controller.signal,
         });
