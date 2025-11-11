@@ -34,7 +34,9 @@ export async function POST(req: NextRequest) {
     
     const parsed = ToolsPayload.parse(toolsData);
     const normalized = normalizeImgboxInData(parsed);
-    const blob = await saveJson("lab/tools.json", normalized);
+    
+    // Salva com a estrutura { "tools": [...] } para manter compatibilidade
+    const blob = await saveJson("lab/tools.json", { tools: normalized });
     
     return NextResponse.json({
       ok: true,

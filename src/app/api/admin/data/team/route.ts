@@ -35,7 +35,9 @@ export async function POST(req: NextRequest) {
     
     const parsed = TeamPayload.parse(teamData);
     const normalized = normalizeImgboxInData(parsed);
-    const blob = await saveJson("lab/team.json", normalized);
+    
+    // Salva com a estrutura { "team": [...] } para manter compatibilidade
+    const blob = await saveJson("lab/team.json", { team: normalized });
     
     return NextResponse.json({
       ok: true,

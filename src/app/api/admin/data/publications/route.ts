@@ -32,7 +32,9 @@ export async function POST(req: NextRequest) {
     const publicationsData = Array.isArray(body) ? body : body.publications;
     
     const parsed = PublicationsPayload.parse(publicationsData);
-    const blob = await saveJson("lab/publications.json", parsed);
+    
+    // Salva com a estrutura { "publications": [...] } para manter compatibilidade
+    const blob = await saveJson("lab/publications.json", { publications: parsed });
     
     return NextResponse.json({
       ok: true,
