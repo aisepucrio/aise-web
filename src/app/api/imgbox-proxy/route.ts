@@ -32,8 +32,8 @@ export async function GET(request: Request) {
 
     const html = await response.text();
 
-    // Busca URLs no HTML (thumbnail ou original)
-    const regex = /(https:\/\/(thumbs\d*|images\d*)\.imgbox\.com\/[a-z0-9]+\/[a-z0-9]+\/[a-zA-Z0-9]+_(t|o)\.(jpg|png|jpeg|gif))/i;
+    // Busca URLs no HTML - formato: https://images2.imgbox.com/XX/YY/ID_o.ext
+    const regex = /https:\/\/(thumbs\d*|images\d*)\.imgbox\.com\/[a-f0-9]{2}\/[a-f0-9]{2}\/[a-zA-Z0-9]+_(t|o)\.(jpg|png|jpeg|gif|webp)/i;
     const imageMatch = html.match(regex);
 
     if (imageMatch) {
