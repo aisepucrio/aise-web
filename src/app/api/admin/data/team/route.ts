@@ -29,7 +29,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const parsed = TeamPayload.parse(body);
+    
+    // Aceita tanto array direto quanto objeto com chave "team"
+    const teamData = Array.isArray(body) ? body : body.team;
+    
+    const parsed = TeamPayload.parse(teamData);
     const normalized = normalizeImgboxInData(parsed);
     const blob = await saveJson("lab/team.json", normalized);
     

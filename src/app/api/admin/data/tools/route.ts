@@ -28,7 +28,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const parsed = ToolsPayload.parse(body);
+    
+    // Aceita tanto array direto quanto objeto com chave "tools"
+    const toolsData = Array.isArray(body) ? body : body.tools;
+    
+    const parsed = ToolsPayload.parse(toolsData);
     const normalized = normalizeImgboxInData(parsed);
     const blob = await saveJson("lab/tools.json", normalized);
     

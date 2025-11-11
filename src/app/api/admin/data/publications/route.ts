@@ -27,7 +27,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const parsed = PublicationsPayload.parse(body);
+    
+    // Aceita tanto array direto quanto objeto com chave "publications"
+    const publicationsData = Array.isArray(body) ? body : body.publications;
+    
+    const parsed = PublicationsPayload.parse(publicationsData);
     const blob = await saveJson("lab/publications.json", parsed);
     
     return NextResponse.json({
