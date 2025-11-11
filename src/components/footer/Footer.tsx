@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   Group,
   Text,
@@ -25,11 +26,19 @@ import {
 } from "@tabler/icons-react";
 import footerData from "@/../public/json/footer-content.json";
 import toolsData from "@/../public/json/data/tools-data.json";
-import teamData from "@/../public/json/data/team-data.json";
 import paperData from "@/../public/json/data/publications-data.json";
 import formatCountFromArray from "@/components/footer/formatCount";
 
 export default function Footer() {
+  const [teamCount, setTeamCount] = useState(0);
+
+  useEffect(() => {
+    fetch("/api/data/team")
+      .then((res) => res.json())
+      .then((data) => setTeamCount(data.team?.filter(Boolean).length || 0))
+      .catch(() => setTeamCount(0));
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -105,10 +114,7 @@ export default function Footer() {
                   <IconUsers size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
-                      {formatCountFromArray(
-                        teamData.team?.filter(Boolean),
-                        footerData.stats.members
-                      )}
+                      {teamCount > 0 ? teamCount : footerData.stats.members}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Members

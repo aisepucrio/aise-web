@@ -118,7 +118,7 @@ const SectionHeader = () => {
 // Loading State Component
 const LoadingState = () => (
   <Center h={400}>
-    <Loader size="lg" />
+    <Loader size="lg"  color="var(--primary)" />
   </Center>
 );
 

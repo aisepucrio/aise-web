@@ -84,7 +84,7 @@ const useTeamData = () => {
 // Componente de loading
 const LoadingState = () => (
   <Center h={400}>
-    <Loader size="lg" />
+    <Loader size="lg" color="var(--primary)" />
   </Center>
 );
 

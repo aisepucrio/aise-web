@@ -5,7 +5,7 @@ import { Card, Text, Box, ActionIcon } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "@mantine/hooks";
-import Image from "next/image";
+import ImgboxImage from "@/components/ImgboxImage";
 
 export interface PersonCardProps {
   name: string;
@@ -80,11 +80,9 @@ export const PersonCard: React.FC<PersonCardProps> = ({
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       onClick={handleCardClick}
-      // === INÍCIO EDIÇÃO: faz o overlay responder ao hover do card ===
       initial="rest"
       animate="rest"
       whileHover="hover"
-      // === FIM EDIÇÃO ===
       role="button"
       aria-label={`Abrir perfil de ${name}`}
       title={`Abrir perfil de ${name}`}
@@ -98,7 +96,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
           overflow: "hidden",
         }}
       >
-        <Image
+        <ImgboxImage
           src={imageUrl}
           alt={`Foto de ${name}`}
           fill
@@ -106,8 +104,6 @@ export const PersonCard: React.FC<PersonCardProps> = ({
             objectFit: "cover",
             objectPosition: "top",
           }}
-          sizes={`${cardWidth}px`}
-          priority={false}
         />
 
         {/* Overlay gradient sutil na base */}

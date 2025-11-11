@@ -13,7 +13,7 @@ import {
   Title,
 } from "@mantine/core";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import ImgboxImage from "@/components/ImgboxImage";
 import {
   IconBulb,
   IconCopy,
@@ -135,12 +135,11 @@ export default function TeamMemberProfile({
                   boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                 }}
               >
-                <Image
+                <ImgboxImage
                   src={member.imageUrl}
                   alt={member.name}
                   fill
                   style={{ objectFit: "cover", objectPosition: "top" }}
-                  priority
                 />
               </Box>
 
