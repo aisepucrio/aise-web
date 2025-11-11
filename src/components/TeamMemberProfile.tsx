@@ -77,7 +77,7 @@ export default function TeamMemberProfile({
   isMobile: boolean;
   onBack: () => void;
 }) {
-  const paperStyle: React.CSSProperties = {
+  const publicationstyle: React.CSSProperties = {
     background: "rgba(255, 255, 255, 0.98)",
     backdropFilter: "blur(10px)",
     borderRadius: 24,
@@ -108,7 +108,7 @@ export default function TeamMemberProfile({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
       >
-        <Paper shadow="xl" p={isMobile ? "lg" : "xl"} mb={isMobile ? 24 : 32} style={paperStyle}>
+        <Paper shadow="xl" p={isMobile ? "lg" : "xl"} mb={isMobile ? 24 : 32} style={publicationstyle}>
           <Group
             align="flex-start"
             gap={isMobile ? "lg" : "xl"}

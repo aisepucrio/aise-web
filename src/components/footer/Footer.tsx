@@ -24,9 +24,9 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import footerData from "@/../public/json/footer-content.json";
-import projectsData from "@/../public/json/data/projects-data.json";
+import toolsData from "@/../public/json/data/tools-data.json";
 import teamData from "@/../public/json/data/team-data.json";
-import paperData from "@/../public/json/data/paper-data.json";
+import paperData from "@/../public/json/data/publications-data.json";
 import formatCountFromArray from "@/components/footer/formatCount";
 
 export default function Footer() {
@@ -56,9 +56,6 @@ export default function Footer() {
                 w={200}
                 h="auto"
                 fit="contain"
-                style={{
-                  borderRadius: "8px",
-                }}
               />
 
               {/* PUC-Rio Logo */}
@@ -69,7 +66,6 @@ export default function Footer() {
                 h="auto"
                 fit="contain"
                 style={{
-                  borderRadius: "8px",
                   backgroundColor: "transparent",
                 }}
               />
@@ -96,12 +92,12 @@ export default function Footer() {
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
                       {formatCountFromArray(
-                        projectsData.projects,
-                        footerData.stats.projects
+                        toolsData.tools,
+                        footerData.stats.tools
                       )}
                     </Text>
                     <Text size="xs" c="gray.6">
-                      Projects
+                      Tools
                     </Text>
                   </Stack>
                 </Flex>
@@ -124,7 +120,7 @@ export default function Footer() {
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
                       {formatCountFromArray(
-                        paperData.paper_data,
+                        paperData.publications_data,
                         footerData.stats.publications
                       )}
                     </Text>

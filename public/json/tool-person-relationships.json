@@ -1,0 +1,82 @@
+{
+  "relationships": [
+    {
+      "toolId": "annotaise",
+      "teamMembers": [
+        {
+          "name": "Juliana Alves",
+          "roles": ["Research", "Coordination"]
+        },
+        {
+          "name": "Heraldo Borges",
+          "roles": ["Backend", "AI"]
+        },
+        {
+          "name": "Daniel Coutinho",
+          "roles": ["Frontend", "Design"]
+        },
+        {
+          "name": "Jéssica Ribas",
+          "roles": ["Research", "Data"]
+        },
+        {
+          "name": "Arthur Alesi",
+          "roles": ["Backend"]
+        },
+        {
+          "name": "Lucas Lopes",
+          "roles": ["Frontend"]
+        },
+        {
+          "name": "Gabriel Gervásio",
+          "roles": ["DevOps"]
+        }
+      ]
+    },
+    {
+      "toolId": "smp",
+      "teamMembers": [
+        {
+          "name": "Juliana Alves",
+          "roles": ["Research", "Coordination"]
+        },
+        {
+          "name": "Jhony Arriel",
+          "roles": ["Backend", "AI"]
+        },
+        {
+          "name": "Jailma Januário",
+          "roles": ["Research"]
+        },
+        {
+          "name": "Igor Oliveira",
+          "roles": ["Frontend", "Mobile"]
+        },
+        {
+          "name": "Joanne Carneiro",
+          "roles": ["Design", "UX"]
+        },
+        {
+          "name": "Paulo Libório",
+          "roles": ["Backend"]
+        },
+        {
+          "name": "Alexandre Scofield",
+          "roles": ["Data", "AI"]
+        },
+        {
+          "name": "Ana Cavalcante",
+          "roles": ["Research"]
+        },
+        {
+          "name": "Diogo Marassi",
+          "roles": ["Frontend"]
+        },
+        {
+          "name": "Júlia Tadeu",
+          "roles": ["Testing", "QA"]
+        }
+      ]
+    }
+  ]
+}

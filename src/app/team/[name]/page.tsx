@@ -97,7 +97,7 @@ export default function TeamMemberPage() {
     }
   }, [isLoading]);
 
-  const paperStyle = useMemo<React.CSSProperties>(
+  const publicationstyle = useMemo<React.CSSProperties>(
     () => ({
       background: "rgba(255, 255, 255, 0.98)",
       backdropFilter: "blur(10px)",

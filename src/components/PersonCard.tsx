@@ -66,7 +66,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
 
   return (
     <MotionCard
-      shadow="md"
+      shadow={isMobile ? "xs" : "sm"}
       radius="xl"
       p={0}
       style={{

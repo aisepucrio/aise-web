@@ -7,8 +7,10 @@
   "items": [
     { "label": "Home", "href": "/" },
     { "label": "Team", "href": "/team" },
-    { "label": "Papers", "href": "/papers" },
-    { "label": "Projects", "href": "/projects" }
+    { "label": "Researches", "href": "/researches" },
+    { "label": "Publications", "href": "/publications" },
+    { "label": "Tools", "href": "/tools" }
+    
   ],
   "cta": {
     "text": "Send resume",

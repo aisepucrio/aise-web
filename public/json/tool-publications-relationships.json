@@ -1,0 +1,21 @@
+{
+  "relationships": [
+    {
+      "toolId": "annotaise",
+      "publications": [
+        "On the usefulness of automatically generated microservice architectures",
+        "Unraveling the Impact of Code Smell Agglomerations on Code Stability",
+        "An exploratory evaluation of code smell agglomerations",
+        "Mental Health and Productivity in Software Development: A Study with the Bravo Central Platform"
+      ]
+    },
+    {
+      "toolId": "smp",
+      "publications": [
+        "Don't Forget the Exception!: Considering Robustness Changes to Identify Design Problems",
+        "Understanding Developers' Discussions and Perceptions on Non-functional Requirements: The Case of the Spring Ecosystem",
+        "On the Investigation of Exception Pull Request Characteristics: Exploring the Apache Ecosystem"
+      ]
+    }
+  ]
+}

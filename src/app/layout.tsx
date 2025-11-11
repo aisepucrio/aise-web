@@ -41,6 +41,7 @@ export default function RootLayout({
     <html {...mantineHtmlProps} lang="en" className={montserrat.variable}>
       <head>
         <ColorSchemeScript />
+        <link rel="icon" href="/favicon.svg" />
       </head>
       <body className={`${montserrat.variable}`}>
         <MantineProvider theme={theme} defaultColorScheme="light">

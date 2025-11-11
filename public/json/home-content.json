@@ -39,12 +39,12 @@
       "href": "/team"
     }
   },
-  "projectsSection": {
-    "title": "Our Projects",
-    "subtitle": "Discover the innovative solutions we're building. Each project tackles real-world challenges to advance in the software engineering field.",
+  "toolsSection": {
+    "title": "Our Tools",
+    "subtitle": "Discover the innovative solutions we're building. Each tool tackles real-world challenges to advance in the software engineering field.",
     "button": {
-      "text": "See All Projects",
-      "href": "/projects"
+      "text": "See Tools",
+      "href": "/tools"
     }
   },
   "callToAction": {

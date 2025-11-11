@@ -88,7 +88,7 @@
       "name": "Daniel Coutinho",
       "position": "DSc. Candidate",
       "imageUrl": "/images/team/daniel-coutinho.jpg",
-      "description": "Daniel Coutinho is a PhD Student in Computer Science at Pontifical Catholic University of Rio de Janeiro (PUC-Rio), where he also obtained my Master's degree (advised by Prof. Alessandro Garcia). He has an Undergraduate Degree in Computer Science from Rio de Janeiro State University (UERJ), where I was advised by Prof. Marcelo Schots, focusing on software engineering, data visualization and data mining. Currently, he's a member of the OPUS research group and a collaborator in AISE Lab, which are both part of the PUC-Rio software engineering laboratory (LES). There, I participate in several research projects related to software engineering and data science. As part of this research group, I co-authored papers published in some of the most relevant software engineering conferences, such as: Mining Software Repositories (MSR), International Conference on Software Maintenance and Evolution (ICSME), International Conference on Software Analysis, Evolution, and Reengineering (SANER), International Conference on Program Comprehension (ICPC), etc. My main research interests are: software maintenance and decay, refactoring, human aspects of software engineering, and software repository mining.",
+      "description": "Daniel Coutinho is a PhD Student in Computer Science at Pontifical Catholic University of Rio de Janeiro (PUC-Rio), where he also obtained my Master's degree (advised by Prof. Alessandro Garcia). He has an Undergraduate Degree in Computer Science from Rio de Janeiro State University (UERJ), where I was advised by Prof. Marcelo Schots, focusing on software engineering, data visualization and data mining. Currently, he's a member of the OPUS research group and a collaborator in AISE Lab, which are both part of the PUC-Rio software engineering laboratory (LES). There, I participate in several research tools related to software engineering and data science. As part of this research group, I co-authored publications published in some of the most relevant software engineering conferences, such as: Mining Software Repositories (MSR), International Conference on Software Maintenance and Evolution (ICSME), International Conference on Software Analysis, Evolution, and Reengineering (SANER), International Conference on Program Comprehension (ICPC), etc. My main research interests are: software maintenance and decay, refactoring, human aspects of software engineering, and software repository mining.",
       "email": "",
       "researchInterests": [],
       "technologies": [],
@@ -104,7 +104,7 @@
       "name": "Arthur Alesi Souza",
       "position": "MSc. Student",
       "imageUrl": "/images/team/arthur-souza.jpg",
-      "description": "Arthur Alesi is a Master's student in Informatics at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), with a focus on Software Engineering. He participated in a year-long project in partnership with the LES Laboratory and the company Flopo, working on front-end development using Next.js. Currently, he is involved in a research internship with the company Stone on automated documentation using large language models (GitHubDocs). He is also a co-author of the paper RAISE: A Self-Hosted API for Efficient Data Mining from GitHub and Jira.",
+      "description": "Arthur Alesi is a Master's student in Informatics at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), with a focus on Software Engineering. He participated in a year-long tool in partnership with the LES Laboratory and the company Flopo, working on front-end development using Next.js. Currently, he is involved in a research internship with the company Stone on automated documentation using large language models (GitHubDocs). He is also a co-author of the paper RAISE: A Self-Hosted API for Efficient Data Mining from GitHub and Jira.",
       "email": "arthuralesi@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
@@ -172,7 +172,7 @@
       "name": "Igor Soares",
       "position": "MSc. Student",
       "imageUrl": "/images/team/igor-soares.jpeg",
-      "description": "Igor Soares de Oliveira holds a degree in Information Systems from University Estácio de Sá, where he participated in a Scientific Initiation project aimed at applying Gamification as a strategy for logical reasoning activities targeted at learners facing difficulties in their studies. During his undergraduate program, Igor was recognized as the Best Student of the Class, an award granted by the course coordination in recognition of his academic performance. Subsequently, he completed a postgraduate degree in Software Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), where he was distinguished as an MVP Highlight by the university. He is currently pursuing a Master’s degree at the same institution, with research areas including Software Engineering, Machine Learning, and Code Quality. As a Software Engineer at Stone, in the financial sector, Igor has developed applications related to financial adjustments, directly impacting the business of clients who requested corrections in transactions. He is currently working in the Accounts Receivable area, focusing on providing a corporate view of the amounts the company expects to receive from completed transactions. His work encompasses distributed software architecture, legacy project maintenance, bug fixing, user story refinement, and ensuring the scalability and resilience of applications. Igor also contributes by mentoring team members and assisting in decision-making processes related to applications.",
+      "description": "Igor Soares de Oliveira holds a degree in Information Systems from University Estácio de Sá, where he participated in a Scientific Initiation tool aimed at applying Gamification as a strategy for logical reasoning activities targeted at learners facing difficulties in their studies. During his undergraduate program, Igor was recognized as the Best Student of the Class, an award granted by the course coordination in recognition of his academic performance. Subsequently, he completed a postgraduate degree in Software Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), where he was distinguished as an MVP Highlight by the university. He is currently pursuing a Master’s degree at the same institution, with research areas including Software Engineering, Machine Learning, and Code Quality. As a Software Engineer at Stone, in the financial sector, Igor has developed applications related to financial adjustments, directly impacting the business of clients who requested corrections in transactions. He is currently working in the Accounts Receivable area, focusing on providing a corporate view of the amounts the company expects to receive from completed transactions. His work encompasses distributed software architecture, legacy tool maintenance, bug fixing, user story refinement, and ensuring the scalability and resilience of applications. Igor also contributes by mentoring team members and assisting in decision-making processes related to applications.",
       "email": "igorsoaresoliver@hotmail.com",
       "researchInterests": [
         "Software Engineering",
@@ -503,7 +503,7 @@
       "name": "Robbie Carvalho",
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/robbie-carvalho.jpg",
-      "description": "Robbie Carvalho is an undergraduate student in Computer Engineering at PUC-Rio. With interests in a wide variety of topics, especially in games and interface design, she is a more practice-oriented person. Focused on front-end development but with additional knowledge in other areas, she is currently involved in the RAISE and ANNOTAISE projects and also assists in several other laboratory activities.",
+      "description": "Robbie Carvalho is an undergraduate student in Computer Engineering at PUC-Rio. With interests in a wide variety of topics, especially in games and interface design, she is a more practice-oriented person. Focused on front-end development but with additional knowledge in other areas, she is currently involved in the RAISE and ANNOTAISE tools and also assists in several other laboratory activities.",
       "email": "robbie.xovs@gmail.com",
       "researchInterests": ["Games", "AI and Machine Learning", "UX/UI Design"],
       "technologies": [
@@ -626,7 +626,7 @@
       "name": "Thomas de Mello",
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/thomas-mello.png",
-      "description": "Thomas de Mello Oliva is an undergraduate student in Computer Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), expected to graduate in 2025. He works as a Software Developer at ExACTa’s FIT Program, contributing to co-creation projects with industry partners such as Eletrobras, Americanas, and EXA. His interests include Artificial Intelligence and Machine Learning, particularly Natural Language Processing (NLP) and back-end systems design for AI applications.",
+      "description": "Thomas de Mello Oliva is an undergraduate student in Computer Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio), expected to graduate in 2025. He works as a Software Developer at ExACTa’s FIT Program, contributing to co-creation tools with industry partners such as Eletrobras, Americanas, and EXA. His interests include Artificial Intelligence and Machine Learning, particularly Natural Language Processing (NLP) and back-end systems design for AI applications.",
       "email": "thomas.mello301@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
@@ -646,7 +646,7 @@
       "name": "Victor Letichevsky",
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/victor-letichevsky.JPG",
-      "description": "Victor Letichevsky is a Computer Science student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio) and an Apple ecosystem developer. He previously worked as an intern at the Apple Developer Academy | PUC-Rio, where he contributed to projects focused on Swift and SwiftUI development. His main areas of interest include iOS development and software architecture. In 2022, he was awarded the Apple Swift Student Challenge at Apple’s Worldwide Developers Conference (WWDC) for his outstanding project in Swift.",
+      "description": "Victor Letichevsky is a Computer Science student at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio) and an Apple ecosystem developer. He previously worked as an intern at the Apple Developer Academy | PUC-Rio, where he contributed to tools focused on Swift and SwiftUI development. His main areas of interest include iOS development and software architecture. In 2022, he was awarded the Apple Swift Student Challenge at Apple’s Worldwide Developers Conference (WWDC) for his outstanding tool in Swift.",
       "email": "",
       "researchInterests": [
         "Apple Ecosystem Development",
@@ -665,7 +665,7 @@
       "name": "Guilherme Cunha",
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/guilherme-cunha.jpg",
-      "description": "Guilherme Cunha is an undergraduate student in Computer Science at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). He participates in research on Code Smells, with a focus on the intersection between computing and sustainability. He is also involved in a project in partnership with Stone, working on code documentation automation using Large Language Models.",
+      "description": "Guilherme Cunha is an undergraduate student in Computer Science at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). He participates in research on Code Smells, with a focus on the intersection between computing and sustainability. He is also involved in a tool in partnership with Stone, working on code documentation automation using Large Language Models.",
       "email": "guicunharib@gmail.com",
       "researchInterests": [
         "Artificial Intelligence",
@@ -686,7 +686,7 @@
       "name": "Maria Isabel Nicolau",
       "position": "Undergraduate Student",
       "imageUrl": "/images/team/maria-nicolau.jpg",
-      "description": "Maria Isabel Soares Brandão Nicolau is an undergraduate student in Computer Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). She is actively involved in research across areas such as Software Engineering, Machine Learning, Data Science, and Anonymization.Currently, Maria Isabel is a part of the FLOPO project, where she contributes to the development of a scientific search system for agricultural innovations. Her focus is on backend development, APIs, and database management. Additionally, she is a PIBIC fellow, researching the topic Preserving Privacy in Open Science: Strategies for Anonymizing Sensitive Data, aiming to balance privacy and data utility effectively.",
+      "description": "Maria Isabel Soares Brandão Nicolau is an undergraduate student in Computer Engineering at the Pontifical Catholic University of Rio de Janeiro (PUC-Rio). She is actively involved in research across areas such as Software Engineering, Machine Learning, Data Science, and Anonymization.Currently, Maria Isabel is a part of the FLOPO tool, where she contributes to the development of a scientific search system for agricultural innovations. Her focus is on backend development, APIs, and database management. Additionally, she is a PIBIC fellow, researching the topic Preserving Privacy in Open Science: Strategies for Anonymizing Sensitive Data, aiming to balance privacy and data utility effectively.",
       "email": "bebelsbn@gmail.com",
       "researchInterests": [],
       "technologies": [],

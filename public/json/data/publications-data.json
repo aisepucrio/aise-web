@@ -1,0 +1,252 @@
+{
+  "publications_data": [
+    {
+      "title": "On the usefulness of automatically generated microservice architectures",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:O3NaXMp0MMsC",
+      "authors_list": "L Carvalho, TE Colanzi, WKG Assunção, A Garcia, JA Pereira, ...",
+      "publication_place": "IEEE Transactions on Software Engineering 50 (3), 651-667, 2024",
+      "citation_number": 13,
+      "year": "2024"
+    },
+    {
+      "title": "Unraveling the Impact of Code Smell Agglomerations on Code Stability",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:ldfaerwXgEUC",
+      "authors_list": "A Santana, E Figueiredo, JA Pereira",
+      "publication_place": "2024 IEEE International Conference on Software Maintenance and Evolution …, 2024",
+      "citation_number": 10,
+      "year": "2024"
+    },
+    {
+      "title": "\" Looks Good To Me;-)\": Assessing Sentiment Analysis Tools for Pull Request Discussions",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:vV6vV6tmYwMC",
+      "authors_list": "D Coutinho, L Cito, MV Lima, B Arantes, J Alves Pereira, J Arriel, ...",
+      "publication_place": "Proceedings of the 28th International Conference on Evaluation and …, 2024",
+      "citation_number": 8,
+      "year": "2024"
+    },
+    {
+      "title": "An exploratory evaluation of code smell agglomerations",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:YFjsv_pBGBYC",
+      "authors_list": "A Santana, E Figueiredo, J Alves Pereira, A Garcia",
+      "publication_place": "Software Quality Journal 32 (4), 1375-1412, 2024",
+      "citation_number": 5,
+      "year": "2024"
+    },
+    {
+      "title": "Mental Health and Productivity in Software Development: A Study with the Bravo Central Platform",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:35N4QoGY0k4C",
+      "authors_list": "NP Leme, J Arriel, A Garcia, J Azevedo, T Sousa, L Bueno, J Godinho, ...",
+      "publication_place": "Proceedings of the 20th Brazilian Symposium on Information Systems, 1-11, 2024",
+      "citation_number": 5,
+      "year": "2024"
+    },
+    {
+      "title": "Don’t Forget the Exception!: Considering Robustness Changes to Identify Design Problems",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:GnPB-g6toBAC",
+      "authors_list": "A Oliveira, J Correia, L Sousa, WKG Assunção, D Coutinho, A Garcia, ...",
+      "publication_place": "2023 IEEE/ACM 20th International Conference on Mining Software Repositories …, 2023",
+      "citation_number": 4,
+      "year": "2023"
+    },
+    {
+      "title": "Overcoming obstacles: Challenges of gender inequality in undergraduate ict programs",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:fPk4N6BV_jEC",
+      "authors_list": "AP Souza, A Uchôa, ED Canedo, JA Pereira, CP Pereira, L Rocha",
+      "publication_place": "Proceedings of the 6th ACM/IEEE Workshop on Gender Equality, Diversity, and …, 2025",
+      "citation_number": 3,
+      "year": "2025"
+    },
+    {
+      "title": "Eyes on Code Smells: Analyzing Developers’ Responses During Code Snippet Analysis",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:zA6iFVUQeVQC",
+      "authors_list": "V Martins, PLV Ramos, BB Neves, MV Lima, J Arriel, JV Godinho, ...",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 302-312, 2024",
+      "citation_number": 3,
+      "year": "2024"
+    },
+    {
+      "title": "Understanding Developers’ Discussions and Perceptions on Non-functional Requirements: The Case of the Spring Ecosystem",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:RYcK_YlVTxYC",
+      "authors_list": "A Oliveira, J Correia, WKG Assunção, JA Pereira, R de Mello, D Coutinho, ...",
+      "publication_place": "Proceedings of the ACM on Software Engineering 1 (FSE), 517-538, 2024",
+      "citation_number": 3,
+      "year": "2024"
+    },
+    {
+      "title": "Data Privacy in Software Practice: Brazilian Developers’ Perspectives",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:bFI3QPDXJZMC",
+      "authors_list": "A Matos, M Patrício, MI Nicolau, ED Canedo, JA Pereira, A Uchôa",
+      "publication_place": "Journal of Internet Services and Applications 16 (1), 299-319, 2025",
+      "citation_number": 2,
+      "year": "2025"
+    },
+    {
+      "title": "Toward Reliable Forward Snowballing in Systematic Literature Reviews: A Comparative Study and Framework Proposal",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:P5F9QuxV20EC",
+      "authors_list": "J Januário, MI Nicolau, KR Felizardo, JA Pereira",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 762-768, 2025",
+      "citation_number": 1,
+      "year": "2025"
+    },
+    {
+      "title": "404: Civility Not Found? Evaluating the Effectiveness of Small Language Models in Detecting Incivility in GitHub Conversations",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:CHSYGLWDkRkC",
+      "authors_list": "M Patrício, S Eufrásio, A Uchôa, LS Rocha, D Coutinho, JA Pereira, ...",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 304-314, 2025",
+      "citation_number": 1,
+      "year": "2025"
+    },
+    {
+      "title": "Comparing LLMs and Proposing an ML-Based Approach for Search String Generation in Systematic Literature Reviews",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:abG-DnoFyZgC",
+      "authors_list": "DA Marassi, JA Pereira, KR Felizardo",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 852-858, 2025",
+      "citation_number": 1,
+      "year": "2025"
+    },
+    {
+      "title": "Pain in a Safe Space: Mapping Emotions and Discourse in theWomenintech Subreddit",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:b0M2c_1WBrUC",
+      "authors_list": "J Ribas, J Carneiro, T Sousa, J Azevedo, J Januário, A Uchôa, JA Pereira",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 727-733, 2025",
+      "citation_number": 1,
+      "year": "2025"
+    },
+    {
+      "title": "Unveiling the Impact of Sampling on Feature Selection for Performance Prediction in Configurable Systems",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:D03iK_w7-QYC",
+      "authors_list": "JM Bessal, M Cavalcanti, M Acher, M Endler, JA Pereira",
+      "publication_place": "2025 IEEE/ACM 22nd International Conference on Software and Systems Reuse …, 2025",
+      "citation_number": 1,
+      "year": "2025"
+    },
+    {
+      "title": "Explorando o Potencial e a Viabilidade de LLMs Open-Source na Análise de Sentimentos",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:3s1wT3WcHBgC",
+      "authors_list": "BB Neves, T Sousa, D Coutinho, A Garcia, JA Pereira",
+      "publication_place": "Congresso Brasileiro de Software: Teoria e Prática (CBSoft), 89-98, 2024",
+      "citation_number": 1,
+      "year": "2024"
+    },
+    {
+      "title": "Code Smell Classification in Python: Are Small Language Models Up to the Task?",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:dshw04ExmUIC",
+      "authors_list": "IS de Oliveira, J Carneiro, J Ribas, JA Pereira",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 699-705, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "RAISE: A Self-Hosted Platform for Mining and Managing Data from GitHub and Jira",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:KxtntwgDAa4C",
+      "authors_list": "B Neves, D Coutinho, E Sardenberg, A Alesi, M Machado, J Arriel, ...",
+      "publication_place": "Simpósio Brasileiro de Componentes, Arquiteturas e Reutilização de Software …, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "Evaluating the Potential of Large Language Models in Security-Related Software Requirements Classification",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:nb7KW1ujOQ8C",
+      "authors_list": "M Martin, D Coutinho, A Uchôa, JA Pereira",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 315-325, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "Unconscious Bias and Perceived Discrimination by Tech Professionals in Brazil",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:xtRiw3GOFMkC",
+      "authors_list": "T Canuto, J Azevedo, J Ribas, A Uchôa, L Rocha, JA Pereira",
+      "publication_place": "Congresso Brasileiro de Software: Teoria e Prática (CBSoft), 54-55, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "Diversity Matters: Perceived Inclusion and Discrimination by Brazilian Tech Professionals",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:NhqRSupF_l8C",
+      "authors_list": "T Sousa, J Azevedo, J Ribas, A Uchôa, L Rocha, JA Pereira",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 371-381, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "PRemo: A Dataset of Emotions Found on Pull Request Discussions",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:_xSYboBqXhAC",
+      "authors_list": "D Coutinho, JA Pereira, BB Neves, J Correia, C Barbosa, WKG Assunção, ...",
+      "publication_place": "Simpósio Brasileiro de Engenharia de Software (SBES), 326-336, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "On the Use of GPT to Reveal Common Questions in Developers’ Discussions",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:EUQCXRtRnyEC",
+      "authors_list": "CT Ramalho, A Garcia, JA Pereira, WKG Assunção, D Coutinho, ...",
+      "publication_place": "2025 IEEE 49th Annual Computers, Software, and Applications Conference …, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "Linux Kernel Configurations at Scale: A Dataset for Performance and Evolution Analysis",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:4OULZ7Gr8RgC",
+      "authors_list": "H Borges, JA Pereira, DE Khelladi, M Acher",
+      "publication_place": "arXiv preprint arXiv:2505.07487, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "Proceedings of the 19th International Working Conference on Variability Modelling of Software-Intensive Systems",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:f2IySw72cVMC",
+      "authors_list": "M Acher, J Alves Pereira, C Quinton",
+      "publication_place": "ACM, 2025",
+      "citation_number": 0,
+      "year": "2025"
+    },
+    {
+      "title": "On the Investigation of Exception Pull Request Characteristics: Exploring the Apache Ecosystem",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:g5m5HwL7SMYC",
+      "authors_list": "J Correia, D Coutinho, A Garcia, R de Mello, C Barbosa, A Oliveira, ...",
+      "publication_place": "2024 IEEE International Conference on Source Code Analysis and Manipulation …, 2024",
+      "citation_number": 0,
+      "year": "2024"
+    },
+    {
+      "title": "“I am always tired”: Perceptions on Mental Health and Productivity Metrics",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:rO6llkc54NcC",
+      "authors_list": "J Azevedo, T Sousa, J Arriel, P Mann, A Garcia, JA Pereira",
+      "publication_place": "Congresso Brasileiro de Software: Teoria e Prática (CBSoft), 79-88, 2024",
+      "citation_number": 0,
+      "year": "2024"
+    },
+    {
+      "title": "Effect of Feature Subset Selection on Samplings for Performance Prediction of Configurable Systems",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:lSLTfruPkqcC",
+      "authors_list": "JMB Rodrigues, JA Pereira",
+      "publication_place": "Simpósio Brasileiro de Sistemas de Informação (SBSI), 164-173, 2024",
+      "citation_number": 0,
+      "year": "2024"
+    },
+    {
+      "title": "SPLC'24: Proceedings of the 28th ACM International Systems and Software Product Line Conference, SPLC 2024, Dommeldange, Luxembourg, September 2-6, 2024",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:u_35RYKgDlwC",
+      "authors_list": "M Cordy, D Strüber, M Pinto, I Groher, D Dhungana, J Krüger, JA Pereira, ...",
+      "publication_place": "New York: ACM, 2024",
+      "citation_number": 0,
+      "year": "2024"
+    },
+    {
+      "title": "28th International Systems and Software Product Line Conference (SPLC)-Volume B",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:pqnbT2bcN3wC",
+      "authors_list": "M Cordy, D Strüber, M Pinto, I Groher, D Dhungana, J Krüger, JA Pereira, ...",
+      "publication_place": "ACM Press, 2024",
+      "citation_number": 0,
+      "year": "2024"
+    },
+    {
+      "title": "Analyzing a Semantics-Aware Bug Seeding Tool's Efficacy: A qualitative study with the SemSeed tool",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=mCaYwHAAAAAJ&pagesize=100&citation_for_view=mCaYwHAAAAAJ:2P1L_qKh6hAC",
+      "authors_list": "VC Martins, C T. Ramalho, L Cordeiro Marques, J Alves Pereira, A Garcia, ...",
+      "publication_place": "Proceedings of the XXXVII Brazilian Symposium on Software Engineering, 246-256, 2023",
+      "citation_number": 0,
+      "year": "2023"
+    }
+  ]
+}

@@ -5,9 +5,9 @@ import { Box, Paper, Container, Text, Loader, Center } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";
-import InfiniteCarousel from "@/components/InfiniteCarousel";
+import Carousel from "@/components/Carousel";
+import PersonCard, { PersonCardProps } from "@/components/PersonCard";
 import SectionWithHeader from "@/components/SectionWithHeader";
-import type { PersonCardProps } from "@/components/PersonCard";
 import homeContent from "@/../public/json/home-content.json";
 
 interface TeamMember {
@@ -139,14 +139,19 @@ export default function TeamSection() {
           {isLoading ? (
             <LoadingState />
           ) : teamData.length > 0 ? (
-            <InfiniteCarousel
-              people={teamData}
+            <Carousel
               autoPlay
               autoPlayInterval={5000}
               showDots
-              cardWidth={280}
-              cardWidthMobile={200}
-            />
+              itemWidth={280}
+              itemWidthMobile={200}
+              itemsPerView={1}
+              itemsPerViewMobile={1}
+            >
+              {teamData.map((person, index) => (
+                <PersonCard key={`${person.name}-${index}`} {...person} cardWidth={isMobile ? 200 : 280} />
+              ))}
+            </Carousel>
           ) : (
             <EmptyState />
           )}
