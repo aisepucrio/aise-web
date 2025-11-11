@@ -2,28 +2,52 @@ import { NextRequest, NextResponse } from "next/server";
 import { ToolsPayload } from "@/lib/schemas";
 import { requireBearer } from "@/lib/auth";
 import { saveJson } from "@/lib/blob";
+import { normalizeImgboxInData } from "@/lib/imgbox";
 
 export const runtime = "nodejs";
 
-export async function POST(req: NextRequest) {
-  // Rejeita outros métodos
-  if (req.method !== "POST") {
-    return NextResponse.json({ error: "method not allowed" }, { status: 405 });
-  }
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  };
+}
 
-  // Auth mínima
+export async function OPTIONS() {
+  return NextResponse.json({}, { status: 200, headers: corsHeaders() });
+}
+
+export async function POST(req: NextRequest) {
   if (!requireBearer(req.headers.get("authorization"))) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { ok: false, error: "unauthorized" }, 
+      { status: 401, headers: corsHeaders() }
+    );
   }
 
   try {
     const body = await req.json();
-    const parsed = ToolsPayload.parse(body); // valida JSON
-    await saveJson("lab/tools.json", parsed); // sobrescreve no Blob
-    return NextResponse.json({ ok: true, key: "lab/tools.json", count: parsed.length });
+    const parsed = ToolsPayload.parse(body);
+    const normalized = normalizeImgboxInData(parsed);
+    const blob = await saveJson("lab/tools.json", normalized);
+    
+    return NextResponse.json({
+      ok: true,
+      count: normalized.length,
+      message: `${normalized.length} ferramentas publicadas com sucesso`,
+      blob: { url: blob.url, pathname: blob.pathname },
+    }, { headers: corsHeaders() });
+    
   } catch (e: any) {
-    const msg = e?.issues ? "invalid payload" : (e?.message ?? "error");
-    const code = e?.issues ? 400 : 500;
-    return NextResponse.json({ error: msg }, { status: code });
+    const isValidation = !!e?.issues;
+    return NextResponse.json({ 
+      ok: false,
+      error: isValidation ? "invalid payload" : e?.message || "error",
+      details: e?.issues || e?.message,
+    }, { 
+      status: isValidation ? 400 : 500, 
+      headers: corsHeaders() 
+    });
   }
 }

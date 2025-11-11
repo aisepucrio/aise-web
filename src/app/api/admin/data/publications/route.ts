@@ -5,25 +5,47 @@ import { saveJson } from "@/lib/blob";
 
 export const runtime = "nodejs";
 
-export async function POST(req: NextRequest) {
-  // Rejeita outros métodos
-  if (req.method !== "POST") {
-    return NextResponse.json({ error: "method not allowed" }, { status: 405 });
-  }
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  };
+}
 
-  // Auth mínima
+export async function OPTIONS() {
+  return NextResponse.json({}, { status: 200, headers: corsHeaders() });
+}
+
+export async function POST(req: NextRequest) {
   if (!requireBearer(req.headers.get("authorization"))) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { ok: false, error: "unauthorized" }, 
+      { status: 401, headers: corsHeaders() }
+    );
   }
 
   try {
     const body = await req.json();
-    const parsed = PublicationsPayload.parse(body); // valida JSON
-    await saveJson("lab/publications.json", parsed); // sobrescreve no Blob
-    return NextResponse.json({ ok: true, key: "lab/publications.json", count: parsed.length });
+    const parsed = PublicationsPayload.parse(body);
+    const blob = await saveJson("lab/publications.json", parsed);
+    
+    return NextResponse.json({
+      ok: true,
+      count: parsed.length,
+      message: `${parsed.length} publicações publicadas com sucesso`,
+      blob: { url: blob.url, pathname: blob.pathname },
+    }, { headers: corsHeaders() });
+    
   } catch (e: any) {
-    const msg = e?.issues ? "invalid payload" : (e?.message ?? "error");
-    const code = e?.issues ? 400 : 500;
-    return NextResponse.json({ error: msg }, { status: code });
+    const isValidation = !!e?.issues;
+    return NextResponse.json({ 
+      ok: false,
+      error: isValidation ? "invalid payload" : e?.message || "error",
+      details: e?.issues || e?.message,
+    }, { 
+      status: isValidation ? 400 : 500, 
+      headers: corsHeaders() 
+    });
   }
 }
