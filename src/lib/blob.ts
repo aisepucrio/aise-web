@@ -7,6 +7,7 @@ export async function saveJson(key: string, data: unknown): Promise<void> {
     access: "public", // Vercel Blob requer public; controle via token
     addRandomSuffix: false,
     contentType: "application/json",
-    token: process.env.BLOB_RW_TOKEN,
+    token: process.env.AISE_WEB_BLOB_READ_WRITE_TOKEN
+,
   });
 }
