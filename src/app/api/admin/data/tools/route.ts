@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { ToolsPayload } from "@/lib/schemas";
 import { requireBearer } from "@/lib/auth";
 import { saveJson } from "@/lib/blob";
-import { resolveImgboxInData } from "@/lib/imgbox";
 
 export const runtime = "nodejs";
 
@@ -34,16 +33,13 @@ export async function POST(req: NextRequest) {
     
     const parsed = ToolsPayload.parse(toolsData);
     
-    // Converte URLs do imgbox para URLs completas
-    const resolved = await resolveImgboxInData(parsed);
-    
     // Salva no Blob com URLs já resolvidas
-    const blob = await saveJson("lab/tools.json", { tools: resolved });
-    
+    const blob = await saveJson("lab/tools.json", { tools: parsed });
+
     return NextResponse.json({
       ok: true,
-      count: resolved.length,
-      message: `${resolved.length} ferramentas publicadas com sucesso`,
+      count: parsed.length,
+      message: `${parsed.length} ferramentas publicadas com sucesso`,
       blob: { url: blob.url, pathname: blob.pathname },
     }, { headers: corsHeaders() });
     

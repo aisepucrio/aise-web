@@ -1,13 +1,5 @@
 "use client";
 
-/* =========================================================
-   [UNIÃO FINAL] toolCardCompact (Next.js + Mantine + React)
-   - Usa var(--primary)
-   - Mobile: sem overlay de hover + hint "Abrir"
-   - Desktop: overlay de hover funcional "como antes"
-   - Largura responsiva: 80vw centralizado
-   ========================================================= */
-
 import React, { useState, KeyboardEvent } from "react";
 import {
   Box,

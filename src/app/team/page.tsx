@@ -19,10 +19,10 @@ import { motion } from "framer-motion";
 import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";
-import ImgboxImage from "@/components/ImgboxImage";
 import teamPageContent from "@/../public/json/team-page-content.json";
 import { IconUsers } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 type TeamMember = {
   name: string;
@@ -147,7 +147,7 @@ const TeamMemberListItem = ({
               position: "relative",
             }}
           >
-            <ImgboxImage
+            <Image
               src={member.imageUrl}
               alt={member.name}
               width={isMobile ? 60 : 90}
@@ -298,7 +298,7 @@ const TeamMemberGridItem = ({
               position: "relative",
             }}
           >
-            <ImgboxImage
+            <Image
               src={member.imageUrl}
               alt={member.name}
               width={120}

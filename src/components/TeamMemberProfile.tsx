@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import {
   Container,
   Box,
@@ -13,7 +14,6 @@ import {
   Title,
 } from "@mantine/core";
 import { motion } from "framer-motion";
-import ImgboxImage from "@/components/ImgboxImage";
 import {
   IconBulb,
   IconCopy,
@@ -135,7 +135,7 @@ export default function TeamMemberProfile({
                   boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                 }}
               >
-                <ImgboxImage
+                <Image
                   src={member.imageUrl}
                   alt={member.name}
                   fill

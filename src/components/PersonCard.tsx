@@ -5,7 +5,7 @@ import { Card, Text, Box, ActionIcon } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "@mantine/hooks";
-import ImgboxImage from "@/components/ImgboxImage";
+import Image from "next/image";
 
 export interface PersonCardProps {
   name: string;
@@ -96,7 +96,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
           overflow: "hidden",
         }}
       >
-        <ImgboxImage
+        <Image
           src={imageUrl}
           alt={`Foto de ${name}`}
           fill
