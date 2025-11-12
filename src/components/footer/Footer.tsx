@@ -26,17 +26,24 @@ import {
 } from "@tabler/icons-react";
 import footerData from "@/../public/json/footer-content.json";
 import toolsData from "@/../public/json/data/tools-data.json";
-import paperData from "@/../public/json/data/publications-data.json";
 import formatCountFromArray from "@/components/footer/formatCount";
 
 export default function Footer() {
   const [teamCount, setTeamCount] = useState(0);
+  const [publicationsCount, setPublicationsCount] = useState(0);
 
   useEffect(() => {
     fetch("/api/data/team")
       .then((res) => res.json())
       .then((data) => setTeamCount(data.team?.filter(Boolean).length || 0))
       .catch(() => setTeamCount(0));
+
+    fetch("/api/data/publications")
+      .then((res) => res.json())
+      .then((data) =>
+        setPublicationsCount(data.publications?.filter(Boolean).length || 0)
+      )
+      .catch(() => setPublicationsCount(0));
   }, []);
 
   const scrollToTop = () => {
@@ -125,10 +132,9 @@ export default function Footer() {
                   <IconCode size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
-                      {formatCountFromArray(
-                        paperData.publications_data,
-                        footerData.stats.publications
-                      )}
+                      {publicationsCount > 0
+                        ? publicationsCount
+                        : footerData.stats.publications}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Publications

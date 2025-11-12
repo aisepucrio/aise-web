@@ -9,9 +9,10 @@ import {
   Select,
   Pagination,
   TextInput,
+  Loader,
+  Center,
 } from "@mantine/core";
 import { IconFilter, IconFileText, IconSearch } from "@tabler/icons-react";
-import publicationsData from "@/../public/json/data/publications-data.json";
 import publicationsContent from "@/../public/json/publications-page-content.json";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";
@@ -38,13 +39,28 @@ type SortOption =
   | "name-desc";
 
 export default function PublicationsPage() {
-  const allPublications: Publication[] = publicationsData.publications_data;
+  const [allPublications, setAllPublications] = useState<Publication[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const isMobile = useMediaQuery("(max-width: 62em)");
   const [gridKey, setGridKey] = useState(0);
   const [sortBy, setSortBy] = useState<SortOption>("year-desc");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 10;
+
+  // Busca publications da API
+  useEffect(() => {
+    fetch("/api/data/publications")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllPublications(data.publications || []);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error loading publications:", error);
+        setIsLoading(false);
+      });
+  }, []);
 
   // Re-renderiza o grid quando o componente monta
   useEffect(() => {
@@ -129,6 +145,22 @@ export default function PublicationsPage() {
   useEffect(() => {
     setCurrentPage(1);
   }, [sortBy, searchQuery]);
+
+  if (isLoading) {
+    return (
+      <Box
+        style={{
+          minHeight: "100vh",
+          backgroundColor: "var(--primary)",
+          paddingTop: isMobile ? 80 : 100,
+        }}
+      >
+        <Center h={400}>
+          <Loader size="lg" color="white" />
+        </Center>
+      </Box>
+    );
+  }
 
   return (
     <Box

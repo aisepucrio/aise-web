@@ -93,7 +93,7 @@ const useToolPublications = (toolId: string) => {
       try {
         const [relationshipsRes, publicationsRes] = await Promise.all([
           fetch("/json/tool-publications-relationships.json"),
-          fetch("/json/data/publications-data.json"),
+          fetch("/api/data/publications"),
         ]);
 
         const relationshipsData = await relationshipsRes.json();
@@ -104,7 +104,7 @@ const useToolPublications = (toolId: string) => {
         );
 
         if (toolRelationship) {
-          const relatedPublications = publicationsData.publications_data
+          const relatedPublications = (publicationsData.publications || [])
             .filter((publication: any) =>
               toolRelationship.publications.includes(publication.title)
             )
