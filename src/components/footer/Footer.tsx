@@ -25,7 +25,6 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import footerData from "@/../public/json/footer-content.json";
-import formatCountFromArray from "@/components/footer/formatCount";
 
 export default function Footer() {
   const [teamCount, setTeamCount] = useState(0);
@@ -33,19 +32,19 @@ export default function Footer() {
   const [toolsCount, setToolsCount] = useState(0);
 
   useEffect(() => {
-    fetch("/api/data/team")
+    fetch("/api/team")
       .then((res) => res.json())
       .then((data) => setTeamCount(data.team?.filter(Boolean).length || 0))
       .catch(() => setTeamCount(0));
 
-    fetch("/api/data/publications")
+    fetch("/api/publications")
       .then((res) => res.json())
       .then((data) =>
         setPublicationsCount(data.publications?.filter(Boolean).length || 0)
       )
       .catch(() => setPublicationsCount(0));
 
-    fetch("/api/data/tools")
+    fetch("/api/tools")
       .then((res) => res.json())
       .then((data) => setToolsCount(data.tools?.filter(Boolean).length || 0))
       .catch(() => setToolsCount(0));

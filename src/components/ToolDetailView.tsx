@@ -316,21 +316,22 @@ export default function ToolDetailView({
                 spacing={isMobile ? "lg" : "xl"}
               >
                 {/* Objetivos */}
-                {Array.isArray(tool.objectives) && tool.objectives.length > 0 && (
-                  <Box>
-                    <ToolSectionTitle
-                      icon={<IconTargetArrow size={isMobile ? 20 : 24} />}
-                      title={pageContent.sections.objectives.title}
-                      isMobile={isMobile}
-                    >
-                      <IconList
-                        items={tool.objectives}
-                        icon={<IconCheck />}
+                {Array.isArray(tool.objectives) &&
+                  tool.objectives.length > 0 && (
+                    <Box>
+                      <ToolSectionTitle
+                        icon={<IconTargetArrow size={isMobile ? 20 : 24} />}
+                        title={pageContent.sections.objectives.title}
                         isMobile={isMobile}
-                      />
-                    </ToolSectionTitle>
-                  </Box>
-                )}
+                      >
+                        <IconList
+                          items={tool.objectives}
+                          icon={<IconCheck />}
+                          isMobile={isMobile}
+                        />
+                      </ToolSectionTitle>
+                    </Box>
+                  )}
 
                 {/* Features */}
                 {Array.isArray(tool.features) && tool.features.length > 0 && (

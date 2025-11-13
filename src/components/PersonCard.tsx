@@ -15,6 +15,7 @@ export interface PersonCardProps {
   onClick?: () => void;
   cardWidth?: number;
   roles?: string[];
+  viewProfileText?: string;
 }
 
 const MotionCard = motion(Card as any);
@@ -45,6 +46,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
   onClick,
   cardWidth: propCardWidth,
   roles,
+  viewProfileText = "View profile",
 }) => {
   const isMobile = useMediaQuery("(max-width: 62em)");
 
@@ -152,7 +154,7 @@ export const PersonCard: React.FC<PersonCardProps> = ({
               lh={1}
               style={{ letterSpacing: 0.2 }}
             >
-              Ver perfil
+              {viewProfileText}
             </Text>
             <ActionIcon
               variant="light"

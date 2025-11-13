@@ -31,7 +31,7 @@ const useTeamData = () => {
 
     const loadTeamData = async () => {
       try {
-        const res = await fetch("/api/data/team", {
+        const res = await fetch("/api/team", {
           cache: "no-store",
         });
 
@@ -47,6 +47,7 @@ const useTeamData = () => {
           position: member.position,
           imageUrl: member.imageUrl,
           description: member.description,
+          viewProfileText: homeContent.teamSection.viewProfileText,
         }));
 
         if (mounted) {
@@ -149,7 +150,11 @@ export default function TeamSection() {
               itemsPerViewMobile={1}
             >
               {teamData.map((person, index) => (
-                <PersonCard key={`${person.name}-${index}`} {...person} cardWidth={isMobile ? 200 : 280} />
+                <PersonCard
+                  key={`${person.name}-${index}`}
+                  {...person}
+                  cardWidth={isMobile ? 200 : 280}
+                />
               ))}
             </Carousel>
           ) : (

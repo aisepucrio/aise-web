@@ -6,5 +6,6 @@
   "stats": {
     "label": "Team Members"
   },
-  "noMembersFound": "No team members found."
+  "noMembersFound": "No team members found.",
+  "viewMoreText": "View more"
 }

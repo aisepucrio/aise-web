@@ -37,7 +37,8 @@
     "button": {
       "text": "See Team",
       "href": "/team"
-    }
+    },
+    "viewProfileText": "View profile"
   },
   "toolsSection": {
     "title": "Our Tools",
@@ -45,7 +46,8 @@
     "button": {
       "text": "See Tools",
       "href": "/tools"
-    }
+    },
+    "viewToolText": "View tool"
   },
   "callToAction": {
     "title": "Be part of AISE Lab",

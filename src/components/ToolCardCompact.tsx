@@ -74,9 +74,11 @@ function StatPill({
 export default function toolCardCompact({
   tool,
   index,
+  viewToolText,
 }: {
   tool: tool;
   index: number;
+  viewToolText?: string;
 }) {
   const router = useRouter();
   const theme = useMantineTheme();
@@ -233,13 +235,15 @@ export default function toolCardCompact({
 
               {!isMobile && (
                 <Group gap="md" style={{ flexShrink: 0 }}>
-                  {Array.isArray(tool.techStack) && tool.techStack.length > 0 ? (
+                  {Array.isArray(tool.techStack) &&
+                  tool.techStack.length > 0 ? (
                     <StatPill
                       icon={<IconStack2 size={14} color={PRIMARY} />}
                       value={tool.techStack.length}
                     />
                   ) : null}
-                  {Array.isArray(tool.team_relationships) && tool.team_relationships.length > 0 ? (
+                  {Array.isArray(tool.team_relationships) &&
+                  tool.team_relationships.length > 0 ? (
                     <StatPill
                       icon={<IconUsers size={14} color={PRIMARY} />}
                       value={tool.team_relationships.length}
@@ -259,7 +263,10 @@ export default function toolCardCompact({
             </Text>
 
             {/* Descrição */}
-            <Text size="sm" style={{ color: "#64748b", lineHeight: 1.6, flex: 1 }}>
+            <Text
+              size="sm"
+              style={{ color: "#64748b", lineHeight: 1.6, flex: 1 }}
+            >
               {tool.description}
             </Text>
 
@@ -273,7 +280,8 @@ export default function toolCardCompact({
                     label="techs"
                   />
                 ) : null}
-                {Array.isArray(tool.team_relationships) && tool.team_relationships.length > 0 ? (
+                {Array.isArray(tool.team_relationships) &&
+                tool.team_relationships.length > 0 ? (
                   <StatPill
                     icon={<IconUsers size={14} color={PRIMARY} />}
                     value={tool.team_relationships.length}
@@ -307,10 +315,19 @@ export default function toolCardCompact({
                 }}
               >
                 <Group gap="md">
-                  <Text size="xl" fw={800} style={{ color: "white", letterSpacing: 0.5 }}>
-                    View tool
+                  <Text
+                    size="xl"
+                    fw={800}
+                    style={{ color: "white", letterSpacing: 0.5 }}
+                  >
+                    {viewToolText}
                   </Text>
-                  <ThemeIcon size="xl" radius="xl" color="white" variant="filled">
+                  <ThemeIcon
+                    size="xl"
+                    radius="xl"
+                    color="white"
+                    variant="filled"
+                  >
                     <IconArrowRight size={24} stroke={2.5} color={PRIMARY} />
                   </ThemeIcon>
                 </Group>

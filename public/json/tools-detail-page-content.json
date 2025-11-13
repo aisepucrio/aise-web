@@ -16,7 +16,8 @@
       "title": "Key Features"
     },
     "team": {
-      "title": "Tool Members"
+      "title": "Tool Members",
+      "viewProfileText": "View profile"
     },
     "publications": {
       "title": "Related Publications"

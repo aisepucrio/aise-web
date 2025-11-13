@@ -45,7 +45,7 @@ const useToolsData = () => {
 
     const loadToolsData = async () => {
       try {
-        const res = await fetch("/api/data/tools", {
+        const res = await fetch("/api/tools", {
           cache: "no-store",
         });
 
@@ -118,7 +118,7 @@ const SectionHeader = () => {
 // Loading State Component
 const LoadingState = () => (
   <Center h={400}>
-    <Loader size="lg"  color="var(--primary)" />
+    <Loader size="lg" color="var(--primary)" />
   </Center>
 );
 
@@ -187,7 +187,12 @@ export default function ToolsSection() {
                 itemGapMobile={24}
               >
                 {toolsData.map((tool, index) => (
-                  <ToolCardCompact key={tool.id} tool={tool} index={index} />
+                  <ToolCardCompact
+                    key={tool.id}
+                    tool={tool}
+                    index={index}
+                    viewToolText={homeContent.toolsSection.viewToolText}
+                  />
                 ))}
               </Carousel>
             </Stack>

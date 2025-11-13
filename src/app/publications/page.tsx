@@ -50,7 +50,7 @@ export default function PublicationsPage() {
 
   // Busca publications da API
   useEffect(() => {
-    fetch("/api/data/publications")
+    fetch("/api/publications")
       .then((res) => res.json())
       .then((data) => {
         setAllPublications(data.publications || []);

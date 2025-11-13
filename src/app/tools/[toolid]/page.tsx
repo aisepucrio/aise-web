@@ -55,7 +55,7 @@ const useTool = (id: string) => {
 
     const load = async () => {
       try {
-        const res = await fetch("/api/data/tools", {
+        const res = await fetch("/api/tools", {
           cache: "no-store",
           signal: controller.signal,
         });
@@ -101,10 +101,13 @@ const useToolPublications = (tool: Tool | null) => {
 
     const load = async () => {
       try {
-        const publicationsRes = await fetch("/api/data/publications");
+        const publicationsRes = await fetch("/api/publications");
         const publicationsData = await publicationsRes.json();
 
-        if (tool.publication_relationships && tool.publication_relationships.length > 0) {
+        if (
+          tool.publication_relationships &&
+          tool.publication_relationships.length > 0
+        ) {
           const relatedPublications = (publicationsData.publications || [])
             .filter((publication: any) =>
               tool.publication_relationships?.includes(publication.title)
@@ -145,7 +148,7 @@ const useToolTeam = (tool: Tool | null) => {
 
     const load = async () => {
       try {
-        const teamRes = await fetch("/api/data/team");
+        const teamRes = await fetch("/api/team");
         const teamData = await teamRes.json();
 
         if (tool.team_relationships && tool.team_relationships.length > 0) {
@@ -162,6 +165,7 @@ const useToolTeam = (tool: Tool | null) => {
               imageUrl: member.imageUrl,
               description: member.description,
               roles: memberRolesMap.get(member.name) || [],
+              viewProfileText: pageContent.sections.team.viewProfileText,
             }));
           setTeamMembers(relatedMembers);
         }

@@ -16,9 +16,7 @@ import FlickeringGrid from "@/components/FlickeringGrid";
 import ToolHeroCard from "@/components/ToolHeroCard";
 import PagesHeader from "@/components/PagesHeader";
 import toolsPageContent from "@/../public/json/tools-page-content.json";
-import {
-  IconSparkles,
-} from "@tabler/icons-react";
+import { IconSparkles } from "@tabler/icons-react";
 
 type Tool = {
   id: string;
@@ -35,9 +33,9 @@ type Tool = {
 
 type ToolsData = { tools: Tool[] };
 
-// Carrega /api/data/tools sem cache; mostra toast em erro
+// Carrega /api/tools sem cache; mostra toast em erro
 const useToolsData = () => {
-  const [tools, setTools] = useState<Tool[]>([]);
+  const [toolsData, setToolsData] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -45,12 +43,12 @@ const useToolsData = () => {
 
     const load = async () => {
       try {
-        const res = await fetch("/api/data/tools", {
+        const res = await fetch("/api/tools", {
           cache: "no-store",
         });
         if (!res.ok) throw new Error("Falha ao carregar dados");
         const data: ToolsData = await res.json();
-        if (mounted) setTools(data.tools);
+        if (mounted) setToolsData(data.tools);
       } catch {
         if (mounted) {
           notifications.show({
@@ -59,7 +57,7 @@ const useToolsData = () => {
             color: "red",
             withCloseButton: true,
           });
-          setTools([]);
+          setToolsData([]);
         }
       } finally {
         if (mounted) setIsLoading(false);
@@ -72,11 +70,11 @@ const useToolsData = () => {
     };
   }, []);
 
-  return { tools, isLoading };
+  return { toolsData, isLoading };
 };
 
 export default function ToolsPage() {
-  const { tools, isLoading } = useToolsData();
+  const { toolsData: tools, isLoading } = useToolsData();
   const isMobile = useMediaQuery("(max-width: 62em)");
   const [gridKey, setGridKey] = useState(0);
 
@@ -125,9 +123,7 @@ export default function ToolsPage() {
             !isLoading && tools.length > 0
               ? [
                   {
-                    label:
-                      toolsPageContent?.stats?.totalLabel ??
-                      "Total Tools",
+                    label: toolsPageContent?.stats?.totalLabel ?? "Total Tools",
                     value: tools.length,
                   },
                 ]

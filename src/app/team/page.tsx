@@ -45,7 +45,7 @@ const useTeamData = () => {
 
     const load = async () => {
       try {
-        const res = await fetch("/api/data/team", { cache: "no-store" });
+        const res = await fetch("/api/team", { cache: "no-store" });
         if (!res.ok) throw new Error("Falha ao carregar dados");
         const data: TeamData = await res.json();
 
@@ -346,7 +346,7 @@ const TeamMemberGridItem = ({
             fontWeight: 600,
           }}
         >
-          Ver mais
+          {teamPageContent.viewMoreText}
         </Box>
       </Card>
     </motion.div>
