@@ -25,12 +25,12 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import footerData from "@/../public/json/footer-content.json";
-import toolsData from "@/../public/json/data/tools-data.json";
 import formatCountFromArray from "@/components/footer/formatCount";
 
 export default function Footer() {
   const [teamCount, setTeamCount] = useState(0);
   const [publicationsCount, setPublicationsCount] = useState(0);
+  const [toolsCount, setToolsCount] = useState(0);
 
   useEffect(() => {
     fetch("/api/data/team")
@@ -44,6 +44,11 @@ export default function Footer() {
         setPublicationsCount(data.publications?.filter(Boolean).length || 0)
       )
       .catch(() => setPublicationsCount(0));
+
+    fetch("/api/data/tools")
+      .then((res) => res.json())
+      .then((data) => setToolsCount(data.tools?.filter(Boolean).length || 0))
+      .catch(() => setToolsCount(0));
   }, []);
 
   const scrollToTop = () => {
@@ -107,10 +112,7 @@ export default function Footer() {
                   <IconBrain size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
-                      {formatCountFromArray(
-                        toolsData.tools,
-                        footerData.stats.tools
-                      )}
+                      {toolsCount > 0 ? toolsCount : footerData.stats.tools}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Tools

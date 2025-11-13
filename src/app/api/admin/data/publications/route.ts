@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "POST, PUT, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
   };
 }
@@ -17,7 +17,7 @@ export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders() });
 }
 
-export async function POST(req: NextRequest) {
+async function savePublications(req: NextRequest) {
   if (!requireBearer(req.headers.get("authorization"))) {
     return NextResponse.json(
       { ok: false, error: "unauthorized" }, 
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       count: parsed.length,
-      message: `${parsed.length} publicações publicadas com sucesso`,
+      message: `${parsed.length} publicações salvas com sucesso`,
       blob: { url: blob.url, pathname: blob.pathname },
     }, { headers: corsHeaders() });
     
@@ -54,4 +54,12 @@ export async function POST(req: NextRequest) {
       headers: corsHeaders() 
     });
   }
+}
+
+export async function POST(req: NextRequest) {
+  return savePublications(req);
+}
+
+export async function PUT(req: NextRequest) {
+  return savePublications(req);
 }

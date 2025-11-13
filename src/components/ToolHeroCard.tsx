@@ -22,7 +22,7 @@ type Tool = {
   name: string;
   tagline: string;
   description: string;
-  imageUrl: string;
+  highlightImageUrl: string;
   category: string;
   status: "active" | "pilot" | "archived" | string;
   duration: string;
@@ -102,7 +102,7 @@ export default function ToolHeroCard({
                 position: "absolute",
                 inset: 0,
                 overflow: "hidden",
-                backgroundImage: `url(${tool.imageUrl})`,
+                backgroundImage: `url(${tool.highlightImageUrl})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center center",
@@ -112,11 +112,14 @@ export default function ToolHeroCard({
 
           <Stack
             gap="md"
-            justify="center"
             p={isMobile ? "xl" : 48}
             style={{
               order: isMobile ? 2 : isEven ? 2 : 1,
               position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
             }}
           >
             {/* Número grande de fundo indicando a ordem do cartão */}
@@ -187,19 +190,17 @@ export default function ToolHeroCard({
             {/* Tech stack: lista de tecnologias em badges (condicional) */}
             {tool.techStack?.length ? (
               <Group gap={6} mb="md">
-                {tool.techStack
-                  .slice(0, isMobile ? 3 : 5)
-                  .map((tech, idx) => (
-                    <Badge
-                      key={idx}
-                      color={"var(--primary)"}
-                      variant="light"
-                      radius="sm"
-                      size="md"
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
+                {tool.techStack.slice(0, isMobile ? 3 : 5).map((tech, idx) => (
+                  <Badge
+                    key={idx}
+                    color={"var(--primary)"}
+                    variant="light"
+                    radius="sm"
+                    size="md"
+                  >
+                    {tech}
+                  </Badge>
+                ))}
                 {tool.techStack.length > (isMobile ? 3 : 5) && (
                   <Text size="xs" c="dimmed" fw={600}>
                     +{tool.techStack.length - (isMobile ? 3 : 5)} more
@@ -208,27 +209,29 @@ export default function ToolHeroCard({
               </Group>
             ) : null}
 
-            <ToolDurationInfo
-              icon={<IconClock size={14} color="var(--primary)" />}
-              label="Duration"
-              value={tool.duration}
-              size={isMobile ? "sm" : "md"}
-            />
+            {/* CTA: ver detalhes do projeto - alinhado à direita */}
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <ToolDurationInfo
+                icon={<IconClock size={14} color="var(--primary)" />}
+                label="Duration"
+                value={tool.duration}
+                size={isMobile ? "sm" : "md"}
+              />
 
-            {/* CTA: ver detalhes do projeto */}
-            <Group gap="xs" style={{ color: "var(--primary)" }}>
-              <Text size="md" fw={700}>
-                {ctaLabel}
-              </Text>
-              <ThemeIcon
-                size={32}
-                radius="xl"
-                variant="light"
-                color="var(--primary)"
-              >
-                <IconArrowRight size={18} />
-              </ThemeIcon>
-            </Group>
+              <Group gap="xs" style={{ color: "var(--primary)" }}>
+                <Text size="md" fw={700}>
+                  {ctaLabel}
+                </Text>
+                <ThemeIcon
+                  size={32}
+                  radius="xl"
+                  variant="light"
+                  color="var(--primary)"
+                >
+                  <IconArrowRight size={18} />
+                </ThemeIcon>
+              </Group>
+            </div>
           </Stack>
         </Box>
       </MotionBox>

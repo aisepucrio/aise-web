@@ -31,7 +31,7 @@ import Carousel from "@/components/Carousel";
 import PersonCard, { PersonCardProps } from "@/components/PersonCard";
 import PublicationCard from "@/components/PublicationCard";
 import { BadgeBox } from "@/components/BadgeBox";
-import { SectionTitle } from "@/components/SectionTitle";
+import { ToolSectionTitle } from "@/components/ToolSectionTitle";
 import LinkGroup from "@/components/LinkGroup";
 import ToolDurationInfo from "@/components/ToolDurationInfo";
 import { IconList } from "@/components/IconList";
@@ -276,7 +276,7 @@ export default function ToolDetailView({
           {/* Descrição longa */}
           {tool.longDescription && (
             <Box mb={isMobile ? "xl" : 48}>
-              <SectionTitle
+              <ToolSectionTitle
                 icon={<IconSparkles size={isMobile ? 20 : 24} />}
                 title={pageContent.sections.about.title}
                 isMobile={isMobile}
@@ -298,7 +298,7 @@ export default function ToolDetailView({
           {/* Galeria */}
           {tool.gallery && tool.gallery.length > 0 && (
             <Box mb={isMobile ? "xl" : 48}>
-              <SectionTitle
+              <ToolSectionTitle
                 icon={<IconPhoto size={isMobile ? 20 : 24} />}
                 title={pageContent.sections.gallery.title}
                 isMobile={isMobile}
@@ -318,7 +318,7 @@ export default function ToolDetailView({
                 {/* Objetivos */}
                 {tool.objectives && tool.objectives.length > 0 && (
                   <Box>
-                    <SectionTitle
+                    <ToolSectionTitle
                       icon={<IconTargetArrow size={isMobile ? 20 : 24} />}
                       title={pageContent.sections.objectives.title}
                       isMobile={isMobile}
@@ -328,14 +328,14 @@ export default function ToolDetailView({
                         icon={<IconCheck />}
                         isMobile={isMobile}
                       />
-                    </SectionTitle>
+                    </ToolSectionTitle>
                   </Box>
                 )}
 
                 {/* Features */}
                 {tool.features && tool.features.length > 0 && (
                   <Box>
-                    <SectionTitle
+                    <ToolSectionTitle
                       icon={<IconStar size={isMobile ? 20 : 24} />}
                       title={pageContent.sections.features.title}
                       isMobile={isMobile}
@@ -345,7 +345,7 @@ export default function ToolDetailView({
                         icon={<IconStar />}
                         isMobile={isMobile}
                       />
-                    </SectionTitle>
+                    </ToolSectionTitle>
                   </Box>
                 )}
               </SimpleGrid>
@@ -355,7 +355,7 @@ export default function ToolDetailView({
           {/* Team Members */}
           {teamMembers.length > 0 && (
             <Box mb={isMobile ? "xl" : 48}>
-              <SectionTitle
+              <ToolSectionTitle
                 icon={<IconUsers size={isMobile ? 20 : 24} />}
                 title={pageContent.sections.team.title}
                 isMobile={isMobile}
@@ -383,7 +383,7 @@ export default function ToolDetailView({
           {/* Publications */}
           {publications.length > 0 && (
             <Box mb={isMobile ? "xl" : 48}>
-              <SectionTitle
+              <ToolSectionTitle
                 icon={<IconFileText size={isMobile ? 20 : 24} />}
                 title={pageContent.sections.publications.title}
                 isMobile={isMobile}

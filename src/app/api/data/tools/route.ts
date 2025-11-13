@@ -1,6 +1,3 @@
-
-// Faz a leitura do arquivo team.json do Blob Storage e retorna os dados como resposta JSON
-
 import { NextResponse } from "next/server";
 import { readJson } from "@/lib/blob";
 
@@ -9,14 +6,13 @@ export const runtime = "nodejs";
 
 export async function GET() {
   try {
-    const data = await readJson("lab/team.json");
+    const data = await readJson("lab/tools.json");
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error reading team from Blob:", error);
+    console.error("Error reading tools from Blob:", error);
     return NextResponse.json(
-      { error: "Team data not found" },
+      { error: "Tools data not found" },
       { status: 404 }
     );
   }
 }
-

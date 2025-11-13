@@ -1,3 +1,6 @@
+
+// Faz a leitura do arquivo publications.json do Blob Storage e retorna os dados como resposta JSON
+
 import { NextResponse } from "next/server";
 import { readJson } from "@/lib/blob";
 

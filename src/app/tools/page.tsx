@@ -25,7 +25,7 @@ type Tool = {
   name: string;
   tagline: string;
   description: string;
-  imageUrl: string;
+  highlightImageUrl: string;
   category: string;
   status: "active" | "pilot" | "archived" | string;
   duration: string;
@@ -35,7 +35,7 @@ type Tool = {
 
 type ToolsData = { tools: Tool[] };
 
-// Carrega /json/data/tools-data.json sem cache; mostra toast em erro
+// Carrega /api/data/tools sem cache; mostra toast em erro
 const useToolsData = () => {
   const [tools, setTools] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,7 +45,7 @@ const useToolsData = () => {
 
     const load = async () => {
       try {
-        const res = await fetch("/json/data/tools-data.json", {
+        const res = await fetch("/api/data/tools", {
           cache: "no-store",
         });
         if (!res.ok) throw new Error("Falha ao carregar dados");

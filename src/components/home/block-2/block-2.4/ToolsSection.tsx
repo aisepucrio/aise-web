@@ -24,11 +24,11 @@ interface Tool {
   name: string;
   tagline: string;
   description: string;
-  imageUrl: string;
+  highlightImageUrl: string;
   category: string;
   status: string;
   techStack?: string[];
-  team?: any[];
+  team_relationships?: any[];
 }
 
 interface ToolsData {
@@ -45,7 +45,7 @@ const useToolsData = () => {
 
     const loadToolsData = async () => {
       try {
-        const res = await fetch("/json/data/tools-data.json", {
+        const res = await fetch("/api/data/tools", {
           cache: "no-store",
         });
 

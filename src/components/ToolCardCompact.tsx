@@ -30,11 +30,11 @@ type tool = {
   name: string;
   tagline: string;
   description: string;
-  imageUrl: string;
+  highlightImageUrl: string;
   category: string;
   status: "Active" | "Pilot" | "Archived" | string;
   techStack?: string[];
-  team?: any[];
+  team_relationships?: any[];
 };
 
 /* ===========================
@@ -143,7 +143,7 @@ export default function toolCardCompact({
                 style={{
                   position: "absolute",
                   inset: 0,
-                  backgroundImage: `url(${tool.imageUrl})`,
+                  backgroundImage: `url(${tool.highlightImageUrl})`,
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
@@ -239,10 +239,10 @@ export default function toolCardCompact({
                       value={tool.techStack.length}
                     />
                   ) : null}
-                  {tool.team?.length ? (
+                  {tool.team_relationships?.length ? (
                     <StatPill
                       icon={<IconUsers size={14} color={PRIMARY} />}
-                      value={tool.team.length}
+                      value={tool.team_relationships.length}
                     />
                   ) : null}
                 </Group>
@@ -273,10 +273,10 @@ export default function toolCardCompact({
                     label="techs"
                   />
                 ) : null}
-                {tool.team?.length ? (
+                {tool.team_relationships?.length ? (
                   <StatPill
                     icon={<IconUsers size={14} color={PRIMARY} />}
-                    value={tool.team.length}
+                    value={tool.team_relationships.length}
                     label="members"
                   />
                 ) : null}

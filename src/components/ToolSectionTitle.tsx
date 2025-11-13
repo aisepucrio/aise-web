@@ -1,7 +1,7 @@
 import React from "react";
 import { Group, ThemeIcon, Title } from "@mantine/core";
 
-interface SectionTitleProps {
+interface ToolSectionTitleProps {
   icon: React.ReactNode; // Icone a ser exibido ao lado do título
   title: string; // Texto do título
   isMobile?: boolean; // Se está em modo mobile (ajusta tamanhos)
@@ -9,7 +9,7 @@ interface SectionTitleProps {
 }
 
 // Componente reutilizável para títulos de seção com ícone.
-export const SectionTitle: React.FC<SectionTitleProps> = ({
+export const ToolSectionTitle: React.FC<ToolSectionTitleProps> = ({
   icon,
   title,
   isMobile = false,
@@ -35,4 +35,4 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
   );
 };
 
-export default SectionTitle;
+export default ToolSectionTitle;

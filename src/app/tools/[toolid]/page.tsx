@@ -20,7 +20,8 @@ type Tool = {
   tagline: string;
   description: string;
   longDescription?: string;
-  imageUrl: string;
+  highlightImageUrl: string;
+  galleryImagesUrl?: string[];
   category: string;
   status: string;
   duration: string;
@@ -34,12 +35,16 @@ type Tool = {
     api?: string;
     docs?: string;
   };
-  gallery?: string[];
+  team_relationships?: Array<{
+    name: string;
+    roles: string[];
+  }>;
+  publication_relationships?: string[];
 };
 
 type ToolsData = { tools: Tool[] };
 
-// Hook: carrega um projeto específico do JSON
+// Hook: carrega um projeto específico da API
 const useTool = (id: string) => {
   const [tool, setTool] = useState<Tool | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +55,7 @@ const useTool = (id: string) => {
 
     const load = async () => {
       try {
-        const res = await fetch("/json/data/tools-data.json", {
+        const res = await fetch("/api/data/tools", {
           cache: "no-store",
           signal: controller.signal,
         });
@@ -83,30 +88,26 @@ const useTool = (id: string) => {
   return { tool, isLoading };
 };
 
-// Hook: carrega publications relacionados ao projeto
-const useToolPublications = (toolId: string) => {
+// Hook: carrega publications relacionados ao projeto (usando relacionamentos embutidos)
+const useToolPublications = (tool: Tool | null) => {
   const [publications, setPublications] = useState<ToolPublication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!tool) {
+      setIsLoading(false);
+      return;
+    }
+
     const load = async () => {
       try {
-        const [relationshipsRes, publicationsRes] = await Promise.all([
-          fetch("/json/tool-publications-relationships.json"),
-          fetch("/api/data/publications"),
-        ]);
-
-        const relationshipsData = await relationshipsRes.json();
+        const publicationsRes = await fetch("/api/data/publications");
         const publicationsData = await publicationsRes.json();
 
-        const toolRelationship = relationshipsData.relationships.find(
-          (r: any) => r.toolId === toolId
-        );
-
-        if (toolRelationship) {
+        if (tool.publication_relationships && tool.publication_relationships.length > 0) {
           const relatedPublications = (publicationsData.publications || [])
             .filter((publication: any) =>
-              toolRelationship.publications.includes(publication.title)
+              tool.publication_relationships?.includes(publication.title)
             )
             .map((pub: any) => ({
               title: pub.title,
@@ -126,38 +127,31 @@ const useToolPublications = (toolId: string) => {
     };
 
     load();
-  }, [toolId]);
+  }, [tool]);
 
   return { publications, isLoading };
 };
 
-// Hook: carrega membros do time relacionados ao projeto
-const useToolTeam = (toolId: string) => {
+// Hook: carrega membros do time relacionados ao projeto (usando relacionamentos embutidos)
+const useToolTeam = (tool: Tool | null) => {
   const [teamMembers, setTeamMembers] = useState<PersonCardProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!tool) {
+      setIsLoading(false);
+      return;
+    }
+
     const load = async () => {
       try {
-        const [relationshipsRes, teamRes] = await Promise.all([
-          fetch("/json/tool-person-relationships.json"),
-          fetch("/api/data/team"),
-        ]);
-
-        const relationshipsData = await relationshipsRes.json();
+        const teamRes = await fetch("/api/data/team");
         const teamData = await teamRes.json();
 
-        const toolRelationship = relationshipsData.relationships.find(
-          (r: any) => r.toolId === toolId
-        );
-
-        if (toolRelationship) {
+        if (tool.team_relationships && tool.team_relationships.length > 0) {
           // Criar um mapa de nomes para roles
           const memberRolesMap = new Map(
-            toolRelationship.teamMembers.map((tm: any) => [
-              typeof tm === "string" ? tm : tm.name,
-              typeof tm === "string" ? [] : tm.roles || [],
-            ])
+            tool.team_relationships.map((tm) => [tm.name, tm.roles || []])
           );
 
           const relatedMembers = teamData.team
@@ -179,7 +173,7 @@ const useToolTeam = (toolId: string) => {
     };
 
     load();
-  }, [toolId]);
+  }, [tool]);
 
   return { teamMembers, isLoading };
 };
@@ -190,8 +184,8 @@ export default function ToolDetailPage() {
   const toolId = (params?.toolid ?? "") as string;
   const { tool, isLoading } = useTool(toolId);
   const { publications, isLoading: publicationsLoading } =
-    useToolPublications(toolId);
-  const { teamMembers, isLoading: teamLoading } = useToolTeam(toolId);
+    useToolPublications(tool);
+  const { teamMembers, isLoading: teamLoading } = useToolTeam(tool);
   const isMobile = useMediaQuery("(max-width: 62em)");
   const [gridKey, setGridKey] = useState(0);
 
@@ -252,12 +246,12 @@ export default function ToolDetailPage() {
     tagline: tool.tagline,
     description: tool.description,
     longDescription: tool.longDescription,
-    imageUrl: tool.imageUrl,
+    imageUrl: tool.highlightImageUrl,
     duration: tool.duration,
     techStack: tool.techStack,
     objectives: tool.objectives,
     features: tool.features,
-    gallery: tool.gallery,
+    gallery: tool.galleryImagesUrl,
     links: tool.links,
   };
 

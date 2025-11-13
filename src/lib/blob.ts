@@ -1,5 +1,8 @@
+// Upload e leitura de JSONs no Vercel Blob Storage
+
 import { put, list } from "@vercel/blob";
 
+// Salva um objeto JSON no Blob Storage
 export async function saveJson(key: string, data: unknown) {
   const blob = await put(key, JSON.stringify(data), {
     access: "public",
@@ -12,6 +15,7 @@ export async function saveJson(key: string, data: unknown) {
   return blob;
 }
 
+// Lê um objeto JSON do Blob Storage
 export async function readJson(key: string): Promise<any | null> {
   try {
     const { blobs } = await list({
