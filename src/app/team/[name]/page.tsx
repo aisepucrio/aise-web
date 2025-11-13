@@ -2,12 +2,22 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Container, Box, Text, Loader, Center, Button, Stack } from "@mantine/core";
+import {
+  Container,
+  Box,
+  Text,
+  Loader,
+  Center,
+  Button,
+  Stack,
+} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconArrowLeft } from "@tabler/icons-react";
 import FlickeringGrid from "@/components/FlickeringGrid";
-import TeamMemberProfile, { TeamMember as TeamMemberType } from "@/components/TeamMemberProfile";
+import TeamMemberProfile, {
+  TeamMember as TeamMemberType,
+} from "@/components/TeamMemberProfile";
 import teamMemberContent from "@/../public/json/team-member-page-content.json";
 
 // Tipos essenciais
@@ -97,15 +107,6 @@ export default function TeamMemberPage() {
     }
   }, [isLoading]);
 
-  const publicationstyle = useMemo<React.CSSProperties>(
-    () => ({
-      background: "rgba(255, 255, 255, 0.98)",
-      backdropFilter: "blur(10px)",
-      borderRadius: 24,
-    }),
-    []
-  );
-
   if (isLoading) {
     return (
       <Box
@@ -172,7 +173,11 @@ export default function TeamMemberPage() {
         flickerChance={0.005}
       />
 
-      <TeamMemberProfile member={member} isMobile={isMobile} onBack={() => router.push("/team")} />
+      <TeamMemberProfile
+        member={member}
+        isMobile={isMobile}
+        onBack={() => router.push("/team")}
+      />
     </Box>
   );
 }

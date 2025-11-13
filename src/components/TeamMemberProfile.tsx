@@ -108,7 +108,12 @@ export default function TeamMemberProfile({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
       >
-        <Paper shadow="xl" p={isMobile ? "lg" : "xl"} mb={isMobile ? 24 : 32} style={publicationstyle}>
+        <Paper
+          shadow="xl"
+          p={isMobile ? "lg" : "xl"}
+          mb={isMobile ? 24 : 32}
+          style={publicationstyle}
+        >
           <Group
             align="flex-start"
             gap={isMobile ? "lg" : "xl"}
@@ -163,7 +168,11 @@ export default function TeamMemberProfile({
             </Box>
 
             {/* Coluna de conteúdo: nome, posição, descrições e badges */}
-            <Stack gap="md" align={isMobile ? "center" : "stretch"} style={{ flex: 1 }}>
+            <Stack
+              gap="md"
+              align={isMobile ? "center" : "stretch"}
+              style={{ flex: 1 }}
+            >
               <Box>
                 <div
                   style={{
@@ -208,30 +217,56 @@ export default function TeamMemberProfile({
                   </div>
 
                   <div style={{ flex: "0 0 auto" }}>
-                    <SocialLinks links={member.socialLinks} isMobile={isMobile} align={isMobile ? "center" : "right"} />
+                    <SocialLinks
+                      links={member.socialLinks}
+                      isMobile={isMobile}
+                      align={isMobile ? "center" : "right"}
+                    />
                   </div>
                 </div>
               </Box>
 
               {/* Descrição curta */}
-              <Text size={isMobile ? "md" : "lg"} c="dimmed" lh={1.6} style={{ textAlign: isMobile ? "center" : undefined }}>
+              <Text
+                size={isMobile ? "md" : "lg"}
+                c="dimmed"
+                lh={1.6}
+                style={{ textAlign: isMobile ? "center" : undefined }}
+              >
                 {member.description}
               </Text>
 
               {/* Interesses de pesquisa (se houver) */}
               {member.researchInterests?.length ? (
-                <BadgeBox title={teamMemberContent.researchInterestsTitle} icon={<IconBulb size={18} />} items={member.researchInterests} />
+                <BadgeBox
+                  title={teamMemberContent.researchInterestsTitle}
+                  icon={<IconBulb size={18} />}
+                  items={member.researchInterests}
+                />
               ) : null}
 
               {/* Tecnologias e expertise (lado a lado no desktop) */}
               {(member.technologies?.length || member.expertise?.length) && (
-                <Group grow align="stretch" gap="md" style={{ flexDirection: isMobile ? "column" : "row" }}>
+                <Group
+                  grow
+                  align="stretch"
+                  gap="md"
+                  style={{ flexDirection: "row" }}
+                >
                   {member.technologies?.length ? (
-                    <BadgeBox title={teamMemberContent.technologiesTitle} icon={<IconCode size={18} />} items={member.technologies} />
+                    <BadgeBox
+                      title={teamMemberContent.technologiesTitle}
+                      icon={<IconCode size={18} />}
+                      items={member.technologies}
+                    />
                   ) : null}
 
                   {member.expertise?.length ? (
-                    <BadgeBox title={teamMemberContent.expertiseTitle} icon={<IconBriefcase size={18} />} items={member.expertise} />
+                    <BadgeBox
+                      title={teamMemberContent.expertiseTitle}
+                      icon={<IconBriefcase size={18} />}
+                      items={member.expertise}
+                    />
                   ) : null}
                 </Group>
               )}
