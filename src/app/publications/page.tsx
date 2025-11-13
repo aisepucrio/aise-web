@@ -150,14 +150,15 @@ export default function PublicationsPage() {
     return (
       <Box
         style={{
+          position: "relative",
           minHeight: "100vh",
           backgroundColor: "var(--primary)",
-          paddingTop: isMobile ? 80 : 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Center h={400}>
-          <Loader size="lg" color="white" />
-        </Center>
+        <Loader size="lg" color="white" />
       </Box>
     );
   }
@@ -292,7 +293,9 @@ export default function PublicationsPage() {
                 citation_number={paper.citation_number}
                 year={paper.year}
                 index={index}
-                viewLabel={publicationsContent.publicationCard.viewPublicationButton}
+                viewLabel={
+                  publicationsContent.publicationCard.viewPublicationButton
+                }
               />
             </motion.div>
           ))}
@@ -300,8 +303,9 @@ export default function PublicationsPage() {
 
         {/* Contagem de Resultados */}
         <Text size="md" c="white" mt={30} ta="center" fw={500}>
-          {publicationsContent.resultsText.showing} {paginatedPublications.length}{" "}
-          {publicationsContent.resultsText.of} {sortedPublications.length}{" "}
+          {publicationsContent.resultsText.showing}{" "}
+          {paginatedPublications.length} {publicationsContent.resultsText.of}{" "}
+          {sortedPublications.length}{" "}
           {publicationsContent.resultsText.publications}
         </Text>
 

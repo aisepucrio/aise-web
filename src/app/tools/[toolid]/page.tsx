@@ -193,29 +193,35 @@ export default function ToolDetailPage() {
   const isMobile = useMediaQuery("(max-width: 62em)");
   const [gridKey, setGridKey] = useState(0);
 
+  // Espera TODOS os dados carregarem antes de renderizar
+  const isFullyLoaded = !isLoading && !publicationsLoading && !teamLoading;
+
   useEffect(() => {
-    if (!isLoading) {
+    if (isFullyLoaded) {
       const timer = setTimeout(() => setGridKey((prev) => prev + 1), 100);
       return () => clearTimeout(timer);
     }
-  }, [isLoading]);
+  }, [isFullyLoaded]);
 
-  if (isLoading) {
+  // Loading state - espera todos os dados
+  if (!isFullyLoaded) {
     return (
       <Box
         style={{
+          position: "relative",
           minHeight: "100vh",
           backgroundColor: "var(--primary)",
-          paddingTop: isMobile ? 80 : 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Center h={400}>
-          <Loader size="lg" color="white" />
-        </Center>
+        <Loader size="lg" color="white" />
       </Box>
     );
   }
 
+  // Tool não encontrado
   if (!tool) {
     return (
       <Box
@@ -281,8 +287,8 @@ export default function ToolDetailPage() {
 
       <ToolDetailView
         tool={toolData}
-        teamMembers={teamLoading ? [] : teamMembers}
-        publications={publicationsLoading ? [] : publications}
+        teamMembers={teamMembers}
+        publications={publications}
         isMobile={isMobile}
         onBack={() => router.push("/tools")}
         content={{

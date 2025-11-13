@@ -8,21 +8,18 @@ import {
   Paper,
   Loader,
   Center,
-  Group,
-  Badge,
   Stack,
-  Card,
   SimpleGrid,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { motion } from "framer-motion";
 import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";
+import { TeamCategoryColumn } from "@/components/TeamCategoryColumn";
+import { TeamCategoryHorizontal } from "@/components/TeamCategoryHorizontal";
+import { TeamCategoryPair } from "@/components/TeamCategoryPair";
 import teamPageContent from "@/../public/json/team-page-content.json";
 import { IconUsers } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 type TeamMember = {
   name: string;
@@ -98,332 +95,6 @@ const generateSlug = (name: string): string =>
     .trim()
     .replace(/\s+/g, "-");
 
-// Componente de item de membro na lista vertical
-const TeamMemberListItem = ({
-  member,
-  index,
-}: {
-  member: TeamMember;
-  index: number;
-}) => {
-  const router = useRouter();
-  const isMobile = useMediaQuery("(max-width: 62em)");
-  const slug = generateSlug(member.name);
-
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-    >
-      <Card
-        padding={isMobile ? "sm" : "md"}
-        radius="md"
-        withBorder
-        style={{
-          cursor: "pointer",
-          transition: "all 0.3s ease",
-          borderColor: isHovered ? "var(--primary)" : "#e9ecef",
-          backgroundColor: "#ffffff",
-          transform: isHovered ? "translateX(4px)" : "translateX(0)",
-          boxShadow: isHovered
-            ? "0 2px 8px rgba(0, 123, 255, 0.15)"
-            : "0 1px 3px rgba(0, 0, 0, 0.05)",
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={() => router.push(`/team/${slug}`)}
-      >
-        <Group gap="md" wrap="nowrap">
-          <Box
-            style={{
-              flexShrink: 0,
-              width: isMobile ? 60 : 90,
-              height: isMobile ? 60 : 90,
-              borderRadius: 8,
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            <Image
-              src={member.imageUrl}
-              alt={member.name}
-              width={isMobile ? 60 : 90}
-              height={isMobile ? 60 : 90}
-              style={{ objectFit: "cover" }}
-            />
-          </Box>
-          <Box style={{ flex: 1, minWidth: 0 }}>
-            <Text
-              fw={600}
-              size={isMobile ? "sm" : "md"}
-              style={{
-                color: "var(--primary)",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {member.name}
-            </Text>
-            <Text
-              size={isMobile ? "xs" : "sm"}
-              c="dimmed"
-              style={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {member.description}
-            </Text>
-          </Box>
-        </Group>
-      </Card>
-    </motion.div>
-  );
-};
-
-// Componente de categoria com lista vertical (MOBILE)
-const TeamCategoryColumn = ({
-  position,
-  members,
-  index,
-}: {
-  position: string;
-  members: TeamMember[];
-  index: number;
-}) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-      style={{ height: "100%" }}
-    >
-      <Paper
-        shadow="none"
-        p="md"
-        radius={0}
-        style={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: "transparent",
-          border: "none",
-          borderLeft: "6px solid var(--primary)",
-          paddingLeft: 16,
-        }}
-      >
-        {/* Cabeçalho da categoria */}
-        <Badge
-          size="md"
-          variant="filled"
-          mb="md"
-          style={{
-            fontSize: "0.85rem",
-            fontWeight: 700,
-            padding: "10px 16px",
-            textTransform: "uppercase",
-            letterSpacing: "0.5px",
-            backgroundColor: "var(--primary)",
-            color: "#ffffff",
-            width: "fit-content",
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-          }}
-        >
-          {position}
-        </Badge>
-
-        {/* Lista vertical de membros */}
-        <Stack gap="xs" style={{ flex: 1 }}>
-          {members.map((member, idx) => (
-            <TeamMemberListItem key={member.name} member={member} index={idx} />
-          ))}
-        </Stack>
-      </Paper>
-    </motion.div>
-  );
-};
-
-// Componente de item de membro em grid (DESKTOP)
-const TeamMemberGridItem = ({
-  member,
-  index,
-}: {
-  member: TeamMember;
-  index: number;
-}) => {
-  const router = useRouter();
-  const slug = generateSlug(member.name);
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3, delay: index * 0.05 }}
-    >
-      <Card
-        padding="md"
-        radius="md"
-        withBorder
-        style={{
-          cursor: "pointer",
-          transition: "all 0.3s ease",
-          borderColor: isHovered ? "var(--primary)" : "#e9ecef",
-          backgroundColor: "#ffffff",
-          transform: isHovered ? "translateY(-4px)" : "translateY(0)",
-          boxShadow: isHovered
-            ? "0 4px 12px rgba(0, 123, 255, 0.2)"
-            : "0 1px 3px rgba(0, 0, 0, 0.05)",
-          height: "100%",
-          position: "relative",
-          overflow: "hidden",
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={() => router.push(`/team/${slug}`)}
-      >
-        <Stack gap="sm" align="center">
-          <Box
-            style={{
-              width: 120,
-              height: 120,
-              borderRadius: 8,
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            <Image
-              src={member.imageUrl}
-              alt={member.name}
-              width={120}
-              height={120}
-              style={{ objectFit: "cover" }}
-            />
-          </Box>
-          <Box style={{ textAlign: "center", width: "100%" }}>
-            <Text
-              fw={600}
-              size="lg"
-              style={{
-                color: "var(--primary)",
-              }}
-            >
-              {member.name}
-            </Text>
-            <Text
-              size="sm"
-              c="dimmed"
-              lineClamp={3}
-              style={{
-                marginTop: 4,
-              }}
-            >
-              {member.description}
-            </Text>
-          </Box>
-        </Stack>
-
-        {/* Indicador "Ver mais" no hover */}
-        <Box
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: "var(--primary)",
-            color: "#ffffff",
-            padding: "8px",
-            textAlign: "center",
-            transform: isHovered ? "translateY(0)" : "translateY(100%)",
-            transition: "transform 0.3s ease",
-            fontSize: "0.875rem",
-            fontWeight: 600,
-          }}
-        >
-          {teamPageContent.viewMoreText}
-        </Box>
-      </Card>
-    </motion.div>
-  );
-};
-
-// Componente de categoria horizontal (DESKTOP)
-const TeamCategoryHorizontal = ({
-  position,
-  members,
-  index,
-}: {
-  position: string;
-  members: TeamMember[];
-  index: number;
-}) => {
-  // Centraliza quando há menos de 3 membros
-  const shouldCenter = members.length < 3;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-    >
-      <Box
-        style={{
-          marginBottom: 40,
-        }}
-      >
-        {/* Título centralizado */}
-        <Text
-          size="xl"
-          fw={700}
-          ta="center"
-          mb="xs"
-          style={{
-            textTransform: "uppercase",
-            letterSpacing: "0.5px",
-            color: "var(--primary)",
-          }}
-        >
-          {position}
-        </Text>
-
-        {/* Barra azul abaixo do título */}
-        <Box
-          style={{
-            width: "100%",
-            height: 6,
-            backgroundColor: "var(--primary)",
-            marginBottom: 24,
-          }}
-        />
-
-        {/* Grid de membros */}
-        <Box
-          style={{
-            display: "grid",
-            gridTemplateColumns: shouldCenter
-              ? `repeat(${members.length}, 1fr)`
-              : "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: "1.5rem",
-            justifyContent: shouldCenter ? "center" : "start",
-            maxWidth: shouldCenter ? `${members.length * 350}px` : "100%",
-            margin: shouldCenter ? "0 auto" : "0",
-          }}
-        >
-          {members.map((member, idx) => (
-            <TeamMemberGridItem key={member.name} member={member} index={idx} />
-          ))}
-        </Box>
-      </Box>
-    </motion.div>
-  );
-};
-
 // Página principal
 export default function TeamPage() {
   const { teamData, isLoading, orderedPositions } = useTeamData();
@@ -450,6 +121,55 @@ export default function TeamPage() {
   // Define número de colunas baseado na tela
   const gridCols = isMobile ? 1 : isTablet ? 2 : 3;
 
+  // Agrupa categorias consecutivas com soma total ≤ 3 membros
+  const groupedCategories = useMemo(() => {
+    const result: Array<
+      | {
+          type: "single";
+          position: string;
+          members: TeamMember[];
+          index: number;
+        }
+      | {
+          type: "pair";
+          categories: Array<{ position: string; members: TeamMember[] }>;
+          index: number;
+        }
+    > = [];
+
+    let i = 0;
+    while (i < effectiveOrderedPositions.length) {
+      const currentPosition = effectiveOrderedPositions[i];
+      const currentMembers = teamData[currentPosition];
+      const nextPosition = effectiveOrderedPositions[i + 1];
+      const nextMembers = nextPosition ? teamData[nextPosition] : [];
+
+      // Se há uma próxima categoria e a soma total é ≤ 3, agrupa
+      if (nextPosition && currentMembers.length + nextMembers.length <= 3) {
+        result.push({
+          type: "pair",
+          categories: [
+            { position: currentPosition, members: currentMembers },
+            { position: nextPosition, members: nextMembers },
+          ],
+          index: i,
+        });
+        i += 2; // Pula ambas as categorias
+      } else {
+        // Categoria individual
+        result.push({
+          type: "single",
+          position: currentPosition,
+          members: currentMembers,
+          index: i,
+        });
+        i += 1;
+      }
+    }
+
+    return result;
+  }, [effectiveOrderedPositions, teamData]);
+
   // Re-renderiza o grid quando o loading termina
   useEffect(() => {
     if (!isLoading) {
@@ -457,6 +177,23 @@ export default function TeamPage() {
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
+
+  if (isLoading) {
+    return (
+      <Box
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          backgroundColor: "var(--primary)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Loader size="lg" color="white" />
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -469,21 +206,15 @@ export default function TeamPage() {
         overflow: "hidden",
       }}
     >
-      {isLoading ? (
-        <Center h={400}>
-          <Loader size="lg" color={"var(--primary)"} />
-        </Center>
-      ) : (
-        /* Fundo animado */
-        <FlickeringGrid
-          key={gridKey}
-          squareSize={8}
-          gridGap={6}
-          color="rgb(255, 255, 255)"
-          maxOpacity={0.4}
-          flickerChance={0.005}
-        />
-      )}
+      {/* Fundo animado */}
+      <FlickeringGrid
+        key={gridKey}
+        squareSize={8}
+        gridGap={6}
+        color="rgb(255, 255, 255)"
+        maxOpacity={0.4}
+        flickerChance={0.005}
+      />
 
       <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
         {/* Cabeçalho */}
@@ -492,7 +223,7 @@ export default function TeamPage() {
           title={teamPageContent.hero.title}
           subtitle={teamPageContent.hero.subtitle}
           metrics={
-            !isLoading && positionsCount > 0
+            positionsCount > 0
               ? [
                   {
                     label: teamPageContent.stats.label,
@@ -522,20 +253,33 @@ export default function TeamPage() {
                     position={position}
                     members={teamData[position]}
                     index={index}
+                    generateSlug={generateSlug}
                   />
                 ))}
               </SimpleGrid>
             ) : (
-              // Layout DESKTOP: barras horizontais com grid
+              // Layout DESKTOP: barras horizontais com grid (agrupa categorias pequenas consecutivas)
               <Stack gap="xl">
-                {effectiveOrderedPositions.map((position, index) => (
-                  <TeamCategoryHorizontal
-                    key={position}
-                    position={position}
-                    members={teamData[position]}
-                    index={index}
-                  />
-                ))}
+                {groupedCategories.map((item) =>
+                  item.type === "pair" ? (
+                    <TeamCategoryPair
+                      key={`pair-${item.categories[0].position}-${item.categories[1].position}`}
+                      categories={item.categories}
+                      startIndex={item.index}
+                      generateSlug={generateSlug}
+                      viewMoreText={teamPageContent.viewMoreText}
+                    />
+                  ) : (
+                    <TeamCategoryHorizontal
+                      key={item.position}
+                      position={item.position}
+                      members={item.members}
+                      index={item.index}
+                      generateSlug={generateSlug}
+                      viewMoreText={teamPageContent.viewMoreText}
+                    />
+                  )
+                )}
               </Stack>
             )
           ) : (

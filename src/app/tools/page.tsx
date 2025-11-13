@@ -85,6 +85,23 @@ export default function ToolsPage() {
     }
   }, [isLoading]);
 
+  if (isLoading) {
+    return (
+      <Box
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          backgroundColor: "var(--primary)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Loader size="lg" color="white" />
+      </Box>
+    );
+  }
+
   return (
     <Box
       style={{
@@ -96,20 +113,14 @@ export default function ToolsPage() {
         overflow: "hidden",
       }}
     >
-      {isLoading ? (
-        <Center h={400}>
-          <Loader size="lg" color="white" />
-        </Center>
-      ) : (
-        <FlickeringGrid
-          key={gridKey}
-          squareSize={8}
-          gridGap={6}
-          color="rgb(255, 255, 255)"
-          maxOpacity={0.4}
-          flickerChance={0.005}
-        />
-      )}
+      <FlickeringGrid
+        key={gridKey}
+        squareSize={8}
+        gridGap={6}
+        color="rgb(255, 255, 255)"
+        maxOpacity={0.4}
+        flickerChance={0.005}
+      />
 
       <Container
         size="xl"
@@ -120,7 +131,7 @@ export default function ToolsPage() {
           title={toolsPageContent?.hero?.title}
           subtitle={toolsPageContent?.hero?.subtitle}
           metrics={
-            !isLoading && tools.length > 0
+            tools.length > 0
               ? [
                   {
                     label: toolsPageContent?.stats?.totalLabel ?? "Total Tools",
