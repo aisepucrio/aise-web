@@ -233,13 +233,13 @@ export default function toolCardCompact({
 
               {!isMobile && (
                 <Group gap="md" style={{ flexShrink: 0 }}>
-                  {tool.techStack?.length ? (
+                  {Array.isArray(tool.techStack) && tool.techStack.length > 0 ? (
                     <StatPill
                       icon={<IconStack2 size={14} color={PRIMARY} />}
                       value={tool.techStack.length}
                     />
                   ) : null}
-                  {tool.team_relationships?.length ? (
+                  {Array.isArray(tool.team_relationships) && tool.team_relationships.length > 0 ? (
                     <StatPill
                       icon={<IconUsers size={14} color={PRIMARY} />}
                       value={tool.team_relationships.length}
@@ -266,14 +266,14 @@ export default function toolCardCompact({
             {/* Stats mobile com rótulos */}
             {isMobile && (
               <Group gap="lg" mt="auto" pt="xs">
-                {tool.techStack?.length ? (
+                {Array.isArray(tool.techStack) && tool.techStack.length > 0 ? (
                   <StatPill
                     icon={<IconStack2 size={14} color={PRIMARY} />}
                     value={tool.techStack.length}
                     label="techs"
                   />
                 ) : null}
-                {tool.team_relationships?.length ? (
+                {Array.isArray(tool.team_relationships) && tool.team_relationships.length > 0 ? (
                   <StatPill
                     icon={<IconUsers size={14} color={PRIMARY} />}
                     value={tool.team_relationships.length}

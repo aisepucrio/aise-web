@@ -188,7 +188,7 @@ export default function ToolHeroCard({
             </Text>
 
             {/* Tech stack: lista de tecnologias em badges (condicional) */}
-            {tool.techStack?.length ? (
+            {Array.isArray(tool.techStack) && tool.techStack.length > 0 ? (
               <Group gap={6} mb="md">
                 {tool.techStack.slice(0, isMobile ? 3 : 5).map((tech, idx) => (
                   <Badge

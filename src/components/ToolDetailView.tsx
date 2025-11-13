@@ -296,7 +296,7 @@ export default function ToolDetailView({
           )}
 
           {/* Galeria */}
-          {tool.gallery && tool.gallery.length > 0 && (
+          {Array.isArray(tool.gallery) && tool.gallery.length > 0 && (
             <Box mb={isMobile ? "xl" : 48}>
               <ToolSectionTitle
                 icon={<IconPhoto size={isMobile ? 20 : 24} />}
@@ -308,15 +308,15 @@ export default function ToolDetailView({
           )}
 
           {/* Objetivos e Features */}
-          {((tool.objectives && tool.objectives.length > 0) ||
-            (tool.features && tool.features.length > 0)) && (
+          {((Array.isArray(tool.objectives) && tool.objectives.length > 0) ||
+            (Array.isArray(tool.features) && tool.features.length > 0)) && (
             <Box mb={isMobile ? "lg" : "xl"}>
               <SimpleGrid
                 cols={isMobile ? 1 : 2}
                 spacing={isMobile ? "lg" : "xl"}
               >
                 {/* Objetivos */}
-                {tool.objectives && tool.objectives.length > 0 && (
+                {Array.isArray(tool.objectives) && tool.objectives.length > 0 && (
                   <Box>
                     <ToolSectionTitle
                       icon={<IconTargetArrow size={isMobile ? 20 : 24} />}
@@ -333,7 +333,7 @@ export default function ToolDetailView({
                 )}
 
                 {/* Features */}
-                {tool.features && tool.features.length > 0 && (
+                {Array.isArray(tool.features) && tool.features.length > 0 && (
                   <Box>
                     <ToolSectionTitle
                       icon={<IconStar size={isMobile ? 20 : 24} />}
