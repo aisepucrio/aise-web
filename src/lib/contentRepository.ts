@@ -27,8 +27,14 @@ export async function getJsonByKey(key: string): Promise<JsonValue | null> {
   return (data as any)?.payload ?? null;
 }
 
-export async function setJsonByKey(key: string, payload: JsonValue): Promise<void> {
+export async function setJsonByKey(
+  key: string,
+  payload: JsonValue
+): Promise<void> {
   const { collection, docId } = resolveKey(key);
   const docRef = db.collection(collection).doc(docId);
-  await docRef.set({ payload, updatedAt: new Date().toISOString() }, { merge: true });
+  await docRef.set(
+    { payload, updatedAt: new Date().toISOString() },
+    { merge: true }
+  );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, KeyboardEvent } from "react";
+import React, { KeyboardEvent } from "react";
 import {
   Box,
   Text,
@@ -12,16 +12,9 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import {
-  IconFlask,
-  IconArrowRight,
-  IconUsers,
-  IconFileText,
-  IconClock,
-  IconTool,
-} from "@tabler/icons-react";
+import { IconArrowRight, IconClock } from "@tabler/icons-react";
 import DurationInfo from "@/components/DurationInfo";
 import componentTexts from "@/../public/json/components-content.json";
 
@@ -51,26 +44,7 @@ const PRIMARY = "var(--primary)";
    Subcomponente: StatPill
    - Ícone + número
    =========================== */
-function StatPill({
-  icon,
-  value,
-  label,
-}: {
-  icon: React.ReactNode;
-  value: number;
-  label?: string;
-}) {
-  return (
-    <Group gap={6}>
-      <ThemeIcon size="sm" variant="light" radius="xl">
-        {icon}
-      </ThemeIcon>
-      <Text size="xs" fw={600} c="dimmed">
-        {label ? `${value} ${label}` : value}
-      </Text>
-    </Group>
-  );
-}
+// (Removed StatPill — simplified card layout to match ToolHeroCard)
 
 /* ===========================
    Componente Principal
@@ -85,7 +59,6 @@ export default function ResearchCard({
   const router = useRouter();
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-  const [isHovered, setIsHovered] = useState(false);
   const texts = componentTexts.researchCard;
 
   /* Acessibilidade: Enter/Espaço navegam */
@@ -96,11 +69,7 @@ export default function ResearchCard({
     }
   }
 
-  // Calcula totais para os stats
-  const projectsCount = research.projects?.length || 0;
-  const publicationsCount = research.publication_relationships?.length || 0;
-  const membersCount = research.team_relationships?.length || 0;
-  const toolsCount = research.tools_relationships?.length || 0;
+  // (removed stats counts — simplified layout)
 
   return (
     <MotionBox
@@ -110,7 +79,7 @@ export default function ResearchCard({
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <motion.div
-        whileHover={{ scale: 1.015, y: -6 }}
+        whileHover={{ scale: 1.01 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
         style={{ width: "100%", height: "100%" }}
       >
@@ -122,8 +91,6 @@ export default function ResearchCard({
           aria-label={`Ver detalhes da linha de pesquisa ${research.name}`}
           onClick={() => router.push(`/researches/${research.id}`)}
           onKeyDown={handleKeyDown}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           style={{
             cursor: "pointer",
             position: "relative",
@@ -200,7 +167,7 @@ export default function ResearchCard({
             p={isMobile ? "lg" : "xl"}
             style={{ flex: 1, display: "flex", flexDirection: "column" }}
           >
-            {/* Título + Duração */}
+            {/* Título */}
             <Group justify="space-between" align="flex-start" wrap="nowrap">
               <Title
                 order={3}
@@ -214,17 +181,6 @@ export default function ResearchCard({
               >
                 {research.name}
               </Title>
-
-              {!isMobile && (
-                <Box style={{ flexShrink: 0 }}>
-                  <DurationInfo
-                    icon={<IconClock size={14} color={PRIMARY} />}
-                    label={texts.durationLabel}
-                    value={research.duration}
-                    size="sm"
-                  />
-                </Box>
-              )}
             </Group>
 
             {/* Descrição curta */}
@@ -235,107 +191,41 @@ export default function ResearchCard({
               {research.shortDescription}
             </Text>
 
-            {/* Stats */}
-            <Group gap={isMobile ? "sm" : "md"} mt="auto" pt="xs" wrap="wrap">
-              {projectsCount > 0 && (
-                <StatPill
-                  icon={<IconFlask size={14} color={PRIMARY} />}
-                  value={projectsCount}
-                  label={
-                    projectsCount === 1
-                      ? texts.stats.project
-                      : texts.stats.projects
-                  }
-                />
-              )}
-              {membersCount > 0 && (
-                <StatPill
-                  icon={<IconUsers size={14} color={PRIMARY} />}
-                  value={membersCount}
-                  label={
-                    membersCount === 1
-                      ? texts.stats.member
-                      : texts.stats.members
-                  }
-                />
-              )}
-              {publicationsCount > 0 && (
-                <StatPill
-                  icon={<IconFileText size={14} color={PRIMARY} />}
-                  value={publicationsCount}
-                  label={
-                    publicationsCount === 1
-                      ? texts.stats.publication
-                      : texts.stats.publications
-                  }
-                />
-              )}
-              {toolsCount > 0 && (
-                <StatPill
-                  icon={<IconTool size={14} color={PRIMARY} />}
-                  value={toolsCount}
-                  label={
-                    toolsCount === 1 ? texts.stats.tool : texts.stats.tools
-                  }
-                />
-              )}
-            </Group>
-
-            {/* Duração mobile */}
-            {isMobile && (
-              <Box mt="xs">
+            {/* Bottom row: duration (left) + CTA (right) */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: 8,
+              }}
+            >
+              <Box style={{ flexShrink: 0 }}>
                 <DurationInfo
                   icon={<IconClock size={14} color={PRIMARY} />}
                   label={texts.durationLabel}
                   value={research.duration}
-                  size="sm"
+                  size={isMobile ? "sm" : "md"}
                 />
               </Box>
-            )}
+
+              <Group gap="xs" style={{ color: "var(--primary)" }}>
+                <Text size="md" fw={700} style={{ color: PRIMARY }}>
+                  {texts.viewResearchText}
+                </Text>
+                <ThemeIcon
+                  size={32}
+                  radius="xl"
+                  variant="light"
+                  color="var(--primary)"
+                >
+                  <IconArrowRight size={18} />
+                </ThemeIcon>
+              </Group>
+            </div>
           </Stack>
 
-          {/* ===========================
-              Overlay de hover (DESKTOP apenas)
-              =========================== */}
-          <AnimatePresence>
-            {!isMobile && isHovered && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(135deg, color-mix(in srgb, var(--primary) 96%, transparent), color-mix(in srgb, var(--primary) 92%, transparent))",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  pointerEvents: "none",
-                  zIndex: 10,
-                }}
-              >
-                <Group gap="md">
-                  <Text
-                    size="xl"
-                    fw={800}
-                    style={{ color: "white", letterSpacing: 0.5 }}
-                  >
-                    {texts.viewResearchText}
-                  </Text>
-                  <ThemeIcon
-                    size="xl"
-                    radius="xl"
-                    color="white"
-                    variant="filled"
-                  >
-                    <IconArrowRight size={24} stroke={2.5} color={PRIMARY} />
-                  </ThemeIcon>
-                </Group>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* No overlay on hover; CTA moved to bottom of card */}
         </Card>
       </motion.div>
     </MotionBox>
