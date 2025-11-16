@@ -16,7 +16,7 @@ import FlickeringGrid from "@/components/FlickeringGrid";
 import ToolHeroCard from "@/components/ToolHeroCard";
 import PagesHeader from "@/components/PagesHeader";
 import toolsPageContent from "@/../public/json/tools-page-content.json";
-import { IconSparkles } from "@tabler/icons-react";
+import { IconTool } from "@tabler/icons-react";
 
 type Tool = {
   id: string;
@@ -127,7 +127,7 @@ export default function ToolsPage() {
         style={{ position: "relative", zIndex: 1, maxWidth: 1400 }}
       >
         <PagesHeader
-          icon={IconSparkles}
+          icon={IconTool}
           title={toolsPageContent?.hero?.title}
           subtitle={toolsPageContent?.hero?.subtitle}
           metrics={
@@ -158,7 +158,7 @@ export default function ToolsPage() {
             <Center h={300}>
               <Stack align="center" gap="md">
                 <ThemeIcon size={80} radius="xl" variant="white" color="gray">
-                  <IconSparkles size={40} />
+                  <IconTool size={40} />
                 </ThemeIcon>
                 <Text ta="center" c="white" size="xl" fw={600}>
                   {toolsPageContent?.noTools?.title}

@@ -14,9 +14,9 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";
 import SectionWithHeader from "@/components/SectionWithHeader";
+import componentTexts from "@/../public/json/components-content.json";
 
 /* ========= Tipos ========= */
 
@@ -63,12 +63,6 @@ const useAwardedPublications = () => {
         if (!mounted) return;
 
         setPublications([]);
-        notifications.show({
-          title: "Erro ao carregar publicações",
-          message: "Tente novamente mais tarde.",
-          color: "red",
-          withCloseButton: true,
-        });
       } finally {
         if (mounted) setIsLoading(false);
       }
@@ -215,6 +209,7 @@ export default function AwardedPublicationsHeaderSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const hasPublications = publications.length > 0;
+  const texts = componentTexts.awardedPublicationsSection;
 
   // compute cols based on viewport breakpoints (replace unsupported SimpleGrid 'breakpoints' prop)
   const gridCols = isSm ? 1 : isMd ? 2 : isMobile ? 3 : 4;
@@ -227,11 +222,11 @@ export default function AwardedPublicationsHeaderSection() {
       transition={animationConfig.transition}
     >
       <SectionWithHeader
-        title="Awarded publications"
-        subtitle="Selected papers that received awards and special recognition."
+        title={texts.title}
+        subtitle={texts.subtitle}
         button={{
-          text: "Ver todas as publicações",
-          href: "/publications", // CTA para a seção/página de publicações
+          text: texts.ctaText,
+          href: texts.ctaHref,
         }}
         isMobile={isMobile}
       >
@@ -243,7 +238,7 @@ export default function AwardedPublicationsHeaderSection() {
           ) : !hasPublications ? (
             <Center h={120}>
               <Text ta="center" c="dimmed" size="sm">
-                Ainda não há publicações premiadas cadastradas.
+                {texts.emptyStateText}
               </Text>
             </Center>
           ) : (

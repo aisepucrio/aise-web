@@ -52,25 +52,52 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
     if (!ctx) return;
 
     let animationFrameId: number;
-    let w = width || container.offsetWidth;
-    let h = height || container.offsetHeight;
 
-    const resize = () => {
-      w = width || container.offsetWidth;
-      h = height || container.offsetHeight;
-      canvas.width = w;
-      canvas.height = h;
+    // largura/altura atuais do canvas
+    let w = 0;
+    let h = 0;
+    // número de colunas/linhas do grid
+    let cols = 0;
+    let rows = 0;
+    // intensidades dos quadrados
+    let squares = new Float32Array(0);
+
+    // (re)cria o grid baseado no tamanho atual
+    const setupGrid = () => {
+      cols = Math.floor(w / (squareSize + gridGap));
+      rows = Math.floor(h / (squareSize + gridGap));
+
+      const total = Math.max(cols * rows, 0);
+      squares = new Float32Array(total);
+      for (let i = 0; i < total; i++) {
+        squares[i] = Math.random() * maxOpacity;
+      }
     };
 
+    const resize = () => {
+      // se width/height forem passados, eles mandam; senão usa o container
+      w = width ?? container.offsetWidth;
+      h = height ?? container.offsetHeight;
+
+      canvas.width = w;
+      canvas.height = h;
+
+      setupGrid();
+    };
+
+    // primeira configuração
     resize();
+
+    // resize global de janela (zoom, mudanças mais bruscas)
     window.addEventListener("resize", resize);
 
-    const cols = Math.floor(w / (squareSize + gridGap));
-    const rows = Math.floor(h / (squareSize + gridGap));
-
-    const squares = new Float32Array(cols * rows);
-    for (let i = 0; i < squares.length; i++) {
-      squares[i] = Math.random() * maxOpacity;
+    // observa mudanças de tamanho específicas do container (layout, altura por conteúdo)
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && !width && !height) {
+      resizeObserver = new ResizeObserver(() => {
+        resize();
+      });
+      resizeObserver.observe(container);
     }
 
     const drawGrid = () => {
@@ -80,6 +107,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
           const index = i * rows + j;
+          if (index >= squares.length) continue;
 
           if (Math.random() < flickerChance) {
             squares[index] = Math.random() * maxOpacity;
@@ -102,6 +130,9 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
 
     return () => {
       window.removeEventListener("resize", resize);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
       cancelAnimationFrame(animationFrameId);
     };
   }, [

@@ -11,11 +11,12 @@ import {
   ThemeIcon,
   useMantineTheme,
 } from "@mantine/core";
-import ToolDurationInfo from "@/components/ToolDurationInfo";
+import DurationInfo from "@/components/DurationInfo";
 import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { IconArrowRight, IconCode, IconClock } from "@tabler/icons-react";
+import componentTexts from "@/../public/json/components-content.json";
 
 type Tool = {
   id: string;
@@ -50,6 +51,7 @@ export default function ToolHeroCard({
 
   // Determina se o índice é par (usado para inverter layout)
   const isEven = index % 2 === 0;
+  const texts = componentTexts.toolHeroCard;
 
   return (
     // Container de entrada com animação (fade + slide)
@@ -203,7 +205,8 @@ export default function ToolHeroCard({
                 ))}
                 {tool.techStack.length > (isMobile ? 3 : 5) && (
                   <Text size="xs" c="dimmed" fw={600}>
-                    +{tool.techStack.length - (isMobile ? 3 : 5)} more
+                    +{tool.techStack.length - (isMobile ? 3 : 5)}{" "}
+                    {texts.moreText}
                   </Text>
                 )}
               </Group>
@@ -211,9 +214,9 @@ export default function ToolHeroCard({
 
             {/* CTA: ver detalhes do projeto - alinhado à direita */}
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <ToolDurationInfo
+              <DurationInfo
                 icon={<IconClock size={14} color="var(--primary)" />}
-                label="Duration"
+                label={texts.durationLabel}
                 value={tool.duration}
                 size={isMobile ? "sm" : "md"}
               />

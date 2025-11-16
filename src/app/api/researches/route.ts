@@ -1,7 +1,6 @@
-// Rota unificada para team: GET (público) e POST (admin com auth)
+// Rota unificada para researches: GET (público) e POST (admin com auth)
 
 import { NextRequest, NextResponse } from "next/server";
-import { TeamPayload } from "@/lib/schemas";
 import { requireBearer } from "@/lib/auth";
 import { getJsonByKey, setJsonByKey } from "@/lib/contentRepository";
 
@@ -23,18 +22,18 @@ export async function OPTIONS() {
 // GET - Leitura pública do Blob
 export async function GET() {
   try {
-    const data = await getJsonByKey("lab/team.json");
+    const data = await getJsonByKey("lab/researches.json");
     if (!data) {
       return NextResponse.json(
-        { error: "Team data not found" },
+        { error: "Researches data not found" },
         { status: 404, headers: corsHeaders() }
       );
     }
     return NextResponse.json(data, { headers: corsHeaders() });
   } catch (error) {
-    console.error("Error reading team from Firestore:", error);
+    console.error("Error reading researches from Firestore:", error);
     return NextResponse.json(
-      { error: "Team data not found" },
+      { error: "Researches data not found" },
       { status: 404, headers: corsHeaders() }
     );
   }
@@ -53,20 +52,18 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    // Aceita tanto array direto quanto objeto com chave "team"
-    const teamData = Array.isArray(body) ? body : body.team;
+    // Aceita tanto array direto quanto objeto com chave "researches"
+    const researchesData = Array.isArray(body) ? body : body.researches;
 
-    const parsed = TeamPayload.parse(teamData);
-
-    // Salva no Firestore (mantendo contrato de resposta)
-    await setJsonByKey("lab/team.json", { team: parsed });
+    // Salva no Firestore
+    await setJsonByKey("lab/researches.json", { researches: researchesData });
 
     return NextResponse.json(
       {
         ok: true,
-        count: parsed.length,
-        message: `${parsed.length} team members published successfully`,
-        blob: { url: null, pathname: `firestore://lab/team.json` },
+        count: researchesData.length,
+        message: `${researchesData.length} research lines published successfully`,
+        blob: { url: null, pathname: `firestore://lab/researches.json` },
       },
       { headers: corsHeaders() }
     );

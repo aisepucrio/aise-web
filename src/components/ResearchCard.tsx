@@ -4,7 +4,6 @@ import React, { useState, KeyboardEvent } from "react";
 import {
   Box,
   Text,
-  Badge,
   Stack,
   Title,
   Group,
@@ -16,26 +15,30 @@ import { useMediaQuery } from "@mantine/hooks";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
-  IconCode,
+  IconFlask,
   IconArrowRight,
   IconUsers,
-  IconStack2,
+  IconFileText,
+  IconClock,
+  IconTool,
 } from "@tabler/icons-react";
+import DurationInfo from "@/components/DurationInfo";
 import componentTexts from "@/../public/json/components-content.json";
 
 /* ===========================
    Tipos
    =========================== */
-type tool = {
+type Research = {
   id: string;
   name: string;
-  tagline: string;
+  shortDescription: string;
   description: string;
   highlightImageUrl: string;
-  category: string;
-  status: "Active" | "Pilot" | "Archived" | string;
-  techStack?: string[];
+  duration: string;
+  projects?: any[];
   team_relationships?: any[];
+  publication_relationships?: string[];
+  tools_relationships?: string[];
 };
 
 /* ===========================
@@ -46,7 +49,7 @@ const PRIMARY = "var(--primary)";
 
 /* ===========================
    Subcomponente: StatPill
-   - Ícone + número (techs / membros)
+   - Ícone + número
    =========================== */
 function StatPill({
   icon,
@@ -72,26 +75,32 @@ function StatPill({
 /* ===========================
    Componente Principal
    =========================== */
-export default function toolCardCompact({
-  tool,
+export default function ResearchCard({
+  research,
   index,
 }: {
-  tool: tool;
+  research: Research;
   index: number;
 }) {
   const router = useRouter();
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const [isHovered, setIsHovered] = useState(false);
-  const texts = componentTexts.toolCardCompact;
+  const texts = componentTexts.researchCard;
 
   /* Acessibilidade: Enter/Espaço navegam */
   function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      router.push(`/tools/${tool.id}`);
+      router.push(`/researches/${research.id}`);
     }
   }
+
+  // Calcula totais para os stats
+  const projectsCount = research.projects?.length || 0;
+  const publicationsCount = research.publication_relationships?.length || 0;
+  const membersCount = research.team_relationships?.length || 0;
+  const toolsCount = research.tools_relationships?.length || 0;
 
   return (
     <MotionBox
@@ -101,19 +110,17 @@ export default function toolCardCompact({
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <motion.div
-        /* Desktop: mantém animação original do hover */
         whileHover={{ scale: 1.015, y: -6 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
         style={{ width: "100%", height: "100%" }}
       >
         <Card
-          withBorder
           radius="xl"
           shadow={isMobile ? "xs" : "sm"}
           role="link"
           tabIndex={0}
-          aria-label={`Ver detalhes do projeto ${tool.name}`}
-          onClick={() => router.push(`/tools/${tool.id}`)}
+          aria-label={`Ver detalhes da linha de pesquisa ${research.name}`}
+          onClick={() => router.push(`/researches/${research.id}`)}
           onKeyDown={handleKeyDown}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -124,8 +131,7 @@ export default function toolCardCompact({
             display: "flex",
             flexDirection: "column",
             height: "100%",
-            borderColor: "rgba(226, 232, 240, 0.8)",
-            isolation: "isolate", // garante overlay contido no card
+            isolation: "isolate",
           }}
         >
           {/* ===========================
@@ -135,7 +141,7 @@ export default function toolCardCompact({
             <Box
               style={{
                 position: "relative",
-                height: isMobile ? 200 : 260,
+                height: isMobile ? 200 : 360,
                 overflow: "hidden",
                 backgroundColor: "#f1f5f9",
               }}
@@ -145,7 +151,7 @@ export default function toolCardCompact({
                 style={{
                   position: "absolute",
                   inset: 0,
-                  backgroundImage: `url(${tool.highlightImageUrl})`,
+                  backgroundImage: `url(${research.highlightImageUrl})`,
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
@@ -160,30 +166,6 @@ export default function toolCardCompact({
                     "linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.15) 100%)",
                 }}
               />
-
-              {/* Badge de categoria */}
-              <Badge
-                size="sm"
-                variant="filled"
-                leftSection={<IconCode size={12} />}
-                styles={{
-                  root: {
-                    position: "absolute",
-                    top: 16,
-                    left: 16,
-                    backgroundColor: PRIMARY,
-                    color: "white",
-                    fontWeight: 600,
-                    textTransform: "uppercase",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.5px",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                    backdropFilter: "blur(8px)",
-                  },
-                }}
-              >
-                {tool.category}
-              </Badge>
 
               {/* Hint de clique (só mobile) */}
               {isMobile && (
@@ -218,7 +200,7 @@ export default function toolCardCompact({
             p={isMobile ? "lg" : "xl"}
             style={{ flex: 1, display: "flex", flexDirection: "column" }}
           >
-            {/* Título + stats (desktop) */}
+            {/* Título + Duração */}
             <Group justify="space-between" align="flex-start" wrap="nowrap">
               <Title
                 order={3}
@@ -230,73 +212,85 @@ export default function toolCardCompact({
                   flex: 1,
                 }}
               >
-                {tool.name}
+                {research.name}
               </Title>
 
               {!isMobile && (
-                <Group gap="md" style={{ flexShrink: 0 }}>
-                  {Array.isArray(tool.techStack) &&
-                  tool.techStack.length > 0 ? (
-                    <StatPill
-                      icon={<IconStack2 size={14} color={PRIMARY} />}
-                      value={tool.techStack.length}
-                    />
-                  ) : null}
-                  {Array.isArray(tool.team_relationships) &&
-                  tool.team_relationships.length > 0 ? (
-                    <StatPill
-                      icon={<IconUsers size={14} color={PRIMARY} />}
-                      value={tool.team_relationships.length}
-                    />
-                  ) : null}
-                </Group>
+                <Box style={{ flexShrink: 0 }}>
+                  <DurationInfo
+                    icon={<IconClock size={14} color={PRIMARY} />}
+                    label={texts.durationLabel}
+                    value={research.duration}
+                    size="sm"
+                  />
+                </Box>
               )}
             </Group>
 
-            {/* Tagline */}
+            {/* Descrição curta */}
             <Text
               size={isMobile ? "sm" : "md"}
-              fw={600}
-              style={{ color: "#334155", lineHeight: 1.4 }}
-            >
-              {tool.tagline}
-            </Text>
-
-            {/* Descrição */}
-            <Text
-              size="sm"
               style={{ color: "#64748b", lineHeight: 1.6, flex: 1 }}
             >
-              {tool.description}
+              {research.shortDescription}
             </Text>
 
-            {/* Stats mobile com rótulos */}
+            {/* Stats */}
+            <Group gap={isMobile ? "sm" : "md"} mt="auto" pt="xs" wrap="wrap">
+              {projectsCount > 0 && (
+                <StatPill
+                  icon={<IconFlask size={14} color={PRIMARY} />}
+                  value={projectsCount}
+                  label={
+                    projectsCount === 1
+                      ? texts.stats.project
+                      : texts.stats.projects
+                  }
+                />
+              )}
+              {membersCount > 0 && (
+                <StatPill
+                  icon={<IconUsers size={14} color={PRIMARY} />}
+                  value={membersCount}
+                  label={
+                    membersCount === 1
+                      ? texts.stats.member
+                      : texts.stats.members
+                  }
+                />
+              )}
+              {publicationsCount > 0 && (
+                <StatPill
+                  icon={<IconFileText size={14} color={PRIMARY} />}
+                  value={publicationsCount}
+                  label={
+                    publicationsCount === 1
+                      ? texts.stats.publication
+                      : texts.stats.publications
+                  }
+                />
+              )}
+              {toolsCount > 0 && (
+                <StatPill
+                  icon={<IconTool size={14} color={PRIMARY} />}
+                  value={toolsCount}
+                  label={
+                    toolsCount === 1 ? texts.stats.tool : texts.stats.tools
+                  }
+                />
+              )}
+            </Group>
+
+            {/* Duração mobile */}
             {isMobile && (
-              <Group gap="lg" mt="auto" pt="xs">
-                {Array.isArray(tool.techStack) && tool.techStack.length > 0 ? (
-                  <StatPill
-                    icon={<IconStack2 size={14} color={PRIMARY} />}
-                    value={tool.techStack.length}
-                    label={
-                      tool.techStack.length === 1
-                        ? texts.stats.tech
-                        : texts.stats.techs
-                    }
-                  />
-                ) : null}
-                {Array.isArray(tool.team_relationships) &&
-                tool.team_relationships.length > 0 ? (
-                  <StatPill
-                    icon={<IconUsers size={14} color={PRIMARY} />}
-                    value={tool.team_relationships.length}
-                    label={
-                      tool.team_relationships.length === 1
-                        ? texts.stats.member
-                        : texts.stats.members
-                    }
-                  />
-                ) : null}
-              </Group>
+              <Box mt="xs">
+                <DurationInfo
+                  icon={<IconClock size={14} color={PRIMARY} />}
+                  label={texts.durationLabel}
+                  value={research.duration}
+                  size="sm"
+                />
+              </Box>
             )}
           </Stack>
 
@@ -328,7 +322,7 @@ export default function toolCardCompact({
                     fw={800}
                     style={{ color: "white", letterSpacing: 0.5 }}
                   >
-                    {texts.viewToolText}
+                    {texts.viewResearchText}
                   </Text>
                   <ThemeIcon
                     size="xl"

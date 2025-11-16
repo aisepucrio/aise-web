@@ -1,0 +1,30 @@
+{
+  "backButton": {
+    "label": "Back to Research Lines"
+  },
+  "notFoundPage": {
+    "title": "Research line not found"
+  },
+  "sections": {
+    "duration": {
+      "label": "Duration"
+    },
+    "about": {
+      "title": "About"
+    },
+    "projects": {
+      "title": "Projects"
+    },
+    "team": {
+      "title": "Team",
+      "viewProfileText": "View profile"
+    },
+    "publications": {
+      "title": "Publications"
+    },
+    "tools": {
+      "title": "Associated Tools",
+      "viewToolText": "View Tool"
+    }
+  }
+}

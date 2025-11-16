@@ -31,10 +31,11 @@ import Carousel from "@/components/Carousel";
 import PersonCard, { PersonCardProps } from "@/components/PersonCard";
 import PublicationCard from "@/components/PublicationCard";
 import { BadgeBox } from "@/components/BadgeBox";
-import { ToolSectionTitle } from "@/components/ToolSectionTitle";
+import { SectionTitle } from "@/components/SectionTitle";
 import LinkGroup from "@/components/LinkGroup";
-import ToolDurationInfo from "@/components/ToolDurationInfo";
+import DurationInfo from "@/components/DurationInfo";
 import { IconList } from "@/components/IconList";
+import componentTexts from "@/../public/json/components-content.json";
 
 // Tipos
 export type ToolLinks = {
@@ -73,19 +74,6 @@ export interface ToolDetailViewProps {
   publications?: ToolPublication[];
   isMobile: boolean;
   onBack?: () => void;
-  content?: {
-    backButton?: string;
-    sections?: {
-      duration?: { label: string };
-      techStack?: { title: string };
-      about?: { title: string };
-      gallery?: { title: string };
-      objectives?: { title: string };
-      features?: { title: string };
-      team?: { title: string };
-      publications?: { title: string };
-    };
-  };
 }
 
 const paperStyle: React.CSSProperties = {
@@ -100,29 +88,10 @@ export default function ToolDetailView({
   publications = [],
   isMobile,
   onBack,
-  content = {},
 }: ToolDetailViewProps) {
-  const defaultContent = {
-    backButton: "Back to Tools",
-    sections: {
-      duration: { label: "Duration" },
-      techStack: { title: "Tech Stack" },
-      about: { title: "About" },
-      gallery: { title: "Gallery" },
-      objectives: { title: "Objectives" },
-      features: { title: "Features" },
-      team: { title: "Team" },
-      publications: { title: "Publications" },
-    },
-  };
-
-  const pageContent = {
-    backButton: content.backButton || defaultContent.backButton,
-    sections: {
-      ...defaultContent.sections,
-      ...content.sections,
-    },
-  };
+  const texts = componentTexts.toolDetailView;
+  const personCardTexts = componentTexts.personCard;
+  const publicationCardTexts = componentTexts.publicationCard;
 
   return (
     <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
@@ -140,7 +109,7 @@ export default function ToolDetailView({
             mb={isMobile ? 20 : 32}
             onClick={onBack}
           >
-            {pageContent.backButton}
+            {texts.backButton}
           </Button>
         </motion.div>
       )}
@@ -220,9 +189,9 @@ export default function ToolDetailView({
                       </Box>
 
                       {/* Duração */}
-                      <ToolDurationInfo
+                      <DurationInfo
                         icon={<IconClock size={14} color="var(--primary)" />}
-                        label={pageContent.sections.duration.label}
+                        label={texts.durationLabel}
                         value={tool.duration}
                         size={isMobile ? "sm" : "md"}
                       />
@@ -261,7 +230,7 @@ export default function ToolDetailView({
                   {/* Tech Stack */}
                   {tool.techStack && tool.techStack.length > 0 && (
                     <BadgeBox
-                      title={pageContent.sections.techStack.title}
+                      title={texts.sections.techStack.title}
                       icon={<IconTerminal2 size={20} />}
                       items={tool.techStack}
                     />
@@ -276,9 +245,9 @@ export default function ToolDetailView({
           {/* Descrição longa */}
           {tool.longDescription && (
             <Box mb={isMobile ? "xl" : 48}>
-              <ToolSectionTitle
+              <SectionTitle
                 icon={<IconSparkles size={isMobile ? 20 : 24} />}
-                title={pageContent.sections.about.title}
+                title={texts.sections.about.title}
                 isMobile={isMobile}
               />
               <Text
@@ -298,9 +267,9 @@ export default function ToolDetailView({
           {/* Galeria */}
           {Array.isArray(tool.gallery) && tool.gallery.length > 0 && (
             <Box mb={isMobile ? "xl" : 48}>
-              <ToolSectionTitle
+              <SectionTitle
                 icon={<IconPhoto size={isMobile ? 20 : 24} />}
-                title={pageContent.sections.gallery.title}
+                title={texts.sections.gallery.title}
                 isMobile={isMobile}
               />
               <ToolGallery images={tool.gallery} toolName={tool.name} />
@@ -319,9 +288,9 @@ export default function ToolDetailView({
                 {Array.isArray(tool.objectives) &&
                   tool.objectives.length > 0 && (
                     <Box>
-                      <ToolSectionTitle
+                      <SectionTitle
                         icon={<IconTargetArrow size={isMobile ? 20 : 24} />}
-                        title={pageContent.sections.objectives.title}
+                        title={texts.sections.objectives.title}
                         isMobile={isMobile}
                       >
                         <IconList
@@ -329,16 +298,16 @@ export default function ToolDetailView({
                           icon={<IconCheck />}
                           isMobile={isMobile}
                         />
-                      </ToolSectionTitle>
+                      </SectionTitle>
                     </Box>
                   )}
 
                 {/* Features */}
                 {Array.isArray(tool.features) && tool.features.length > 0 && (
                   <Box>
-                    <ToolSectionTitle
+                    <SectionTitle
                       icon={<IconStar size={isMobile ? 20 : 24} />}
-                      title={pageContent.sections.features.title}
+                      title={texts.sections.features.title}
                       isMobile={isMobile}
                     >
                       <IconList
@@ -346,7 +315,7 @@ export default function ToolDetailView({
                         icon={<IconStar />}
                         isMobile={isMobile}
                       />
-                    </ToolSectionTitle>
+                    </SectionTitle>
                   </Box>
                 )}
               </SimpleGrid>
@@ -356,9 +325,9 @@ export default function ToolDetailView({
           {/* Team Members */}
           {teamMembers.length > 0 && (
             <Box mb={isMobile ? "xl" : 48}>
-              <ToolSectionTitle
+              <SectionTitle
                 icon={<IconUsers size={isMobile ? 20 : 24} />}
-                title={pageContent.sections.team.title}
+                title={texts.sections.team.title}
                 isMobile={isMobile}
               />
               <Carousel
@@ -374,6 +343,7 @@ export default function ToolDetailView({
                   <PersonCard
                     key={`${person.name}-${index}`}
                     {...person}
+                    viewProfileText={personCardTexts.viewProfileText}
                     cardWidth={isMobile ? 180 : 240}
                   />
                 ))}
@@ -384,9 +354,9 @@ export default function ToolDetailView({
           {/* Publications */}
           {publications.length > 0 && (
             <Box mb={isMobile ? "xl" : 48}>
-              <ToolSectionTitle
+              <SectionTitle
                 icon={<IconFileText size={isMobile ? 20 : 24} />}
-                title={pageContent.sections.publications.title}
+                title={texts.sections.publications.title}
                 isMobile={isMobile}
               />
               <Stack gap="lg">
@@ -399,7 +369,7 @@ export default function ToolDetailView({
                     publication_place={publication.publication_place || ""}
                     citation_number={publication.citation_number || 0}
                     year={publication.year || 0}
-                    viewLabel="View Publication"
+                    viewLabel={publicationCardTexts.viewPublicationText}
                     index={idx}
                   />
                 ))}

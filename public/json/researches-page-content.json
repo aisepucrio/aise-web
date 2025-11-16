@@ -1,0 +1,14 @@
+{
+  "hero": {
+    "title": "Our Researches",
+    "subtitle": "Explore our active research lines, where we investigate cutting-edge topics in software engineering, AI applications, and human aspects of technology, driving innovation and knowledge creation in the field.",
+    "ctaLabel": "Explore"
+  },
+  "stats": {
+    "totalLabel": "Active Lines"
+  },
+  "noResearches": {
+    "title": "No research lines found",
+    "subtitle": "Check back later for updates on our research activities."
+  }
+}

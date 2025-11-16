@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ToolsPayload } from "@/lib/schemas";
 import { requireBearer } from "@/lib/auth";
-import { saveJson, readJson } from "@/lib/blob";
+import { getJsonByKey, setJsonByKey } from "@/lib/contentRepository";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -23,10 +23,16 @@ export async function OPTIONS() {
 // GET - Leitura pública do Blob
 export async function GET() {
   try {
-    const data = await readJson("lab/tools.json");
+    const data = await getJsonByKey("lab/tools.json");
+    if (!data) {
+      return NextResponse.json(
+        { error: "Tools data not found" },
+        { status: 404, headers: corsHeaders() }
+      );
+    }
     return NextResponse.json(data, { headers: corsHeaders() });
   } catch (error) {
-    console.error("Error reading tools from Blob:", error);
+    console.error("Error reading tools from Firestore:", error);
     return NextResponse.json(
       { error: "Tools data not found" },
       { status: 404, headers: corsHeaders() }
@@ -51,15 +57,15 @@ export async function POST(req: NextRequest) {
 
     const parsed = ToolsPayload.parse(toolsData);
 
-    // Salva no Blob
-    const blob = await saveJson("lab/tools.json", { tools: parsed });
+    // Salva no Firestore (mantendo contrato de resposta)
+    await setJsonByKey("lab/tools.json", { tools: parsed });
 
     return NextResponse.json(
       {
         ok: true,
         count: parsed.length,
         message: `${parsed.length} tools published successfully`,
-        blob: { url: blob.url, pathname: blob.pathname },
+        blob: { url: null, pathname: `firestore://lab/tools.json` },
       },
       { headers: corsHeaders() }
     );

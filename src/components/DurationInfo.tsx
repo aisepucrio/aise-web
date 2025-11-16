@@ -10,7 +10,7 @@ type Props = {
 };
 
 // Componente que exibe um item de informação da ferramenta com ícone, rótulo e valor.
-export default function ToolDurationInfo({
+export default function DurationInfo({
   icon,
   label,
   value,

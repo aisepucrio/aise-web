@@ -10,7 +10,7 @@ import {
   IconChevronRight,
   IconMaximize,
 } from "@tabler/icons-react";
-import pageContent from "@/../public/json/tools-detail-page-content.json";
+import componentTexts from "@/../public/json/components-content.json";
 
 export interface ToolGalleryProps {
   images: string[];
@@ -27,6 +27,7 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
   const [direction, setDirection] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 62em)");
+  const texts = componentTexts.toolGallery;
 
   if (!images || images.length === 0) return null;
 
@@ -156,7 +157,7 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
                   boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
                 }}
                 onClick={goToPrevious}
-                aria-label={pageContent.gallery.previousButton}
+                aria-label={texts.previousButton}
               >
                 <IconChevronLeft size={isMobile ? 20 : 24} />
               </ActionIcon>
@@ -175,7 +176,7 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
                   boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
                 }}
                 onClick={goToNext}
-                aria-label={pageContent.gallery.nextButton}
+                aria-label={texts.nextButton}
               >
                 <IconChevronRight size={isMobile ? 20 : 24} />
               </ActionIcon>
@@ -197,7 +198,7 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
               opacity: 0.8,
             }}
             onClick={() => setIsFullscreen(!isFullscreen)}
-            aria-label={pageContent.gallery.fullscreenButton}
+            aria-label={texts.fullscreenButton}
           >
             <IconMaximize size={isMobile ? 16 : 20} />
           </ActionIcon>
@@ -257,7 +258,7 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
                 >
                   <Image
                     src={image}
-                    alt={`${pageContent.gallery.thumbnailAlt} ${index + 1}`}
+                    alt={`${texts.thumbnailAlt} ${index + 1}`}
                     fill
                     style={{ objectFit: "contain" }}
                     sizes="80px"

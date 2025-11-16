@@ -47,7 +47,13 @@ export default function SectionWithHeader({
           </Titulo>
 
           {subtitle && (
-            <Text size={isMobile ? "md" : "lg"} c="dimmed" maw={1000} ta="center" lh={1.7}>
+            <Text
+              size={isMobile ? "md" : "lg"}
+              c="dimmed"
+              maw={1000}
+              ta="center"
+              lh={1.7}
+            >
               {subtitle}
             </Text>
           )}
@@ -59,7 +65,12 @@ export default function SectionWithHeader({
         {/* CTA (centered) */}
         {button && (
           <Center mt={24}>
-            <CTAButton href={button.href} text={button.text} isMobile={isMobile} ariaLabel={button.text} />
+            <CTAButton
+              href={button.href}
+              text={button.text}
+              isMobile={isMobile}
+              ariaLabel={button.text}
+            />
           </Center>
         )}
       </Box>
