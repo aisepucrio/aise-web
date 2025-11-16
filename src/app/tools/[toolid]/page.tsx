@@ -291,10 +291,6 @@ export default function ToolDetailPage() {
         publications={publications}
         isMobile={isMobile}
         onBack={() => router.push("/tools")}
-        content={{
-          backButton: pageContent.backButton.label,
-          sections: pageContent.sections,
-        }}
       />
     </Box>
   );
