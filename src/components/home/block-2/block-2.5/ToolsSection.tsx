@@ -187,12 +187,7 @@ export default function ToolsSection() {
                 itemGapMobile={24}
               >
                 {toolsData.map((tool, index) => (
-                  <ToolCardCompact
-                    key={tool.id}
-                    tool={tool}
-                    index={index}
-                    viewToolText={homeContent.toolsSection.viewToolText}
-                  />
+                  <ToolCardCompact key={tool.id} tool={tool} index={index} />
                 ))}
               </Carousel>
             </Stack>
