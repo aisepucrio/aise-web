@@ -7,11 +7,13 @@ import { useMediaQuery } from "@mantine/hooks";
 type DottedBlueBackgroundProps = {
   height?: React.CSSProperties["height"]; // Altura (ex.: '60vh' ou 400)
   children?: React.ReactNode; // Conteúdo opcional dentro do fundo
+  contentMaxWidth?: React.CSSProperties["maxWidth"]; // Largura máxima do conteúdo
 };
 
 export default function DottedBlueBackground({
   height = "60vh",
   children,
+  contentMaxWidth = "100%",
 }: DottedBlueBackgroundProps) {
   // Mobile: breakpoint padrão do Mantine (~md = 62em)
   const isMobile = useMediaQuery("(max-width: 62em)", false, {
@@ -51,7 +53,13 @@ export default function DottedBlueBackground({
       }}
     >
       <Box
-        style={{ marginTop: "8rem", paddingRight: "1rem", paddingLeft: "1rem" }}
+        style={{
+          marginTop: "8rem",
+          width: "100%",
+          maxWidth: contentMaxWidth,
+          paddingRight: isMobile ? "1rem" : "2.5rem",
+          paddingLeft: isMobile ? "1rem" : "2.5rem",
+        }}
       >
         {children}
       </Box>

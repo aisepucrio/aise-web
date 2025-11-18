@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { motion, useInView } from "framer-motion";
 import SectionWithHeader from "@/components/SectionWithHeader";
 import homeTexts from "@/../public/json/home-content.json";
 import AwardedPublicationCard from "./AwardedPublicationCard";
@@ -73,25 +72,6 @@ const useAwardedPublications = () => {
   return { publications, isLoading, hasError };
 };
 
-/* ========= Animação da seção ========= */
-
-const animationConfig = {
-  initial: {
-    opacity: 0,
-    y: 50,
-    scale: 0.98,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-  },
-  transition: {
-    duration: 0.8,
-    ease: [0.25, 0.46, 0.45, 0.94] as const,
-  },
-};
-
 const ErrorState = ({ title, message }: { title: string; message: string }) => (
   <Center h={200}>
     <Stack gap={4} align="center">
@@ -108,69 +88,57 @@ const ErrorState = ({ title, message }: { title: string; message: string }) => (
 export default function AwardedPublicationsHeaderSection() {
   const { publications, isLoading, hasError } = useAwardedPublications();
   const isMobile = useMediaQuery("(max-width: 62em)");
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const hasPublications = publications.length > 0;
   const texts = homeTexts.publicationSections.awarded;
 
   return (
-    <motion.div
-      ref={ref}
-      initial={animationConfig.initial}
-      animate={isInView ? animationConfig.animate : animationConfig.initial}
-      transition={animationConfig.transition}
+    <SectionWithHeader
+      title={texts.title}
+      subtitle={texts.subtitle}
+      button={texts.button}
+      isMobile={isMobile}
     >
-      <SectionWithHeader
-        title={texts.title}
-        subtitle={texts.subtitle}
-        button={texts.button}
-        isMobile={isMobile}
-      >
-        <Container size="xl" style={{ padding: 0 }}>
-          {isLoading ? (
-            <Center h={200}>
-              <Loader size="lg" color="var(--primary)" />
-            </Center>
-          ) : hasError ? (
-            <ErrorState
-              title={texts.error.title}
-              message={texts.error.message}
-            />
-          ) : !hasPublications ? (
-            <Center h={120}>
-              <Text ta="center" c="dimmed" size="sm">
-                {texts.emptyStateText}
-              </Text>
-            </Center>
-          ) : (
-            <Box>
-              <Carousel
-                itemsPerView={1}
-                itemsPerViewMobile={1}
-                itemWidth={360}
-                itemWidthMobile={280}
-                itemGap={20}
-                itemGapMobile={14}
-                containerSize="xl"
-                autoPlay={true}
-                autoPlayInterval={20000}
-                showDots={true}
-                showNavButtons={true}
-                enableDrag={true}
-              >
-                {publications.map((publication, index) => (
-                  <AwardedPublicationCard
-                    key={`${publication.title}-${index}`}
-                    publication={publication}
-                    index={index}
-                  />
-                ))}
-              </Carousel>
-            </Box>
-          )}
-        </Container>
-      </SectionWithHeader>
-    </motion.div>
+      <Container size="xl" style={{ padding: 0 }}>
+        {isLoading ? (
+          <Center h={200}>
+            <Loader size="lg" color="var(--primary)" />
+          </Center>
+        ) : hasError ? (
+          <ErrorState title={texts.error.title} message={texts.error.message} />
+        ) : !hasPublications ? (
+          <Center h={120}>
+            <Text ta="center" c="dimmed" size="sm">
+              {texts.emptyStateText}
+            </Text>
+          </Center>
+        ) : (
+          <Box>
+            <Carousel
+              itemsPerView={1}
+              itemsPerViewMobile={1}
+              itemWidth={360}
+              itemWidthMobile={280}
+              itemGap={20}
+              itemGapMobile={14}
+              containerSize="xl"
+              autoPlay={true}
+              autoPlayInterval={20000}
+              showDots={true}
+              showNavButtons={true}
+              enableDrag={true}
+            >
+              {publications.map((publication, index) => (
+                <AwardedPublicationCard
+                  key={`${publication.title}-${index}`}
+                  publication={publication}
+                  index={index}
+                />
+              ))}
+            </Carousel>
+          </Box>
+        )}
+      </Container>
+    </SectionWithHeader>
   );
 }

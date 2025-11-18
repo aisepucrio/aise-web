@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { motion, useInView } from "framer-motion";
 import Carousel from "@/components/Carousel";
 import PersonCard, { PersonCardProps } from "@/components/PersonCard";
 import SectionWithHeader from "@/components/SectionWithHeader";
@@ -105,72 +104,45 @@ const ErrorState = () => (
   </Center>
 );
 
-// Configuração de animação para entrada da seção
-const animationConfig = {
-  initial: {
-    opacity: 0,
-    y: 50,
-    scale: 0.98,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-  },
-  transition: {
-    duration: 0.8,
-    ease: [0.25, 0.46, 0.45, 0.94] as const,
-  },
-};
-
 export default function TeamSection() {
   const { teamData, isLoading, hasError } = useTeamData();
   const isMobile = useMediaQuery("(max-width: 62em)");
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <motion.div
-      ref={ref}
-      initial={animationConfig.initial}
-      animate={isInView ? animationConfig.animate : animationConfig.initial}
-      transition={animationConfig.transition}
+    <SectionWithHeader
+      title={homeContent.teamSection.title}
+      subtitle={homeContent.teamSection.subtitle}
+      button={homeContent.teamSection.button}
+      isMobile={isMobile}
+      paperProps={{ px: 8 }}
     >
-      <SectionWithHeader
-        title={homeContent.teamSection.title}
-        subtitle={homeContent.teamSection.subtitle}
-        button={homeContent.teamSection.button}
-        isMobile={isMobile}
-        paperProps={{ px: 8 }}
-      >
-        <Container size="xl" style={{ padding: 0 }}>
-          {isLoading ? (
-            <LoadingState />
-          ) : hasError ? (
-            <ErrorState />
-          ) : teamData.length > 0 ? (
-            <Carousel
-              autoPlay
-              autoPlayInterval={5000}
-              showDots
-              itemWidth={280}
-              itemWidthMobile={200}
-              itemsPerView={1}
-              itemsPerViewMobile={1}
-            >
-              {teamData.map((person, index) => (
-                <PersonCard
-                  key={`${person.name}-${index}`}
-                  {...person}
-                  cardWidth={isMobile ? 200 : 280}
-                />
-              ))}
-            </Carousel>
-          ) : (
-            <EmptyState />
-          )}
-        </Container>
-      </SectionWithHeader>
-    </motion.div>
+      <Container size="xl" style={{ padding: 0 }}>
+        {isLoading ? (
+          <LoadingState />
+        ) : hasError ? (
+          <ErrorState />
+        ) : teamData.length > 0 ? (
+          <Carousel
+            autoPlay
+            autoPlayInterval={5000}
+            showDots
+            itemWidth={280}
+            itemWidthMobile={200}
+            itemsPerView={1}
+            itemsPerViewMobile={1}
+          >
+            {teamData.map((person, index) => (
+              <PersonCard
+                key={`${person.name}-${index}`}
+                {...person}
+                cardWidth={isMobile ? 200 : 280}
+              />
+            ))}
+          </Carousel>
+        ) : (
+          <EmptyState />
+        )}
+      </Container>
+    </SectionWithHeader>
   );
 }

@@ -35,8 +35,7 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
   return (
     <MotionPaper
       shadow="sm"
-      radius="md"
-      withBorder
+      radius="lg"
       padding={isMobile ? "md" : "lg"}
       style={{
         cursor: publication.link ? "pointer" : "default",

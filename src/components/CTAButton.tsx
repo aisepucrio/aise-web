@@ -15,7 +15,7 @@ type CTAButtonProps = {
 };
 
 const buttonMotion = {
-  whileHover: { y: -1, scale: 1.01 },
+  whileHover: { y: -1, scale: 1.03 },
   whileTap: { scale: 0.99 },
   transition: { type: "spring" as const, stiffness: 280, damping: 20 },
 } as const;

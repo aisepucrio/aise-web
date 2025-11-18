@@ -12,8 +12,8 @@ export interface CarouselProps {
   autoPlayInterval?: number;
   showDots?: boolean;
   showNavButtons?: boolean;
-  itemWidth?: number;
-  itemWidthMobile?: number;
+  itemWidth?: number | string;
+  itemWidthMobile?: number | string;
   itemGap?: number;
   itemGapMobile?: number;
   itemsPerView?: number;
@@ -68,9 +68,9 @@ const NavButton: React.FC<NavButtonProps> = ({
         aria-label={direction === "left" ? "Previous" : "Next"}
       >
         {direction === "left" ? (
-          <IconChevronLeft size={isMobile ? 24 : 28} stroke={2.5} />
+          <IconChevronLeft size={isMobile ? 24 : 28} stroke={2} color="var(--primary)" />
         ) : (
-          <IconChevronRight size={isMobile ? 24 : 28} stroke={2.5} />
+          <IconChevronRight size={isMobile ? 24 : 28} stroke={2} color="var(--primary)" />
         )}
       </ActionIcon>
     </div>
@@ -129,6 +129,9 @@ export const Carousel: React.FC<CarouselProps> = ({
   containerSize = "xl",
   enableDrag = true,
 }) => {
+  const [viewportWidth, setViewportWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
   const controls = useAnimation();
   const x = useMotionValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -140,15 +143,74 @@ export const Carousel: React.FC<CarouselProps> = ({
     getInitialValueInEffect: true,
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+      handleResize();
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
+
   // Calcular dimensões do carrossel baseado no dispositivo
   const defaultItemWidthDesktop = 340;
   const defaultItemWidthMobile = 260;
   const defaultItemGapDesktop = 20;
   const defaultItemGapMobile = 12;
 
-  const itemWidth = isMobile
+  const resolveWidth = (
+    value: number | string | undefined,
+    fallback: number
+  ): { numeric: number; css: number | string } => {
+    if (typeof value === "number") {
+      return { numeric: value, css: value };
+    }
+
+    if (typeof value !== "string") {
+      return { numeric: fallback, css: fallback };
+    }
+
+    const trimmed = value.trim();
+    const parsed = parseFloat(trimmed);
+    const hasNumber = !Number.isNaN(parsed);
+
+    if (trimmed.endsWith("vw") || trimmed.endsWith("%")) {
+      const pct = hasNumber ? parsed : 100;
+      const numeric = ((viewportWidth || fallback) * pct) / 100;
+      return {
+        numeric,
+        css: trimmed.endsWith("%") ? `${pct}vw` : trimmed,
+      };
+    }
+
+    if (trimmed.endsWith("px")) {
+      return { numeric: hasNumber ? parsed : fallback, css: trimmed };
+    }
+
+    if (hasNumber) {
+      return { numeric: parsed, css: parsed };
+    }
+
+    return { numeric: fallback, css: fallback };
+  };
+
+  const rawItemWidth = isMobile
     ? propItemWidthMobile ?? defaultItemWidthMobile
     : propItemWidth ?? defaultItemWidthDesktop;
+
+  const { numeric: itemWidth, css: itemWidthCss } = resolveWidth(
+    rawItemWidth,
+    isMobile ? defaultItemWidthMobile : defaultItemWidthDesktop
+  );
+
   const itemGap = isMobile
     ? propItemGapMobile ?? defaultItemGapMobile
     : propItemGap ?? defaultItemGapDesktop;
@@ -337,7 +399,10 @@ export const Carousel: React.FC<CarouselProps> = ({
               gap: itemGap,
               width: containerWidth,
               x,
-              maxWidth: isMobile ? "80vw" : "none",
+              maxWidth:
+                isMobile && typeof itemWidthCss === "string"
+                  ? itemWidthCss
+                  : undefined,
               willChange: "transform",
             }}
             animate={controls}
@@ -355,7 +420,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                 key={index}
                 style={{
                   flexShrink: 0,
-                  width: itemWidth,
+                  width: itemWidthCss,
                   pointerEvents: "auto",
                 }}
               >
