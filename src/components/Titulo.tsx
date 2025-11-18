@@ -38,7 +38,7 @@ export default function Titulo({
         fontSize: `${size}px`,
         textAlign: "center",
         margin: `${verticalMargin}px 0`,
-        lineHeight: 1,
+        lineHeight: 0.25,
       }}
       // role/semantic
       component="h2"

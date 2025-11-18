@@ -10,7 +10,6 @@ import {
   Pagination,
   TextInput,
   Loader,
-  Center,
 } from "@mantine/core";
 import { IconFilter, IconFileText, IconSearch } from "@tabler/icons-react";
 import publicationsContent from "@/../public/json/publications-page-content.json";

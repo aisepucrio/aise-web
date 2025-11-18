@@ -36,10 +36,14 @@ export const InfoCard: React.FC<InfoCardProps> = ({
 
   return (
     <Card
-      shadow="md"
       bg="white"
       role="region"
-      style={{ padding: "2rem", borderRadius: 24 }}
+      style={{
+        padding: "2rem",
+        borderRadius: 24,
+        // Sombra ligeiramente menor e deslocada um pouco para cima
+        boxShadow: "0 0px 12px rgba(2, 6, 23, 0.06)",
+      }}
       aria-label={title}
     >
       {/* Ícone opcional + título;  escalado pelo multiplyer */}

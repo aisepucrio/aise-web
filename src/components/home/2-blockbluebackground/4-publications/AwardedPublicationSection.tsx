@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import SectionWithHeader from "@/components/SectionWithHeader";
+import SectionWithHeader from "@/components/home/SectionWithHeader";
 import homeTexts from "@/../public/json/home-content.json";
 import AwardedPublicationCard from "./AwardedPublicationCard";
 import Carousel from "@/components/Carousel";

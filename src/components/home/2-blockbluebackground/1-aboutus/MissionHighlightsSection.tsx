@@ -11,7 +11,7 @@ import {
 import { useMediaQuery } from "@mantine/hooks";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import InfoCard from "@/components/InfoCard";
-import Titulo from "@/components/Titulo";
+import SectionWithHeader from "@/components/home/SectionWithHeader";
 import homeContent from "@/../public/json/home-content.json";
 
 // Configuração das animações de entrada
@@ -137,21 +137,17 @@ export default function MissionHighlightsSection() {
   const missionMultiplier = isMobile ? 0.85 : 1;
 
   return (
-    <Box component="section" py="xl">
-      <Container size="xl" style={{ padding: 0 }}>
-        {/* Título da seção */}
-        <AnimatedInView>
-          <Titulo>{homeContent.mission.sectionTitle}</Titulo>
-        </AnimatedInView>
+    <SectionWithHeader
+      title={homeContent.mission.sectionTitle}
+      isMobile={isMobile}
+    >
+      {/* Seção da missão */}
+      <Box mb="lg">
+        <MissionSection multiplier={missionMultiplier} />
+      </Box>
 
-        {/* Seção da missão */}
-        <Box mb="lg">
-          <MissionSection multiplier={missionMultiplier} />
-        </Box>
-
-        {/* Seção dos destaques */}
-        <HighlightsSection isMobile={isMobile} />
-      </Container>
-    </Box>
+      {/* Seção dos destaques */}
+      <HighlightsSection isMobile={isMobile} />
+    </SectionWithHeader>
   );
 }

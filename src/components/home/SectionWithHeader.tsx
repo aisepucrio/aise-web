@@ -38,9 +38,9 @@ export default function SectionWithHeader({
   paperProps,
 }: SectionWithHeaderProps) {
   const horizontalMask =
-    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 5%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%,  rgba(0,0,0,0.3) 95%, rgba(0,0,0,0) 100%)";
+    "linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0.3) 48px, rgba(0,0,0,1) 144px, rgba(0,0,0,1) calc(100% - 144px), rgba(0,0,0,0.3) calc(100% - 48px), rgba(0,0,0,0) 100%)";
   const verticalMask =
-    "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) 2%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 60%, rgba(0,0,0,1) 88%, rgba(0,0,0,0.08) 98%, rgba(0,0,0,0) 100%)";
+    "linear-gradient(180deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0.08) 16px, rgba(0,0,0,1) 96px, rgba(0,0,0,1) calc(100% - 96px), rgba(0,0,0,0.08) calc(100% - 16px), rgba(0,0,0,0) 100%)";
   const maskGradient = isMobile ? verticalMask : horizontalMask;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.25 });
@@ -100,7 +100,9 @@ export default function SectionWithHeader({
           </Stack>
 
           {/* main content */}
-          <Box>{children}</Box>
+          <Box style={{ width: isMobile ? "100%" : "70%", margin: "auto" }}>
+            {children}
+          </Box>
 
           {/* CTA (centered) */}
           {button && (

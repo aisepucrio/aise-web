@@ -14,6 +14,7 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import homeContent from "@/../public/json/home-content.json";
+import { is } from "zod/locales";
 
 /* Hero com imagem de fundo + overlay escuro.
    - Responsividade via useMediaQuery
@@ -25,7 +26,7 @@ export default function Hero() {
   const isXs = useMediaQuery(`(max-width: ${theme.breakpoints.xs})`);
 
   // Normaliza altura
-  const heightStyle = '100vh'
+  const heightStyle = isSm ? "135vh" : "100vh";
 
   // Reduz altura em 55% no mobile (xs)
   const heroHeight = isXs ? `calc(${heightStyle} * 0.55)` : heightStyle;

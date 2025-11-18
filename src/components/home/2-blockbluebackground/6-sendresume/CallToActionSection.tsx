@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useMediaQuery } from "@mantine/hooks";
-import SectionWithHeader from "@/components/SectionWithHeader";
+import SectionWithHeader from "@/components/home/SectionWithHeader";
 import homeContent from "@/../public/json/home-content.json";
 
 export default function CallToActionSection() {

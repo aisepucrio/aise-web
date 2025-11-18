@@ -5,7 +5,7 @@ import { Container, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import Carousel from "@/components/Carousel";
 import ToolCardCompact from "@/components/ToolCardCompact";
-import SectionWithHeader from "@/components/SectionWithHeader";
+import SectionWithHeader from "@/components/home/SectionWithHeader";
 import homeContent from "@/../public/json/home-content.json";
 
 interface Tool {

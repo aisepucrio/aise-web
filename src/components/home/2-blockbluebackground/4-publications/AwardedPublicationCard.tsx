@@ -62,7 +62,17 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
           : undefined
       }
     >
-      <Stack gap={6} style={{ flex: 1 }} p="md">
+      <Stack
+        gap={6}
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "stretch",
+        }}
+        p="md"
+      >
         <Group align="flex-start" gap="xs" wrap="nowrap">
           <Box style={{ flex: 1, minWidth: 0 }}>
             <Text
@@ -120,5 +130,3 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
 };
 
 export default AwardedPublicationCard;
-
-
