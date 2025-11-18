@@ -25,7 +25,7 @@ export default function Hero() {
   const isXs = useMediaQuery(`(max-width: ${theme.breakpoints.xs})`);
 
   // Normaliza altura
-  const heightStyle = '100%'
+  const heightStyle = '100vh'
 
   // Reduz altura em 55% no mobile (xs)
   const heroHeight = isXs ? `calc(${heightStyle} * 0.55)` : heightStyle;
