@@ -129,7 +129,7 @@ export default function Footer() {
                 </Flex>
 
                 <Flex align="center" gap={"xs"}>
-                  <IconTool size={20} color="var(--primary)" />
+                  <IconFlask size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
                       {researchCount > 0
@@ -157,7 +157,7 @@ export default function Footer() {
                 </Flex>
 
                 <Flex align="center" gap={"xs"}>
-                  <IconFlask size={20} color="var(--primary)" />
+                  <IconTool size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
                       {toolsCount > 0 ? toolsCount : footerData.stats.tools}
