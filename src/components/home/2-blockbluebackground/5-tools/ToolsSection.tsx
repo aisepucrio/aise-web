@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Container, Text, Loader, Center, Stack } from "@mantine/core";
+import { Box, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import Carousel from "@/components/Carousel";
 import ToolCardCompact from "@/components/ToolCardCompact";
@@ -108,35 +108,33 @@ export default function ToolsSection() {
       button={homeContent.toolsSection.button}
       isMobile={isMobile}
     >
-      <Container size="xl" style={{ padding: 0 }}>
-        {isLoading ? (
-          <LoadingState />
-        ) : hasError ? (
-          <ErrorState />
-        ) : toolsData.length > 0 ? (
-          <Stack gap={isMobile ? 32 : 40}>
-            {/* Tools Carousel */}
-            <Carousel
-              autoPlay
-              autoPlayInterval={25000}
-              showDots
-              showNavButtons
-              itemsPerView={2}
-              itemsPerViewMobile={1}
-              itemWidth={500}
-              itemWidthMobile="75vw"
-              itemGap={32}
-              itemGapMobile={24}
-            >
-              {toolsData.map((tool, index) => (
-                <ToolCardCompact key={tool.id} tool={tool} index={index} />
-              ))}
-            </Carousel>
-          </Stack>
-        ) : (
-          <EmptyState />
-        )}
-      </Container>
+      {isLoading ? (
+        <LoadingState />
+      ) : hasError ? (
+        <ErrorState />
+      ) : toolsData.length > 0 ? (
+        <Box>
+          {/* Tools Carousel */}
+          <Carousel
+            autoPlay
+            autoPlayInterval={25000}
+            showDots
+            showNavButtons
+            itemsPerView={2}
+            itemsPerViewMobile={1}
+            itemWidth={500}
+            itemWidthMobile="75vw"
+            itemGap={32}
+            itemGapMobile={24}
+          >
+            {toolsData.map((tool, index) => (
+              <ToolCardCompact key={tool.id} tool={tool} index={index} />
+            ))}
+          </Carousel>
+        </Box>
+      ) : (
+        <EmptyState />
+      )}
     </SectionWithHeader>
   );
 }
