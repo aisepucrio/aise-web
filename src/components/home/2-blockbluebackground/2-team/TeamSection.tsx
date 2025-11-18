@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { Container, Text, Loader, Center } from "@mantine/core";
+import { Container, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";
 import Carousel from "@/components/Carousel";
 import PersonCard, { PersonCardProps } from "@/components/PersonCard";
@@ -25,6 +24,7 @@ interface TeamData {
 const useTeamData = () => {
   const [teamData, setTeamData] = useState<PersonCardProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -36,7 +36,7 @@ const useTeamData = () => {
         });
 
         if (!res.ok) {
-          throw new Error("Falha ao carregar dados");
+          throw new Error("Failed to load team data");
         }
 
         const data: TeamData = await res.json();
@@ -51,16 +51,12 @@ const useTeamData = () => {
         }));
 
         if (mounted) {
+          setHasError(false);
           setTeamData(formatted);
         }
       } catch {
         if (mounted) {
-          notifications.show({
-            title: "Erro ao carregar equipe",
-            message: "Tente novamente mais tarde.",
-            color: "red",
-            withCloseButton: true,
-          });
+          setHasError(true);
           setTeamData([]);
         }
       } finally {
@@ -77,7 +73,7 @@ const useTeamData = () => {
     };
   }, []);
 
-  return { teamData, isLoading };
+  return { teamData, isLoading, hasError };
 };
 
 // Using SectionWithHeader for consistent layout
@@ -93,8 +89,19 @@ const LoadingState = () => (
 const EmptyState = () => (
   <Center h={200}>
     <Text ta="center" c="dimmed">
-      Nenhum membro encontrado.
+      {homeContent.teamSection.emptyStateText}
     </Text>
+  </Center>
+);
+
+const ErrorState = () => (
+  <Center h={200}>
+    <Stack gap={4} align="center">
+      <Text fw={600}>{homeContent.teamSection.error.title}</Text>
+      <Text ta="center" c="dimmed" size="sm">
+        {homeContent.teamSection.error.message}
+      </Text>
+    </Stack>
   </Center>
 );
 
@@ -117,7 +124,7 @@ const animationConfig = {
 };
 
 export default function TeamSection() {
-  const { teamData, isLoading } = useTeamData();
+  const { teamData, isLoading, hasError } = useTeamData();
   const isMobile = useMediaQuery("(max-width: 62em)");
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
@@ -139,6 +146,8 @@ export default function TeamSection() {
         <Container size="xl" style={{ padding: 0 }}>
           {isLoading ? (
             <LoadingState />
+          ) : hasError ? (
+            <ErrorState />
           ) : teamData.length > 0 ? (
             <Carousel
               autoPlay

@@ -94,13 +94,9 @@
   "publicationCard": {
     "viewPublicationText": "View Publication"
   },
-  "awardedPublicationsSection": {
-    "title": "Awarded publications",
-    "subtitle": "Selected papers that received awards and special recognition.",
-    "ctaText": "View all publications",
-    "ctaHref": "/publications",
-    "emptyStateText": "No awarded publications yet.",
-    "errorTitle": "Error loading publications",
-    "errorMessage": "Please try again later."
+  "awardedPublicationCard": {
+    "viewText": "View Publication",
+    "citationSingular": "citation",
+    "citationPlural": "citations"
   }
 }

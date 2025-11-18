@@ -38,7 +38,12 @@
       "text": "See Team",
       "href": "/team"
     },
-    "viewProfileText": "View profile"
+    "viewProfileText": "View profile",
+    "emptyStateText": "No team members found.",
+    "error": {
+      "title": "Error loading team",
+      "message": "Please try again later."
+    }
   },
   "toolsSection": {
     "title": "Our Tools",
@@ -47,7 +52,27 @@
       "text": "See Tools",
       "href": "/tools"
     },
-    "viewToolText": "View tool"
+    "viewToolText": "View tool",
+    "emptyStateText": "No tools found.",
+    "error": {
+      "title": "Error loading tools",
+      "message": "Please try again later."
+    }
+  },
+  "publicationSections": {
+    "awarded": {
+      "title": "Awarded publications",
+      "subtitle": "Selected papers that received awards and special recognition.",
+      "button": {
+        "text": "View all publications",
+        "href": "/publications"
+      },
+      "emptyStateText": "No awarded publications yet.",
+      "error": {
+        "title": "Error loading publications",
+        "message": "Please try again later."
+      }
+    }
   },
   "callToAction": {
     "title": "Be part of AISE Lab",

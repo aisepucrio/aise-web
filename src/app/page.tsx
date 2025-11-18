@@ -4,8 +4,8 @@ import BlockTwoMain from "@/components/home/2-blockbluebackground/BlockTwoMain";
 export default function Home() {
   return (
     <>
-      <Hero height="100vh" />
-      <BlockTwoMain height="100%" />
+      <Hero />
+      <BlockTwoMain />
     </>
   );
 }

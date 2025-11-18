@@ -11,7 +11,6 @@ import {
   Stack,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import { motion, useInView } from "framer-motion";
 import Titulo from "@/components/Titulo";
 import Carousel from "@/components/Carousel";
@@ -38,7 +37,7 @@ interface ToolsData {
 const useToolsData = () => {
   const [toolsData, setToolsData] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -56,18 +55,12 @@ const useToolsData = () => {
         const data: ToolsData = await res.json();
 
         if (mounted) {
-          // Show all tools for carousel
+          setHasError(false);
           setToolsData(data.tools);
         }
       } catch (err) {
         if (mounted) {
-          setError(true);
-          notifications.show({
-            title: "Error loading tools",
-            message: "Please try again later.",
-            color: "red",
-            withCloseButton: true,
-          });
+          setHasError(true);
           setToolsData([]);
         }
       } finally {
@@ -84,7 +77,7 @@ const useToolsData = () => {
     };
   }, []);
 
-  return { toolsData, isLoading, error };
+  return { toolsData, isLoading, hasError };
 };
 
 // Section Header Component
@@ -126,8 +119,19 @@ const LoadingState = () => (
 const EmptyState = () => (
   <Center h={200}>
     <Text ta="center" c="dimmed">
-      No tools found.
+      {homeContent.toolsSection.emptyStateText}
     </Text>
+  </Center>
+);
+
+const ErrorState = () => (
+  <Center h={200}>
+    <Stack gap={4} align="center">
+      <Text fw={600}>{homeContent.toolsSection.error.title}</Text>
+      <Text ta="center" c="dimmed" size="sm">
+        {homeContent.toolsSection.error.message}
+      </Text>
+    </Stack>
   </Center>
 );
 
@@ -150,7 +154,7 @@ const animationConfig = {
 };
 
 export default function ToolsSection() {
-  const { toolsData, isLoading } = useToolsData();
+  const { toolsData, isLoading, hasError } = useToolsData();
   const isMobile = useMediaQuery("(max-width: 62em)");
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
@@ -171,6 +175,8 @@ export default function ToolsSection() {
         <Container size="xl" style={{ padding: 0 }}>
           {isLoading ? (
             <LoadingState />
+          ) : hasError ? (
+            <ErrorState />
           ) : toolsData.length > 0 ? (
             <Stack gap={isMobile ? 32 : 40}>
               {/* Tools Carousel */}

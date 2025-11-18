@@ -1,8 +1,10 @@
 import React from "react";
-import { Badge, Group, Paper, Stack, Text } from "@mantine/core";
+import { Badge, Box, Group, Paper, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
+import { IconExternalLink, IconQuote } from "@tabler/icons-react";
 import type { Publication } from "./AwardedPublicationSection";
+import componentTexts from "@/../public/json/components-content.json";
 
 const MotionPaper = motion(Paper as any);
 
@@ -16,6 +18,13 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
   index,
 }) => {
   const isMobile = useMediaQuery("(max-width: 48em)");
+  const awardedCardTexts = componentTexts.awardedPublicationCard;
+  const viewLabel = awardedCardTexts.viewText;
+  const citationCount = publication.citation_number ?? 0;
+  const citationLabel =
+    citationCount === 1
+      ? awardedCardTexts.citationSingular
+      : awardedCardTexts.citationPlural;
 
   const handleClick = () => {
     if (publication.link) {
@@ -54,48 +63,59 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
           : undefined
       }
     >
-      <Stack gap={isMobile ? 8 : 10} style={{ flex: 1 }}>
-        <Text
-          fw={600}
-          size={isMobile ? "sm" : "md"}
-          style={{ lineHeight: 1.4, color: "#212529" }}
-        >
-          {publication.title}
-        </Text>
-      </Stack>
+      <Stack gap={6} style={{ flex: 1 }} p="md">
+        <Group align="flex-start" gap="xs" wrap="nowrap">
+          <Box style={{ flex: 1, minWidth: 0 }}>
+            <Text
+              size="xs"
+              fw={700}
+              tt="uppercase"
+              c="var(--primary)"
+              style={{
+                letterSpacing: 0.8,
+                lineHeight: 1.2,
+                opacity: publication.awards ? 1 : 0.6,
+              }}
+            >
+              {publication.awards}
+            </Text>
+          </Box>
 
-      <Group
-        mt={isMobile ? 10 : 14}
-        justify="space-between"
-        gap="xs"
-        wrap="nowrap"
-      >
-        <Badge
-          size="sm"
-          variant="light"
-          color="gray"
-          style={{ textTransform: "none" }}
-        >
-          {publication.year}
-        </Badge>
-
-        {publication.awards && (
           <Badge
             size="sm"
             variant="light"
-            color="var(--primary)"
-            style={{
-              maxWidth: "70%",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              textTransform: "none",
-            }}
+            color="gray"
+            style={{ textTransform: "none" }}
           >
-            {publication.awards}
+            {publication.year}
           </Badge>
-        )}
-      </Group>
+        </Group>
+
+        <Text
+          size={isMobile ? "xs" : "sm"}
+          fw={500}
+          c="dimmed"
+          style={{ lineHeight: 1.3 }}
+        >
+          {publication.title}
+        </Text>
+
+        <Group justify="space-between" mt={isMobile ? 8 : 12} gap="sm">
+          <Group gap={6} align="center">
+            <IconQuote size={18} color="var(--primary)" stroke={2} />
+            <Text size="xs" fw={600} c="var(--primary)">
+              {citationCount} {citationLabel}
+            </Text>
+          </Group>
+
+          <Group gap={6} align="center" style={{ color: "var(--primary)" }}>
+            <Text size="xs" fw={600}>
+              {viewLabel}
+            </Text>
+            <IconExternalLink size={16} stroke={2} />
+          </Group>
+        </Group>
+      </Stack>
     </MotionPaper>
   );
 };
