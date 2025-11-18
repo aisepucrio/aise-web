@@ -15,21 +15,17 @@ import {
 import { useMediaQuery } from "@mantine/hooks";
 import homeContent from "@/../public/json/home-content.json";
 
-type HeroProps = {
-  height?: number | string; // aceita px (número) ou unidade CSS (ex.: '70vh')
-};
-
 /* Hero com imagem de fundo + overlay escuro.
    - Responsividade via useMediaQuery
    - Mantém aparência e comportamento do original */
-export default function Hero({ height = "70vh" }: HeroProps) {
+export default function Hero() {
   const theme = useMantineTheme();
 
   const isSm = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const isXs = useMediaQuery(`(max-width: ${theme.breakpoints.xs})`);
 
   // Normaliza altura
-  const heightStyle = typeof height === "number" ? `${height}px` : height;
+  const heightStyle = '100%'
 
   // Reduz altura em 55% no mobile (xs)
   const heroHeight = isXs ? `calc(${heightStyle} * 0.55)` : heightStyle;
