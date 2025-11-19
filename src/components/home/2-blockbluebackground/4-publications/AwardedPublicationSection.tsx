@@ -115,7 +115,7 @@ export default function AwardedPublicationsHeaderSection() {
         ) : (
           <Box>
             <Carousel
-              itemsPerView={1}
+              itemsPerView={2}
               itemsPerViewMobile={1}
               itemWidth={360}
               itemWidthMobile={280}

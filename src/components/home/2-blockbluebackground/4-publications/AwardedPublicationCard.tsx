@@ -34,7 +34,6 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
 
   return (
     <MotionPaper
-      shadow="sm"
       radius="lg"
       padding={isMobile ? "md" : "lg"}
       style={{
@@ -46,6 +45,7 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
         flexDirection: "column",
         justifyContent: "space-between",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
+        boxShadow: "0 2px 12px rgba(2, 6, 23, 0.06)",
       }}
       onClick={handleClick}
       role={publication.link ? "link" : undefined}

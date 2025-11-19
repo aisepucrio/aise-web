@@ -38,7 +38,7 @@ export default function SectionWithHeader({
   paperProps,
 }: SectionWithHeaderProps) {
   const horizontalMask =
-    "linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0.3) 48px, rgba(0,0,0,1) 144px, rgba(0,0,0,1) calc(100% - 144px), rgba(0,0,0,0.3) calc(100% - 48px), rgba(0,0,0,0) 100%)";
+    "linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 120px, rgba(0,0,0,1) calc(100% - 120px), rgba(0,0,0,0) 100%)";
   const verticalMask =
     "linear-gradient(180deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0.08) 16px, rgba(0,0,0,1) 96px, rgba(0,0,0,1) calc(100% - 96px), rgba(0,0,0,0.08) calc(100% - 16px), rgba(0,0,0,0) 100%)";
   const maskGradient = isMobile ? verticalMask : horizontalMask;

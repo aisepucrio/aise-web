@@ -126,6 +126,7 @@ export default function toolCardCompact({
             height: "100%",
             borderColor: "rgba(226, 232, 240, 0.8)",
             isolation: "isolate", // garante overlay contido no card
+            minHeight: "525px",
           }}
         >
           {/* ===========================

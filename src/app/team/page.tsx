@@ -20,6 +20,7 @@ import { TeamCategoryHorizontal } from "@/components/TeamCategoryHorizontal";
 import { TeamCategoryPair } from "@/components/TeamCategoryPair";
 import teamPageContent from "@/../public/json/team-page-content.json";
 import { IconUsers } from "@tabler/icons-react";
+import teamPositionsOrder from "@/../public/json/team-positions-order.json";
 
 type TeamMember = {
   name: string;
@@ -102,11 +103,29 @@ export default function TeamPage() {
   const isTablet = useMediaQuery("(max-width: 75em)");
   const [gridKey, setGridKey] = useState(0);
 
-  // Fallback para ordem de cargos caso não haja em state
-  const effectiveOrderedPositions = useMemo<string[]>(
-    () => (orderedPositions.length ? orderedPositions : Object.keys(teamData)),
-    [orderedPositions, teamData]
-  );
+  const manualPositionsOrder: string[] =
+    (teamPositionsOrder as { positionsOrder?: string[] }).positionsOrder ?? [];
+
+  const effectiveOrderedPositions = useMemo<string[]>(() => {
+    const basePositions = orderedPositions.length
+      ? orderedPositions
+      : Object.keys(teamData);
+
+    // Se não tiver JSON configurado, mantém comportamento antigo
+    if (!manualPositionsOrder.length) return basePositions;
+
+    // 1) posições que estão no JSON, na ordem do JSON
+    const inConfiguredOrder = manualPositionsOrder.filter((position) =>
+      basePositions.includes(position)
+    );
+
+    // 2) posições que vieram da API mas não estão no JSON (jogamos pro final)
+    const remaining = basePositions.filter(
+      (position) => !manualPositionsOrder.includes(position)
+    );
+
+    return [...inConfiguredOrder, ...remaining];
+  }, [orderedPositions, teamData, manualPositionsOrder]);
 
   // Contadores derivados (evita recalcular)
   const membersCount = useMemo(

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import Carousel from "@/components/Carousel";
-import ToolCardCompact from "@/components/ToolCardCompact";
+import ToolCardCompact from "./ToolCardCompact";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
 import homeContent from "@/../public/json/home-content.json";
 
@@ -120,7 +120,7 @@ export default function ToolsSection() {
             autoPlayInterval={25000}
             showDots
             showNavButtons
-            itemsPerView={2}
+            itemsPerView={1}
             itemsPerViewMobile={1}
             itemWidth={500}
             itemWidthMobile="75vw"

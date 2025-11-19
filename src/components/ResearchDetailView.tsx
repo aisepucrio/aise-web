@@ -29,7 +29,7 @@ import PublicationCard from "@/components/PublicationCard";
 import { SectionTitle } from "@/components/SectionTitle";
 import DurationInfo from "@/components/DurationInfo";
 import ProjectCard from "@/components/ProjectCard";
-import ToolCardCompact from "@/components/ToolCardCompact";
+import ToolCardCompact from "@/components/home/2-blockbluebackground/5-tools/ToolCardCompact";
 import componentTexts from "@/../public/json/components-content.json";
 
 // Tipos
@@ -256,7 +256,7 @@ export default function ResearchDetailView({
                 showDots={true}
                 itemWidth={240}
                 itemWidthMobile={180}
-                itemsPerView={1}
+                itemsPerView={3}
                 itemsPerViewMobile={1}
               >
                 {teamMembers.map((person, index) => (
@@ -311,7 +311,7 @@ export default function ResearchDetailView({
                 showDots={true}
                 itemWidth={425}
                 itemWidthMobile={280}
-                itemsPerView={1}
+                itemsPerView={2}
                 itemsPerViewMobile={1}
               >
                 {tools.map((tool, index) => (
