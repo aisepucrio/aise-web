@@ -15,19 +15,13 @@ import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";
-import { TeamCategoryColumn } from "@/components/TeamCategoryColumn";
-import { TeamCategoryHorizontal } from "@/components/TeamCategoryHorizontal";
-import { TeamCategoryPair } from "@/components/TeamCategoryPair";
+import { TeamCategoryColumn } from "@/app/team/page-local/TeamCategoryColumn";
+import { TeamCategoryHorizontal } from "@/app/team/page-local/TeamCategoryHorizontal";
+import { TeamCategoryPair } from "@/app/team/page-local/TeamCategoryPair";
 import teamPageContent from "@/../public/json/team-page-content.json";
 import { IconUsers } from "@tabler/icons-react";
 import teamPositionsOrder from "@/../public/json/team-positions-order.json";
-
-type TeamMember = {
-  name: string;
-  position: string;
-  imageUrl: string;
-  description: string;
-};
+import { TeamMember } from "./page-local/membertype";
 
 type TeamData = { team: TeamMember[] };
 type GroupedTeam = Record<string, TeamMember[]>;

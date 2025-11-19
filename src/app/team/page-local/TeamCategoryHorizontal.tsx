@@ -4,13 +4,7 @@ import React from "react";
 import { Box, Text } from "@mantine/core";
 import { motion } from "framer-motion";
 import { TeamMemberGridItem } from "./TeamMemberGridItem";
-
-type TeamMember = {
-  name: string;
-  position: string;
-  imageUrl: string;
-  description: string;
-};
+import { TeamMember } from "./membertype";
 
 interface TeamCategoryHorizontalProps {
   position: string;

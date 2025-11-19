@@ -1,17 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Stack, Box, Text } from "@mantine/core";
+import { Card, Stack, Box, Text, Badge } from "@mantine/core";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
-type TeamMember = {
-  name: string;
-  position: string;
-  imageUrl: string;
-  description: string;
-};
+import { TeamMember } from "./membertype";
 
 interface TeamMemberGridItemProps {
   member: TeamMember;
@@ -90,6 +84,23 @@ export const TeamMemberGridItem: React.FC<TeamMemberGridItemProps> = ({
             >
               {member.name}
             </Text>
+
+            {member.university && (
+              <Badge
+                size="sm"
+                color="gray"
+                variant="light"
+                style={{
+                  marginTop: 6,
+                  backgroundColor: "#f1f3f5",
+                  color: "#495057",
+                  display: "inline-block",
+                }}
+              >
+                {member.university}
+              </Badge>
+            )}
+
             <Text
               size="sm"
               c="dimmed"

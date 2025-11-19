@@ -4,13 +4,7 @@ import React from "react";
 import { Box } from "@mantine/core";
 import { motion } from "framer-motion";
 import { TeamCategoryHorizontal } from "./TeamCategoryHorizontal";
-
-type TeamMember = {
-  name: string;
-  position: string;
-  imageUrl: string;
-  description: string;
-};
+import { TeamMember } from "./membertype";
 
 interface TeamCategoryPairProps {
   categories: {

@@ -1,18 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Group, Box, Text } from "@mantine/core";
+import { Card, Group, Box, Text, Badge } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
-type TeamMember = {
-  name: string;
-  position: string;
-  imageUrl: string;
-  description: string;
-};
+import { TeamMember } from "./membertype";
 
 interface TeamMemberListItemProps {
   member: TeamMember;
@@ -74,18 +68,31 @@ export const TeamMemberListItem: React.FC<TeamMemberListItemProps> = ({
             />
           </Box>
           <Box style={{ flex: 1, minWidth: 0 }}>
-            <Text
-              fw={600}
-              size={isMobile ? "sm" : "md"}
-              style={{
-                color: "var(--primary)",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {member.name}
-            </Text>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <Text
+                fw={600}
+                size={isMobile ? "sm" : "md"}
+                style={{
+                  color: "var(--primary)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  flex: 1,
+                }}
+              >
+                {member.name}
+              </Text>
+              {member.university && (
+                <Badge
+                  size={isMobile ? "xs" : "sm"}
+                  color="gray"
+                  variant="light"
+                  style={{ backgroundColor: "#f1f3f5", color: "#495057" }}
+                >
+                  {member.university}
+                </Badge>
+              )}
+            </div>
             <Text
               size={isMobile ? "xs" : "sm"}
               c="dimmed"

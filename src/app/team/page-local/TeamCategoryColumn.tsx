@@ -4,13 +4,7 @@ import React from "react";
 import { Paper, Badge, Stack } from "@mantine/core";
 import { motion } from "framer-motion";
 import { TeamMemberListItem } from "./TeamMemberListItem";
-
-type TeamMember = {
-  name: string;
-  position: string;
-  imageUrl: string;
-  description: string;
-};
+import { TeamMember } from "./membertype";
 
 interface TeamCategoryColumnProps {
   position: string;
