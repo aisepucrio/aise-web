@@ -24,31 +24,7 @@ import {
 import { BadgeBox } from "@/components/BadgeBox";
 import LinkGroup from "@/components/LinkGroup";
 import teamMemberContent from "@/../public/json/team-member-page-content.json";
-
-// --------------------------------------------------
-// Tipos e helpers locais (simples e auto-explicativos)
-// --------------------------------------------------
-
-// Tipo local (estruturalmente compatível com page.tsx)
-export type TeamMember = {
-  name: string;
-  position: string;
-  imageUrl: string;
-  description: string;
-  bio?: string;
-  email?: string;
-  researchInterests?: string[];
-  technologies?: string[];
-  expertise?: string[];
-  socialLinks?: {
-    linkedin?: string;
-    github?: string;
-    googleScholar?: string;
-    orcid?: string;
-    lattes?: string;
-    personalWebsite?: string;
-  };
-};
+import { TeamMember } from "./membertype";
 
 // --- Helper: renderiza links sociais/academicos ---
 const SocialLinks = ({
@@ -190,30 +166,43 @@ export default function TeamMemberProfile({
                       textAlign: isMobile ? "center" : undefined,
                     }}
                   >
-                    <Title
-                      order={1}
-                      size={isMobile ? "h2" : "h1"}
-                      mb="xs"
+                    <div
                       style={{
-                        color: "var(--primary)",
-                        textAlign: isMobile ? "center" : undefined,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: isMobile ? "center" : "flex-start",
+                        gap: 12,
+                        flexWrap: "wrap",
                       }}
                     >
-                      {member.name}
-                    </Title>
+                      <Title
+                        order={1}
+                        size={isMobile ? "h2" : "h1"}
+                        mb="xs"
+                        style={{
+                          color: "var(--primary)",
+                          textAlign: isMobile ? "center" : undefined,
+                          margin: 0,
+                        }}
+                      >
+                        {member.name}
+                      </Title>
 
-                    <Badge
-                      size={isMobile ? "lg" : "xl"}
-                      variant="light"
-                      color="var(--primary)"
-                      style={{
-                        fontSize: isMobile ? "0.9rem" : "1rem",
-                        fontWeight: 600,
-                        padding: isMobile ? "12px 20px" : "14px 24px",
-                      }}
-                    >
-                      {member.position}
-                    </Badge>
+                      <Badge
+                        size={isMobile ? "lg" : "xl"}
+                        variant="light"
+                        color="var(--primary)"
+                        style={{
+                          fontSize: isMobile ? "0.9rem" : "1rem",
+                          fontWeight: 600,
+                          padding: isMobile ? "10px 16px" : "12px 20px",
+                          marginLeft: isMobile ? 0 : 6,
+                        }}
+                      >
+                        {member.position}{" "}
+                        {member.university && `- ${member.university}`}
+                      </Badge>
+                    </div>
                   </div>
 
                   <div style={{ flex: "0 0 auto" }}>

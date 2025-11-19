@@ -15,10 +15,9 @@ import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconArrowLeft } from "@tabler/icons-react";
 import FlickeringGrid from "@/components/FlickeringGrid";
-import TeamMemberProfile, {
-  TeamMember as TeamMemberType,
-} from "@/components/TeamMemberProfile";
+import TeamMemberProfile from "@/app/team/[name]/page-local/TeamMemberProfile";
 import teamMemberContent from "@/../public/json/team-member-page-content.json";
+import { TeamMember as TeamMemberType } from "./page-local/membertype";
 
 // Tipos essenciais
 // Local TeamMember type is compatible with the one exported by the profile component
