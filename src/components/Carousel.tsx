@@ -68,9 +68,17 @@ const NavButton: React.FC<NavButtonProps> = ({
         aria-label={direction === "left" ? "Previous" : "Next"}
       >
         {direction === "left" ? (
-          <IconChevronLeft size={isMobile ? 24 : 28} stroke={2} color="var(--primary)" />
+          <IconChevronLeft
+            size={isMobile ? 24 : 28}
+            stroke={2}
+            color="var(--primary)"
+          />
         ) : (
-          <IconChevronRight size={isMobile ? 24 : 28} stroke={2} color="var(--primary)" />
+          <IconChevronRight
+            size={isMobile ? 24 : 28}
+            stroke={2}
+            color="var(--primary)"
+          />
         )}
       </ActionIcon>
     </div>
@@ -137,8 +145,10 @@ export const Carousel: React.FC<CarouselProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [maxHeight, setMaxHeight] = useState<number | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isMobile = useMediaQuery("(max-width: 62em)", false, {
     getInitialValueInEffect: true,
   });
@@ -159,6 +169,34 @@ export const Carousel: React.FC<CarouselProps> = ({
       }
     };
   }, []);
+
+  // Calcular altura máxima dos itens
+  useEffect(() => {
+    const calculateMaxHeight = () => {
+      const heights = itemRefs.current
+        .filter((ref) => ref !== null)
+        .map((ref) => ref!.offsetHeight);
+
+      if (heights.length > 0) {
+        const max = Math.max(...heights);
+        setMaxHeight(max);
+      }
+    };
+
+    // Calcular após renderização e mudanças de layout
+    const timer = setTimeout(calculateMaxHeight, 100);
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", calculateMaxHeight);
+    }
+
+    return () => {
+      clearTimeout(timer);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", calculateMaxHeight);
+      }
+    };
+  }, [children, isMobile, viewportWidth]);
 
   // Calcular dimensões do carrossel baseado no dispositivo
   const defaultItemWidthDesktop = 340;
@@ -269,7 +307,14 @@ export const Carousel: React.FC<CarouselProps> = ({
         intervalRef.current = null;
       }
     };
-  }, [autoPlay, autoPlayInterval, isPaused, isVisible, currentIndex, totalPages]);
+  }, [
+    autoPlay,
+    autoPlayInterval,
+    isPaused,
+    isVisible,
+    currentIndex,
+    totalPages,
+  ]);
 
   // Funções de navegação
   const nextSlide = useCallback(() => {
@@ -404,6 +449,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                   ? itemWidthCss
                   : undefined,
               willChange: "transform",
+              alignItems: "stretch",
             }}
             animate={controls}
             drag={enableDrag ? "x" : false}
@@ -418,13 +464,19 @@ export const Carousel: React.FC<CarouselProps> = ({
             {React.Children.map(children, (child, index) => (
               <Box
                 key={index}
+                ref={(el) => {
+                  itemRefs.current[index] = el;
+                }}
                 style={{
                   flexShrink: 0,
                   width: itemWidthCss,
                   pointerEvents: "auto",
+                  height: maxHeight ? `${maxHeight}px` : "auto",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
-                {child}
+                <Box style={{ flex: 1, display: "flex" }}>{child}</Box>
               </Box>
             ))}
           </MotionBox>

@@ -62,7 +62,7 @@ export default function Hero() {
   return (
     <BackgroundImage
       id="hero-root"
-      src="images/foto-do-time.jpg"
+      src="https://images2.imgbox.com/11/f0/uikILd63_o.jpg"
       style={{
         width: "100%",
         height: heroHeight,
@@ -120,19 +120,6 @@ export default function Hero() {
               <Text c="white" size={textSize}>
                 {homeContent.hero.subtitle}
               </Text>
-            </motion.div>
-
-            <motion.div variants={itemVariants} style={{ marginTop: 8 }}>
-              <Button
-                component="a"
-                href="#"
-                variant="filled"
-                size={buttonSize}
-                radius="md"
-                style={{ backgroundColor: "var(--primary)" }}
-              >
-                {homeContent.hero.button.text}
-              </Button>
             </motion.div>
           </div>
         </motion.div>

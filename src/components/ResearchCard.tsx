@@ -65,7 +65,7 @@ export default function ResearchCard({
   function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      router.push(`/researches/${research.id}`);
+      router.push(`/research/${research.id}`);
     }
   }
 
@@ -89,7 +89,7 @@ export default function ResearchCard({
           role="link"
           tabIndex={0}
           aria-label={`Ver detalhes da linha de pesquisa ${research.name}`}
-          onClick={() => router.push(`/researches/${research.id}`)}
+          onClick={() => router.push(`/research/${research.id}`)}
           onKeyDown={handleKeyDown}
           style={{
             cursor: "pointer",
@@ -211,7 +211,9 @@ export default function ResearchCard({
 
               <Group gap="xs" style={{ color: "var(--primary)" }}>
                 <Text size="md" fw={700} style={{ color: PRIMARY }}>
-                  {texts.viewResearchText}
+                  {isMobile
+                    ? texts.viewResearchTextMobile
+                    : texts.viewResearchText}
                 </Text>
                 <ThemeIcon
                   size={32}

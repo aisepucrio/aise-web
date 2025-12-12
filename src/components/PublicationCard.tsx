@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Card, Title, Text, Group, Badge, Stack } from "@mantine/core";
-import { IconExternalLink, IconQuote } from "@tabler/icons-react";
+import { Card, Title, Text, Group, Badge, Stack, Tooltip } from "@mantine/core";
+import { IconExternalLink, IconQuote, IconTrophy } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 
 interface PublicationCardProps {
@@ -12,6 +12,7 @@ interface PublicationCardProps {
   publication_place: string;
   citation_number: number;
   year: string | number;
+  awards?: string;
   viewLabel?: string;
   index?: number;
 }
@@ -25,6 +26,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
   publication_place,
   citation_number,
   year,
+  awards,
   index = 0,
   viewLabel,
 }) => {
@@ -76,14 +78,25 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
           >
             {title}
           </Title>
-          <Badge
-            size="lg"
-            variant="light"
-            color="var(--primary)"
-            style={{ minWidth: "60px" }}
-          >
-            {year}
-          </Badge>
+
+          <Group align="center" gap={8} style={{ flexShrink: 0 }}>
+            {awards ? (
+              <Tooltip label={awards} multiline position="bottom">
+                <span style={{ display: "inline-flex", alignItems: "center" }}>
+                  <IconTrophy size={28} color="#f1c40f" />
+                </span>
+              </Tooltip>
+            ) : null}
+
+            <Badge
+              size="lg"
+              variant="light"
+              color="var(--primary)"
+              style={{ minWidth: "60px" }}
+            >
+              {year}
+            </Badge>
+          </Group>
         </Group>
 
         <Text

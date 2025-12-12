@@ -1,38 +1,18 @@
 {
   "hero": {
     "title": "Welcome to AISE Lab Artificial Intelligence and Software Engineering Laboratory",
-    "subtitle": "Where we are dedicated to advancing the frontiers of software engineering through innovative Artificial Intelligence (AI) technologies",
-    "button": {
-      "text": "Learn More",
-      "href": "#"
-    },
-    "backgroundImage": "/images/foto-do-time.jpg"
+    "subtitle": "Where we are dedicated to advancing the frontiers of software engineering through innovative Artificial Intelligence (AI) technologies"
   },
   "mission": {
     "sectionTitle": "About Us",
     "card": {
-      "title": "Our Mission",
-      "description": "Transform the software development lifecycle, enhancing productivity, accelerating time-to-market, and raising the bar for quality in software deliverables. We are committed to exploring how AI can reshape every phase of software engineering, from streamlining design and optimizing coding practices to automating testing, refining maintenance strategies, and supporting the human-centric aspects of development.",
-      "icon": "/images/icons/goal.svg",
-      "alt": "Goal icon"
+      "description-paragraph1": " Aiselab is a research and innovation lab focused on the intersection of Artificial Intelligence and Software Engineering. We operate as a multidisciplinary environment within computer science, exploring how intelligent technologies can transform the software development lifecycle, from design and implementation to testing, maintenance, and the human aspects of engineering.",
+      "description-paragraph2": " Our team brings together researchers, students, and professionals committed to creating impactful solutions by combining strong academic foundations with practical applications. We work on projects ranging from intelligent automation of engineering tasks to investigating how AI can support decision-making and team collaboration in software development.",
+      "description-paragraph3": " More than a technical lab, Aiselab is a space for continuous learning, active collaboration, and real-world impact. Our goal is to advance the field of software engineering through relevant research, strategic partnerships, and initiatives that bridge scientific knowledge with practical needs."
     }
   },
-  "highlights": [
-    {
-      "title": "Collaborative Innovation",
-      "description": "We actively engage with industry partners and academic institutions to foster interdisciplinary research collaborations. These partnerships enable us to tackle complex challenges at the intersection of AI and software engineering, driving forward the boundaries of technological innovation.",
-      "icon": "/images/icons/teamwork.svg",
-      "alt": "Teamwork icon"
-    },
-    {
-      "title": "Join Us in Shaping the Future",
-      "description": "Researcher, industry professional, or student passionate about AI and software engineering, we invite you on our journey to redefine the future of technology. Together, let's innovate, collaborate, and pioneer solutions that will shape the next generation of software engineering practices.",
-      "icon": "/images/icons/rocket.svg",
-      "alt": "Rocket icon"
-    }
-  ],
   "teamSection": {
-    "title": "Our Team",
+    "title": "Team",
     "subtitle": "Behind every line of code, every research paper, and every prototype, there's a dedicated team of thinkers, builders, and learners.",
     "button": {
       "text": "See Team",
@@ -46,7 +26,7 @@
     }
   },
   "toolsSection": {
-    "title": "Our Tools",
+    "title": "Tools",
     "subtitle": "Discover the innovative solutions we're building. Each tool tackles real-world challenges to advance in the software engineering field.",
     "button": {
       "text": "See Tools",
@@ -61,13 +41,13 @@
   },
   "publicationSections": {
     "awarded": {
-      "title": "Awarded publications",
+      "title": "Awards",
       "subtitle": "Selected papers that received awards and special recognition.",
       "button": {
         "text": "View all publications",
         "href": "/publications"
       },
-      "emptyStateText": "No awarded publications yet.",
+      "emptyStateText": "No awards yet.",
       "error": {
         "title": "Error loading publications",
         "message": "Please try again later."

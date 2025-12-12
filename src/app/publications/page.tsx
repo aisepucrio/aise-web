@@ -27,6 +27,7 @@ interface Publication {
   publication_place: string;
   citation_number: number;
   year: string;
+  awards?: string;
 }
 
 type SortOption =
@@ -291,6 +292,7 @@ export default function PublicationsPage() {
                 publication_place={paper.publication_place}
                 citation_number={paper.citation_number}
                 year={paper.year}
+                awards={paper.awards}
                 index={index}
                 viewLabel={
                   publicationsContent.publicationCard.viewPublicationButton

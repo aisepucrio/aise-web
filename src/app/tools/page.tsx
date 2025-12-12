@@ -149,7 +149,11 @@ export default function ToolsPage() {
                 key={tool.id}
                 tool={tool}
                 index={index}
-                ctaLabel={toolsPageContent?.hero?.ctaLabel}
+                ctaLabel={
+                  isMobile
+                    ? toolsPageContent?.hero?.ctaLabelMobile
+                    : toolsPageContent?.hero?.ctaLabel
+                }
               />
             ))}
           </Box>

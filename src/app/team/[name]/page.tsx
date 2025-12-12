@@ -141,6 +141,7 @@ export default function TeamMemberPage() {
                 leftSection={<IconArrowLeft size={20} />}
                 onClick={() => router.push("/team")}
                 variant="white"
+                color="var(--primary)"
               >
                 {teamMemberContent.backButton}
               </Button>

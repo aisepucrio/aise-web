@@ -18,7 +18,7 @@ import {
   IconBulb,
   IconCopy,
   IconCode,
-  IconBriefcase,
+  IconBrain,
   IconArrowLeft,
 } from "@tabler/icons-react";
 import { BadgeBox } from "@/components/BadgeBox";
@@ -169,10 +169,10 @@ export default function TeamMemberProfile({
                     <div
                       style={{
                         display: "flex",
-                        alignItems: "center",
+                        flexDirection: isMobile ? "column" : "row",
+                        alignItems: isMobile ? "center" : "center",
                         justifyContent: isMobile ? "center" : "flex-start",
                         gap: 12,
-                        flexWrap: "wrap",
                       }}
                     >
                       <Title
@@ -197,6 +197,8 @@ export default function TeamMemberProfile({
                           fontWeight: 600,
                           padding: isMobile ? "10px 16px" : "12px 20px",
                           marginLeft: isMobile ? 0 : 6,
+                          marginBottom: isMobile ? 16 : 0,
+                          alignSelf: isMobile ? "center" : undefined,
                         }}
                       >
                         {member.position}{" "}
@@ -234,8 +236,8 @@ export default function TeamMemberProfile({
                 />
               ) : null}
 
-              {/* Tecnologias e expertise (lado a lado no desktop) */}
-              {(member.technologies?.length || member.expertise?.length) && (
+              {/* Tecnologias e knowledge (lado a lado no desktop) */}
+              {(member.technologies?.length || member.knowledge?.length) && (
                 <Group
                   grow
                   align="stretch"
@@ -250,11 +252,11 @@ export default function TeamMemberProfile({
                     />
                   ) : null}
 
-                  {member.expertise?.length ? (
+                  {member.knowledge?.length ? (
                     <BadgeBox
-                      title={teamMemberContent.expertiseTitle}
-                      icon={<IconBriefcase size={18} />}
-                      items={member.expertise}
+                      title={teamMemberContent.knowledgeTitle}
+                      icon={<IconBrain size={18} />}
+                      items={member.knowledge}
                     />
                   ) : null}
                 </Group>

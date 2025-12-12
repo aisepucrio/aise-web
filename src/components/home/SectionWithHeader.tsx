@@ -37,11 +37,6 @@ export default function SectionWithHeader({
   children,
   paperProps,
 }: SectionWithHeaderProps) {
-  const horizontalMask =
-    "linear-gradient(90deg, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 120px, rgba(0,0,0,1) calc(100% - 120px), rgba(0,0,0,0) 100%)";
-  const verticalMask =
-    "linear-gradient(180deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0.08) 16px, rgba(0,0,0,1) 96px, rgba(0,0,0,1) calc(100% - 96px), rgba(0,0,0,0.08) calc(100% - 16px), rgba(0,0,0,0) 100%)";
-  const maskGradient = isMobile ? verticalMask : horizontalMask;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.25 });
   return (
@@ -57,30 +52,26 @@ export default function SectionWithHeader({
         borderRadius: 0,
         background: "rgba(255, 255, 255, 0.80)",
         backdropFilter: "blur(10px)",
-        WebkitMaskImage: maskGradient,
-        maskImage: maskGradient,
       }}
     >
       <Paper
         component="section"
-        py={isMobile ? 128 : 48}
-        px={isMobile ? 16 : 24}
+        py={isMobile ? 64 : 42}
+        px={isMobile ? 8 : 12}
         shadow="sm"
         style={{
           width: "100%",
           borderRadius: 0,
           background: "rgba(255, 255, 255, 0.95)",
           backdropFilter: "blur(10px)",
-          WebkitMaskImage: maskGradient,
-          maskImage: maskGradient,
         }}
         {...paperProps}
       >
         <Box style={{ width: "100%" }}>
-          <Stack gap="md" align="center" mb={isMobile ? 20 : 40}>
+          <Stack gap="xs" align="center" mb={isMobile ? 20 : 40}>
             <Titulo
-              verticalMarginDesktop={24}
-              verticalMarginMobile={12}
+              verticalMarginDesktop={12}
+              verticalMarginMobile={6}
               color="#000000ff"
             >
               {title}

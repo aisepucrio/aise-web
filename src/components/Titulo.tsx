@@ -11,8 +11,8 @@ import { useMediaQuery } from "@mantine/hooks";
 export default function Titulo({
   children,
   color = "#fff",
-  verticalMarginMobile = 36,
-  verticalMarginDesktop = 48,
+  verticalMarginMobile = 12,
+  verticalMarginDesktop = 24,
 }: {
   children: React.ReactNode;
   color?: string;

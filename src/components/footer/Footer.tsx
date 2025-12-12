@@ -49,7 +49,7 @@ export default function Footer() {
     fetch("/api/researches")
       .then((res) => res.json())
       .then((data) =>
-        setResearchCount(data.researches?.filter(Boolean).length || 0)
+        setResearchCount(data.research?.filter(Boolean).length || 0)
       )
       .catch(() => setResearchCount(0));
 

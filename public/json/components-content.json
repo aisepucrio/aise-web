@@ -1,6 +1,7 @@
 {
   "researchCard": {
     "viewResearchText": "View Research Line",
+    "viewResearchTextMobile": "View",
     "openText": "Open",
     "durationLabel": "Duration",
     "stats": {

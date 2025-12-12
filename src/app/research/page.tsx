@@ -16,7 +16,7 @@ import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import ResearchCard from "@/components/ResearchCard";
 import PagesHeader from "@/components/PagesHeader";
-import researchesPageContent from "@/../public/json/researches-page-content.json";
+import researchesPageContent from "@/../public/json/research-page-content.json";
 import { IconFlask } from "@tabler/icons-react";
 
 type Research = {
@@ -164,10 +164,10 @@ export default function ResearchesPage() {
                   <IconFlask size={40} />
                 </ThemeIcon>
                 <Text ta="center" c="white" size="xl" fw={600}>
-                  {researchesPageContent?.noResearches?.title}
+                  {researchesPageContent?.noResearch?.title}
                 </Text>
                 <Text ta="center" c="rgba(255, 255, 255, 0.8)" size="md">
-                  {researchesPageContent?.noResearches?.subtitle}
+                  {researchesPageContent?.noResearch?.subtitle}
                 </Text>
               </Stack>
             </Center>

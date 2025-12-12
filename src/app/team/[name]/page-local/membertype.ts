@@ -8,7 +8,7 @@ export type TeamMember = {
   email?: string;
   researchInterests?: string[];
   technologies?: string[];
-  expertise?: string[];
+  knowledge?: string[];
   socialLinks?: {
     linkedin?: string;
     github?: string;
