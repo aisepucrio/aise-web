@@ -1,0 +1,57 @@
+import {
+  ColorSchemeScript,
+  MantineProvider,
+  createTheme,
+  mantineHtmlProps,
+} from "@mantine/core";
+import { Montserrat } from "next/font/google";
+import type { Metadata } from "next";
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
+import "./globals.css";
+import { Notifications } from "@mantine/notifications";
+import { ButtonTest } from "@shared/ui";
+
+// Carrega a fonte Montserrat via next/font
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
+
+// Define a fonte Montserrat como base no tema
+const theme = createTheme({
+  fontFamily:
+    "var(--font-montserrat), Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  headings: { fontFamily: "var(--font-montserrat), Montserrat, sans-serif" },
+  fontFamilyMonospace: "ui-monospace, SFMono-Regular, Menlo, monospace",
+  primaryColor: "indigo",
+});
+
+export const metadata: Metadata = {
+  title: "AISE Team Editor",
+  description: "Editor de perfis da equipe AISE - PUC-Rio",
+};
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html {...mantineHtmlProps} lang="en" className={montserrat.variable}>
+      <head>
+        <ColorSchemeScript />
+        <link rel="icon" href="/favicon.svg" />
+      </head>
+
+      <body className={`${montserrat.variable}`}>
+        <ButtonTest>Test Button from UI Package</ButtonTest>
+        <MantineProvider theme={theme} defaultColorScheme="light">
+          <Notifications position="top-right" />
+          {children}
+        </MantineProvider>
+      </body>
+    </html>
+  );
+}
