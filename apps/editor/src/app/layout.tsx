@@ -10,7 +10,6 @@ import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "./globals.css";
 import { Notifications } from "@mantine/notifications";
-import { ButtonTest } from "@shared/ui";
 
 // Carrega a fonte Montserrat via next/font
 const montserrat = Montserrat({
@@ -46,7 +45,6 @@ export default function RootLayout({
       </head>
 
       <body className={`${montserrat.variable}`}>
-        <ButtonTest>Test Button from UI Package</ButtonTest>
         <MantineProvider theme={theme} defaultColorScheme="light">
           <Notifications position="top-right" />
           {children}

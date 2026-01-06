@@ -10,7 +10,6 @@ import "@mantine/core/styles.css";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
-import { ButtonTest } from "@shared/ui";
 
 // Carrega a fonte Montserrat via next/font
 const montserrat = Montserrat({
@@ -50,7 +49,6 @@ export default function RootLayout({
           {children}
           <Footer />
         </MantineProvider>
-        <ButtonTest>Test Button from UI Package</ButtonTest>
       </body>
     </html>
   );
