@@ -28,7 +28,7 @@ import {
 } from "@tabler/icons-react";
 import { ToolGallery } from "@/components/ToolGallery";
 import Carousel from "@/components/Carousel";
-import PersonCard, { PersonCardProps } from "@/components/PersonCard";
+import { PersonCard, PersonCardProps } from "@shared/ui";
 import PublicationCard from "@/components/PublicationCard";
 import { BadgeBox } from "@/components/BadgeBox";
 import { SectionTitle } from "@/components/SectionTitle";
@@ -343,7 +343,6 @@ export default function ToolDetailView({
                   <PersonCard
                     key={`${person.name}-${index}`}
                     {...person}
-                    viewProfileText={personCardTexts.viewProfileText}
                     cardWidth={isMobile ? 180 : 240}
                   />
                 ))}

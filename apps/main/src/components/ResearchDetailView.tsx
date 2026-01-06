@@ -24,7 +24,7 @@ import {
   IconTool,
 } from "@tabler/icons-react";
 import Carousel from "@/components/Carousel";
-import PersonCard, { PersonCardProps } from "@/components/PersonCard";
+import { PersonCard, PersonCardProps } from "@shared/ui";
 import PublicationCard from "@/components/PublicationCard";
 import { SectionTitle } from "@/components/SectionTitle";
 import DurationInfo from "@/components/DurationInfo";
@@ -263,7 +263,6 @@ export default function ResearchDetailView({
                   <PersonCard
                     key={`${person.name}-${index}`}
                     {...person}
-                    viewProfileText={personCardTexts.viewProfileText}
                     cardWidth={isMobile ? 180 : 240}
                   />
                 ))}

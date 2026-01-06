@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import Carousel from "@/components/Carousel";
-import PersonCard, { PersonCardProps } from "@/components/PersonCard";
+import { PersonCard, PersonCardProps } from "@shared/ui";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
 import homeContent from "@/../public/json/home-content.json";
 
@@ -46,7 +46,6 @@ const useTeamData = () => {
           position: member.position,
           imageUrl: member.imageUrl,
           description: member.description,
-          viewProfileText: homeContent.teamSection.viewProfileText,
         }));
 
         if (mounted) {

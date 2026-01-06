@@ -10,7 +10,7 @@ import ResearchDetailView, {
   ResearchData,
   ResearchPublication,
 } from "@/components/ResearchDetailView";
-import { PersonCardProps } from "@/components/PersonCard";
+import { PersonCardProps } from "@shared/ui";
 import pageContent from "@/../public/json/research-detail-page-content.json";
 
 // Tipos

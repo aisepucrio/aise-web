@@ -3,7 +3,8 @@
 import React from "react";
 import { Box, Text } from "@mantine/core";
 import { motion } from "framer-motion";
-import { TeamMemberGridItem } from "./TeamMemberGridItem";
+import { useRouter } from "next/navigation";
+import { TeamMemberGridItem } from "@shared/ui";
 import { TeamMember } from "./membertype";
 
 interface TeamCategoryHorizontalProps {
@@ -11,7 +12,6 @@ interface TeamCategoryHorizontalProps {
   members: TeamMember[];
   index: number;
   generateSlug: (name: string) => string;
-  viewMoreText: string;
 }
 
 export const TeamCategoryHorizontal: React.FC<TeamCategoryHorizontalProps> = ({
@@ -19,8 +19,8 @@ export const TeamCategoryHorizontal: React.FC<TeamCategoryHorizontalProps> = ({
   members,
   index,
   generateSlug,
-  viewMoreText,
 }) => {
+  const router = useRouter();
   // Centraliza quando há menos de 3 membros
   const shouldCenter = members.length < 3;
 
@@ -78,8 +78,7 @@ export const TeamCategoryHorizontal: React.FC<TeamCategoryHorizontalProps> = ({
               key={member.name}
               member={member}
               index={idx}
-              generateSlug={generateSlug}
-              viewMoreText={viewMoreText}
+              onClick={() => router.push(`/team/${generateSlug(member.name)}`)}
             />
           ))}
         </Box>

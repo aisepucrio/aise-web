@@ -4,6 +4,12 @@
   "private": true,
   "main": "./index.ts",
   "types": "./index.ts",
+  "dependencies": {
+    "@mantine/core": "^8.3.7",
+    "@mantine/hooks": "^8.3.7",
+    "@tabler/icons-react": "^3.35.0",
+    "framer-motion": "^12.23.22"
+  },
   "peerDependencies": {
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19"

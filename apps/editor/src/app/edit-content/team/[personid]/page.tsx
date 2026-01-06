@@ -10,9 +10,9 @@ import {
 } from "@/services/googleSheets";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
-import PersonCard from "@/components/main-app-components/PersonCard";
-import MemberListHorizontal from "@/components/MemberListHorizontal";
-import MemberListVertical from "@/components/MemberListVertical";
+import { PersonCard } from "@shared/ui";
+import { TeamMemberListItem } from "@shared/ui";
+import { TeamMemberGridItem } from "@shared/ui";
 import FullProfile from "@/components/FullProfile";
 import ProfileInstructions from "@/components/team/ProfileInstructions";
 
@@ -127,7 +127,7 @@ export default function EditContentPage() {
               </Text>
               <Center>
                 <Box style={{ width: "35%" }}>
-                  <MemberListHorizontal
+                  <TeamMemberListItem
                     key={`member-horizontal-${parsedData.imageUrl}`}
                     member={parsedData}
                   />
@@ -143,10 +143,9 @@ export default function EditContentPage() {
               </Text>
               <Center>
                 <Box style={{ width: "35%" }}>
-                  <MemberListVertical
+                  <TeamMemberGridItem
                     key={`member-vertical-${parsedData.imageUrl}`}
                     member={parsedData}
-                    avatarSize={90}
                   />
                 </Box>
               </Center>

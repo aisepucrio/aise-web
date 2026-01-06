@@ -10,7 +10,7 @@ import ToolDetailView, {
   ToolData,
   ToolPublication,
 } from "@/components/ToolDetailView";
-import { PersonCardProps } from "@/components/PersonCard";
+import { PersonCardProps } from "@shared/ui";
 import pageContent from "@/../public/json/tools-detail-page-content.json";
 
 // Tipos
@@ -165,7 +165,6 @@ const useToolTeam = (tool: Tool | null) => {
               imageUrl: member.imageUrl,
               description: member.description,
               roles: memberRolesMap.get(member.name) || [],
-              viewProfileText: pageContent.sections.team.viewProfileText,
             }));
           setTeamMembers(relatedMembers);
         }

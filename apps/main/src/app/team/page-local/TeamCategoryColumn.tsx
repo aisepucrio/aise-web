@@ -3,7 +3,8 @@
 import React from "react";
 import { Paper, Badge, Stack } from "@mantine/core";
 import { motion } from "framer-motion";
-import { TeamMemberListItem } from "./TeamMemberListItem";
+import { useRouter } from "next/navigation";
+import { TeamMemberListItem } from "@shared/ui";
 import { TeamMember } from "./membertype";
 
 interface TeamCategoryColumnProps {
@@ -19,6 +20,8 @@ export const TeamCategoryColumn: React.FC<TeamCategoryColumnProps> = ({
   index,
   generateSlug,
 }) => {
+  const router = useRouter();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -68,7 +71,7 @@ export const TeamCategoryColumn: React.FC<TeamCategoryColumnProps> = ({
               key={member.name}
               member={member}
               index={idx}
-              generateSlug={generateSlug}
+              onClick={() => router.push(`/team/${generateSlug(member.name)}`)}
             />
           ))}
         </Stack>
