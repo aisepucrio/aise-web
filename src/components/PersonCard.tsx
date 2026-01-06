@@ -96,17 +96,11 @@ export const PersonCard: React.FC<PersonCardProps> = ({
           height: imageHeight,
           width: "100%",
           overflow: "hidden",
+          backgroundImage: `url(${imageUrl})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
-        <img
-          src={imageUrl}
-          alt={`Foto de ${name}`}
-          style={{
-            objectFit: "cover",
-            objectPosition: "top",
-          }}
-        />
-
         {/* Overlay gradient sutil na base */}
         <Box
           style={{
