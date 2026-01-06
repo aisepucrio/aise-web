@@ -126,16 +126,14 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
                 cursor: "grab",
               }}
             >
-              <Image
+              <img
                 src={images[currentIndex]}
                 alt={`${toolName} - Screenshot ${currentIndex + 1}`}
-                fill
                 style={{
                   objectFit: "contain",
                   userSelect: "none",
                   pointerEvents: "none",
                 }}
-                priority={currentIndex === 0}
               />
             </MotionBox>
           </AnimatePresence>
@@ -256,10 +254,9 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
                     backgroundColor: "#f5f5f5",
                   }}
                 >
-                  <Image
+                  <img
                     src={image}
                     alt={`${texts.thumbnailAlt} ${index + 1}`}
-                    fill
                     style={{ objectFit: "contain" }}
                     sizes="80px"
                   />

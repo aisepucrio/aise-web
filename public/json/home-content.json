@@ -1,7 +1,8 @@
 {
   "hero": {
     "title": "Welcome to AISE Lab Artificial Intelligence and Software Engineering Laboratory",
-    "subtitle": "Where we are dedicated to advancing the frontiers of software engineering through innovative Artificial Intelligence technologies"
+    "subtitle": "Where we are dedicated to advancing the frontiers of software engineering through innovative Artificial Intelligence technologies",
+    "imgsrc": "https://images2.imgbox.com/11/f0/uikILd63_o.jpg"
   },
   "mission": {
     "sectionTitle": "About Us",
@@ -40,7 +41,7 @@
   "publicationSections": {
     "awarded": {
       "title": "Awards",
-      "subtitle": "Selected papers that received awards and special recognition.",
+      "subtitle": "Selected awards and special recognitions.",
       "button": {
         "text": "View all publications",
         "href": "/publications"

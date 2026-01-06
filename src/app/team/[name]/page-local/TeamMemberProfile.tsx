@@ -116,10 +116,9 @@ export default function TeamMemberProfile({
                   boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                 }}
               >
-                <Image
+                <img
                   src={member.imageUrl}
                   alt={member.name}
-                  fill
                   style={{ objectFit: "cover", objectPosition: "top" }}
                 />
               </Box>

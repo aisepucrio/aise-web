@@ -61,7 +61,7 @@ export const TeamMemberGridItem: React.FC<TeamMemberGridItemProps> = ({
               position: "relative",
             }}
           >
-            <Image
+            <img
               src={member.imageUrl}
               alt={member.name}
               width={140}

@@ -62,7 +62,7 @@ export default function Hero() {
   return (
     <BackgroundImage
       id="hero-root"
-      src="https://images2.imgbox.com/11/f0/uikILd63_o.jpg"
+      src={homeContent.hero.imgsrc}
       style={{
         width: "100%",
         height: heroHeight,

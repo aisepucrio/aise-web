@@ -59,7 +59,7 @@ export const TeamMemberListItem: React.FC<TeamMemberListItemProps> = ({
               position: "relative",
             }}
           >
-            <Image
+            <img
               src={member.imageUrl}
               alt={member.name}
               width={isMobile ? 60 : 90}

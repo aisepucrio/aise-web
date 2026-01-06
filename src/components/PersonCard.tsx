@@ -98,10 +98,9 @@ export const PersonCard: React.FC<PersonCardProps> = ({
           overflow: "hidden",
         }}
       >
-        <Image
+        <img
           src={imageUrl}
           alt={`Foto de ${name}`}
-          fill
           style={{
             objectFit: "cover",
             objectPosition: "top",

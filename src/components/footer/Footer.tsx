@@ -79,24 +79,21 @@ export default function Footer() {
           <Grid.Col span={{ base: 12, md: 3 }} visibleFrom="md">
             <Stack gap="xl" align="center" h="100%" justify="center">
               {/* AISE Logo */}
-              <Image
+              <img
                 src={footerData.logos.aise}
                 alt="AISE Logo"
-                w={200}
-                h="auto"
-                fit="contain"
+                width={200}
+                height="auto"
+                style={{ objectFit: "contain" }}
               />
 
               {/* PUC-Rio Logo */}
-              <Image
+              <img
                 src={footerData.logos.puc}
                 alt="PUC-Rio Logo"
-                w={200}
-                h="auto"
-                fit="contain"
-                style={{
-                  backgroundColor: "transparent",
-                }}
+                width={200}
+                height="auto"
+                style={{ objectFit: "contain", backgroundColor: "transparent" }}
               />
             </Stack>
           </Grid.Col>

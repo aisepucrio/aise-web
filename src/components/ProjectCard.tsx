@@ -53,10 +53,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           backgroundColor: "#f1f5f9",
         }}
       >
-        <Image
+        <img
           src={imageUrl}
           alt={`${texts.imageAltPrefix} ${name}`}
-          fill
           style={{
             objectFit: "cover",
             objectPosition: "center",
