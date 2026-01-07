@@ -23,11 +23,6 @@ const sectionMotion = {
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.5, ease: [0.2, 0.6, 0.3, 1] as const },
 };
-const buttonMotion = {
-  whileHover: { y: -1, scale: 1.01 },
-  whileTap: { scale: 0.99 },
-  transition: { type: "spring" as const, stiffness: 280, damping: 20 },
-} as const;
 
 export default function SectionWithHeader({
   title,
