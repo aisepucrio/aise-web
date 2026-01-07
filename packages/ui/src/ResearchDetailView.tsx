@@ -148,7 +148,6 @@ export default function ResearchDetailView({
                       {/* Duration info */}
                       <DurationInfo
                         icon={<IconClock size={14} color="var(--primary)" />}
-                        label={"Duration"}
                         value={research.duration}
                         size={isMobile ? "sm" : "md"}
                       />

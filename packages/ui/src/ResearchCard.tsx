@@ -197,7 +197,6 @@ export default function ResearchCard({
                 <Box style={{ flexShrink: 0 }}>
                   <DurationInfo
                     icon={<IconClock size={14} color={PRIMARY} />}
-                    label={finalTexts.durationLabel}
                     value={research.duration}
                     size={isMobile ? "sm" : "md"}
                   />

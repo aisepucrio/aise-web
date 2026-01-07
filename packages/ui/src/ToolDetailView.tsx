@@ -151,7 +151,6 @@ export default function ToolDetailView({
 
                         <DurationInfo
                           icon={<IconClock size={14} color="var(--primary)" />}
-                          label="Duration"
                           value={tool.duration}
                           size={isMobile ? "sm" : "md"}
                         />
@@ -232,7 +231,7 @@ export default function ToolDetailView({
                   title="Gallery"
                   isMobile={isMobile}
                 />
-                <ToolGallery images={tool.gallery} toolName={tool.name} />
+                <ToolGallery images={tool.gallery} />
               </Box>
             )}
 

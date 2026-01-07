@@ -153,25 +153,18 @@ export const LinkGroup: React.FC<LinkGroupProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={item.aria}
-              className="linkGroupIcon"
-              style={
-                {
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                  ["--hoverShadow" as any]: item.hoverShadow,
-                } as React.CSSProperties
-              }
+              style={() => ({
+                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                ["&:hover"]: {
+                  transform: "translateY(-4px)",
+                  boxShadow: item.hoverShadow,
+                },
+              })}
             >
               {item.icon}
             </ActionIcon>
           ))}
         </Group>
-
-        <style jsx>{`
-          .linkGroupIcon:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--hoverShadow);
-          }
-        `}</style>
       </>
     </MantineProvider>
   );
