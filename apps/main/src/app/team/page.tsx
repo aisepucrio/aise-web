@@ -12,7 +12,6 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";
 import { TeamCategoryColumn } from "@/app/team/page-local/TeamCategoryColumn";
@@ -58,12 +57,7 @@ const useTeamData = () => {
         }
       } catch {
         if (mounted) {
-          notifications.show({
-            title: "Erro ao carregar equipe",
-            message: "Tente novamente mais tarde.",
-            color: "red",
-            withCloseButton: true,
-          });
+          console.error("Failed to load team data");
           setTeamData({});
         }
       } finally {

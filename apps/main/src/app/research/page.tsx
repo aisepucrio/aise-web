@@ -12,7 +12,6 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import { ResearchCard } from "@shared/ui";
 import PagesHeader from "@/components/PagesHeader";
@@ -52,12 +51,7 @@ const useResearchesData = () => {
         if (mounted) setResearchesData(data.researches);
       } catch {
         if (mounted) {
-          notifications.show({
-            title: "Erro ao carregar linhas de pesquisa",
-            message: "Tente novamente mais tarde.",
-            color: "red",
-            withCloseButton: true,
-          });
+          console.error("Failed to load research data");
           setResearchesData([]);
         }
       } finally {

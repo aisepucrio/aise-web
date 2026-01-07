@@ -131,12 +131,7 @@ export function useEditPage<T>({
           }
         }
       } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-        notifications.show({
-          title: "Erro",
-          message: `Erro ao carregar dados. Redirecionando...`,
-          color: "red",
-        });
+        console.error("Failed to load data:", error);
         setTimeout(() => router.push("/"), 2000);
       } finally {
         setIsLoading(false);
@@ -246,15 +241,9 @@ export function useEditPage<T>({
       }
 
       setLastSaved(new Date());
-      notifications.show({
-        title: "Salvo automaticamente",
-        message: ``,
-        color: "blue",
-        icon: <IconCheck />,
-        autoClose: 2000,
-      });
+      console.log("Auto-saved successfully");
     } catch (error) {
-      console.error("Erro no autosave:", error);
+      console.error("Auto-save failed:", error);
       // Não mostra erro para não incomodar o usuário
     } finally {
       setIsAutoSaving(false);
@@ -264,22 +253,12 @@ export function useEditPage<T>({
   // Salvar alterações
   const handleSave = async () => {
     if (!parsedData) {
-      notifications.show({
-        title: "Erro",
-        message: "JSON inválido. Corrija os erros antes de salvar.",
-        color: "red",
-        icon: <IconX />,
-      });
+      console.error("Invalid JSON. Fix errors before saving.");
       return;
     }
 
     if (!validation.valid) {
-      notifications.show({
-        title: "Erro de Validação",
-        message: validation.errors.join(", "),
-        color: "red",
-        icon: <IconX />,
-      });
+      console.error("Validation error:", validation.errors.join(", "));
       return;
     }
 
@@ -301,12 +280,7 @@ export function useEditPage<T>({
       }
 
       setLastSaved(new Date());
-      notifications.show({
-        title: "Sucesso!",
-        message: result.message || `${itemType} salvo com sucesso`,
-        color: "green",
-        icon: <IconCheck />,
-      });
+      console.log("Saved successfully:", result.message || `${itemType} saved`);
 
       // Se era novo, redireciona para a URL correta
       if (isNewItem && getItemUrl) {
@@ -317,16 +291,10 @@ export function useEditPage<T>({
         setIsNewItem(false);
       }
     } catch (error) {
-      console.error("Erro ao salvar:", error);
-      notifications.show({
-        title: "Erro",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Erro ao salvar dados. Tente novamente.",
-        color: "red",
-        icon: <IconX />,
-      });
+      console.error(
+        "Save failed:",
+        error instanceof Error ? error.message : error
+      );
     } finally {
       setIsSaving(false);
     }
@@ -340,11 +308,7 @@ export function useEditPage<T>({
       ...(itemData && { email: (itemData as any).email }),
     };
     setJsonText(JSON.stringify(resetData, null, 2));
-    notifications.show({
-      title: "Resetado",
-      message: "Dados resetados para exemplo (ID mantido)",
-      color: "blue",
-    });
+    console.log("Data reset to example (ID preserved)");
   };
 
   return {

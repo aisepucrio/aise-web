@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Container, Box, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import BackButton from "@/components/BackButton";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import { TeamMemberProfile, TeamMember as TeamMemberType } from "@shared/ui";
@@ -47,28 +46,12 @@ const useTeamMember = (slug: string) => {
         if (!mounted) return;
         if (found) {
           setMember(found);
-          notifications.show({
-            title: "Not Found",
-            message: "Could not find the requested person.",
-            color: "red",
-            withCloseButton: true,
-          });
         } else {
-          notifications.show({
-            title: "Not Found",
-            message: "Could not find the requested person.",
-            color: "red",
-            withCloseButton: true,
-          });
+          console.error("Team member not found:", slug);
         }
       } catch {
         if (!mounted) return;
-        notifications.show({
-          title: "Erro ao carregar",
-          message: "Tente novamente mais tarde.",
-          color: "red",
-          withCloseButton: true,
-        });
+        console.error("Failed to load team member data");
       } finally {
         mounted && setIsLoading(false);
       }

@@ -11,7 +11,6 @@ import {
   ThemeIcon,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import { ToolHeroCard } from "@shared/ui";
 import PagesHeader from "@/components/PagesHeader";
@@ -51,12 +50,7 @@ const useToolsData = () => {
         if (mounted) setToolsData(data.tools);
       } catch {
         if (mounted) {
-          notifications.show({
-            title: "Erro ao carregar projetos",
-            message: "Tente novamente mais tarde.",
-            color: "red",
-            withCloseButton: true,
-          });
+          console.error("Failed to load tools data");
           setToolsData([]);
         }
       } finally {

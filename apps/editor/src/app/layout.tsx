@@ -7,9 +7,7 @@ import {
 import { Montserrat } from "next/font/google";
 import type { Metadata } from "next";
 import "@mantine/core/styles.css";
-import "@mantine/notifications/styles.css";
 import "./globals.css";
-import { Notifications } from "@mantine/notifications";
 
 // Carrega a fonte Montserrat via next/font
 const montserrat = Montserrat({
@@ -46,7 +44,6 @@ export default function RootLayout({
 
       <body className={`${montserrat.variable}`}>
         <MantineProvider theme={theme} defaultColorScheme="light">
-          <Notifications position="top-right" />
           {children}
         </MantineProvider>
       </body>
