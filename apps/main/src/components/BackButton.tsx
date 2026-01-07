@@ -16,6 +16,7 @@ export default function BackButton({ children, onClick }: BackButtonProps) {
       variant="white"
       color="var(--primary)"
       mb={isMobile ? 20 : 32}
+      ml={16}
       onClick={onClick}
     >
       {children}

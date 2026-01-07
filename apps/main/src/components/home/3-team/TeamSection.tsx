@@ -123,7 +123,7 @@ export default function TeamSection() {
           showDots
           itemWidth={280}
           itemWidthMobile={200}
-          itemsPerView={3}
+          itemsPerView={4}
           itemsPerViewMobile={1}
         >
           {teamData.map((person, index) => (

@@ -295,7 +295,7 @@ export default function ToolDetailView({
                   showDots={true}
                   itemWidth={240}
                   itemWidthMobile={180}
-                  itemsPerView={1}
+                  itemsPerView={4}
                   itemsPerViewMobile={1}
                 >
                   {teamMembers.map((person, index) => (

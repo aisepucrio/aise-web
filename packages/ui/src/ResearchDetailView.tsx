@@ -14,11 +14,21 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import { motion } from "framer-motion";
-import { IconClock, IconSparkles, IconFlask } from "@tabler/icons-react";
+import {
+  IconClock,
+  IconSparkles,
+  IconFlask,
+  IconUsers,
+  IconFileText,
+  IconTool,
+} from "@tabler/icons-react";
 import { DurationInfo } from "./DurationInfo";
-import { PersonCardProps } from "./PersonCard";
+import { PersonCard, PersonCardProps } from "./PersonCard";
 import { SectionTitle } from "./SectionTitle";
 import { ProjectCard } from "./ProjectCard";
+import { PublicationCard, PublicationCardProps } from "./PublicationCard";
+import { ToolCardCompact, ToolCardCompactData } from "./ToolCardCompact";
+import { Carousel } from "./Carousel";
 import { useMediaQuery } from "@mantine/hooks";
 
 // Types
@@ -57,8 +67,8 @@ export interface ResearchTool {
 export interface ResearchDetailViewProps {
   research: ResearchData;
   teamMembers?: PersonCardProps[];
-  publications?: ResearchPublication[];
-  tools?: ResearchTool[];
+  publications?: PublicationCardProps[];
+  tools?: ToolCardCompactData[];
 }
 
 // Shared research detail view with projects, description, and flexible styling
@@ -215,6 +225,74 @@ export default function ResearchDetailView({
                     />
                   ))}
                 </SimpleGrid>
+              </Box>
+            )}
+
+            {/* Team Members section */}
+            {teamMembers && teamMembers.length > 0 && (
+              <Box mb={spacing}>
+                <SectionTitle
+                  icon={<IconUsers size={isMobile ? 20 : 24} />}
+                  title="Team"
+                  isMobile={isMobile}
+                />
+                <Carousel
+                  autoPlay={true}
+                  autoPlayInterval={20000}
+                  showDots={true}
+                  itemWidth={240}
+                  itemWidthMobile={180}
+                  itemsPerView={4}
+                  itemsPerViewMobile={1}
+                >
+                  {teamMembers.map((person, index) => (
+                    <PersonCard
+                      key={`${person.name}-${index}`}
+                      {...person}
+                      cardWidth={isMobile ? 180 : 240}
+                    />
+                  ))}
+                </Carousel>
+              </Box>
+            )}
+
+            {/* Publications section */}
+            {publications && publications.length > 0 && (
+              <Box mb={spacing}>
+                <SectionTitle
+                  icon={<IconFileText size={isMobile ? 20 : 24} />}
+                  title="Publications"
+                  isMobile={isMobile}
+                />
+                <Stack gap="lg">
+                  {publications.map((publication, idx) => (
+                    <PublicationCard key={idx} {...publication} index={idx} />
+                  ))}
+                </Stack>
+              </Box>
+            )}
+
+            {/* Tools section */}
+            {tools && tools.length > 0 && (
+              <Box mb={spacing}>
+                <SectionTitle
+                  icon={<IconTool size={isMobile ? 20 : 24} />}
+                  title="Associated Tools"
+                  isMobile={isMobile}
+                />
+                <Carousel
+                  autoPlay={true}
+                  autoPlayInterval={25000}
+                  showDots={true}
+                  itemWidth={425}
+                  itemWidthMobile={280}
+                  itemsPerView={2}
+                  itemsPerViewMobile={1}
+                >
+                  {tools.map((tool, index) => (
+                    <ToolCardCompact key={tool.id} tool={tool} index={index} />
+                  ))}
+                </Carousel>
               </Box>
             )}
           </Paper>

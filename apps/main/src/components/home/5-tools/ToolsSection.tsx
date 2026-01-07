@@ -117,7 +117,7 @@ export default function ToolsSection() {
             autoPlayInterval={25000}
             showDots
             showNavButtons
-            itemsPerView={1}
+            itemsPerView={2}
             itemsPerViewMobile={1}
             itemWidth={500}
             itemWidthMobile="75vw"
