@@ -12,6 +12,7 @@ import {
   ResearchData,
   ResearchPublication,
   PersonCardProps,
+  PublicationCardProps,
 } from "@shared/ui";
 
 // Tipos
@@ -84,7 +85,7 @@ const useResearch = (id: string) => {
 
 // Hook: carrega publicações relacionadas à linha de pesquisa
 const useResearchPublications = (research: Research | null) => {
-  const [publications, setPublications] = useState<ResearchPublication[]>([]);
+  const [publications, setPublications] = useState<PublicationCardProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -108,7 +109,7 @@ const useResearchPublications = (research: Research | null) => {
             )
             .map((pub: any) => ({
               title: pub.title,
-              link: pub.link,
+              link: pub.link ?? "",
               authors_list: pub.authors_list,
               publication_place: pub.publication_place,
               citation_number: pub.citation_number,
