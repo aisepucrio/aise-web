@@ -13,7 +13,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import homeContent from "@/../public/json/home-content.json";
+import homeContent from "@/../public/json/home.json";
 import { is } from "zod/locales";
 
 /* Hero com imagem de fundo + overlay escuro.

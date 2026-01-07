@@ -4,7 +4,6 @@ import { useMediaQuery } from "@mantine/hooks";
 import { motion } from "framer-motion";
 import { IconExternalLink, IconQuote } from "@tabler/icons-react";
 import type { Publication } from "./AwardedPublicationSection";
-import componentTexts from "@/../public/json/components-content.json";
 
 const MotionPaper = motion(Paper as any);
 
@@ -18,13 +17,8 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
   index,
 }) => {
   const isMobile = useMediaQuery("(max-width: 48em)");
-  const awardedCardTexts = componentTexts.awardedPublicationCard;
-  const viewLabel = awardedCardTexts.viewText;
   const citationCount = publication.citation_number ?? 0;
-  const citationLabel =
-    citationCount === 1
-      ? awardedCardTexts.citationSingular
-      : awardedCardTexts.citationPlural;
+  const citationLabel = citationCount === 1 ? "citation" : "citations";
 
   const handleClick = () => {
     if (publication.link) {
@@ -119,7 +113,7 @@ const AwardedPublicationCard: React.FC<AwardedPublicationCardProps> = ({
 
           <Group gap={6} align="center" style={{ color: "var(--primary)" }}>
             <Text size="xs" fw={600}>
-              {viewLabel}
+              View Publication
             </Text>
             <IconExternalLink size={16} stroke={2} />
           </Group>

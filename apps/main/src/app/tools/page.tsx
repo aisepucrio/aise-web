@@ -15,7 +15,7 @@ import FlickeringGrid from "@/components/FlickeringGrid";
 import { ToolHeroCard } from "@shared/ui";
 import PagesHeader from "@/components/PagesHeader";
 import { useRouter } from "next/navigation";
-import toolsPageContent from "@/../public/json/tools-page-content.json";
+import content from "@/../public/json/pages-headers.json";
 import { IconTool } from "@tabler/icons-react";
 
 type Tool = {
@@ -123,13 +123,13 @@ export default function ToolsPage() {
       >
         <PagesHeader
           icon={IconTool}
-          title={toolsPageContent?.hero?.title}
-          subtitle={toolsPageContent?.hero?.subtitle}
+          title={content.toolsHero.title}
+          subtitle={content.toolsHero.subtitle}
           metrics={
             tools.length > 0
               ? [
                   {
-                    label: toolsPageContent?.stats?.totalLabel ?? "Total Tools",
+                    label: "Total Tools",
                     value: tools.length,
                   },
                 ]
@@ -145,13 +145,6 @@ export default function ToolsPage() {
                 tool={tool}
                 index={index}
                 onClick={() => router.push(`/tools/${tool.id}`)}
-                texts={{
-                  moreText: toolsPageContent?.toolHeroCard?.moreText,
-                  durationLabel: toolsPageContent?.toolHeroCard?.durationLabel,
-                  ctaLabel: isMobile
-                    ? toolsPageContent?.hero?.ctaLabelMobile
-                    : toolsPageContent?.hero?.ctaLabel,
-                }}
               />
             ))}
           </Box>
@@ -163,10 +156,7 @@ export default function ToolsPage() {
                   <IconTool size={40} />
                 </ThemeIcon>
                 <Text ta="center" c="white" size="xl" fw={600}>
-                  {toolsPageContent?.noTools?.title}
-                </Text>
-                <Text ta="center" c="rgba(255, 255, 255, 0.8)" size="md">
-                  {toolsPageContent?.noTools?.subtitle}
+                  No tools found
                 </Text>
               </Stack>
             </Center>

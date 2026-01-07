@@ -25,7 +25,7 @@ import {
   IconFlask,
   IconFileText,
 } from "@tabler/icons-react";
-import footerData from "@/../public/json/footer-content.json";
+import footerData from "@/../public/json/footer.json";
 
 export default function Footer() {
   const [teamCount, setTeamCount] = useState(0);
@@ -49,7 +49,7 @@ export default function Footer() {
     fetch("/api/researches")
       .then((res) => res.json())
       .then((data) =>
-        setResearchCount(data.research?.filter(Boolean).length || 0)
+        setResearchCount(data.researches?.filter(Boolean).length || 0)
       )
       .catch(() => setResearchCount(0));
 
@@ -117,7 +117,9 @@ export default function Footer() {
                   <IconUsers size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
-                      {teamCount > 0 ? teamCount : footerData.stats.members}
+                      {teamCount > 0
+                        ? teamCount
+                        : footerData.statsPlaceholder.members}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Members
@@ -131,10 +133,10 @@ export default function Footer() {
                     <Text size="sm" fw={600} c="gray.8">
                       {researchCount > 0
                         ? researchCount
-                        : footerData.stats.researchers}
+                        : footerData.statsPlaceholder.research}
                     </Text>
                     <Text size="xs" c="gray.6">
-                      Researchers
+                      Research
                     </Text>
                   </Stack>
                 </Flex>
@@ -145,7 +147,7 @@ export default function Footer() {
                     <Text size="sm" fw={600} c="gray.8">
                       {publicationsCount > 0
                         ? publicationsCount
-                        : footerData.stats.publications}
+                        : footerData.statsPlaceholder.publications}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Publications
@@ -157,7 +159,9 @@ export default function Footer() {
                   <IconTool size={20} color="var(--primary)" />
                   <Stack gap={0}>
                     <Text size="sm" fw={600} c="gray.8">
-                      {toolsCount > 0 ? toolsCount : footerData.stats.tools}
+                      {toolsCount > 0
+                        ? toolsCount
+                        : footerData.statsPlaceholder.tools}
                     </Text>
                     <Text size="xs" c="gray.6">
                       Tools

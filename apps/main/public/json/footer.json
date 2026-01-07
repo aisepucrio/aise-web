@@ -7,11 +7,11 @@
     "title": "AISE Lab - Artificial Intelligence Laboratory",
     "description": "Artificial Intelligence and Software Engineering Laboratory at PUC-Rio. Promoting research, innovation, and knowledge in AI to transform the technological future."
   },
-  "stats": {
-    "tools": "5+",
-    "members": "30+",
-    "publications": "30+",
-    "researchers": "5+"
+  "statsPlaceholder": {
+    "tools": "1+",
+    "members": "1+",
+    "publications": "1+",
+    "research": "1+"
   },
   "contact": {
     "address": {

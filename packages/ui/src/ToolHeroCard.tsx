@@ -32,30 +32,12 @@ export interface ToolHeroCardProps {
   tool: ToolHeroCardData;
   index: number;
   onClick?: () => void;
-  texts?: {
-    moreText?: string;
-    durationLabel?: string;
-    ctaLabel?: string;
-  };
 }
 
 const MotionBox = motion(Box as any);
 const PRIMARY = "var(--primary)";
 
-// Default texts for i18n
-const defaultTexts = {
-  moreText: "more",
-  durationLabel: "Duration",
-  ctaLabel: "View Tool Details",
-};
-
-export function ToolHeroCard({
-  tool,
-  index,
-  onClick,
-  texts = {},
-}: ToolHeroCardProps) {
-  const finalTexts = { ...defaultTexts, ...texts };
+export function ToolHeroCard({ tool, index, onClick }: ToolHeroCardProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isEven = index % 2 === 0;
   const maxTechStack = isMobile ? 3 : 5;
@@ -206,8 +188,7 @@ export function ToolHeroCard({
                   ))}
                   {tool.techStack.length > maxTechStack && (
                     <Text size="xs" c="dimmed" fw={600}>
-                      +{tool.techStack.length - maxTechStack}{" "}
-                      {finalTexts.moreText}
+                      +{tool.techStack.length - maxTechStack} more
                     </Text>
                   )}
                 </Group>
@@ -217,14 +198,13 @@ export function ToolHeroCard({
               <Box style={{ display: "flex", justifyContent: "space-between" }}>
                 <DurationInfo
                   icon={<IconClock size={14} color={PRIMARY} />}
-                  label={finalTexts.durationLabel}
                   value={tool.duration}
                   size={isMobile ? "sm" : "md"}
                 />
 
                 <Group gap="xs" style={{ color: PRIMARY }}>
                   <Text size="md" fw={700}>
-                    {finalTexts.ctaLabel}
+                    {isMobile ? "View" : "View Tool Details"}
                   </Text>
                   <ThemeIcon
                     size={32}

@@ -6,7 +6,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { Carousel } from "@shared/ui";
 import { PersonCard, PersonCardProps } from "@shared/ui";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
-import homeContent from "@/../public/json/home-content.json";
+import homeContent from "@/../public/json/home.json";
 
 interface TeamMember {
   name: string;
@@ -87,7 +87,7 @@ const LoadingState = () => (
 const EmptyState = () => (
   <Center h={200}>
     <Text ta="center" c="dimmed">
-      {homeContent.teamSection.emptyStateText}
+      No team members found.
     </Text>
   </Center>
 );
@@ -95,10 +95,7 @@ const EmptyState = () => (
 const ErrorState = () => (
   <Center h={200}>
     <Stack gap={4} align="center">
-      <Text fw={600}>{homeContent.teamSection.error.title}</Text>
-      <Text ta="center" c="dimmed" size="sm">
-        {homeContent.teamSection.error.message}
-      </Text>
+      <Text fw={600}>Error loading team</Text>
     </Stack>
   </Center>
 );

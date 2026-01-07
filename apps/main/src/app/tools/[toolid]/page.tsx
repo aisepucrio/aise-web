@@ -12,7 +12,6 @@ import {
   PublicationCardProps,
 } from "@shared/ui";
 import { motion } from "framer-motion";
-import pageContent from "@/../public/json/tools-detail-page-content.json";
 
 // Tipos
 type Tool = {
@@ -234,10 +233,10 @@ export default function ToolDetailPage() {
         <Center h={400}>
           <Stack align="center" gap="lg">
             <Text size="xl" c="white" fw={600}>
-              {pageContent.notFoundPage.title}
+              Tool not found
             </Text>
             <BackButton onClick={() => router.push("/tools")}>
-              {pageContent.backButton.label}
+              Back to Tools
             </BackButton>
           </Stack>
         </Center>
@@ -286,7 +285,7 @@ export default function ToolDetailPage() {
           transition={{ duration: 0.3 }}
         >
           <BackButton onClick={() => router.push("/tools")}>
-            {pageContent.backButton.label}
+            Back to Tools
           </BackButton>
 
           <ToolDetailView

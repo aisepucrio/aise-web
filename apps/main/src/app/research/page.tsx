@@ -15,7 +15,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import { ResearchCard } from "@shared/ui";
 import PagesHeader from "@/components/PagesHeader";
-import researchesPageContent from "@/../public/json/research-page-content.json";
+import content from "@/../public/json/pages-headers.json";
 import { IconFlask } from "@tabler/icons-react";
 
 type Research = {
@@ -123,13 +123,13 @@ export default function ResearchesPage() {
       >
         <PagesHeader
           icon={IconFlask}
-          title={researchesPageContent?.hero?.title}
-          subtitle={researchesPageContent?.hero?.subtitle}
+          title={content.researchesHero.title}
+          subtitle={content.researchesHero.subtitle}
           metrics={
             researches.length > 0
               ? [
                   {
-                    label: researchesPageContent?.stats?.totalLabel,
+                    label: "Active Lines",
                     value: researches.length,
                   },
                 ]
@@ -158,10 +158,7 @@ export default function ResearchesPage() {
                   <IconFlask size={40} />
                 </ThemeIcon>
                 <Text ta="center" c="white" size="xl" fw={600}>
-                  {researchesPageContent?.noResearch?.title}
-                </Text>
-                <Text ta="center" c="rgba(255, 255, 255, 0.8)" size="md">
-                  {researchesPageContent?.noResearch?.subtitle}
+                  No research found
                 </Text>
               </Stack>
             </Center>

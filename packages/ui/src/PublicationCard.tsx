@@ -22,7 +22,6 @@ export interface PublicationCardProps {
   citation_number: number;
   year: string | number;
   awards?: string;
-  viewLabel?: string;
   index?: number;
 }
 
@@ -38,7 +37,6 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
   year,
   awards,
   index = 0,
-  viewLabel = "View",
 }) => {
   const handleClick = () => {
     if (link) window.open(link, "_blank", "noopener,noreferrer");
@@ -141,7 +139,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
                 color: "var(--primary)",
               }}
             >
-              <span>{viewLabel}</span>
+              <span>View Paper</span>
               <IconExternalLink size={18} />
             </Group>
           </Group>

@@ -17,7 +17,7 @@ import PagesHeader from "@/components/PagesHeader";
 import { TeamCategoryColumn } from "@/app/team/page-local/TeamCategoryColumn";
 import { TeamCategoryHorizontal } from "@/app/team/page-local/TeamCategoryHorizontal";
 import { TeamCategoryPair } from "@/app/team/page-local/TeamCategoryPair";
-import teamPageContent from "@/../public/json/team-page-content.json";
+import content from "@/../public/json/pages-headers.json";
 import { IconUsers } from "@tabler/icons-react";
 import teamPositionsOrder from "@/../public/json/team-positions-order.json";
 import { TeamMember } from "./page-local/membertype";
@@ -227,8 +227,8 @@ export default function TeamPage() {
         {/* Cabeçalho */}
         <PagesHeader
           icon={IconUsers}
-          title={teamPageContent.hero.title}
-          subtitle={teamPageContent.hero.subtitle}
+          title={content.teamHero.title}
+          subtitle={content.teamHero.subtitle}
           metrics={
             positionsCount > 0
               ? [

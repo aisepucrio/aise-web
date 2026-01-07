@@ -6,7 +6,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { Carousel } from "@shared/ui";
 import { ToolCardCompact } from "@shared/ui";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
-import homeContent from "@/../public/json/home-content.json";
+import homeContent from "@/../public/json/home.json";
 
 interface Tool {
   id: string;
@@ -81,7 +81,7 @@ const LoadingState = () => (
 const EmptyState = () => (
   <Center h={200}>
     <Text ta="center" c="dimmed">
-      {homeContent.toolsSection.emptyStateText}
+      No tools found.
     </Text>
   </Center>
 );
@@ -89,10 +89,7 @@ const EmptyState = () => (
 const ErrorState = () => (
   <Center h={200}>
     <Stack gap={4} align="center">
-      <Text fw={600}>{homeContent.toolsSection.error.title}</Text>
-      <Text ta="center" c="dimmed" size="sm">
-        {homeContent.toolsSection.error.message}
-      </Text>
+      <Text fw={600}>Error loading tools</Text>
     </Stack>
   </Center>
 );

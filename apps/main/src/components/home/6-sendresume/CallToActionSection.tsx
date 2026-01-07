@@ -3,7 +3,7 @@
 import React from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
-import homeContent from "@/../public/json/home-content.json";
+import homeContent from "@/../public/json/home.json";
 
 export default function CallToActionSection() {
   const isMobile = useMediaQuery("(max-width: 62em)");

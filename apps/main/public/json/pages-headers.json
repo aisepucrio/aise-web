@@ -1,0 +1,18 @@
+{
+  "researchesHero": {
+    "title": "Research",
+    "subtitle": "Explore our active research lines, where we investigate cutting-edge topics in software engineering, AI applications, and human aspects of technology, driving innovation and knowledge creation in the field."
+  },
+  "teamHero": {
+    "title": "Team",
+    "subtitle": "Discover the brilliant minds driving innovation and research at AISE Lab. Our diverse team brings together knowledge in Artificial Intelligence and Software Engineering to shape the future of technology."
+  },
+  "publicationsHero": {
+    "title": "Publications",
+    "subtitle": "Explore our research in Artificial Intelligence and Software Engineering. Our publications reflect our commitment to advancing knowledge and pushing the boundaries of technology."
+  },
+  "toolsHero": {
+    "title": "Tools",
+    "subtitle": "Explore the cutting-edge research tools and applications developed by AISE Lab. From AI-driven tools to innovative platforms, our work pushes the boundaries of technology and human collaboration."
+  }
+}

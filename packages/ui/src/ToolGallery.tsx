@@ -19,35 +19,16 @@ import {
 
 export interface ToolGalleryProps {
   images: string[];
-  toolName: string;
-  texts?: {
-    previousButton?: string;
-    nextButton?: string;
-    fullscreenButton?: string;
-    thumbnailAlt?: string;
-  };
 }
 
 const MotionBox = motion(Box as any);
 
-const defaultTexts = {
-  previousButton: "Previous",
-  nextButton: "Next",
-  fullscreenButton: "Fullscreen",
-  thumbnailAlt: "Thumbnail",
-};
-
 // Interactive image gallery with navigation, fullscreen, and drag support
-export const ToolGallery: React.FC<ToolGalleryProps> = ({
-  images,
-  toolName,
-  texts = defaultTexts,
-}) => {
+export const ToolGallery: React.FC<ToolGalleryProps> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 62em)");
-  const finalTexts = { ...defaultTexts, ...texts };
 
   if (!images || images.length === 0) return null;
 
@@ -167,7 +148,7 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
                     boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
                   }}
                   onClick={goToPrevious}
-                  aria-label={finalTexts.previousButton}
+                  aria-label="Previous Image"
                 >
                   <IconChevronLeft size={isMobile ? 20 : 24} />
                 </ActionIcon>
@@ -186,7 +167,7 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
                     boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
                   }}
                   onClick={goToNext}
-                  aria-label={finalTexts.nextButton}
+                  aria-label="Next Image"
                 >
                   <IconChevronRight size={isMobile ? 20 : 24} />
                 </ActionIcon>
@@ -208,7 +189,7 @@ export const ToolGallery: React.FC<ToolGalleryProps> = ({
                 opacity: 0.8,
               }}
               onClick={() => setIsFullscreen(!isFullscreen)}
-              aria-label={finalTexts.fullscreenButton}
+              aria-label="Fullscreen"
             >
               <IconMaximize size={isMobile ? 16 : 20} />
             </ActionIcon>

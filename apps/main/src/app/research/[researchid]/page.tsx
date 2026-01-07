@@ -13,7 +13,6 @@ import {
   ResearchPublication,
   PersonCardProps,
 } from "@shared/ui";
-import pageContent from "@/../public/json/research-detail-page-content.json";
 
 // Tipos
 type Research = {
@@ -270,10 +269,10 @@ export default function ResearchDetailPage() {
         <Center h={400}>
           <Stack align="center" gap="lg">
             <Text size="xl" c="white" fw={600}>
-              {pageContent.notFoundPage.title}
+              Research line not found
             </Text>
             <BackButton onClick={() => router.push("/researches")}>
-              {pageContent.backButton.label}
+              Back to Research Lines
             </BackButton>
           </Stack>
         </Center>
@@ -319,7 +318,7 @@ export default function ResearchDetailPage() {
           transition={{ duration: 0.5 }}
         >
           <BackButton onClick={() => router.push("/researches")}>
-            {pageContent.backButton.label}
+            Back to Research Lines
           </BackButton>
         </motion.div>
 

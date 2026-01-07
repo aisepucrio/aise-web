@@ -6,7 +6,6 @@ import type { ReactNode } from "react";
 
 export interface DurationInfoProps {
   icon: ReactNode;
-  label: string;
   value?: ReactNode;
   size?: "sm" | "md" | "lg";
 }
@@ -14,7 +13,6 @@ export interface DurationInfoProps {
 // Compact info display with icon, label, and optional value.
 export default function DurationInfo({
   icon,
-  label,
   value,
   size = "md",
 }: DurationInfoProps) {
@@ -28,7 +26,7 @@ export default function DurationInfo({
           <Group gap={4} align="center">
             {icon}
             <Text size={textSize} c="dimmed" fw={500}>
-              {label}
+              Duration
             </Text>
           </Group>
           {value !== undefined && (

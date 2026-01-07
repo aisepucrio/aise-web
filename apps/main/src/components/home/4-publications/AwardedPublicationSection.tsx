@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Container, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
-import homeTexts from "@/../public/json/home-content.json";
+import homeTexts from "@/../public/json/home.json";
 import AwardedPublicationCard from "./AwardedPublicationCard";
 import { Carousel } from "@shared/ui";
 
@@ -72,17 +72,6 @@ const useAwardedPublications = () => {
   return { publications, isLoading, hasError };
 };
 
-const ErrorState = ({ title, message }: { title: string; message: string }) => (
-  <Center h={200}>
-    <Stack gap={4} align="center">
-      <Text fw={600}>{title}</Text>
-      <Text ta="center" c="dimmed" size="sm">
-        {message}
-      </Text>
-    </Stack>
-  </Center>
-);
-
 /* ========= Seção de publicações premiadas no header ========= */
 
 export default function AwardedPublicationsHeaderSection() {
@@ -105,11 +94,15 @@ export default function AwardedPublicationsHeaderSection() {
             <Loader size="lg" color="var(--primary)" />
           </Center>
         ) : hasError ? (
-          <ErrorState title={texts.error.title} message={texts.error.message} />
+          <Center h={200}>
+            <Stack gap={4} align="center">
+              <Text fw={600}>Error loading publications</Text>
+            </Stack>
+          </Center>
         ) : !hasPublications ? (
           <Center h={120}>
             <Text ta="center" c="dimmed" size="sm">
-              {texts.emptyStateText}
+              No awards yet.
             </Text>
           </Center>
         ) : (

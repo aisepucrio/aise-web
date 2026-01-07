@@ -16,12 +16,6 @@
     "button": {
       "text": "See Team",
       "href": "/team"
-    },
-    "viewProfileText": "View profile",
-    "emptyStateText": "No team members found.",
-    "error": {
-      "title": "Error loading team",
-      "message": "Please try again later."
     }
   },
   "toolsSection": {
@@ -30,12 +24,6 @@
     "button": {
       "text": "See Tools",
       "href": "/tools"
-    },
-    "viewToolText": "View tool",
-    "emptyStateText": "No tools found.",
-    "error": {
-      "title": "Error loading tools",
-      "message": "Please try again later."
     }
   },
   "publicationSections": {
@@ -45,11 +33,6 @@
       "button": {
         "text": "View all publications",
         "href": "/publications"
-      },
-      "emptyStateText": "No awards yet.",
-      "error": {
-        "title": "Error loading publications",
-        "message": "Please try again later."
       }
     }
   },

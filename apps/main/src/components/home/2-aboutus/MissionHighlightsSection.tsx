@@ -4,7 +4,7 @@ import React from "react";
 import { Box, Text, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
-import homeContent from "@/../public/json/home-content.json";
+import homeContent from "@/../public/json/home.json";
 
 export default function MissionHighlightsSection() {
   const theme = useMantineTheme();

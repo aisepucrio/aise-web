@@ -1,23 +1,23 @@
 "use client";
 
 import {
-  Container,
-  Text,
-  Group,
-  Stack,
   Box,
-  Select,
-  Pagination,
-  TextInput,
+  Container,
+  Group,
   Loader,
+  Pagination,
+  Select,
+  Stack,
+  Text,
+  TextInput,
 } from "@mantine/core";
-import { IconFilter, IconFileText, IconSearch } from "@tabler/icons-react";
-import publicationsContent from "@/../public/json/publications-page-content.json";
+import { useMediaQuery } from "@mantine/hooks";
+import { IconFileText, IconFilter, IconSearch } from "@tabler/icons-react";
+import { motion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import content from "@/../public/json/pages-headers.json";
 import FlickeringGrid from "@/components/FlickeringGrid";
 import PagesHeader from "@/components/PagesHeader";
-import { useMediaQuery } from "@mantine/hooks";
-import { useState, useEffect, useMemo, useRef } from "react";
-import { motion } from "framer-motion";
 import { PublicationCard } from "@shared/ui";
 
 interface Publication {
@@ -38,113 +38,107 @@ type SortOption =
   | "name-asc"
   | "name-desc";
 
+const ITEMS_PER_PAGE = 10;
+
+const sortComparators: Record<
+  SortOption,
+  (a: Publication, b: Publication) => number
+> = {
+  "year-desc": (a, b) => Number(b.year) - Number(a.year),
+  "year-asc": (a, b) => Number(a.year) - Number(b.year),
+  "citations-desc": (a, b) => b.citation_number - a.citation_number,
+  "citations-asc": (a, b) => a.citation_number - b.citation_number,
+  "name-asc": (a, b) => a.title.localeCompare(b.title),
+  "name-desc": (a, b) => b.title.localeCompare(a.title),
+};
+
 export default function PublicationsPage() {
+  const isMobile = useMediaQuery("(max-width: 62em)");
+
   const [allPublications, setAllPublications] = useState<Publication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const isMobile = useMediaQuery("(max-width: 62em)");
+
   const [gridKey, setGridKey] = useState(0);
   const [sortBy, setSortBy] = useState<SortOption>("year-desc");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const itemsPerPage = 10;
 
-  // Busca publications da API
+  const prevCountRef = useRef<number | null>(null);
+
+  // Load publications once
   useEffect(() => {
-    fetch("/api/publications")
-      .then((res) => res.json())
-      .then((data) => {
-        setAllPublications(data.publications || []);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error loading publications:", error);
-        setIsLoading(false);
-      });
+    let alive = true;
+
+    (async () => {
+      try {
+        const res = await fetch("/api/publications");
+        const data = await res.json();
+        if (alive) setAllPublications(data.publications || []);
+      } catch (err) {
+        console.error("Error loading publications:", err);
+      } finally {
+        if (alive) setIsLoading(false);
+      }
+    })();
+
+    return () => {
+      alive = false;
+    };
   }, []);
 
-  // Re-renderiza o grid quando o componente monta
+  // Repaint background grid on mount and resize
   useEffect(() => {
-    const timer = setTimeout(() => setGridKey((prev) => prev + 1), 100);
-    return () => clearTimeout(timer);
+    const bump = () => setGridKey((k) => k + 1);
+    const t = window.setTimeout(bump, 100);
+    window.addEventListener("resize", bump);
+
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("resize", bump);
+    };
   }, []);
 
-  // Re-renderiza o grid quando a tela muda de tamanho
-  useEffect(() => {
-    const handleResize = () => setGridKey((prev) => prev + 1);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Ref para armazenar o número anterior de publications exibidos
-  const prevDisplayedCountRef = useRef<number | null>(null);
-
-  // Total de publications (sempre o total original, não filtrado)
   const totalPublicationsCount = allPublications.length;
 
-  // Filtra e ordena os publications baseado na busca e opção selecionada
   const sortedPublications = useMemo(() => {
-    // Primeiro filtra pela busca
-    let filtered = [...allPublications];
-    if (searchQuery.trim()) {
-      filtered = filtered.filter((paper) =>
-        paper.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+    const q = searchQuery.trim().toLowerCase();
 
-    // Depois ordena
-    switch (sortBy) {
-      case "year-desc":
-        return filtered.sort((a, b) => parseInt(b.year) - parseInt(a.year));
-      case "year-asc":
-        return filtered.sort((a, b) => parseInt(a.year) - parseInt(b.year));
-      case "citations-desc":
-        return filtered.sort((a, b) => b.citation_number - a.citation_number);
-      case "citations-asc":
-        return filtered.sort((a, b) => a.citation_number - b.citation_number);
-      case "name-asc":
-        return filtered.sort((a, b) => a.title.localeCompare(b.title));
-      case "name-desc":
-        return filtered.sort((a, b) => b.title.localeCompare(a.title));
-      default:
-        return filtered;
-    }
+    const filtered = q
+      ? allPublications.filter((p) => p.title.toLowerCase().includes(q))
+      : allPublications;
+
+    return [...filtered].sort(sortComparators[sortBy]);
   }, [allPublications, sortBy, searchQuery]);
 
-  // Calcula os publications da página atual
+  const totalPages = Math.ceil(sortedPublications.length / ITEMS_PER_PAGE);
+
   const paginatedPublications = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return sortedPublications.slice(startIndex, endIndex);
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return sortedPublications.slice(start, start + ITEMS_PER_PAGE);
   }, [sortedPublications, currentPage]);
 
-  // Total de páginas
-  const totalPages = Math.ceil(sortedPublications.length / itemsPerPage);
-
-  // Re-renderiza o grid quando o número de publications exibidos na página mudar
-  useEffect(() => {
-    const currentDisplayedCount = paginatedPublications.length;
-
-    // Se for a primeira vez, só inicializa
-    if (prevDisplayedCountRef.current === null) {
-      prevDisplayedCountRef.current = currentDisplayedCount;
-      return;
-    }
-
-    // Só dispara se mudou o número de publications exibidos
-    if (prevDisplayedCountRef.current !== currentDisplayedCount) {
-      const timer = setTimeout(() => setGridKey((prev) => prev + 1), 60);
-      prevDisplayedCountRef.current = currentDisplayedCount;
-      return () => clearTimeout(timer);
-    }
-
-    // Update o ref
-    prevDisplayedCountRef.current = currentDisplayedCount;
-  }, [paginatedPublications.length]);
-
-  // Reset para página 1 quando mudar a ordenação ou busca
+  // Reset to page 1 when query/sort changes
   useEffect(() => {
     setCurrentPage(1);
   }, [sortBy, searchQuery]);
+
+  // Repaint background grid when visible item count changes
+  useEffect(() => {
+    const count = paginatedPublications.length;
+
+    if (prevCountRef.current === null) {
+      prevCountRef.current = count;
+      return;
+    }
+
+    if (prevCountRef.current !== count) {
+      const t = window.setTimeout(() => setGridKey((k) => k + 1), 60);
+      prevCountRef.current = count;
+      return () => window.clearTimeout(t);
+    }
+
+    prevCountRef.current = count;
+  }, [paginatedPublications.length]);
 
   if (isLoading) {
     return (
@@ -174,7 +168,6 @@ export default function PublicationsPage() {
         overflow: "hidden",
       }}
     >
-      {/* Fundo animado */}
       <FlickeringGrid
         key={gridKey}
         squareSize={8}
@@ -183,16 +176,17 @@ export default function PublicationsPage() {
         maxOpacity={0.35}
         flickerChance={0.005}
       />
+
       <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
         <PagesHeader
           icon={IconFileText}
-          title={publicationsContent.hero.title}
-          subtitle={publicationsContent.hero.subtitle}
+          title={content.publicationsHero.title}
+          subtitle={content.publicationsHero.subtitle}
           metrics={
-            totalPublicationsCount > 0
+            totalPublicationsCount
               ? [
                   {
-                    label: publicationsContent?.stats?.totalLabel,
+                    label: "Total Publications",
                     value: totalPublicationsCount,
                   },
                 ]
@@ -205,7 +199,6 @@ export default function PublicationsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          {/* Filtro e Busca */}
           <Box
             style={{
               display: "flex",
@@ -215,7 +208,6 @@ export default function PublicationsPage() {
               gap: 16,
             }}
           >
-            {/* Filtro */}
             <Box
               style={{
                 display: "flex",
@@ -230,14 +222,19 @@ export default function PublicationsPage() {
               <IconFilter size={24} color="var(--primary)" />
               <Select
                 value={sortBy}
-                onChange={(value) => setSortBy(value as SortOption)}
-                data={publicationsContent.filter.sortOptions}
-                style={{ width: isMobile ? 140 : 180 }}
-                styles={{ input: { fontSize: isMobile ? 14 : 16 } }}
+                onChange={(v) => v && setSortBy(v as SortOption)}
+                data={[
+                  { value: "year-desc", label: "Year ↓" },
+                  { value: "year-asc", label: "Year ↑" },
+                  { value: "citations-desc", label: "Citations ↓" },
+                  { value: "citations-asc", label: "Citations ↑" },
+                  { value: "name-asc", label: "Title A-Z" },
+                  { value: "name-desc", label: "Title Z-A" },
+                ]}
+                w={isMobile ? 140 : 180}
               />
             </Box>
 
-            {/* Barra de Busca (escondida no mobile) */}
             {!isMobile && (
               <Box
                 style={{
@@ -252,31 +249,20 @@ export default function PublicationsPage() {
               >
                 <IconSearch size={24} color="var(--primary)" />
                 <TextInput
-                  placeholder={publicationsContent?.searchPlaceholder}
+                  placeholder={"Search by title..."}
                   value={searchQuery}
-                  onChange={(event) =>
-                    setSearchQuery(event.currentTarget.value)
-                  }
-                  style={{ width: 300 }}
-                  styles={{
-                    input: {
-                      fontSize: 16,
-                      border: "none",
-                      backgroundColor: "transparent",
-                      padding: 0,
-                    },
-                  }}
+                  onChange={(e) => setSearchQuery(e.currentTarget.value)}
+                  w={300}
                 />
               </Box>
             )}
           </Box>
         </motion.div>
 
-        {/* Lista de Publicações */}
         <Stack gap="xl" mb={40}>
           {paginatedPublications.map((paper, index) => (
             <motion.div
-              key={index}
+              key={`${paper.link}-${index}`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -294,23 +280,16 @@ export default function PublicationsPage() {
                 year={paper.year}
                 awards={paper.awards}
                 index={index}
-                viewLabel={
-                  publicationsContent.publicationCard.viewPublicationButton
-                }
               />
             </motion.div>
           ))}
         </Stack>
 
-        {/* Contagem de Resultados */}
         <Text size="md" c="white" mt={30} ta="center" fw={500}>
-          {publicationsContent.resultsText.showing}{" "}
-          {paginatedPublications.length} {publicationsContent.resultsText.of}{" "}
-          {sortedPublications.length}{" "}
-          {publicationsContent.resultsText.publications}
+          Showing {paginatedPublications.length} of {sortedPublications.length}{" "}
+          publications
         </Text>
 
-        {/* Paginação */}
         {totalPages > 1 && (
           <Group justify="center" mt={18}>
             <Pagination
@@ -319,59 +298,10 @@ export default function PublicationsPage() {
               total={totalPages}
               size={isMobile ? "sm" : "md"}
               withEdges
+              color="gray"
             />
           </Group>
         )}
-
-        {/* Custom Styles */}
-        <style jsx>{`
-          :global(.publications-card:hover) {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(82, 175, 225, 0.15) !important;
-            border-color: var(--primary) !important;
-          }
-          /* Estilos globais para os controles de paginação */
-          :global(.mantine-Pagination-control) {
-            background-color: white !important;
-            border-color: white !important;
-            color: var(--primary) !important;
-          }
-          :global(.mantine-Pagination-control[data-active]) {
-            background-color: white !important;
-            border-color: var(--primary) !important;
-            border-width: 1px !important;
-            color: var(--primary) !important;
-            font-weight: 700 !important;
-          }
-          :global(.mantine-Pagination-control:hover):not(
-              :global([data-active])
-            ) {
-            background-color: rgba(255, 255, 255, 0.9) !important;
-            border-color: white !important;
-          }
-          :global(.mantine-Pagination-control[data-disabled]) {
-            background-color: rgba(255, 255, 255, 0.5) !important;
-            border-color: rgba(255, 255, 255, 0.5) !important;
-            color: rgba(82, 175, 225, 0.5) !important;
-          }
-          /* Força os 3 pontinhos a ficarem brancos */
-          :global(.mantine-Pagination-ellipsis),
-          :global(.mantine-Pagination-dots),
-          :global(.mantine-Pagination-control[data-type="dots"]),
-          :global(
-              .mantine-Pagination-control[aria-disabled][data-type="dots"]
-            ) {
-            color: #ffffff !important;
-            background-color: transparent !important;
-            border-color: transparent !important;
-          }
-
-          /* If ellipsis is rendered as a span inside a control */
-          :global(.mantine-Pagination-control[data-type="dots"] span),
-          :global(.mantine-Pagination-ellipsis span) {
-            color: #ffffff !important;
-          }
-        `}</style>
       </Container>
     </Box>
   );

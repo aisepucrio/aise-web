@@ -6,7 +6,7 @@ import { Anchor, Box, Button, Divider, Drawer, Burger } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { motion, useAnimation } from "framer-motion";
 import NavLinks from "./NavLinks";
-import headerContent from "@/../public/json/header-content.json";
+import headerContent from "@/../public/json/header.json";
 import { usePathname } from "next/navigation";
 
 type NavItem = { label: string; href: string };
@@ -144,7 +144,7 @@ export default function Header({ items = headerContent.items }: HeaderProps) {
               <img
                 src={headerContent.logo.src}
                 alt={headerContent.logo.alt}
-                width={headerContent.logo.width}
+                width={135}
                 style={{ display: "inline-block", height: "auto" }}
                 draggable={false}
               />
@@ -167,7 +167,7 @@ export default function Header({ items = headerContent.items }: HeaderProps) {
               <Button
                 component={Link}
                 href={headerContent.cta.href}
-                size={(headerContent.cta.size as any) || "sm"}
+                size="sm"
                 style={{ backgroundColor: "var(--primary)", border: "none" }}
               >
                 {headerContent.cta.text}
