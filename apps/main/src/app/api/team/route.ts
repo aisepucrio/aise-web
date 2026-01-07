@@ -1,9 +1,9 @@
 // Rota unificada para team: GET (público) e POST (admin com auth)
 
 import { NextRequest, NextResponse } from "next/server";
-import { TeamPayload } from "@/lib/schemas";
-import { requireBearer } from "@/lib/auth";
-import { getJsonByKey, setJsonByKey } from "@/lib/contentRepository";
+import { TeamPayload } from "@/app/api/lib/schemas";
+import { requireBearer } from "@/app/api/lib/auth";
+import { getJsonByKey, setJsonByKey } from "@/app/api/lib/contentRepository";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
