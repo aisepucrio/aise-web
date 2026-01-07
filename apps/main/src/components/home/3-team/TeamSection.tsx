@@ -7,6 +7,7 @@ import { Carousel } from "@shared/ui";
 import { PersonCard, PersonCardProps } from "@shared/ui";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
 import homeContent from "@/../public/json/home.json";
+import { sortTeamMembers } from "@/lib/Utils";
 
 interface TeamMember {
   name: string;
@@ -40,8 +41,11 @@ const useTeamData = () => {
 
         const data: TeamData = await res.json();
 
+        // Ordena por position (tag) usando ordem customizada e depois alfabeticamente por nome
+        const sortedTeam = sortTeamMembers(data.team);
+
         // Converter dados para formato do PersonCard
-        const formatted: PersonCardProps[] = data.team.map((member) => ({
+        const formatted: PersonCardProps[] = sortedTeam.map((member) => ({
           name: member.name,
           position: member.position,
           imageUrl: member.imageUrl,

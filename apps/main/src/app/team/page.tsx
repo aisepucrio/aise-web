@@ -19,17 +19,16 @@ import { TeamCategoryHorizontal } from "@/app/team/page-local/TeamCategoryHorizo
 import { TeamCategoryPair } from "@/app/team/page-local/TeamCategoryPair";
 import content from "@/../public/json/pages-headers.json";
 import { IconUsers } from "@tabler/icons-react";
-import teamPositionsOrder from "@/../public/json/team-positions-order.json";
 import { TeamMember } from "./page-local/membertype";
+import { sortTeamMembers } from "@/lib/Utils";
 
 type TeamData = { team: TeamMember[] };
 type GroupedTeam = Record<string, TeamMember[]>;
 
-// Carrega e agrupa a equipe por cargo (preserva ordem de aparição)
+// Carrega e agrupa a equipe por cargo
 const useTeamData = () => {
   const [teamData, setTeamData] = useState<GroupedTeam>({});
   const [isLoading, setIsLoading] = useState(true);
-  const [orderedPositions, setOrderedPositions] = useState<string[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -40,20 +39,20 @@ const useTeamData = () => {
         if (!res.ok) throw new Error("Falha ao carregar dados");
         const data: TeamData = await res.json();
 
-        const grouped: GroupedTeam = {};
-        const order: string[] = [];
+        // Ordena todos os membros (por position e nome)
+        const sortedMembers = sortTeamMembers(data.team);
 
-        data.team.forEach((m) => {
+        // Agrupa mantendo a ordem
+        const grouped: GroupedTeam = {};
+        sortedMembers.forEach((m) => {
           if (!grouped[m.position]) {
             grouped[m.position] = [];
-            order.push(m.position);
           }
           grouped[m.position].push(m);
         });
 
         if (mounted) {
           setTeamData(grouped);
-          setOrderedPositions(order);
         }
       } catch {
         if (mounted) {
@@ -71,7 +70,7 @@ const useTeamData = () => {
     };
   }, []);
 
-  return { teamData, isLoading, orderedPositions };
+  return { teamData, isLoading };
 };
 
 // Gera slug a partir do nome
@@ -86,36 +85,15 @@ const generateSlug = (name: string): string =>
 
 // Página principal
 export default function TeamPage() {
-  const { teamData, isLoading, orderedPositions } = useTeamData();
+  const { teamData, isLoading } = useTeamData();
   const isMobile = useMediaQuery("(max-width: 62em)");
-  const isTablet = useMediaQuery("(max-width: 75em)");
   const [gridKey, setGridKey] = useState(0);
 
-  const manualPositionsOrder: string[] =
-    (teamPositionsOrder as { positionsOrder?: string[] }).positionsOrder ?? [];
-
-  const effectiveOrderedPositions = useMemo<string[]>(() => {
-    const basePositions = orderedPositions.length
-      ? orderedPositions
-      : Object.keys(teamData);
-
-    // Se não tiver JSON configurado, mantém comportamento antigo
-    if (!manualPositionsOrder.length) return basePositions;
-
-    // 1) posições que estão no JSON, na ordem do JSON
-    const inConfiguredOrder = manualPositionsOrder.filter((position) =>
-      basePositions.includes(position)
-    );
-
-    // 2) posições que vieram da API mas não estão no JSON (jogamos pro final)
-    const remaining = basePositions.filter(
-      (position) => !manualPositionsOrder.includes(position)
-    );
-
-    return [...inConfiguredOrder, ...remaining];
-  }, [orderedPositions, teamData, manualPositionsOrder]);
-
-  // Contadores derivados (evita recalcular)
+  // As posições já vêm ordenadas do agrupamento
+  const effectiveOrderedPositions = useMemo<string[]>(
+    () => Object.keys(teamData),
+    [teamData]
+  );
   const membersCount = useMemo(
     () => Object.values(teamData).flat().length,
     [teamData]
@@ -124,9 +102,6 @@ export default function TeamPage() {
     () => effectiveOrderedPositions.length,
     [effectiveOrderedPositions]
   );
-
-  // Define número de colunas baseado na tela
-  const gridCols = isMobile ? 1 : isTablet ? 2 : 3;
 
   // Agrupa categorias consecutivas com soma total ≤ 3 membros
   const groupedCategories = useMemo(() => {
