@@ -3,7 +3,6 @@
 import React, { useRef } from "react";
 import { Paper, Box, Stack, Text, Center } from "@mantine/core";
 import CTAButton from "@/components/CTAButton";
-import Title from "@/components/Title";
 import { motion, useInView } from "framer-motion";
 
 const MotionPaper = motion(Paper as any);
@@ -64,13 +63,19 @@ export default function SectionWithHeader({
       >
         <Box style={{ width: "100%" }}>
           <Stack gap="xs" align="center" mb={isMobile ? 20 : 40}>
-            <Title
-              verticalMarginDesktop={12}
-              verticalMarginMobile={6}
-              color="#000000ff"
+            <Text
+              component="h2"
+              style={{
+                color: "#000000ff",
+                fontWeight: 800,
+                fontSize: `${isMobile ? 38 : 56}px`,
+                textAlign: "center",
+                margin: `${isMobile ? 6 : 12}px 0`,
+                lineHeight: 1,
+              }}
             >
               {title}
-            </Title>
+            </Text>
 
             {subtitle && (
               <Text
