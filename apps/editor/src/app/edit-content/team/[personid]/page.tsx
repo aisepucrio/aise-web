@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Center, Text, Stack, Box, Divider } from "@mantine/core";
 import {
   getMemberByEmail,
@@ -13,12 +14,16 @@ import { EditPageLayout } from "@/components/EditPageLayout";
 import { PersonCard } from "@shared/ui";
 import { TeamMemberListItem } from "@shared/ui";
 import { TeamMemberGridItem } from "@shared/ui";
-import FullProfile from "@/components/FullProfile";
+import { TeamMemberProfile } from "@shared/ui";
 import ProfileInstructions from "@/components/team/ProfileInstructions";
+import { convertImgboxUrls } from "@/lib/imgbox";
 
 export default function EditContentPage() {
   const params = useParams();
   const personId = decodeURIComponent(params?.personid as string);
+  const [convertedData, setConvertedData] = useState<TeamMemberData | null>(
+    null
+  );
 
   const {
     jsonText,
@@ -58,6 +63,17 @@ export default function EditContentPage() {
       `/edit-content/team/${encodeURIComponent(data.email)}`,
   });
 
+  // Convert imgbox URLs when parsedData changes
+  useEffect(() => {
+    if (parsedData) {
+      convertImgboxUrls(parsedData).then(setConvertedData);
+    } else {
+      setConvertedData(null);
+    }
+  }, [parsedData]);
+
+  const displayData = convertedData || parsedData;
+
   return (
     <EditPageLayout
       title="Editor de Perfil"
@@ -81,16 +97,13 @@ export default function EditContentPage() {
       isAutoSaving={isAutoSaving}
       instructions={<ProfileInstructions />}
       preview={
-        parsedData ? (
+        displayData ? (
           <Stack gap="lg">
             <Box>
               <Text size="sm" fw={600} c="dimmed" mb="xs">
                 Página de Perfil Completo
               </Text>
-              <FullProfile
-                key={`full-profile-${parsedData.imageUrl}`}
-                member={parsedData}
-              />
+              <TeamMemberProfile member={displayData} />
             </Box>
             <Divider />
 
@@ -100,21 +113,21 @@ export default function EditContentPage() {
               </Text>
               <Center>
                 <PersonCard
-                  key={`person-card-1-${parsedData.imageUrl}`}
-                  name={parsedData.name}
-                  position={parsedData.position}
-                  imageUrl={parsedData.imageUrl}
-                  description={parsedData.description}
+                  key={`person-card-1-${displayData.imageUrl}`}
+                  name={displayData.name}
+                  position={displayData.position}
+                  imageUrl={displayData.imageUrl}
+                  description={displayData.description}
                   cardWidth={240}
                 />
                 <PersonCard
-                  key={`person-card-2-${parsedData.imageUrl}`}
-                  name={parsedData.name}
-                  position={parsedData.position}
-                  imageUrl={parsedData.imageUrl}
-                  description={parsedData.description}
+                  key={`person-card-2-${displayData.imageUrl}`}
+                  name={displayData.name}
+                  position={displayData.position}
+                  imageUrl={displayData.imageUrl}
+                  description={displayData.description}
                   cardWidth={240}
-                  roles={parsedData.knowledge?.slice(0, 2)}
+                  roles={displayData.knowledge?.slice(0, 2)}
                 />
               </Center>
             </Box>
@@ -128,8 +141,8 @@ export default function EditContentPage() {
               <Center>
                 <Box style={{ width: "35%" }}>
                   <TeamMemberListItem
-                    key={`member-horizontal-${parsedData.imageUrl}`}
-                    member={parsedData}
+                    key={`member-horizontal-${displayData.imageUrl}`}
+                    member={displayData}
                   />
                 </Box>
               </Center>
@@ -144,8 +157,8 @@ export default function EditContentPage() {
               <Center>
                 <Box style={{ width: "35%" }}>
                   <TeamMemberGridItem
-                    key={`member-vertical-${parsedData.imageUrl}`}
-                    member={parsedData}
+                    key={`member-vertical-${displayData.imageUrl}`}
+                    member={displayData}
                   />
                 </Box>
               </Center>

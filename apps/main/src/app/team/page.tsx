@@ -239,7 +239,7 @@ export default function TeamPage() {
             positionsCount > 0
               ? [
                   {
-                    label: teamPageContent.stats.label,
+                    label: "Team Members",
                     value: membersCount,
                   },
                 ]
@@ -280,7 +280,6 @@ export default function TeamPage() {
                       categories={item.categories}
                       startIndex={item.index}
                       generateSlug={generateSlug}
-                      viewMoreText={teamPageContent.viewMoreText}
                     />
                   ) : (
                     <TeamCategoryHorizontal
@@ -289,7 +288,6 @@ export default function TeamPage() {
                       members={item.members}
                       index={item.index}
                       generateSlug={generateSlug}
-                      viewMoreText={teamPageContent.viewMoreText}
                     />
                   )
                 )}
@@ -298,7 +296,7 @@ export default function TeamPage() {
           ) : (
             <Center h={300}>
               <Text ta="center" c="dimmed" size="lg">
-                {teamPageContent.noMembersFound}
+                No team members found.
               </Text>
             </Center>
           )}

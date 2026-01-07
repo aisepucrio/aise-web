@@ -2,15 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Box, Loader, Center, Stack, Text, Button } from "@mantine/core";
+import { Box, Loader, Center, Stack, Text, Container } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconArrowLeft } from "@tabler/icons-react";
 import FlickeringGrid from "@/components/FlickeringGrid";
-import ToolDetailView, {
-  ToolData,
-  ToolPublication,
-} from "@/components/ToolDetailView";
-import { PersonCardProps } from "@shared/ui";
+import BackButton from "@/components/BackButton";
+import {
+  ToolDetailView,
+  PersonCardProps,
+  PublicationCardProps,
+} from "@shared/ui";
+import { motion } from "framer-motion";
 import pageContent from "@/../public/json/tools-detail-page-content.json";
 
 // Tipos
@@ -90,7 +91,7 @@ const useTool = (id: string) => {
 
 // Hook: carrega publications relacionados ao projeto (usando relacionamentos embutidos)
 const useToolPublications = (tool: Tool | null) => {
-  const [publications, setPublications] = useState<ToolPublication[]>([]);
+  const [publications, setPublications] = useState<PublicationCardProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -235,22 +236,16 @@ export default function ToolDetailPage() {
             <Text size="xl" c="white" fw={600}>
               {pageContent.notFoundPage.title}
             </Text>
-            <Button
-              leftSection={<IconArrowLeft size={20} />}
-              variant="white"
-              color="var(--primary)"
-              mb={isMobile ? 20 : 32}
-              onClick={() => router.push("/tools")}
-            >
+            <BackButton onClick={() => router.push("/tools")}>
               {pageContent.backButton.label}
-            </Button>
+            </BackButton>
           </Stack>
         </Center>
       </Box>
     );
   }
 
-  const toolData: ToolData = {
+  const toolData = {
     name: tool.name,
     tagline: tool.tagline,
     description: tool.description,
@@ -284,13 +279,23 @@ export default function ToolDetailPage() {
         flickerChance={0.005}
       />
 
-      <ToolDetailView
-        tool={toolData}
-        teamMembers={teamMembers}
-        publications={publications}
-        isMobile={isMobile}
-        onBack={() => router.push("/tools")}
-      />
+      <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <BackButton onClick={() => router.push("/tools")}>
+            {pageContent.backButton.label}
+          </BackButton>
+
+          <ToolDetailView
+            tool={toolData}
+            teamMembers={teamMembers}
+            publications={publications}
+          />
+        </motion.div>
+      </Container>
     </Box>
   );
 }

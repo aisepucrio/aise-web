@@ -13,8 +13,9 @@ import {
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
-import ToolHeroCard from "@/components/ToolHeroCard";
+import { ToolHeroCard } from "@shared/ui";
 import PagesHeader from "@/components/PagesHeader";
+import { useRouter } from "next/navigation";
 import toolsPageContent from "@/../public/json/tools-page-content.json";
 import { IconTool } from "@tabler/icons-react";
 
@@ -25,7 +26,6 @@ type Tool = {
   description: string;
   highlightImageUrl: string;
   category: string;
-  status: "active" | "pilot" | "archived" | string;
   duration: string;
   techStack?: string[];
   metrics?: Record<string, any>;
@@ -77,6 +77,7 @@ export default function ToolsPage() {
   const { toolsData: tools, isLoading } = useToolsData();
   const isMobile = useMediaQuery("(max-width: 62em)");
   const [gridKey, setGridKey] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     if (!isLoading) {
@@ -149,11 +150,14 @@ export default function ToolsPage() {
                 key={tool.id}
                 tool={tool}
                 index={index}
-                ctaLabel={
-                  isMobile
+                onClick={() => router.push(`/tools/${tool.id}`)}
+                texts={{
+                  moreText: toolsPageContent?.toolHeroCard?.moreText,
+                  durationLabel: toolsPageContent?.toolHeroCard?.durationLabel,
+                  ctaLabel: isMobile
                     ? toolsPageContent?.hero?.ctaLabelMobile
-                    : toolsPageContent?.hero?.ctaLabel
-                }
+                    : toolsPageContent?.hero?.ctaLabel,
+                }}
               />
             ))}
           </Box>

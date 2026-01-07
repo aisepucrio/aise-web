@@ -1,23 +1,13 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import {
-  Container,
-  Box,
-  Text,
-  Loader,
-  Center,
-  Button,
-  Stack,
-} from "@mantine/core";
+import { Container, Box, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { IconArrowLeft } from "@tabler/icons-react";
+import BackButton from "@/components/BackButton";
 import FlickeringGrid from "@/components/FlickeringGrid";
-import TeamMemberProfile from "@/app/team/[name]/page-local/TeamMemberProfile";
-import teamMemberContent from "@/../public/json/team-member-page-content.json";
-import { TeamMember as TeamMemberType } from "./page-local/membertype";
+import { TeamMemberProfile, TeamMember as TeamMemberType } from "@shared/ui";
 
 // Tipos essenciais
 // Local TeamMember type is compatible with the one exported by the profile component
@@ -57,10 +47,16 @@ const useTeamMember = (slug: string) => {
         if (!mounted) return;
         if (found) {
           setMember(found);
+          notifications.show({
+            title: "Not Found",
+            message: "Could not find the requested person.",
+            color: "red",
+            withCloseButton: true,
+          });
         } else {
           notifications.show({
-            title: "Membro não encontrado",
-            message: "Não foi possível localizar a pessoa solicitada.",
+            title: "Not Found",
+            message: "Could not find the requested person.",
             color: "red",
             withCloseButton: true,
           });
@@ -135,16 +131,11 @@ export default function TeamMemberPage() {
           <Center h={400}>
             <Stack align="center" gap="lg">
               <Text size="xl" c="white" fw={600}>
-                {teamMemberContent.memberNotFoundTitle}
+                Team member not found
               </Text>
-              <Button
-                leftSection={<IconArrowLeft size={20} />}
-                onClick={() => router.push("/team")}
-                variant="white"
-                color="var(--primary)"
-              >
-                {teamMemberContent.backButton}
-              </Button>
+              <BackButton onClick={() => router.push("/team")}>
+                Back to Team
+              </BackButton>
             </Stack>
           </Center>
         </Container>
@@ -173,11 +164,14 @@ export default function TeamMemberPage() {
         flickerChance={0.005}
       />
 
-      <TeamMemberProfile
-        member={member}
-        isMobile={isMobile}
-        onBack={() => router.push("/team")}
-      />
+      <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
+        {/* Back button */}
+        <BackButton onClick={() => router.push("/team")}>
+          Back to Team
+        </BackButton>
+
+        <TeamMemberProfile member={member} />
+      </Container>
     </Box>
   );
 }

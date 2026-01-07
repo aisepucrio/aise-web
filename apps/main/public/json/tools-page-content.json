@@ -5,6 +5,10 @@
     "ctaLabel": "View Tool Details",
     "ctaLabelMobile": "View"
   },
+  "toolHeroCard": {
+    "moreText": "more",
+    "durationLabel": "Duration"
+  },
   "stats": {
     "totalLabel": "Total Tools"
   },

@@ -1,16 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Box, Loader, Center, Stack, Text, Button } from "@mantine/core";
+import { Box, Loader, Center, Stack, Text, Container } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { motion } from "framer-motion";
 import FlickeringGrid from "@/components/FlickeringGrid";
-import ResearchDetailView, {
+import BackButton from "@/components/BackButton";
+import {
+  ResearchDetailView,
   ResearchData,
   ResearchPublication,
-} from "@/components/ResearchDetailView";
-import { PersonCardProps } from "@shared/ui";
+  PersonCardProps,
+} from "@shared/ui";
 import pageContent from "@/../public/json/research-detail-page-content.json";
 
 // Tipos
@@ -270,15 +272,9 @@ export default function ResearchDetailPage() {
             <Text size="xl" c="white" fw={600}>
               {pageContent.notFoundPage.title}
             </Text>
-            <Button
-              leftSection={<IconArrowLeft size={20} />}
-              variant="white"
-              color="var(--primary)"
-              mb={isMobile ? 20 : 32}
-              onClick={() => router.push("/researches")}
-            >
+            <BackButton onClick={() => router.push("/researches")}>
               {pageContent.backButton.label}
-            </Button>
+            </BackButton>
           </Stack>
         </Center>
       </Box>
@@ -315,14 +311,25 @@ export default function ResearchDetailPage() {
         flickerChance={0.005}
       />
 
-      <ResearchDetailView
-        research={researchData}
-        teamMembers={teamMembers}
-        publications={publications}
-        tools={tools}
-        isMobile={isMobile}
-        onBack={() => router.push("/researches")}
-      />
+      <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
+        {/* Back button */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <BackButton onClick={() => router.push("/researches")}>
+            {pageContent.backButton.label}
+          </BackButton>
+        </motion.div>
+
+        <ResearchDetailView
+          research={researchData}
+          teamMembers={teamMembers}
+          publications={publications}
+          tools={tools}
+        />
+      </Container>
     </Box>
   );
 }

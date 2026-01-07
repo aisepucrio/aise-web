@@ -18,7 +18,7 @@ import PagesHeader from "@/components/PagesHeader";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
-import PublicationCard from "@/components/PublicationCard";
+import { PublicationCard } from "@shared/ui";
 
 interface Publication {
   title: string;

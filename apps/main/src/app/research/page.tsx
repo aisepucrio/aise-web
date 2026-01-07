@@ -14,7 +14,7 @@ import {
 import { useMediaQuery } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import FlickeringGrid from "@/components/FlickeringGrid";
-import ResearchCard from "@/components/ResearchCard";
+import { ResearchCard } from "@shared/ui";
 import PagesHeader from "@/components/PagesHeader";
 import researchesPageContent from "@/../public/json/research-page-content.json";
 import { IconFlask } from "@tabler/icons-react";

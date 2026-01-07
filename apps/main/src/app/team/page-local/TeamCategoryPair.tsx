@@ -13,14 +13,12 @@ interface TeamCategoryPairProps {
   }[];
   startIndex: number;
   generateSlug: (name: string) => string;
-  viewMoreText: string;
 }
 
 export const TeamCategoryPair: React.FC<TeamCategoryPairProps> = ({
   categories,
   startIndex,
   generateSlug,
-  viewMoreText,
 }) => {
   return (
     <motion.div
@@ -52,7 +50,6 @@ export const TeamCategoryPair: React.FC<TeamCategoryPairProps> = ({
               members={category.members}
               index={startIndex + idx}
               generateSlug={generateSlug}
-              viewMoreText={viewMoreText}
             />
           </Box>
         ))}

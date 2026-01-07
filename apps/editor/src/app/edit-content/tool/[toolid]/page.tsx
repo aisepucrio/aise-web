@@ -1,14 +1,14 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useState, useEffect, useMemo } from "react";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { validateToolData, EXAMPLE_TOOL } from "@/services/googleSheets";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
-import ToolDetailView from "@/components/main-app-components/ToolDetailView";
-import ToolHeroCard from "@/components/main-app-components/ToolHeroCard";
-import ToolCardCompact from "@/components/main-app-components/ToolCardCompact";
+import { convertImgboxUrls } from "@/lib/imgbox";
+import { ToolDetailView, ToolHeroCard, ToolCardCompact } from "@shared/ui";
 import ToolInstructions from "@/components/tools/ToolInstructions";
 import DateRangePicker from "@/components/DateRangePicker";
 import TeamRelationshipSelector from "@/components/TeamRelationshipSelector";
@@ -42,8 +42,27 @@ export interface ToolData {
 const convertToCardFormat = (toolData: ToolData) => {
   return {
     ...toolData,
+    // map highlightImageUrl to the expected imageUrl property for card components
     imageUrl: toolData.highlightImageUrl,
-    status: "active" as const,
+    // provide a default status if missing so components that expect it won't error
+    status: (toolData as any).status || "active",
+  };
+};
+
+// Converte ToolData para formato do ToolDetailView
+const convertToDetailViewFormat = (toolData: ToolData) => {
+  return {
+    name: toolData.name,
+    tagline: toolData.tagline,
+    description: toolData.description,
+    longDescription: toolData.longDescription,
+    imageUrl: toolData.highlightImageUrl,
+    duration: toolData.duration,
+    techStack: toolData.techStack,
+    objectives: toolData.objectives,
+    features: toolData.features,
+    gallery: toolData.galleryImagesUrl,
+    links: toolData.links,
   };
 };
 
@@ -79,6 +98,7 @@ const convertFromSheetFormat = (sheetData: any): ToolData => {
 export default function EditToolPage() {
   const params = useParams();
   const toolId = decodeURIComponent(params?.toolid as string);
+  const [convertedData, setConvertedData] = useState<ToolData | null>(null);
 
   const {
     jsonText,
@@ -125,6 +145,43 @@ export default function EditToolPage() {
     getItemUrl: (data) => `/edit-content/tool/${encodeURIComponent(data.id)}`,
   });
 
+  // Convert imgbox URLs when parsedData changes
+  useEffect(() => {
+    if (parsedData) {
+      convertImgboxUrls(parsedData).then(setConvertedData);
+    } else {
+      setConvertedData(null);
+    }
+  }, [parsedData]);
+
+  const displayData = convertedData || parsedData;
+
+  // Convert team and publication relationships to component format
+  const teamMembers = useMemo(() => {
+    return (
+      displayData?.team_relationships?.map((rel: any) => ({
+        name: rel.name,
+        position: "",
+        imageUrl: "",
+        description: "",
+        roles: rel.roles || [],
+      })) || []
+    );
+  }, [displayData]);
+
+  const publications = useMemo(() => {
+    return (
+      displayData?.publication_relationships?.map((title: string) => ({
+        title: title,
+        link: "",
+        authors_list: "",
+        publication_place: "",
+        citation_number: 0,
+        year: 0,
+      })) || []
+    );
+  }, [displayData]);
+
   return (
     <EditPageLayout
       title="Editor de Tool"
@@ -146,21 +203,21 @@ export default function EditToolPage() {
       isAutoSaving={isAutoSaving}
       instructions={<ToolInstructions />}
       formEditor={
-        parsedData && (
+        displayData && (
           <Stack gap="md" style={{ paddingRight: 8 }}>
             <DateRangePicker
-              value={parsedData.duration}
+              value={displayData.duration}
               onChange={(val) => updateField("duration", val)}
               label="Duration"
               required
             />
             <TeamRelationshipSelector
-              value={parsedData.team_relationships || ""}
+              value={displayData.team_relationships || ""}
               onChange={(val) => updateField("team_relationships", val)}
               label="Team Relationships"
             />
             <PublicationRelationshipSelector
-              value={parsedData.publication_relationships || ""}
+              value={displayData.publication_relationships || ""}
               onChange={(val) => updateField("publication_relationships", val)}
               label="Publication Relationships"
             />
@@ -180,28 +237,17 @@ export default function EditToolPage() {
         )
       }
       preview={
-        parsedData ? (
+        displayData ? (
           <Stack gap="xl">
             <Box>
               <Text size="sm" fw={600} mb="xs" c="dimmed">
                 Preview: Detail View
               </Text>
+
               <ToolDetailView
-                tool={parsedData}
-                isMobile={false}
-                content={{
-                  backButton: "Voltar",
-                  sections: {
-                    duration: { label: "Duration" },
-                    techStack: { title: "Tech Stack" },
-                    about: { title: "About" },
-                    gallery: { title: "Gallery" },
-                    objectives: { title: "Objectives" },
-                    features: { title: "Features" },
-                    team: { title: "Team" },
-                    publications: { title: "Publications" },
-                  },
-                }}
+                tool={convertToDetailViewFormat(displayData)}
+                teamMembers={teamMembers}
+                publications={publications}
               />
             </Box>
             <Divider />
@@ -209,7 +255,7 @@ export default function EditToolPage() {
               <Text size="sm" fw={600} mb="xs" c="dimmed">
                 Preview: Hero Card
               </Text>
-              <ToolHeroCard tool={convertToCardFormat(parsedData)} index={0} />
+              <ToolHeroCard tool={convertToCardFormat(displayData)} index={0} />
             </Box>
             <Divider />
             <Box>
@@ -218,7 +264,7 @@ export default function EditToolPage() {
               </Text>
               <div style={{ width: "50%", margin: "auto" }}>
                 <ToolCardCompact
-                  tool={convertToCardFormat(parsedData)}
+                  tool={convertToCardFormat(displayData)}
                   index={1}
                 />
               </div>
