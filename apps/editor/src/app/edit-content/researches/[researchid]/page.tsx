@@ -3,19 +3,17 @@
 import { useParams } from "next/navigation";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
-import {
-  validateResearchData,
-  EXAMPLE_RESEARCH,
-} from "@/services/googleSheets";
+import { EXAMPLE_RESEARCH } from "@/services/examples";
+import { validateResearchData, validateResearchIdUnchanged } from "@/services/validations";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { ResearchDetailView } from "@shared/ui";
 import { ResearchCard } from "@shared/ui";
-import ResearchInstructions from "@/components/researches/ResearchInstructions";
+import ResearchInstructions from "@/components/ResearchInstructions";
 import DateRangePicker from "@/components/DateRangePicker";
 import TeamRelationshipSelector from "@/components/TeamRelationshipSelector";
-import PublicationRelationshipSelector from "@/components/researches/PublicationRelationshipSelector";
-import ToolRelationshipSelector from "@/components/researches/ToolRelationshipSelector";
+import PublicationRelationshipSelector from "@/components/PublicationRelationshipSelector";
+import ToolRelationshipSelector from "@/components/ToolRelationshipSelector";
 
 // Interface completa da Research
 export interface ResearchData {
@@ -111,17 +109,7 @@ export default function EditResearchPage() {
       return research ? convertFromSheetFormat(research) : null;
     },
     validate: validateResearchData,
-    validateExisting: (data, itemId) => {
-      if (data.id !== itemId) {
-        return {
-          valid: false,
-          errors: [
-            `✖ ID: Deve corresponder ao ID da rota (${itemId}). Não é possível alterar o ID de uma research existente.`,
-          ],
-        };
-      }
-      return { valid: true, errors: [] };
-    },
+    validateExisting: validateResearchIdUnchanged,
     isNewItemId: (id) => id === "new-research",
     getItemUrl: (data) =>
       `/edit-content/researches/${encodeURIComponent(data.id)}`,

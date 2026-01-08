@@ -10,7 +10,7 @@ import {
   Code,
   Group,
 } from "@mantine/core";
-import InstructionsPanel from "../InstructionsPanel";
+import InstructionsPanel from "./InstructionsPanel";
 
 export default function ProfileInstructions() {
   return (

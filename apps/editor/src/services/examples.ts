@@ -1,27 +1,18 @@
 /**
- * Constantes e dados de exemplo para o lado do cliente
+ * Client-side examples
  */
 
 import { TeamMemberData } from "./types";
-
-export const VALID_POSITIONS = [
-  "Laboratory Head",
-  "Postdoctoral Researcher",
-  "PhD Student",
-  "MSc Student",
-  "BSc Student",
-  "Collaborator",
-  "Alumni",
-] as const;
+import { VALID_POSITIONS } from "./validations";
 
 export const EXAMPLE_TEAM_MEMBER: TeamMemberData = {
   name: "Example Member",
-  position: "Laboratory Head",
+  position: VALID_POSITIONS[0],
   university: "PUC-Rio",
   imageUrl: "https://imgbox.com/mZ8NXbYf",
   description:
     "<NAME> is description here description here description here description here description here description here description here description here description here description here description here description here description here description here description here description here",
-  email: "example@mail.com",
+  email: "member@university.edu",
   researchInterests: [
     "Artificial Intelligence",
     "Machine Learning",
@@ -40,45 +31,15 @@ export const EXAMPLE_TEAM_MEMBER: TeamMemberData = {
   ],
   knowledge: ["Frontend", "Backend", "Data Science"],
   socialLinks: {
-    lattes: "http://lattes.cnpq.br/1234567890123456",
-    personalWebsite: "https://example.com",
-    linkedin: "https://linkedin.com/in/example",
-    github: "https://github.com/example",
-    googleScholar: "https://scholar.google.com/citations?user=example",
-    orcid: "https://orcid.org/0000-0000-0000-0000",
+    lattes: "lattes.cnpq.br/1234567890123456",
+    personalWebsite: "example.com",
+    linkedin: "linkedin.com/in/example",
+    github: "github.com/example",
+    googleScholar: "scholar.google.com/citations?user=example",
+    orcid: "orcid.org/0000-0000-0000-0000",
   },
 };
 
-// Regex patterns
-export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const IMAGE_EXTENSION_REGEX = /\.(jpg|jpeg|png|gif|webp)$/i;
-export const DURATION_REGEX =
-  /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4}\s*[–-]\s*(present|(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4})$/i;
-
-// Validation limits
-export const VALIDATION_LIMITS = {
-  MEMBER: {
-    DESCRIPTION_MIN: 50,
-    DESCRIPTION_MAX: 750,
-    RESEARCH_INTERESTS_MIN: 2,
-    RESEARCH_INTERESTS_MAX: 10,
-    TECHNOLOGIES_MIN: 3,
-    TECHNOLOGIES_MAX: 15,
-    KNOWLEDGE_MIN: 1,
-    KNOWLEDGE_MAX: 8,
-  },
-  TOOL: {
-    TAGLINE_MIN: 20,
-    TAGLINE_MAX: 150,
-    DESCRIPTION_MIN: 50,
-  },
-  RESEARCH: {
-    SHORT_DESCRIPTION_MIN: 50,
-    LONG_DESCRIPTION_MIN: 100,
-  },
-} as const;
-
-// Exemplo de Tool
 export const EXAMPLE_TOOL = {
   id: "my-new-tool-id",
   name: "Example Tool",
@@ -108,15 +69,12 @@ export const EXAMPLE_TOOL = {
   techStack: ["Next.js", "TypeScript", "Python", "PostgreSQL"],
   team_relationships: [],
   publication_relationships: [],
-  links: {
-    webapp: "https://example.com",
-    github: "https://github.com/example/repo",
-    api: "https://api.example.com",
-    docs: "https://docs.example.com",
-  },
+  link_webapp: "example.com",
+  link_github: "github.com/example/repo",
+  link_api: "api.example.com",
+  link_docs: "docs.example.com",
 } as const;
 
-// Exemplo de Research
 export const EXAMPLE_RESEARCH = {
   id: "my-new-research-id",
   name: "Example Research Line",

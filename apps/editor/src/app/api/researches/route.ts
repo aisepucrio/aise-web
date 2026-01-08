@@ -5,6 +5,7 @@ import {
   updateResearch,
   type Research,
 } from "@/server/googleSheets.server";
+import { validateResearchBeforeUpdate } from "@/services/validations";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -63,17 +64,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Fluxo 2: Atualização interna (sem token)
-    if (!data.id || !data.name) {
+    const validation = validateResearchBeforeUpdate(data);
+    if (!validation.valid) {
       return NextResponse.json(
-        { error: "Campos obrigatórios: id, name" },
-        { status: 400 }
-      );
-    }
-
-    // IDs reservados que não podem ser usados
-    if (data.id === "new-research" || data.id === "example-research") {
-      return NextResponse.json(
-        { error: "ID reservado. Use um ID único para a research." },
+        { error: validation.errors.join(", ") },
         { status: 400 }
       );
     }

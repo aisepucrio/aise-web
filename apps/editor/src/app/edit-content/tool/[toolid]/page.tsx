@@ -4,15 +4,19 @@ import { useParams } from "next/navigation";
 import { useState, useEffect, useMemo } from "react";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
-import { validateToolData, EXAMPLE_TOOL } from "@/services/googleSheets";
+import { EXAMPLE_TOOL } from "@/services/examples";
+import {
+  validateToolData,
+  validateToolIdUnchanged,
+} from "@/services/validations";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { convertImgboxUrls } from "@/lib/imgbox";
 import { ToolDetailView, ToolHeroCard, ToolCardCompact } from "@shared/ui";
-import ToolInstructions from "@/components/tools/ToolInstructions";
+import ToolInstructions from "@/components/ToolInstructions";
 import DateRangePicker from "@/components/DateRangePicker";
 import TeamRelationshipSelector from "@/components/TeamRelationshipSelector";
-import PublicationRelationshipSelector from "@/components/tools/PublicationRelationshipSelector";
+import PublicationRelationshipSelector from "@/components/PublicationRelationshipSelector";
 
 // Interface completa do Tool
 export interface ToolData {
@@ -130,17 +134,7 @@ export default function EditToolPage() {
       return tool ? convertFromSheetFormat(tool) : null;
     },
     validate: validateToolData,
-    validateExisting: (data, itemId) => {
-      if (data.id !== itemId) {
-        return {
-          valid: false,
-          errors: [
-            `✖ ID: Deve corresponder ao ID da rota (${itemId}). Não é possível alterar o ID de um tool existente.`,
-          ],
-        };
-      }
-      return { valid: true, errors: [] };
-    },
+    validateExisting: validateToolIdUnchanged,
     isNewItemId: (id) => id === "new-tool",
     getItemUrl: (data) => `/edit-content/tool/${encodeURIComponent(data.id)}`,
   });

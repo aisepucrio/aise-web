@@ -4,6 +4,7 @@ import {
   parseSheetRows,
   updateTeamMember,
 } from "@/server/googleSheets.server";
+import { validateMemberBeforeUpdate } from "@/services/validations";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,10 +12,6 @@ export const dynamic = "force-dynamic";
 // Lê membros do time do Google Sheets
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const email = searchParams.get("email");
-    const mode = searchParams.get("mode"); // 'simple' para lista resumida
-
     const sheetName = process.env.TEAM_SHEET_NAME || "Team";
     const rows = await readSheetData(sheetName);
 
@@ -25,31 +22,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Busca por email específico
-    if (email) {
-      for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        if (row[5]?.toLowerCase() === email.toLowerCase()) {
-          return NextResponse.json({ member: row, rowNumber: i + 1 });
-        }
-      }
-      return NextResponse.json({ message: "not found" }, { status: 404 });
-    }
-
-    // Lista simplificada (nome, posição, email)
-    if (mode === "simple") {
-      const members = rows
-        .slice(1)
-        .filter((row) => row[0] && row[5])
-        .map((row) => ({
-          name: row[0],
-          position: row[1] || "",
-          email: row[5],
-        }));
-      return NextResponse.json({ members });
-    }
-
-    // Lista completa (padrão)
+    // Retorna lista completa
     const team = parseSheetRows(rows, "team");
     return NextResponse.json({ team });
   } catch (error: any) {
@@ -95,14 +68,12 @@ export async function POST(request: NextRequest) {
     const member = data.member || data;
     const isNew = data.isNew !== undefined ? data.isNew : false;
 
-    console.log("[Team API] Recebido:", {
-      hasEmail: !!member?.email,
-      email: member?.email,
-    });
-
-    if (!member?.email || member.email === "exemplo@example.com") {
-      console.error("[Team API] Validação falhou:", { email: member?.email });
-      return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
+    const validation = validateMemberBeforeUpdate(member);
+    if (!validation.valid) {
+      return NextResponse.json(
+        { error: validation.errors.join(", ") },
+        { status: 400 }
+      );
     }
 
     await updateTeamMember(member, isNew);

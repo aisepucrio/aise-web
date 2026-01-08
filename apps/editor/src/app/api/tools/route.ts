@@ -5,6 +5,7 @@ import {
   updateTool,
   type Tool,
 } from "@/server/googleSheets.server";
+import { validateToolBeforeUpdate } from "@/services/validations";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -63,17 +64,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Fluxo 2: Atualização interna (sem token)
-    if (!data.id || !data.name) {
+    const validation = validateToolBeforeUpdate(data);
+    if (!validation.valid) {
       return NextResponse.json(
-        { error: "Campos obrigatórios: id, name" },
-        { status: 400 }
-      );
-    }
-
-    // IDs reservados que não podem ser usados
-    if (data.id === "new-tool" || data.id === "example-tool") {
-      return NextResponse.json(
-        { error: "ID reservado. Use um ID único para o tool." },
+        { error: validation.errors.join(", ") },
         { status: 400 }
       );
     }

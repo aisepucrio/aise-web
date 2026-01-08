@@ -3,20 +3,39 @@
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Center, Text, Stack, Box, Divider } from "@mantine/core";
+import { EXAMPLE_TEAM_MEMBER } from "@/services/examples";
 import {
-  getMemberByEmail,
   validateMemberData,
-  EXAMPLE_TEAM_MEMBER,
-  type TeamMemberData,
-} from "@/services/googleSheets";
+  validateMemberEmailUnchanged,
+} from "@/services/validations";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { PersonCard } from "@shared/ui";
 import { TeamMemberListItem } from "@shared/ui";
 import { TeamMemberGridItem } from "@shared/ui";
 import { TeamMemberProfile } from "@shared/ui";
-import ProfileInstructions from "@/components/team/ProfileInstructions";
+import ProfileInstructions from "@/components/ProfileInstructions";
 import { convertImgboxUrls } from "@/lib/imgbox";
+
+interface TeamMemberData {
+  name: string;
+  position: string;
+  university?: string;
+  imageUrl: string;
+  description: string;
+  email: string;
+  researchInterests: string[];
+  technologies: string[];
+  knowledge: string[];
+  socialLinks?: {
+    lattes?: string;
+    personalWebsite?: string;
+    linkedin?: string;
+    github?: string;
+    googleScholar?: string;
+    orcid?: string;
+  };
+}
 
 export default function EditContentPage() {
   const params = useParams();
@@ -43,21 +62,17 @@ export default function EditContentPage() {
     itemType: "membro",
     apiEndpoint: "/api/team",
     exampleData: EXAMPLE_TEAM_MEMBER,
-    fetchItem: getMemberByEmail,
-    validate: validateMemberData,
-    validateExisting: (data, itemId) => {
-      // Validação adicional: email não pode ser alterado
-      const routeEmail = decodeURIComponent(itemId);
-      if (data.email.toLowerCase() !== routeEmail.toLowerCase()) {
-        return {
-          valid: false,
-          errors: [
-            `✖ Email: Não é possível alterar o email de um perfil existente. O email deve ser "${routeEmail}"`,
-          ],
-        };
-      }
-      return { valid: true, errors: [] };
+    fetchItem: async (email: string) => {
+      const res = await fetch("/api/team");
+      if (!res.ok) throw new Error("Erro ao buscar dados do time");
+      const data = await res.json();
+      const member = data.team?.find(
+        (m: TeamMemberData) => m.email.toLowerCase() === email.toLowerCase()
+      );
+      return member || null;
     },
+    validate: validateMemberData,
+    validateExisting: validateMemberEmailUnchanged,
     isNewItemId: (id) => id === "new" || !id || id === "undefined",
     getItemUrl: (data) =>
       `/edit-content/team/${encodeURIComponent(data.email)}`,
