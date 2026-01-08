@@ -100,10 +100,6 @@ export default function ToolsHomePage() {
           Selecione um tool na lista para editar suas informações, ou escolha
           &quot;Criar novo tool&quot; para adicionar um novo projeto.
         </Text>
-        <Text size="sm" mt="sm">
-          <strong>Importante:</strong> Não edite a planilha diretamente. Use
-          sempre este editor.
-        </Text>
       </Alert>
 
       {/* Seleção de Tool */}
@@ -182,13 +178,6 @@ export default function ToolsHomePage() {
       >
         {loading ? "Carregando..." : "Acessar Editor"}
       </Button>
-
-      {/* Informações adicionais */}
-      <Box ta="center">
-        <Text size="xs" c="dimmed">
-          Suas alterações serão sincronizadas com o Google Sheets
-        </Text>
-      </Box>
     </Stack>
   );
 }

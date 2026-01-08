@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
 
     // Fluxo 1: Publicação externa (com token)
-    if (token === process.env.ADMIN_TOKEN) {
+    if (token) {
       const team = Array.isArray(data) ? data : data.team;
 
       if (!Array.isArray(team)) {

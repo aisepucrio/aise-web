@@ -108,10 +108,6 @@ export default function TeamHomePage() {
           &quot;Cadastrar novo membro&quot; para criar um novo registro.
         </Text>
         <Text size="sm" mt="sm">
-          <strong>Importante:</strong> Não edite a planilha diretamente. Use
-          sempre este editor.
-        </Text>
-        <Text size="sm" mt="sm">
           Se o seu email estiver incorreto na planilha, contate o responsável
           para alterá-lo. Não é possível mudar o email pelo editor.
         </Text>
@@ -193,13 +189,6 @@ export default function TeamHomePage() {
       >
         {loading ? "Verificando..." : "Acessar Editor"}
       </Button>
-
-      {/* Informações adicionais */}
-      <Box ta="center">
-        <Text size="xs" c="dimmed">
-          Suas alterações serão sincronizadas com o Google Sheets
-        </Text>
-      </Box>
     </Stack>
   );
 }

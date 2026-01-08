@@ -101,10 +101,6 @@ export default function ResearchesHomePage() {
           ou escolha &quot;Criar nova research&quot; para adicionar uma nova
           área de pesquisa.
         </Text>
-        <Text size="sm" mt="sm">
-          <strong>Importante:</strong> Não edite a planilha diretamente. Use
-          sempre este editor.
-        </Text>
       </Alert>
 
       {/* Seleção de Research */}
@@ -183,13 +179,6 @@ export default function ResearchesHomePage() {
       >
         {loading ? "Carregando..." : "Acessar Editor"}
       </Button>
-
-      {/* Informações adicionais */}
-      <Box ta="center">
-        <Text size="xs" c="dimmed">
-          Suas alterações serão sincronizadas com o Google Sheets
-        </Text>
-      </Box>
     </Stack>
   );
 }
