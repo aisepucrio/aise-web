@@ -3,7 +3,7 @@ import {
   readSheetData,
   parseSheetRows,
   updatePublications,
-} from "@/server/googleSheets.server";
+} from "@/services/googleSheetServerServices";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

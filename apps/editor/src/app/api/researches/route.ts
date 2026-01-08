@@ -4,7 +4,7 @@ import {
   parseSheetRows,
   updateResearch,
   type Research,
-} from "@/server/googleSheets.server";
+} from "@/services/googleSheetServerServices";
 import { validateResearchBeforeUpdate } from "@/services/validations";
 
 export const runtime = "nodejs";

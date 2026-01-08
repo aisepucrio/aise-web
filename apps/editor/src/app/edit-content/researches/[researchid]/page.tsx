@@ -1,10 +1,14 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { ResearchData } from "@/services/types";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { EXAMPLE_RESEARCH } from "@/services/examples";
-import { validateResearchData, validateResearchIdUnchanged } from "@/services/validations";
+import {
+  validateResearchData,
+  validateResearchIdUnchanged,
+} from "@/services/validations";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { ResearchDetailView } from "@shared/ui";
@@ -14,24 +18,6 @@ import DateRangePicker from "@/components/DateRangePicker";
 import TeamRelationshipSelector from "@/components/TeamRelationshipSelector";
 import PublicationRelationshipSelector from "@/components/PublicationRelationshipSelector";
 import ToolRelationshipSelector from "@/components/ToolRelationshipSelector";
-
-// Interface completa da Research
-export interface ResearchData {
-  id: string;
-  name: string;
-  shortDescription: string;
-  longDescription: string;
-  highlightImageUrl: string;
-  duration: string;
-  projects?: Array<{
-    name: string;
-    imageUrl: string;
-    description: string;
-  }>;
-  team_relationships?: Array<{ name: string }>;
-  publication_relationships?: string[];
-  tool_relationships?: string[];
-}
 
 // Converte ResearchData para formato dos componentes de card
 const convertToCardFormat = (researchData: ResearchData) => {

@@ -1,8 +1,4 @@
-/**
- * Reusable validation utilities + validation constants
- */
-
-import { TeamMemberData, ValidationResult } from "./types";
+import { TeamMemberData, ToolData, ResearchData } from "./types";
 
 /* ------------------------------ Validation data ----------------------------- */
 
@@ -49,6 +45,11 @@ export const VALIDATION_LIMITS = {
 } as const;
 
 /* ---------------------------------- Shared --------------------------------- */
+
+export interface ValidationResult {
+  valid: boolean;
+  errors: string[];
+}
 
 const isBlank = (value?: string | null) => !value || value.trim() === "";
 
@@ -199,19 +200,23 @@ export function validateDuration(duration: string): boolean {
 }
 
 /**
- * Link fields are optional, but if present they cannot be empty.
- * If you don't have the link, remove the field instead of leaving it blank.
+ * Validates that a link contains a specific keyword.
+ * Link fields are optional - if empty/null/undefined, no validation is performed.
  */
-const validateOptionalLinkField = (
+const validateLinkWithKeyword = (
   errors: string[],
   label: string,
-  value: unknown
+  value: unknown,
+  keyword: string
 ) => {
   if (value === undefined || value === null) return;
 
   const str = String(value);
-  if (isBlank(str))
-    errors.push(`✖ ${label}: Campo vazio. Remova o campo se não for usar`);
+  if (isBlank(str)) return; // empty is valid (means the link is not provided)
+
+  if (!str.toLowerCase().includes(keyword.toLowerCase())) {
+    errors.push(`✖ ${label}: O link deve conter "${keyword}"`);
+  }
 };
 
 /* ----------------------------- Before update/create ------------------------- */
@@ -236,7 +241,7 @@ const validateImmutableField = (
 
 // Validates that the email of a team member has not been changed
 export function validateMemberEmailUnchanged(
-  data: any,
+  data: TeamMemberData,
   originalEmail: string
 ): ValidationResult {
   const routeEmail = decodeURIComponent(originalEmail);
@@ -250,7 +255,7 @@ export function validateMemberEmailUnchanged(
 
 // Validates that the ID of a research has not been changed
 export function validateResearchIdUnchanged(
-  data: any,
+  data: ResearchData,
   originalId: string
 ): ValidationResult {
   return validateImmutableField(
@@ -263,13 +268,15 @@ export function validateResearchIdUnchanged(
 
 // Validates that the ID of a tool has not been changed
 export function validateToolIdUnchanged(
-  data: any,
+  data: ToolData,
   originalId: string
 ): ValidationResult {
   return validateImmutableField(data.id, originalId, "ID", "um tool existente");
 }
 
-export function validateResearchBeforeUpdate(research: any): ValidationResult {
+export function validateResearchBeforeUpdate(
+  research: ResearchData
+): ValidationResult {
   const errors: string[] = [];
 
   requireText(errors, "Campos obrigatórios: id", research?.id);
@@ -282,7 +289,7 @@ export function validateResearchBeforeUpdate(research: any): ValidationResult {
   return result(errors);
 }
 
-export function validateToolBeforeUpdate(tool: any): ValidationResult {
+export function validateToolBeforeUpdate(tool: ToolData): ValidationResult {
   const errors: string[] = [];
 
   requireText(errors, "Campos obrigatórios: id", tool?.id);
@@ -295,7 +302,9 @@ export function validateToolBeforeUpdate(tool: any): ValidationResult {
   return result(errors);
 }
 
-export function validateMemberBeforeUpdate(member: any): ValidationResult {
+export function validateMemberBeforeUpdate(
+  member: TeamMemberData
+): ValidationResult {
   const errors: string[] = [];
 
   // keep it consistent with the main email rule
@@ -367,25 +376,23 @@ export function validateMemberData(member: TeamMemberData): ValidationResult {
   }
 
   const social = member.socialLinks || {};
-  (
-    [
-      ["lattes", "Lattes"],
-      ["personalWebsite", "PersonalWebsite"],
-      ["linkedin", "Linkedin"],
-      ["github", "Github"],
-      ["googleScholar", "GoogleScholar"],
-      ["orcid", "Orcid"],
-    ] as const
-  ).forEach(([key, label]) =>
-    validateOptionalLinkField(errors, label, social[key])
+  validateLinkWithKeyword(errors, "Lattes", social.lattes, "lattes");
+  validateLinkWithKeyword(errors, "Linkedin", social.linkedin, "linkedin");
+  validateLinkWithKeyword(errors, "Github", social.github, "github");
+  validateLinkWithKeyword(
+    errors,
+    "GoogleScholar",
+    social.googleScholar,
+    "scholar"
   );
+  validateLinkWithKeyword(errors, "Orcid", social.orcid, "orcid");
 
   return result(errors);
 }
 
 /* ----------------------------------- Tools --------------------------------- */
 
-export function validateToolData(tool: any): ValidationResult {
+export function validateToolData(tool: ToolData): ValidationResult {
   const errors: string[] = [];
   const limits = VALIDATION_LIMITS.TOOL;
 
@@ -428,23 +435,15 @@ export function validateToolData(tool: any): ValidationResult {
     );
   }
 
-  (
-    [
-      ["link_webapp", "Webapp Link"],
-      ["link_github", "Github Link"],
-      ["link_api", "Api Link"],
-      ["link_docs", "Docs Link"],
-    ] as const
-  ).forEach(([key, label]) =>
-    validateOptionalLinkField(errors, label, tool[key])
-  );
+  const links = tool.links || {};
+  validateLinkWithKeyword(errors, "Github Link", links.github, "github");
 
   return result(errors);
 }
 
 /* -------------------------------- Researches ------------------------------- */
 
-export function validateResearchData(research: any): ValidationResult {
+export function validateResearchData(research: ResearchData): ValidationResult {
   const errors: string[] = [];
   const limits = VALIDATION_LIMITS.RESEARCH;
 

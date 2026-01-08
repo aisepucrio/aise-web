@@ -4,7 +4,7 @@ import {
   parseSheetRows,
   updateTool,
   type Tool,
-} from "@/server/googleSheets.server";
+} from "@/services/googleSheetServerServices";
 import { validateToolBeforeUpdate } from "@/services/validations";
 
 export const runtime = "nodejs";
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
 
     // Fluxo 1: Publicação externa (com token)
-    if (token === process.env.ADMIN_TOKEN) {
+    if (token) {
       const tools = Array.isArray(data) ? data : data.tools;
 
       if (!Array.isArray(tools)) {

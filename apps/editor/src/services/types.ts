@@ -1,7 +1,3 @@
-/**
- * TypeScript interfaces para dados do Google Sheets (client-side)
- */
-
 export interface TeamMemberData {
   name: string;
   position: string;
@@ -24,38 +20,50 @@ export interface TeamMemberData {
 
 export interface Publication {
   title: string;
-  authors: string;
-  venue: string;
+  link: string;
+  authors_list: string;
+  publication_place: string;
+  citation_number: number;
   year: string;
-  doi?: string;
-  pdf?: string;
-  abstract?: string;
+  awards: string;
 }
 
-export interface Tool {
+export interface ResearchData {
+  id: string;
+  name: string;
+  shortDescription: string;
+  longDescription: string;
+  highlightImageUrl: string;
+  duration: string;
+  projects?: Array<{
+    name: string;
+    imageUrl: string;
+    description: string;
+  }>;
+  team_relationships?: Array<{ name: string }>;
+  publication_relationships?: string[];
+  tool_relationships?: string[];
+}
+
+export interface ToolData {
   id: string;
   name: string;
   tagline: string;
   description: string;
-  imageUrl: string;
+  longDescription?: string;
   category: string;
-  status: string;
+  highlightImageUrl: string;
+  galleryImagesUrl?: string[];
   duration: string;
+  objectives?: string[];
+  features?: string[];
   techStack?: string[];
-}
-
-export interface MemberListItem {
-  name: string;
-  position: string;
-  email: string;
-}
-
-export interface ToolConflicts {
-  missingTeamMembers: string[];
-  missingPublications: string[];
-}
-
-export interface ValidationResult {
-  valid: boolean;
-  errors: string[];
+  team_relationships?: Array<{ name: string; roles: string[] }>;
+  publication_relationships?: string[];
+  links: {
+    webapp: string;
+    github: string;
+    api: string;
+    docs: string;
+  };
 }

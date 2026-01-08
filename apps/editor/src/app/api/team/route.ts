@@ -3,7 +3,7 @@ import {
   readSheetData,
   parseSheetRows,
   updateTeamMember,
-} from "@/server/googleSheets.server";
+} from "@/services/googleSheetServerServices";
 import { validateMemberBeforeUpdate } from "@/services/validations";
 
 export const runtime = "nodejs";

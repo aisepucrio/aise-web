@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { ToolData } from "@/services/types";
 import { useState, useEffect, useMemo } from "react";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
@@ -17,30 +18,6 @@ import ToolInstructions from "@/components/ToolInstructions";
 import DateRangePicker from "@/components/DateRangePicker";
 import TeamRelationshipSelector from "@/components/TeamRelationshipSelector";
 import PublicationRelationshipSelector from "@/components/PublicationRelationshipSelector";
-
-// Interface completa do Tool
-export interface ToolData {
-  id: string;
-  name: string;
-  tagline: string;
-  description: string;
-  longDescription?: string;
-  category: string;
-  highlightImageUrl: string;
-  galleryImagesUrl?: string[];
-  duration: string;
-  objectives?: string[];
-  features?: string[];
-  techStack?: string[];
-  team_relationships?: Array<{ name: string; roles: string[] }>;
-  publication_relationships?: string[];
-  links?: {
-    webapp?: string;
-    github?: string;
-    api?: string;
-    docs?: string;
-  };
-}
 
 // Converte ToolData para formato dos componentes de card
 const convertToCardFormat = (toolData: ToolData) => {
@@ -95,7 +72,12 @@ const convertFromSheetFormat = (sheetData: any): ToolData => {
     )
       ? sheetData.publication_relationships
       : [],
-    links: sheetData.links || {},
+    links: {
+      webapp: sheetData.links?.webapp || "",
+      github: sheetData.links?.github || "",
+      api: sheetData.links?.api || "",
+      docs: sheetData.links?.docs || "",
+    },
   };
 };
 

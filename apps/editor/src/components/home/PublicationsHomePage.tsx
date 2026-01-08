@@ -1,5 +1,6 @@
 "use client";
 
+import { Publication } from "@/services/types";
 import { useState, useEffect } from "react";
 import {
   Container,
@@ -25,16 +26,6 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import SaveButton from "@/components/SaveButton";
-
-interface Publication {
-  title: string;
-  link: string;
-  authors_list: string;
-  publication_place: string;
-  citation_number: number;
-  year: string;
-  awards: string;
-}
 
 export default function PublicationsHomePage() {
   // Estado das publicações

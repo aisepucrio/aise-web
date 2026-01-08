@@ -2,10 +2,9 @@
  * Client-side examples
  */
 
-import { TeamMemberData } from "./types";
 import { VALID_POSITIONS } from "./validations";
 
-export const EXAMPLE_TEAM_MEMBER: TeamMemberData = {
+export const EXAMPLE_TEAM_MEMBER = {
   name: "Example Member",
   position: VALID_POSITIONS[0],
   university: "PUC-Rio",
@@ -69,10 +68,12 @@ export const EXAMPLE_TOOL = {
   techStack: ["Next.js", "TypeScript", "Python", "PostgreSQL"],
   team_relationships: [],
   publication_relationships: [],
-  link_webapp: "example.com",
-  link_github: "github.com/example/repo",
-  link_api: "api.example.com",
-  link_docs: "docs.example.com",
+  links: {
+    webapp: "example.com",
+    github: "github.com/example/repo",
+    api: "api.example.com",
+    docs: "docs.example.com",
+  },
 } as const;
 
 export const EXAMPLE_RESEARCH = {

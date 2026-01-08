@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { TeamMemberData } from "@/services/types";
 import { useState, useEffect } from "react";
 import { Center, Text, Stack, Box, Divider } from "@mantine/core";
 import { EXAMPLE_TEAM_MEMBER } from "@/services/examples";
@@ -16,26 +17,6 @@ import { TeamMemberGridItem } from "@shared/ui";
 import { TeamMemberProfile } from "@shared/ui";
 import ProfileInstructions from "@/components/ProfileInstructions";
 import { convertImgboxUrls } from "@/lib/imgbox";
-
-interface TeamMemberData {
-  name: string;
-  position: string;
-  university?: string;
-  imageUrl: string;
-  description: string;
-  email: string;
-  researchInterests: string[];
-  technologies: string[];
-  knowledge: string[];
-  socialLinks?: {
-    lattes?: string;
-    personalWebsite?: string;
-    linkedin?: string;
-    github?: string;
-    googleScholar?: string;
-    orcid?: string;
-  };
-}
 
 export default function EditContentPage() {
   const params = useParams();
