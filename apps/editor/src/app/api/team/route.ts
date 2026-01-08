@@ -9,8 +9,12 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 // Lê membros do time do Google Sheets
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get("email");
+    const mode = searchParams.get("mode"); // 'simple' para lista resumida
+
     const sheetName = process.env.TEAM_SHEET_NAME || "Team";
     const rows = await readSheetData(sheetName);
 
@@ -21,6 +25,31 @@ export async function GET() {
       );
     }
 
+    // Busca por email específico
+    if (email) {
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (row[5]?.toLowerCase() === email.toLowerCase()) {
+          return NextResponse.json({ member: row, rowNumber: i + 1 });
+        }
+      }
+      return NextResponse.json({ message: "not found" }, { status: 404 });
+    }
+
+    // Lista simplificada (nome, posição, email)
+    if (mode === "simple") {
+      const members = rows
+        .slice(1)
+        .filter((row) => row[0] && row[5])
+        .map((row) => ({
+          name: row[0],
+          position: row[1] || "",
+          email: row[5],
+        }));
+      return NextResponse.json({ members });
+    }
+
+    // Lista completa (padrão)
     const team = parseSheetRows(rows, "team");
     return NextResponse.json({ team });
   } catch (error: any) {

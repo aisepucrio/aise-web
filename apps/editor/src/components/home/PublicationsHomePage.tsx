@@ -24,7 +24,6 @@ import {
   IconCheck,
   IconX,
 } from "@tabler/icons-react";
-import { buildLocalApiUrl } from "@/lib/api";
 import SaveButton from "@/components/SaveButton";
 
 interface Publication {
@@ -80,7 +79,7 @@ export default function PublicationsHomePage() {
   const loadPublications = async () => {
     try {
       setLoading(true);
-      const response = await fetch(buildLocalApiUrl("/api/publications"));
+      const response = await fetch("/api/publications");
       const data = await response.json();
       const pubs = data.publications || [];
       setPublications(pubs);

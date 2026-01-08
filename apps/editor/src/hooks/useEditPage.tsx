@@ -7,8 +7,6 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { notifications } from "@mantine/notifications";
-import { IconX, IconCheck } from "@tabler/icons-react";
 
 export interface UseEditPageOptions<T> {
   /** ID do item sendo editado (email, tool id, research id) */

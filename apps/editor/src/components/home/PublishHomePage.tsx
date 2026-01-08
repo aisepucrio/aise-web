@@ -22,7 +22,6 @@ import {
   IconBook,
   IconFlask,
 } from "@tabler/icons-react";
-import { buildLocalApiUrl, buildPublishApiUrl } from "@/lib/api";
 import { convertImgboxUrls } from "@/lib/imgbox";
 
 type PublishStatus = "idle" | "loading" | "success" | "error";
@@ -34,6 +33,17 @@ type PublishSection = {
   icon: React.ReactNode;
   endpoint: string;
 };
+
+// Constrói URL completa para a API de publicação externa
+export function buildPublishApiUrl(path: string): string {
+  const baseUrl = process.env.NEXT_PUBLIC_PUBLISH_API_URL;
+  if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_PUBLISH_API_URL not configured. ");
+  }
+
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${baseUrl}${cleanPath}`;
+}
 
 export default function PublishHomePage() {
   const [statuses, setStatuses] = useState<Record<string, PublishStatus>>({
@@ -95,7 +105,7 @@ export default function PublishHomePage() {
 
     try {
       // Passo 1: Lê os dados do Google Sheets via API local (GET)
-      const getUrl = buildLocalApiUrl(section.endpoint);
+      const getUrl = section.endpoint;
       const getResponse = await fetch(getUrl, {
         method: "GET",
       });

@@ -47,7 +47,7 @@ function rowToTeamMember(row: string[]): TeamMemberData {
  */
 export async function listAllMembers(): Promise<MemberListItem[]> {
   try {
-    const res = await fetch("/api/list-members");
+    const res = await fetch("/api/team?mode=simple");
     if (!res.ok) {
       throw new Error("Erro ao buscar lista de membros");
     }
@@ -67,7 +67,7 @@ export async function getMemberByEmail(
 ): Promise<TeamMemberData | null> {
   try {
     const encoded = encodeURIComponent(email);
-    const res = await fetch(`/api/read-member?email=${encoded}`);
+    const res = await fetch(`/api/team?email=${encoded}`);
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error("Erro ao buscar dados do Google Sheets");
@@ -131,7 +131,7 @@ export async function saveMember(
 export async function findMemberRow(email: string): Promise<number | null> {
   try {
     const encoded = encodeURIComponent(email);
-    const res = await fetch(`/api/read-member?email=${encoded}`);
+    const res = await fetch(`/api/team?email=${encoded}`);
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error("Erro ao buscar dados do Google Sheets");
