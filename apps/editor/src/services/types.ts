@@ -8,6 +8,7 @@ export interface TeamMemberData {
   researchInterests: string[];
   technologies: string[];
   knowledge: string[];
+  birthday?: string;
   socialLinks?: {
     lattes?: string;
     personalWebsite?: string;

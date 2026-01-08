@@ -16,6 +16,8 @@ export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const IMAGE_EXTENSION_REGEX = /\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i;
 export const DURATION_REGEX =
   /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4}\s*[–-]\s*(present|(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4})$/i;
+export const BIRTHDAY_REGEX =
+  /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/(\d{4})$/;
 
 export const RESERVED_IDS = {
   RESEARCH: ["new-research", "example-research"],
@@ -199,6 +201,22 @@ export function validateDuration(duration: string): boolean {
   return DURATION_REGEX.test(duration);
 }
 
+export function validateBirthday(birthday: string): boolean {
+  if (isBlank(birthday)) return true; // optional field
+
+  if (!BIRTHDAY_REGEX.test(birthday)) return false;
+
+  // Validate it's a valid date
+  const [day, month, year] = birthday.split("/").map(Number);
+  const date = new Date(year, month - 1, day);
+
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  );
+}
+
 /**
  * Validates that a link contains a specific keyword.
  * Link fields are optional - if empty/null/undefined, no validation is performed.
@@ -367,7 +385,7 @@ export function validateMemberData(member: TeamMemberData): ValidationResult {
   const knowledgeCount = member.knowledge?.length ?? 0;
   if (knowledgeCount === 0) {
     errors.push(
-      `✖ knowledge: Pelo menos ${limits.KNOWLEDGE_MIN} área de especialização é obrigatória`
+      `✖ knowledge: Pelo menos ${limits.KNOWLEDGE_MIN} área de conhecimento é obrigatória`
     );
   } else if (knowledgeCount > limits.KNOWLEDGE_MAX) {
     errors.push(
@@ -386,6 +404,15 @@ export function validateMemberData(member: TeamMemberData): ValidationResult {
     "scholar"
   );
   validateLinkWithKeyword(errors, "Orcid", social.orcid, "orcid");
+
+  // Validate birthday format if provided
+  if (member.birthday && !isBlank(member.birthday)) {
+    if (!validateBirthday(member.birthday)) {
+      errors.push(
+        "✖ Birthday: Formato inválido. Use o formato DD/MM/YYYY (ex: 15/01/1990)"
+      );
+    }
+  }
 
   return result(errors);
 }

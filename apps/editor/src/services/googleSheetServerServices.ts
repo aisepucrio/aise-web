@@ -18,6 +18,7 @@ export interface TeamMemberData {
   researchInterests: string[];
   technologies: string[];
   knowledge: string[];
+  birthday?: string;
   socialLinks?: {
     lattes?: string;
     personalWebsite?: string;
@@ -105,9 +106,10 @@ export const TEAM_COLUMNS = {
   GITHUB: 12,
   GOOGLE_SCHOLAR: 13,
   ORCID: 14,
+  BIRTHDAY: 15,
 } as const;
 
-export const TEAM_RANGE = "A:O";
+export const TEAM_RANGE = "A:P";
 
 export const PUBLICATION_COLUMNS = {
   TITLE: 0,
@@ -374,10 +376,7 @@ export function serializeProjects(
     .join(SEPARATORS.PROJECTS);
 }
 
-export function parseLinks(
-  row: string[],
-  startIndex: number
-): Tool["links"] {
+export function parseLinks(row: string[], startIndex: number): Tool["links"] {
   return {
     webapp: row[startIndex] || "",
     github: row[startIndex + 1] || "",
@@ -404,6 +403,7 @@ export function parseTeamRow(row: string[]): TeamMemberData {
     researchInterests: splitByCommaOrPipe(row[C.RESEARCH_INTERESTS]),
     technologies: splitByCommaOrPipe(row[C.TECHNOLOGIES]),
     knowledge: splitByCommaOrPipe(row[C.KNOWLEDGE]),
+    birthday: row[C.BIRTHDAY] || "",
     socialLinks: {
       lattes: row[C.LATTES] || "",
       personalWebsite: row[C.PERSONAL_WEBSITE] || "",
@@ -504,7 +504,7 @@ export function parseSheetRows(
 
 export function serializeTeamRow(member: TeamMemberData): string[] {
   const C = TEAM_COLUMNS;
-  const row = Array(15).fill("");
+  const row = Array(16).fill("");
 
   // Keeps original behavior: empty university for "PUC-Rio" or missing
   const uniCell =
@@ -527,6 +527,7 @@ export function serializeTeamRow(member: TeamMemberData): string[] {
   row[C.GITHUB] = member.socialLinks?.github || "";
   row[C.GOOGLE_SCHOLAR] = member.socialLinks?.googleScholar || "";
   row[C.ORCID] = member.socialLinks?.orcid || "";
+  row[C.BIRTHDAY] = member.birthday || "";
 
   return row;
 }

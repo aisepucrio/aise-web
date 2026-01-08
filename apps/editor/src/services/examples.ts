@@ -29,6 +29,7 @@ export const EXAMPLE_TEAM_MEMBER = {
     "Kubernetes",
   ],
   knowledge: ["Frontend", "Backend", "Data Science"],
+  birthday: "01/01/1990",
   socialLinks: {
     lattes: "lattes.cnpq.br/1234567890123456",
     personalWebsite: "example.com",
