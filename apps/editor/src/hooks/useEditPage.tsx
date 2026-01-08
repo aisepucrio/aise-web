@@ -7,6 +7,8 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 export interface UseEditPageOptions<T> {
   /** ID do item sendo editado (email, tool id, research id) */
@@ -88,6 +90,7 @@ export function useEditPage<T>({
   const [editMode, setEditMode] = useState<"json" | "form">("form");
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isAutoSaving, setIsAutoSaving] = useState(false);
+  const [lastManualSave, setLastManualSave] = useState<Date | null>(null);
 
   // Carrega os dados do item
   useEffect(() => {
@@ -129,7 +132,12 @@ export function useEditPage<T>({
           }
         }
       } catch (error) {
-        console.error("Failed to load data:", error);
+        console.error("Erro ao carregar dados:", error);
+        notifications.show({
+          title: "Erro",
+          message: `Erro ao carregar dados. Redirecionando...`,
+          color: "red",
+        });
         setTimeout(() => router.push("/"), 2000);
       } finally {
         setIsLoading(false);
@@ -221,6 +229,15 @@ export function useEditPage<T>({
       return; // Não faz autosave se dados inválidos ou item novo
     }
 
+    // Verifica se passaram pelo menos 10 segundos desde o último save manual
+    if (lastManualSave) {
+      const secondsSinceManualSave =
+        (new Date().getTime() - lastManualSave.getTime()) / 1000;
+      if (secondsSinceManualSave < 10) {
+        return; // Não faz autosave se ainda não passaram 10 segundos
+      }
+    }
+
     setIsAutoSaving(true);
 
     try {
@@ -239,9 +256,15 @@ export function useEditPage<T>({
       }
 
       setLastSaved(new Date());
-      console.log("Auto-saved successfully");
+      notifications.show({
+        title: "Salvo automaticamente",
+        message: ``,
+        color: "blue",
+        icon: <IconCheck />,
+        autoClose: 2000,
+      });
     } catch (error) {
-      console.error("Auto-save failed:", error);
+      console.error("Erro no autosave:", error);
       // Não mostra erro para não incomodar o usuário
     } finally {
       setIsAutoSaving(false);
@@ -251,12 +274,22 @@ export function useEditPage<T>({
   // Salvar alterações
   const handleSave = async () => {
     if (!parsedData) {
-      console.error("Invalid JSON. Fix errors before saving.");
+      notifications.show({
+        title: "Erro",
+        message: "JSON inválido. Corrija os erros antes de salvar.",
+        color: "red",
+        icon: <IconX />,
+      });
       return;
     }
 
     if (!validation.valid) {
-      console.error("Validation error:", validation.errors.join(", "));
+      notifications.show({
+        title: "Erro de Validação",
+        message: validation.errors.join(", "),
+        color: "red",
+        icon: <IconX />,
+      });
       return;
     }
 
@@ -277,8 +310,15 @@ export function useEditPage<T>({
         throw new Error(result.error || `Erro ao salvar ${itemType}`);
       }
 
-      setLastSaved(new Date());
-      console.log("Saved successfully:", result.message || `${itemType} saved`);
+      const now = new Date();
+      setLastSaved(now);
+      setLastManualSave(now);
+      notifications.show({
+        title: "Sucesso!",
+        message: result.message || `${itemType} salvo com sucesso`,
+        color: "green",
+        icon: <IconCheck />,
+      });
 
       // Se era novo, redireciona para a URL correta
       if (isNewItem && getItemUrl) {
@@ -289,10 +329,16 @@ export function useEditPage<T>({
         setIsNewItem(false);
       }
     } catch (error) {
-      console.error(
-        "Save failed:",
-        error instanceof Error ? error.message : error
-      );
+      console.error("Erro ao salvar:", error);
+      notifications.show({
+        title: "Erro",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Erro ao salvar dados. Tente novamente.",
+        color: "red",
+        icon: <IconX />,
+      });
     } finally {
       setIsSaving(false);
     }
@@ -306,7 +352,11 @@ export function useEditPage<T>({
       ...(itemData && { email: (itemData as any).email }),
     };
     setJsonText(JSON.stringify(resetData, null, 2));
-    console.log("Data reset to example (ID preserved)");
+    notifications.show({
+      title: "Resetado",
+      message: "Dados resetados para exemplo (ID mantido)",
+      color: "blue",
+    });
   };
 
   return {

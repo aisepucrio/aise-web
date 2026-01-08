@@ -95,14 +95,14 @@ export function EditPageLayout({
   instructions,
 }: EditPageLayoutProps) {
   const router = useRouter();
-  const [, setTick] = useState(0);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Atualiza o tempo "salvo há X segundos" a cada segundo
+  // Atualiza o tempo atual a cada segundo para recalcular "salvo há X segundos"
   useEffect(() => {
     if (!lastSaved) return;
 
     const interval = setInterval(() => {
-      setTick((prev) => prev + 1);
+      setCurrentTime(new Date());
     }, 1000);
 
     return () => clearInterval(interval);
@@ -192,7 +192,7 @@ export function EditPageLayout({
                       Salvo há{" "}
                       <Text span fw={500}>
                         {Math.floor(
-                          (new Date().getTime() - lastSaved.getTime()) / 1000
+                          (currentTime.getTime() - lastSaved.getTime()) / 1000
                         )}
                         s
                       </Text>
