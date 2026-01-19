@@ -49,12 +49,19 @@ export const TABS: TabItem[] = [
 interface TabNavigationProps {
   activeTab: string;
   onTabChange: (tabId: string) => void;
+  isAdmin?: boolean;
 }
 
 export default function TabNavigation({
   activeTab,
   onTabChange,
+  isAdmin = false,
 }: TabNavigationProps) {
+  // Filter tabs based on admin status
+  const visibleTabs = TABS.filter(
+    (tab) => tab.id !== "publish" || isAdmin
+  );
+
   return (
     <Box
       style={{
@@ -63,7 +70,7 @@ export default function TabNavigation({
       }}
     >
       <Group gap="xs" justify="center">
-        {TABS.map((tab) => {
+        {visibleTabs.map((tab) => {
           const isActive = activeTab === tab.id;
 
           return (

@@ -1,14 +1,14 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { TeamMemberData } from "@/services/types";
+import { TeamMemberData } from "@/lib/types";
 import { useState, useEffect } from "react";
 import { Center, Text, Stack, Box, Divider } from "@mantine/core";
-import { EXAMPLE_TEAM_MEMBER } from "@/services/examples";
+import { EXAMPLE_TEAM_MEMBER } from "@/lib/examples";
 import {
   validateMemberData,
   validateMemberEmailUnchanged,
-} from "@/services/validations";
+} from "@/lib/validations";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { PersonCard } from "@shared/ui";
@@ -17,12 +17,14 @@ import { TeamMemberGridItem } from "@shared/ui";
 import { TeamMemberProfile } from "@shared/ui";
 import ProfileInstructions from "@/components/ProfileInstructions";
 import { convertImgboxUrls } from "@/lib/imgbox";
+import { authFetchJson } from "@/lib/auth-fetch";
+import { RequireAuth } from "@/contexts/AuthContext";
 
 export default function EditContentPage() {
   const params = useParams();
   const personId = decodeURIComponent(params?.personid as string);
   const [convertedData, setConvertedData] = useState<TeamMemberData | null>(
-    null
+    null,
   );
 
   const {
@@ -44,11 +46,11 @@ export default function EditContentPage() {
     apiEndpoint: "/api/team",
     exampleData: EXAMPLE_TEAM_MEMBER,
     fetchItem: async (email: string) => {
-      const res = await fetch("/api/team");
+      const res = await authFetchJson("/api/team");
       if (!res.ok) throw new Error("Erro ao buscar dados do time");
       const data = await res.json();
       const member = data.team?.find(
-        (m: TeamMemberData) => m.email.toLowerCase() === email.toLowerCase()
+        (m: TeamMemberData) => m.email.toLowerCase() === email.toLowerCase(),
       );
       return member || null;
     },
@@ -71,103 +73,105 @@ export default function EditContentPage() {
   const displayData = convertedData || parsedData;
 
   return (
-    <EditPageLayout
-      title="Editor de Perfil"
-      subtitle={`${
-        isNewItem ? "Novo perfil" : "Editando perfil existente"
-      }: ${personId}`}
-      isLoading={isLoading}
-      isNewItem={isNewItem}
-      newItemMessage="Novo Perfil"
-      newItemWarning="IMPORTANTE: Certifique-se de usar um email válido e único! Após salvar, não será possível alterar o email."
-      jsonText={jsonText}
-      setJsonText={setJsonText}
-      jsonError={jsonError}
-      editMode="json"
-      setEditMode={() => {}}
-      validation={validation}
-      onSave={handleSave}
-      onReset={handleReset}
-      isSaving={isSaving}
-      lastSaved={lastSaved}
-      isAutoSaving={isAutoSaving}
-      instructions={<ProfileInstructions />}
-      preview={
-        displayData ? (
-          <Stack gap="lg">
-            <Box>
-              <Text size="sm" fw={600} c="dimmed" mb="xs">
-                Página de Perfil Completo
-              </Text>
-              <TeamMemberProfile member={displayData} />
-            </Box>
-            <Divider />
+    <RequireAuth>
+      <EditPageLayout
+        title="Editor de Perfil"
+        subtitle={`${
+          isNewItem ? "Novo perfil" : "Editando perfil existente"
+        }: ${personId}`}
+        isLoading={isLoading}
+        isNewItem={isNewItem}
+        newItemMessage="Novo Perfil"
+        newItemWarning="IMPORTANTE: Certifique-se de usar um email válido e único! Após salvar, não será possível alterar o email."
+        jsonText={jsonText}
+        setJsonText={setJsonText}
+        jsonError={jsonError}
+        editMode="json"
+        setEditMode={() => {}}
+        validation={validation}
+        onSave={handleSave}
+        onReset={handleReset}
+        isSaving={isSaving}
+        lastSaved={lastSaved}
+        isAutoSaving={isAutoSaving}
+        instructions={<ProfileInstructions />}
+        preview={
+          displayData ? (
+            <Stack gap="lg">
+              <Box>
+                <Text size="sm" fw={600} c="dimmed" mb="xs">
+                  Página de Perfil Completo
+                </Text>
+                <TeamMemberProfile member={displayData} />
+              </Box>
+              <Divider />
 
-            <Box>
-              <Text size="sm" fw={600} c="dimmed" mb="xs">
-                PersonCard (carrossel / página de time)
-              </Text>
-              <Center>
-                <PersonCard
-                  key={`person-card-1-${displayData.imageUrl}`}
-                  name={displayData.name}
-                  position={displayData.position}
-                  imageUrl={displayData.imageUrl}
-                  description={displayData.description}
-                  cardWidth={240}
-                />
-                <PersonCard
-                  key={`person-card-2-${displayData.imageUrl}`}
-                  name={displayData.name}
-                  position={displayData.position}
-                  imageUrl={displayData.imageUrl}
-                  description={displayData.description}
-                  cardWidth={240}
-                  roles={displayData.knowledge?.slice(0, 2)}
-                />
-              </Center>
-            </Box>
-
-            <Divider />
-
-            <Box>
-              <Text size="sm" fw={600} c="dimmed" mb="xs">
-                Lista de Membros - Vizualização desktop
-              </Text>
-              <Center>
-                <Box style={{ width: "35%" }}>
-                  <TeamMemberListItem
-                    key={`member-horizontal-${displayData.imageUrl}`}
-                    member={displayData}
+              <Box>
+                <Text size="sm" fw={600} c="dimmed" mb="xs">
+                  PersonCard (carrossel / página de time)
+                </Text>
+                <Center>
+                  <PersonCard
+                    key={`person-card-1-${displayData.imageUrl}`}
+                    name={displayData.name}
+                    position={displayData.position}
+                    imageUrl={displayData.imageUrl}
+                    description={displayData.description}
+                    cardWidth={240}
                   />
-                </Box>
-              </Center>
-            </Box>
-
-            <Divider />
-
-            <Box>
-              <Text size="sm" fw={600} c="dimmed" mb="xs">
-                Lista de Membros - Vizualização mobile
-              </Text>
-              <Center>
-                <Box style={{ width: "35%" }}>
-                  <TeamMemberGridItem
-                    key={`member-vertical-${displayData.imageUrl}`}
-                    member={displayData}
+                  <PersonCard
+                    key={`person-card-2-${displayData.imageUrl}`}
+                    name={displayData.name}
+                    position={displayData.position}
+                    imageUrl={displayData.imageUrl}
+                    description={displayData.description}
+                    cardWidth={240}
+                    roles={displayData.knowledge?.slice(0, 2)}
                   />
-                </Box>
-              </Center>
-            </Box>
-          </Stack>
-        ) : (
-          <Center h={400}>
-            <Text c="dimmed">
-              JSON inválido - corrija os erros para ver o preview
-            </Text>
-          </Center>
-        )
-      }
-    />
+                </Center>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Text size="sm" fw={600} c="dimmed" mb="xs">
+                  Lista de Membros - Vizualização desktop
+                </Text>
+                <Center>
+                  <Box style={{ width: "35%" }}>
+                    <TeamMemberListItem
+                      key={`member-horizontal-${displayData.imageUrl}`}
+                      member={displayData}
+                    />
+                  </Box>
+                </Center>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Text size="sm" fw={600} c="dimmed" mb="xs">
+                  Lista de Membros - Vizualização mobile
+                </Text>
+                <Center>
+                  <Box style={{ width: "35%" }}>
+                    <TeamMemberGridItem
+                      key={`member-vertical-${displayData.imageUrl}`}
+                      member={displayData}
+                    />
+                  </Box>
+                </Center>
+              </Box>
+            </Stack>
+          ) : (
+            <Center h={400}>
+              <Text c="dimmed">
+                JSON inválido - corrija os erros para ver o preview
+              </Text>
+            </Center>
+          )
+        }
+      />
+    </RequireAuth>
   );
 }

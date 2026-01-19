@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Paper, Title, Text, Container, Center } from "@mantine/core";
+import { Box, Paper, Title, Text, Container, Center, Group, Button } from "@mantine/core";
+import { IconLogout } from "@tabler/icons-react";
 import TabNavigation from "@/components/TabNavigation";
 import TeamHomePage from "@/components/home/TeamHomePage";
 import ResearchesHomePage from "@/components/home/ResearchesHomePage";
 import PublicationsHomePage from "@/components/home/PublicationsHomePage";
 import ToolsHomePage from "@/components/home/ToolsHomePage";
 import PublishHomePage from "@/components/home/PublishHomePage";
+import { RequireAuth, useAuth } from "@/contexts/AuthContext";
 
 export default function HomePage() {
+  const { user, logout, isAdmin } = useAuth();
   // Estado para controlar qual aba está ativa
   const [activeTab, setActiveTab] = useState("team");
 
@@ -25,13 +28,15 @@ export default function HomePage() {
       case "tools":
         return <ToolsHomePage />;
       case "publish":
-        return <PublishHomePage />;
+        // Only render publish page for admins
+        return isAdmin ? <PublishHomePage /> : <TeamHomePage />;
       default:
         return <TeamHomePage />;
     }
   };
 
   return (
+    <RequireAuth>
     <Box
       style={{
         minHeight: "100vh",
@@ -53,26 +58,46 @@ export default function HomePage() {
           }}
         >
           {/* Header */}
-          <Box ta="center" mb="lg">
-            <Title
-              order={1}
-              size="h2"
-              style={{
-                background: "var(--primary)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                marginBottom: 8,
-              }}
-            >
-              AISE Content Editor
-            </Title>
-            <Text size="sm" c="dimmed">
-              Gerencie o conteúdo do website em tempo real
-            </Text>
+          <Box mb="lg">
+            <Group justify="space-between" mb="xs">
+              <Box>
+                <Title
+                  order={1}
+                  size="h2"
+                  style={{
+                    background: "var(--primary)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  AISE Content Editor
+                </Title>
+              </Box>
+              <Button
+                variant="subtle"
+                leftSection={<IconLogout size={16} />}
+                onClick={logout}
+                size="sm"
+              >
+                Logout
+              </Button>
+            </Group>
+            <Group justify="space-between">
+              <Text size="sm" c="dimmed">
+                Gerencie o conteúdo do website em tempo real
+              </Text>
+              <Text size="xs" c="dimmed">
+                {user?.email} {isAdmin && "(Admin)"}
+              </Text>
+            </Group>
           </Box>
 
           {/* Navegação por abas */}
-          <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+          <TabNavigation 
+            activeTab={activeTab} 
+            onTabChange={setActiveTab}
+            isAdmin={isAdmin}
+          />
 
           {/* Conteúdo da aba ativa */}
           <Box>{renderTabContent()}</Box>
@@ -86,5 +111,6 @@ export default function HomePage() {
         </Center>
       </Container>
     </Box>
+    </RequireAuth>
   );
 }

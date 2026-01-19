@@ -3,21 +3,24 @@ import {
   readSheetData,
   parseSheetRows,
   updatePublications,
-} from "@/services/googleSheetServerServices";
+} from "@/lib/google-sheet-server-services";
+import { requireUser, requireAdmin } from "@/lib/auth-server";
+import { requireCSRF } from "@/lib/csrf-protection";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// Lê publicações do Google Sheets
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    await requireUser(request);
+
     const sheetName = process.env.PUBLICATIONS_SHEET_NAME || "Publications";
     const rows = await readSheetData(sheetName);
 
     if (rows.length < 2) {
       return NextResponse.json(
         { ok: false, error: "Planilha vazia" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -28,20 +31,23 @@ export async function GET() {
   }
 }
 
-// Atualiza publicações (modo append ou replace) ou recebe dados para publicação externa
 export async function POST(request: NextRequest) {
   try {
+    requireCSRF(request);
+
     const token = request.headers.get("authorization")?.replace("Bearer ", "");
     const data = await request.json();
 
-    // Fluxo 1: Publicação externa (com token)
+    // External publish (admin only)
     if (token) {
+      await requireAdmin(request);
+
       const publications = Array.isArray(data) ? data : data.publications;
 
       if (!Array.isArray(publications)) {
         return NextResponse.json(
           { error: "Expected publications array" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -49,7 +55,7 @@ export async function POST(request: NextRequest) {
         if (!item.title) {
           return NextResponse.json(
             { error: "Missing title in publication" },
-            { status: 400 }
+            { status: 400 },
           );
         }
       }
@@ -61,7 +67,9 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Fluxo 2: Atualização interna (sem token)
+    // Internal update
+    await requireUser(request);
+
     const { publications, mode } = data;
 
     if (!Array.isArray(publications) || !["append", "replace"].includes(mode)) {
@@ -77,6 +85,7 @@ export async function POST(request: NextRequest) {
       }`,
     });
   } catch (error: any) {
+    if (error instanceof NextResponse) return error;
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

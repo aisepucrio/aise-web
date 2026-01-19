@@ -1,14 +1,14 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { ResearchData } from "@/services/types";
+import { ResearchData } from "@/lib/types";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
-import { EXAMPLE_RESEARCH } from "@/services/examples";
+import { EXAMPLE_RESEARCH } from "@/lib/examples";
 import {
   validateResearchData,
   validateResearchIdUnchanged,
-} from "@/services/validations";
+} from "@/lib/validations";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { ResearchDetailView } from "@shared/ui";
@@ -51,7 +51,7 @@ const convertFromSheetFormat = (sheetData: any): ResearchData => {
       ? sheetData.team_relationships
       : [],
     publication_relationships: Array.isArray(
-      sheetData.publication_relationships
+      sheetData.publication_relationships,
     )
       ? sheetData.publication_relationships
       : [],

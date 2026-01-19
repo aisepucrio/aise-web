@@ -1,6 +1,6 @@
 "use client";
 
-import { Publication } from "@/services/types";
+import { Publication } from "@/lib/types";
 import { useState, useEffect } from "react";
 import {
   Container,
@@ -48,13 +48,13 @@ export default function PublicationsHomePage() {
   // Modal de confirmação
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmAction, setConfirmAction] = useState<"append" | "replace">(
-    "append"
+    "append",
   );
 
   // Mensagens
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error">(
-    "success"
+    "success",
   );
 
   // Detecta se houve alterações
@@ -103,10 +103,10 @@ export default function PublicationsHomePage() {
       let finalPubs = newPubs;
       if (mode === "append") {
         const existingTitles = new Set(
-          publications.map((p) => p.title.toLowerCase())
+          publications.map((p) => p.title.toLowerCase()),
         );
         finalPubs = newPubs.filter(
-          (p: Publication) => !existingTitles.has(p.title.toLowerCase())
+          (p: Publication) => !existingTitles.has(p.title.toLowerCase()),
         );
 
         if (finalPubs.length === 0) {
@@ -127,7 +127,7 @@ export default function PublicationsHomePage() {
         `${finalPubs.length} publicação(ões) ${
           mode === "replace" ? "carregadas" : "adicionadas"
         }`,
-        "success"
+        "success",
       );
     } catch (error) {
       showMessage("Erro ao coletar publicações", "error");

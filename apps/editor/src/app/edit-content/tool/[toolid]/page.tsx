@@ -1,15 +1,12 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { ToolData } from "@/services/types";
+import { ToolData } from "@/lib/types";
 import { useState, useEffect, useMemo } from "react";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
-import { EXAMPLE_TOOL } from "@/services/examples";
-import {
-  validateToolData,
-  validateToolIdUnchanged,
-} from "@/services/validations";
+import { EXAMPLE_TOOL } from "@/lib/examples";
+import { validateToolData, validateToolIdUnchanged } from "@/lib/validations";
 import { useEditPage } from "@/hooks/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { convertImgboxUrls } from "@/lib/imgbox";
@@ -68,7 +65,7 @@ const convertFromSheetFormat = (sheetData: any): ToolData => {
       ? sheetData.team_relationships
       : [],
     publication_relationships: Array.isArray(
-      sheetData.publication_relationships
+      sheetData.publication_relationships,
     )
       ? sheetData.publication_relationships
       : [],

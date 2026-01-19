@@ -3,47 +3,53 @@ import {
   readSheetData,
   parseSheetRows,
   updateTeamMember,
-} from "@/services/googleSheetServerServices";
-import { validateMemberBeforeUpdate } from "@/services/validations";
+} from "@/lib/google-sheet-server-services";
+import { validateMemberBeforeUpdate } from "@/lib/validations";
+import { requireUser, requireAdmin } from "@/lib/auth-server";
+import { requireCSRF } from "@/lib/csrf-protection";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// Lê membros do time do Google Sheets
 export async function GET(request: NextRequest) {
   try {
+    await requireUser(request); // Auth check
+
     const sheetName = process.env.TEAM_SHEET_NAME || "Team";
     const rows = await readSheetData(sheetName);
 
     if (rows.length < 2) {
       return NextResponse.json(
         { ok: false, error: "Planilha vazia" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
-    // Retorna lista completa
     const team = parseSheetRows(rows, "team");
     return NextResponse.json({ team });
   } catch (error: any) {
+    if (error instanceof NextResponse) return error;
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-// Atualiza membro do time ou recebe dados para publicação externa
 export async function POST(request: NextRequest) {
   try {
+    requireCSRF(request); // CSRF check for mutations
+
     const token = request.headers.get("authorization")?.replace("Bearer ", "");
     const data = await request.json();
 
-    // Fluxo 1: Publicação externa (com token)
+    // External publish (admin only)
     if (token) {
+      await requireAdmin(request);
+
       const team = Array.isArray(data) ? data : data.team;
 
       if (!Array.isArray(team)) {
         return NextResponse.json(
           { error: "Expected team array" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -51,7 +57,7 @@ export async function POST(request: NextRequest) {
         if (!item.name || !item.position) {
           return NextResponse.json(
             { error: "Missing name or position" },
-            { status: 400 }
+            { status: 400 },
           );
         }
       }
@@ -63,8 +69,9 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Fluxo 2: Atualização interna (sem token)
-    // Aceita tanto { member, isNew } (formato antigo) quanto dados diretos (novo formato)
+    // Internal update (any authenticated user)
+    await requireUser(request);
+
     const member = data.member || data;
     const isNew = data.isNew !== undefined ? data.isNew : false;
 
@@ -72,7 +79,7 @@ export async function POST(request: NextRequest) {
     if (!validation.valid) {
       return NextResponse.json(
         { error: validation.errors.join(", ") },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -83,6 +90,7 @@ export async function POST(request: NextRequest) {
       message: isNew ? "Membro adicionado" : "Membro atualizado",
     });
   } catch (error: any) {
+    if (error instanceof NextResponse) return error;
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

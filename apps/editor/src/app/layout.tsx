@@ -10,6 +10,7 @@ import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "./globals.css";
 import { Notifications } from "@mantine/notifications";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 // Carrega a fonte Montserrat via next/font
 const montserrat = Montserrat({
@@ -46,8 +47,10 @@ export default function RootLayout({
 
       <body className={`${montserrat.variable}`}>
         <MantineProvider theme={theme} defaultColorScheme="light">
-          <Notifications position="top-right" />
-          {children}
+          <AuthProvider>
+            <Notifications position="top-right" />
+            {children}
+          </AuthProvider>
         </MantineProvider>
       </body>
     </html>

@@ -9,6 +9,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
+import { authFetchJson } from "@/lib/auth-fetch";
 
 export interface UseEditPageOptions<T> {
   /** ID do item sendo editado (email, tool id, research id) */
@@ -114,7 +115,7 @@ export function useEditPage<T>({
           }
         } else {
           // Busca item da API genérica
-          const res = await fetch(apiEndpoint);
+          const res = await authFetchJson(apiEndpoint);
           if (!res.ok) throw new Error(`Erro ao carregar ${itemType}s`);
 
           const data = await res.json();
@@ -241,7 +242,7 @@ export function useEditPage<T>({
     setIsAutoSaving(true);
 
     try {
-      const response = await fetch(apiEndpoint, {
+      const response = await authFetchJson(apiEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -296,7 +297,7 @@ export function useEditPage<T>({
     setIsSaving(true);
 
     try {
-      const response = await fetch(apiEndpoint, {
+      const response = await authFetchJson(apiEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

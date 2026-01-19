@@ -23,6 +23,8 @@ import {
   IconFlask,
 } from "@tabler/icons-react";
 import { convertImgboxUrls } from "@/lib/imgbox";
+import { authFetchJson } from "@/lib/auth-fetch";
+import { RequireAdmin } from "@/contexts/AuthContext";
 
 type PublishStatus = "idle" | "loading" | "success" | "error";
 
@@ -88,70 +90,60 @@ export default function PublishHomePage() {
   ];
 
   /**
-   * Publica dados de uma seção específica
-   * Lê o token do prompt para segurança
+   * Publishes section data to external website
+   * Uses admin authentication (no token prompt needed)
    */
   const handlePublish = async (section: PublishSection) => {
-    // Solicita o token do usuário
-    const token = prompt(`Digite o ADMIN_TOKEN para publicar ${section.name}:`);
-
-    if (!token) {
-      alert("Token não fornecido. Operação cancelada.");
-      return;
-    }
-
     setStatuses((prev) => ({ ...prev, [section.id]: "loading" }));
     setMessages((prev) => ({ ...prev, [section.id]: "" }));
 
     try {
-      // Passo 1: Lê os dados do Google Sheets via API local (GET)
-      const getUrl = section.endpoint;
-      const getResponse = await fetch(getUrl, {
+      // Step 1: Read data from Google Sheets via local API
+      const getResponse = await authFetchJson(section.endpoint, {
         method: "GET",
       });
 
       if (!getResponse.ok) {
         const error = await getResponse.json();
-        throw new Error(error.error || "Erro ao ler dados do Google Sheets");
+        throw new Error(error.error || "Failed to read Google Sheets data");
       }
 
       const response = await getResponse.json();
-
-      // Extrai o array de dados (team, tools ou publications)
       const dataArray = response[section.id];
 
       if (!dataArray || !Array.isArray(dataArray)) {
-        throw new Error("Formato de dados inválido recebido do servidor");
+        throw new Error("Invalid data format received from server");
       }
 
-      // Converte todas as URLs do imgbox antes de enviar
+      // Convert imgbox URLs before sending
       const convertedData = await convertImgboxUrls(response);
 
-      // Passo 2: Envia os dados via POST para o servidor externo (mantém estrutura envelopada)
-      const postUrl = buildPublishApiUrl(section.endpoint);
-      const postResponse = await fetch(postUrl, {
+      // Step 2: Publish to external website via secure backend endpoint
+      const publishResponse = await authFetchJson("/api/publish", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(convertedData), // Envia com URLs convertidas
+        body: JSON.stringify({
+          section: section.id,
+          data: convertedData,
+        }),
       });
 
-      const result = await postResponse.json();
+      const result = await publishResponse.json();
 
-      if (!postResponse.ok) {
-        throw new Error(result.error || "Erro ao publicar dados");
+      if (!publishResponse.ok) {
+        throw new Error(result.error || "Failed to publish data");
       }
 
       setStatuses((prev) => ({ ...prev, [section.id]: "success" }));
       setMessages((prev) => ({
         ...prev,
         [section.id]:
-          result.message || `${dataArray.length} itens publicados com sucesso!`,
+          result.message || `${dataArray.length} items published successfully!`,
       }));
 
-      // Limpa status após 5 segundos
+      // Clear status after 5 seconds
       setTimeout(() => {
         setStatuses((prev) => ({ ...prev, [section.id]: "idle" }));
         setMessages((prev) => ({ ...prev, [section.id]: "" }));
@@ -161,7 +153,7 @@ export default function PublishHomePage() {
       setMessages((prev) => ({
         ...prev,
         [section.id]:
-          error instanceof Error ? error.message : "Erro ao publicar dados",
+          error instanceof Error ? error.message : "Failed to publish data",
       }));
     }
   };
@@ -199,6 +191,7 @@ export default function PublishHomePage() {
   };
 
   return (
+    <RequireAdmin>
     <Container size="lg" py="xl">
       <Stack gap="xl">
         {/* Header */}
@@ -209,33 +202,30 @@ export default function PublishHomePage() {
             mb="sm"
             style={{ color: "var(--primary)", fontWeight: 800 }}
           >
-            Publicar Conteúdo
+            Publish Content
           </Title>
           <Text size="lg" c="dimmed">
-            Publique os dados do Google Sheets diretamente para o site. O
-            servidor lerá a planilha e atualizará os arquivos JSON
-            automaticamente.
+            Publish Google Sheets data directly to the website. The server will
+            read the spreadsheet and update JSON files automatically.
           </Text>
         </div>
 
-        {/* Alerta informativo */}
+        {/* Info alert */}
         <Alert
           icon={<IconAlertCircle size={24} />}
-          title="Como funciona"
+          title="How it works"
           color="var(--primary)"
           variant="light"
           radius="lg"
         >
           <Text size="sm">
-            1. Edite os dados na planilha do Google Sheets (abas: Team,
-            Researches, Publications, Tools)
+            1. Edit data in Google Sheets (tabs: Team, Researches, Publications, Tools)
             <br />
-            2. Clique em "Publicar" na seção desejada
+            2. Click "Publish" on the desired section
             <br />
-            3. Digite o ADMIN_TOKEN quando solicitado
+            3. The server will read the spreadsheet and update the website files automatically
             <br />
-            4. O servidor lerá a planilha e atualizará os arquivos do site
-            original automaticamente
+            <strong>Note: Only admins can publish to the website.</strong>
           </Text>
         </Alert>
 
@@ -315,5 +305,6 @@ export default function PublishHomePage() {
         </Stack>
       </Stack>
     </Container>
+    </RequireAdmin>
   );
 }
