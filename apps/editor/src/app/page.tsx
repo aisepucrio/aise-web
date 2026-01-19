@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Paper, Title, Text, Container, Center, Group, Button } from "@mantine/core";
+import {
+  Box,
+  Paper,
+  Title,
+  Text,
+  Container,
+  Center,
+  Group,
+  Button,
+} from "@mantine/core";
 import { IconLogout } from "@tabler/icons-react";
 import TabNavigation from "@/components/TabNavigation";
 import TeamHomePage from "@/components/home/TeamHomePage";
@@ -37,80 +46,81 @@ export default function HomePage() {
 
   return (
     <RequireAuth>
-    <Box
-      style={{
-        minHeight: "100vh",
-        background: "var(--primary)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "20px",
-      }}
-    >
-      <Container size="md">
-        <Paper
-          shadow="xl"
-          p="xl"
-          radius="lg"
-          style={{
-            background: "rgba(255, 255, 255, 0.98)",
-            backdropFilter: "blur(10px)",
-          }}
-        >
-          {/* Header */}
-          <Box mb="lg">
-            <Group justify="space-between" mb="xs">
-              <Box>
-                <Title
-                  order={1}
-                  size="h2"
-                  style={{
-                    background: "var(--primary)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
+      <Box
+        style={{
+          minHeight: "100vh",
+          background: "var(--primary)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "20px",
+        }}
+      >
+        <Container size="md">
+          <Paper
+            shadow="xl"
+            p="xl"
+            radius="lg"
+            style={{
+              background: "rgba(255, 255, 255, 0.98)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            {/* Header */}
+            <Box mb="lg">
+              <Group justify="space-between" mb="xs">
+                <Box>
+                  <Title
+                    order={1}
+                    size="h2"
+                    style={{
+                      background: "var(--primary)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    AISE Content Editor
+                  </Title>
+                </Box>
+                <Button
+                  variant="subtle"
+                  color="var(--primary)"
+                  leftSection={<IconLogout size={16} />}
+                  onClick={logout}
+                  size="sm"
                 >
-                  AISE Content Editor
-                </Title>
-              </Box>
-              <Button
-                variant="subtle"
-                leftSection={<IconLogout size={16} />}
-                onClick={logout}
-                size="sm"
-              >
-                Logout
-              </Button>
-            </Group>
-            <Group justify="space-between">
-              <Text size="sm" c="dimmed">
-                Gerencie o conteúdo do website em tempo real
-              </Text>
-              <Text size="xs" c="dimmed">
-                {user?.email} {isAdmin && "(Admin)"}
-              </Text>
-            </Group>
-          </Box>
+                  Logout
+                </Button>
+              </Group>
+              <Group justify="space-between">
+                <Text size="sm" c="dimmed">
+                  Gerencie o conteúdo do website em tempo real
+                </Text>
+                <Text size="xs" c="dimmed">
+                  {user?.email} {isAdmin && "(Admin)"}
+                </Text>
+              </Group>
+            </Box>
 
-          {/* Navegação por abas */}
-          <TabNavigation 
-            activeTab={activeTab} 
-            onTabChange={setActiveTab}
-            isAdmin={isAdmin}
-          />
+            {/* Navegação por abas */}
+            <TabNavigation
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              isAdmin={isAdmin}
+            />
 
-          {/* Conteúdo da aba ativa */}
-          <Box>{renderTabContent()}</Box>
-        </Paper>
+            {/* Conteúdo da aba ativa */}
+            <Box>{renderTabContent()}</Box>
+          </Paper>
 
-        {/* Footer */}
-        <Center mt="xl">
-          <Text size="xs" c="white" ta="center">
-            © 2025 AISE Lab - Micro App de Edição de Conteúdo
-          </Text>
-        </Center>
-      </Container>
-    </Box>
+          {/* Footer */}
+          <Center mt="xl">
+            <Text size="xs" c="white" ta="center">
+              © 2025 AISE Lab - Micro App de Edição de Conteúdo
+            </Text>
+          </Center>
+        </Container>
+      </Box>
     </RequireAuth>
   );
 }
