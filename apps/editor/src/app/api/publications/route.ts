@@ -27,7 +27,6 @@ export async function GET(request: NextRequest) {
     const publications = parseSheetRows(rows, "publications");
     return NextResponse.json({ publications });
   } catch (error: any) {
-    if (error instanceof NextResponse) return error;
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

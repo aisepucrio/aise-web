@@ -115,10 +115,8 @@ export function useEditPage<T>({
           }
         } else {
           // Busca item da API genérica
-          const res = await authFetchJson(apiEndpoint);
-          if (!res.ok) throw new Error(`Erro ao carregar ${itemType}s`);
-
-          const data = await res.json();
+          // authFetchJson returns parsed JSON directly (throws on error)
+          const data = await authFetchJson(apiEndpoint);
           const items = data[Object.keys(data)[0]] || [];
           const item = items.find(
             (t: any) => t.id === itemId || t.email === itemId
@@ -242,19 +240,14 @@ export function useEditPage<T>({
     setIsAutoSaving(true);
 
     try {
-      const response = await authFetchJson(apiEndpoint, {
+      // authFetchJson returns parsed JSON directly (throws on error)
+      await authFetchJson(apiEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(parsedData),
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || `Erro ao salvar ${itemType}`);
-      }
 
       setLastSaved(new Date());
       notifications.show({
@@ -297,19 +290,14 @@ export function useEditPage<T>({
     setIsSaving(true);
 
     try {
-      const response = await authFetchJson(apiEndpoint, {
+      // authFetchJson returns parsed JSON directly (throws on error)
+      const result = await authFetchJson(apiEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(parsedData),
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || `Erro ao salvar ${itemType}`);
-      }
 
       const now = new Date();
       setLastSaved(now);

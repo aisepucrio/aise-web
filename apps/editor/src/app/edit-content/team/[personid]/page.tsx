@@ -46,9 +46,8 @@ export default function EditContentPage() {
     apiEndpoint: "/api/team",
     exampleData: EXAMPLE_TEAM_MEMBER,
     fetchItem: async (email: string) => {
-      const res = await authFetchJson("/api/team");
-      if (!res.ok) throw new Error("Erro ao buscar dados do time");
-      const data = await res.json();
+      // authFetchJson returns parsed JSON directly (throws on error)
+      const data = await authFetchJson("/api/team");
       const member = data.team?.find(
         (m: TeamMemberData) => m.email.toLowerCase() === email.toLowerCase(),
       );

@@ -67,12 +67,8 @@ export default function GenericHomePage<T>({
 
   const loadItems = async () => {
     try {
-      const res = await authFetchJson(apiEndpoint);
-      if (!res.ok) {
-        throw new Error(`Erro ao carregar ${title.toLowerCase()}`);
-      }
-
-      const data = await res.json();
+      // authFetchJson returns parsed JSON directly (throws on error)
+      const data = await authFetchJson(apiEndpoint);
       const mappedItems = mapResponseToItems(data);
       setItems(mappedItems);
     } catch (err) {

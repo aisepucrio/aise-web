@@ -99,16 +99,11 @@ export default function PublishHomePage() {
 
     try {
       // Step 1: Read data from Google Sheets via local API
-      const getResponse = await authFetchJson(section.endpoint, {
+      // authFetchJson returns parsed JSON directly (throws on error)
+      const response = await authFetchJson(section.endpoint, {
         method: "GET",
       });
 
-      if (!getResponse.ok) {
-        const error = await getResponse.json();
-        throw new Error(error.error || "Failed to read Google Sheets data");
-      }
-
-      const response = await getResponse.json();
       const dataArray = response[section.id];
 
       if (!dataArray || !Array.isArray(dataArray)) {
@@ -119,7 +114,8 @@ export default function PublishHomePage() {
       const convertedData = await convertImgboxUrls(response);
 
       // Step 2: Publish to external website via secure backend endpoint
-      const publishResponse = await authFetchJson("/api/publish", {
+      // authFetchJson returns parsed JSON directly (throws on error)
+      const result = await authFetchJson("/api/publish", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,12 +125,6 @@ export default function PublishHomePage() {
           data: convertedData,
         }),
       });
-
-      const result = await publishResponse.json();
-
-      if (!publishResponse.ok) {
-        throw new Error(result.error || "Failed to publish data");
-      }
 
       setStatuses((prev) => ({ ...prev, [section.id]: "success" }));
       setMessages((prev) => ({
