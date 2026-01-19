@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Box, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { Carousel } from "@shared/ui";
@@ -97,6 +98,11 @@ const ErrorState = () => (
 export default function ToolsSection() {
   const { toolsData, isLoading, hasError } = useToolsData();
   const isMobile = useMediaQuery("(max-width: 62em)");
+  const router = useRouter();
+
+  const handleToolClick = (toolId: string) => {
+    router.push(`/tools/${toolId}`);
+  };
 
   return (
     <SectionWithHeader
@@ -125,7 +131,12 @@ export default function ToolsSection() {
             itemGapMobile={24}
           >
             {toolsData.map((tool, index) => (
-              <ToolCardCompact key={tool.id} tool={tool} index={index} />
+              <ToolCardCompact
+                key={tool.id}
+                tool={tool}
+                index={index}
+                onClick={() => handleToolClick(tool.id)}
+              />
             ))}
           </Carousel>
         </Box>

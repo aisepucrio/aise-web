@@ -42,14 +42,14 @@ export default function Footer() {
     fetch("/api/publications")
       .then((res) => res.json())
       .then((data) =>
-        setPublicationsCount(data.publications?.filter(Boolean).length || 0)
+        setPublicationsCount(data.publications?.filter(Boolean).length || 0),
       )
       .catch(() => setPublicationsCount(0));
 
     fetch("/api/researches")
       .then((res) => res.json())
       .then((data) =>
-        setResearchCount(data.researches?.filter(Boolean).length || 0)
+        setResearchCount(data.researches?.filter(Boolean).length || 0),
       )
       .catch(() => setResearchCount(0));
 
@@ -73,7 +73,7 @@ export default function Footer() {
         borderTop: "1px solid #e5e7eb",
       }}
     >
-      <Container size="xl" py="xl">
+      <Container px="xl" py="xl" style={{ maxHeight: 9999, maxWidth: 9999 }}>
         <Grid gutter="xl">
           {/* Section 1: Logos */}
           <Grid.Col span={{ base: 12, md: 3 }} visibleFrom="md">
@@ -213,7 +213,7 @@ export default function Footer() {
                         td="none"
                         href={`tel:${footerData.contact.phone.replace(
                           /\D/g,
-                          ""
+                          "",
                         )}`}
                         size="sm"
                       >

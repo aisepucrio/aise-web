@@ -7,6 +7,7 @@ export * from "./src/TeamMemberProfile";
 export * from "./src/DurationInfo";
 export * from "./src/ResearchDetailView";
 export * from "./src/ResearchCard";
+export * from "./src/ResearchCardCompact";
 export * from "./src/IconList";
 export * from "./src/SectionTitle";
 export * from "./src/PublicationCard";

@@ -6,9 +6,7 @@
   },
   "mission": {
     "sectionTitle": "About Us",
-    "card": {
-      "description-paragraph1": " AISE Lab is a research lab focused on the intersection of Artificial Intelligence and Software Engineering. We work on projects ranging from intelligent automation of the software development lifecycle, encompassing design, implementation, testing, maintenance and evolution. Our team brings together researchers and professionals committed to creating impactful solutions by combining strong academic foundations with practical applications."
-    }
+    "paragraph": " AISE Lab is a research lab focused on the intersection of Artificial Intelligence and Software Engineering. We work on projects ranging from intelligent automation of the software development lifecycle, encompassing design, implementation, testing, maintenance and evolution. Our team brings together researchers and professionals committed to creating impactful solutions by combining strong academic foundations with practical applications."
   },
   "teamSection": {
     "title": "Team",
@@ -16,6 +14,14 @@
     "button": {
       "text": "See Team",
       "href": "/team"
+    }
+  },
+  "researchesSection": {
+    "title": "Research Lines",
+    "subtitle": "Explore our active research lines. Each line represents a focused area of investigation advancing the state-of-the-art in AI and Software Engineering.",
+    "button": {
+      "text": "See Research",
+      "href": "/research"
     }
   },
   "toolsSection": {

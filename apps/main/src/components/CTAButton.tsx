@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Button } from "@mantine/core";
 import Link from "next/link";
 import { IconArrowRight } from "@tabler/icons-react";

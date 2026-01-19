@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useRef } from "react";
-import { Paper, Box, Stack, Text, Center } from "@mantine/core";
-import CTAButton from "@/components/CTAButton";
+import { Paper, Box, Stack, Text, Divider } from "@mantine/core";
 import { motion, useInView } from "framer-motion";
+import MinimalButton from "@/components/MinimalButton";
+import CTAButton from "@/components/CTAButton";
+import { useMediaQuery } from "@mantine/hooks";
 
 const MotionPaper = motion(Paper as any);
 
@@ -14,6 +16,7 @@ type SectionWithHeaderProps = {
   isMobile?: boolean;
   children?: React.ReactNode;
   paperProps?: React.ComponentProps<typeof Paper>;
+  hasDivider?: boolean;
 };
 
 /* micro-interactions consistentes com o resto do site */
@@ -27,12 +30,12 @@ export default function SectionWithHeader({
   title,
   subtitle,
   button,
-  isMobile = false,
   children,
-  paperProps,
 }: SectionWithHeaderProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.25 });
+  const isMobile = useMediaQuery("(max-width: 62em)");
+
   return (
     <MotionPaper
       ref={ref}
@@ -44,32 +47,31 @@ export default function SectionWithHeader({
         position: "relative",
         padding: isMobile ? 8 : 16,
         borderRadius: 0,
-        background: "rgba(255, 255, 255, 0.80)",
+        background: "rgba(255, 255, 255, 0)",
         backdropFilter: "blur(10px)",
       }}
     >
-      <Paper
-        component="section"
-        py={isMobile ? 64 : 42}
-        px={isMobile ? 8 : 12}
-        shadow="sm"
-        style={{
-          width: "100%",
-          borderRadius: 0,
-          background: "rgba(255, 255, 255, 0.95)",
-          backdropFilter: "blur(10px)",
-        }}
-        {...paperProps}
-      >
-        <Box style={{ width: "100%" }}>
-          <Stack gap="xs" align="center" mb={isMobile ? 20 : 40}>
+      <Box style={{ width: "85%", margin: "auto" }}>
+        <Box
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: isMobile ? 20 : 40,
+          }}
+        >
+          <Stack
+            gap="xs"
+            align={isMobile ? "center" : "flex-start"}
+            style={{ flex: 1 }}
+          >
             <Text
               component="h2"
               style={{
                 color: "#000000ff",
                 fontWeight: 800,
                 fontSize: `${isMobile ? 38 : 56}px`,
-                textAlign: "center",
+                textAlign: "left",
                 margin: `${isMobile ? 6 : 12}px 0`,
                 lineHeight: 1,
               }}
@@ -79,35 +81,53 @@ export default function SectionWithHeader({
 
             {subtitle && (
               <Text
-                size={isMobile ? "md" : "lg"}
-                c="dimmed"
+                size={isMobile ? "lg" : "xl"}
                 maw={1000}
-                ta="center"
+                ta={isMobile ? "center" : "left"}
                 lh={1.7}
+                style={{ width: isMobile ? "100%" : "80%" }}
               >
                 {subtitle}
               </Text>
             )}
           </Stack>
 
-          {/* main content */}
-          <Box style={{ width: isMobile ? "100%" : "70%", margin: "auto" }}>
-            {children}
-          </Box>
-
-          {/* CTA (centered) */}
-          {button && (
-            <Center mt={24}>
-              <CTAButton
-                href={button.href}
-                text={button.text}
-                isMobile={isMobile}
-                ariaLabel={button.text}
-              />
-            </Center>
+          {button && !isMobile && (
+            <MinimalButton
+              href={button.href}
+              text={button.text}
+              ariaLabel={button.text}
+            />
           )}
         </Box>
-      </Paper>
+
+        {/* main content */}
+        <Box style={{ width: isMobile ? "100%" : "95%", margin: "auto" }}>
+          {children}
+        </Box>
+
+        {/* CTA Button no mobile */}
+        {button && isMobile && (
+          <Box mt={32} style={{ display: "flex", justifyContent: "center" }}>
+            <CTAButton
+              href={button.href}
+              text={button.text}
+              ariaLabel={button.text}
+              isMobile={isMobile}
+            />
+          </Box>
+        )}
+      </Box>
+
+      <Divider
+        mt={64}
+        mb={32}
+        color="#f8f9fa"
+        size="xl"
+        w="10%"
+        m="auto"
+        style={{ borderRadius: "1rem" }}
+      />
     </MotionPaper>
   );
 }

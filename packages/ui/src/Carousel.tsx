@@ -42,22 +42,27 @@ const NavButton: React.FC<NavButtonProps> = ({
   onClick,
   isMobile = false,
 }) => (
-  <div
+  <motion.div
+    initial={{ opacity: 0.5 }}
+    whileHover={{ opacity: 1 }}
+    transition={{ duration: 0.15 }}
     style={{
       position: "absolute",
       top: "50%",
-      [direction]: isMobile ? -16 : 8,
-      transform: "translateY(-50%)",
+      [direction]: isMobile ? 96 : -96,
       zIndex: 20,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      transform: "translateY(-50%)",
+      width: "20%",
+      pointerEvents: "none",
     }}
     aria-hidden={false}
   >
     <ActionIcon
       variant="filled"
-      size={isMobile ? "xl" : "xl"}
+      size="xl"
       radius="xl"
       onClick={onClick}
       style={{
@@ -65,9 +70,10 @@ const NavButton: React.FC<NavButtonProps> = ({
         color: "#333",
         padding: isMobile ? 8 : 6,
         border: "2px solid rgba(82, 175, 225, 0.3)",
+        pointerEvents: "auto",
       }}
       component={motion.button}
-      whileHover={{ scale: 1.08, boxShadow: "0 8px 24px rgba(0,0,0,0.16)" }}
+      whileHover={{ scale: 1.08, boxShadow: "0 4px 12px rgba(0,0,0,0.10)" }}
       whileTap={{ scale: 0.98 }}
       aria-label={direction === "left" ? "Previous" : "Next"}
     >
@@ -85,7 +91,7 @@ const NavButton: React.FC<NavButtonProps> = ({
         />
       )}
     </ActionIcon>
-  </div>
+  </motion.div>
 );
 
 // Dot indicators component
@@ -142,7 +148,7 @@ export const Carousel: React.FC<CarouselProps> = ({
   enableDrag = true,
 }) => {
   const [viewportWidth, setViewportWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 0
+    typeof window !== "undefined" ? window.innerWidth : 0,
   );
   const controls = useAnimation();
   const x = useMotionValue(0);
@@ -157,7 +163,6 @@ export const Carousel: React.FC<CarouselProps> = ({
     getInitialValueInEffect: true,
   });
 
-  // Update viewport width on resize
   useEffect(() => {
     const handleResize = () => setViewportWidth(window.innerWidth);
     if (typeof window !== "undefined") {
@@ -171,7 +176,6 @@ export const Carousel: React.FC<CarouselProps> = ({
     };
   }, []);
 
-  // Calculate max height for consistent item sizing
   useEffect(() => {
     const calculateMaxHeight = () => {
       const heights = itemRefs.current
@@ -193,10 +197,9 @@ export const Carousel: React.FC<CarouselProps> = ({
     };
   }, [children, isMobile, viewportWidth]);
 
-  // Helper to resolve width values (number, px, vw, %)
   const resolveWidth = (
     value: number | string | undefined,
-    fallback: number
+    fallback: number,
   ): { numeric: number; css: number | string } => {
     if (typeof value === "number") return { numeric: value, css: value };
     if (typeof value !== "string") return { numeric: fallback, css: fallback };
@@ -222,24 +225,23 @@ export const Carousel: React.FC<CarouselProps> = ({
     return { numeric: fallback, css: fallback };
   };
 
-  // Calculate carousel dimensions
   const defaultItemWidthDesktop = 340;
   const defaultItemWidthMobile = 260;
   const defaultItemGapDesktop = 20;
   const defaultItemGapMobile = 12;
 
   const rawItemWidth = isMobile
-    ? propItemWidthMobile ?? defaultItemWidthMobile
-    : propItemWidth ?? defaultItemWidthDesktop;
+    ? (propItemWidthMobile ?? defaultItemWidthMobile)
+    : (propItemWidth ?? defaultItemWidthDesktop);
 
   const { numeric: itemWidth, css: itemWidthCss } = resolveWidth(
     rawItemWidth,
-    isMobile ? defaultItemWidthMobile : defaultItemWidthDesktop
+    isMobile ? defaultItemWidthMobile : defaultItemWidthDesktop,
   );
 
   const itemGap = isMobile
-    ? propItemGapMobile ?? defaultItemGapMobile
-    : propItemGap ?? defaultItemGapDesktop;
+    ? (propItemGapMobile ?? defaultItemGapMobile)
+    : (propItemGap ?? defaultItemGapDesktop);
 
   const currentItemsPerView = isMobile ? itemsPerViewMobile : itemsPerView;
   const totalItems = React.Children.count(children);
@@ -247,17 +249,15 @@ export const Carousel: React.FC<CarouselProps> = ({
   const containerWidth = (itemWidth + itemGap) * totalItems - itemGap;
   const initialPosition = 0;
 
-  // Initialize carousel position
   useEffect(() => {
     x.set(initialPosition);
     controls.set({ x: initialPosition });
   }, [x, controls, initialPosition]);
 
-  // Intersection observer for visibility detection
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (carouselRef.current) observer.observe(carouselRef.current);
@@ -266,7 +266,6 @@ export const Carousel: React.FC<CarouselProps> = ({
     };
   }, []);
 
-  // Navigation functions
   const nextSlide = useCallback(() => {
     const nextIndex = (currentIndex + 1) % totalPages;
     const moveAmount = (itemWidth + itemGap) * currentItemsPerView;
@@ -314,14 +313,13 @@ export const Carousel: React.FC<CarouselProps> = ({
 
       controls.start({
         x: newPosition,
-        transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
+        transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] },
       });
       setCurrentIndex(index);
     },
-    [initialPosition, controls, itemWidth, itemGap, currentItemsPerView]
+    [initialPosition, controls, itemWidth, itemGap, currentItemsPerView],
   );
 
-  // Auto-play control
   useEffect(() => {
     if (!autoPlay || isPaused || !isVisible || totalPages <= 1) {
       if (intervalRef.current) {
@@ -348,30 +346,26 @@ export const Carousel: React.FC<CarouselProps> = ({
     nextSlide,
   ]);
 
-  // Drag handler
   const handleDragEnd = useCallback(
     (event: any, info: any) => {
-      const threshold = 50;
-      if (info.offset.x > threshold) {
-        prevSlide();
-      } else if (info.offset.x < -threshold) {
-        nextSlide();
-      } else {
-        const moveAmount = (itemWidth + itemGap) * currentItemsPerView;
-        const currentPosition = initialPosition - moveAmount * currentIndex;
-        controls.start({ x: currentPosition, transition: { duration: 0.3 } });
+      const moveAmount = (itemWidth + itemGap) * currentItemsPerView;
+      const rawX = x.get();
+      const floatIndex = Math.abs(rawX) / moveAmount;
+
+      const velocity = info.velocity?.x ?? 0;
+      const fling = Math.abs(velocity) > 600;
+
+      let targetIndex = Math.round(floatIndex);
+
+      if (fling) {
+        targetIndex =
+          velocity > 0 ? Math.floor(floatIndex) : Math.ceil(floatIndex);
       }
+
+      targetIndex = Math.max(0, Math.min(totalPages - 1, targetIndex));
+      goToSlide(targetIndex);
     },
-    [
-      currentIndex,
-      initialPosition,
-      controls,
-      prevSlide,
-      nextSlide,
-      itemWidth,
-      itemGap,
-      currentItemsPerView,
-    ]
+    [x, itemWidth, itemGap, currentItemsPerView, totalPages, goToSlide],
   );
 
   if (totalItems === 0) return null;
@@ -419,8 +413,13 @@ export const Carousel: React.FC<CarouselProps> = ({
                 left: -containerWidth + itemWidth * currentItemsPerView,
                 right: 0,
               }}
-              dragElastic={0.1}
-              dragMomentum={false}
+              dragElastic={isMobile ? 0.25 : 0.1}
+              dragMomentum={isMobile ? true : false}
+              dragTransition={
+                isMobile
+                  ? { bounceStiffness: 140, bounceDamping: 18 }
+                  : undefined
+              }
               onDragEnd={enableDrag ? handleDragEnd : undefined}
             >
               {React.Children.map(children, (child, index) => (
@@ -444,7 +443,17 @@ export const Carousel: React.FC<CarouselProps> = ({
             </MotionBox>
           </Box>
 
-          {showControls && showNavButtons && (
+          {showControls && showDots && !isMobile && (
+            <Dots
+              total={totalPages}
+              current={currentIndex}
+              onDotClick={goToSlide}
+              isMobile={isMobile}
+            />
+          )}
+
+          {/* Hidden buttons on mobile */}
+          {showControls && showNavButtons && !isMobile && (
             <>
               <NavButton
                 direction="left"
@@ -457,15 +466,6 @@ export const Carousel: React.FC<CarouselProps> = ({
                 isMobile={isMobile}
               />
             </>
-          )}
-
-          {showControls && showDots && (
-            <Dots
-              total={totalPages}
-              current={currentIndex}
-              onDotClick={goToSlide}
-              isMobile={isMobile}
-            />
           )}
         </Box>
       </Container>

@@ -69,7 +69,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.1, delay: index * 0.1, ease: "easeOut" }}
         whileHover={{
-          transform: "translateY(-4px)",
+          transform: "translateY(-2px)",
           boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
         }}
       >

@@ -15,26 +15,28 @@ import {
 import { useMediaQuery } from "@mantine/hooks";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  IconCode,
+  IconFlask,
   IconArrowRight,
   IconUsers,
-  IconStack2,
+  IconFileText,
 } from "@tabler/icons-react";
 
 // Types
-export interface ToolCardCompactData {
+export interface ResearchCardCompactData {
   id: string;
   name: string;
-  tagline: string;
+  shortDescription: string;
   description: string;
   highlightImageUrl: string;
-  category: string;
-  techStack?: string[];
+  duration: string;
+  projects?: any[];
   team_relationships?: any[];
+  publication_relationships?: string[];
+  tools_relationships?: string[];
 }
 
-export interface ToolCardCompactProps {
-  tool: ToolCardCompactData;
+export interface ResearchCardCompactProps {
+  research: ResearchCardCompactData;
   index: number;
   onClick?: () => void;
 }
@@ -64,17 +66,17 @@ function StatPill({
   );
 }
 
-// Compact tool card with image, info, and hover overlay
-export function ToolCardCompact({
-  tool,
+// Compact research card with image, info, and hover overlay
+export function ResearchCardCompact({
+  research,
   index,
   onClick,
-}: ToolCardCompactProps) {
+}: ResearchCardCompactProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isHovered, setIsHovered] = useState(false);
 
-  const techCount = tool.techStack?.length || 0;
-  const teamCount = tool.team_relationships?.length || 0;
+  const teamCount = research.team_relationships?.length || 0;
+  const publicationsCount = research.publication_relationships?.length || 0;
 
   // Keyboard navigation support
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -105,7 +107,7 @@ export function ToolCardCompact({
             shadow={isMobile ? "xs" : "sm"}
             role={onClick ? "button" : undefined}
             tabIndex={onClick ? 0 : undefined}
-            aria-label={onClick ? `View ${tool.name} details` : undefined}
+            aria-label={onClick ? `View ${research.name} details` : undefined}
             onClick={onClick}
             onKeyDown={onClick ? handleKeyDown : undefined}
             onMouseEnter={() => setIsHovered(true)}
@@ -137,7 +139,7 @@ export function ToolCardCompact({
                   style={{
                     position: "absolute",
                     inset: 0,
-                    backgroundImage: `url(${tool.highlightImageUrl})`,
+                    backgroundImage: `url(${research.highlightImageUrl})`,
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
@@ -198,35 +200,35 @@ export function ToolCardCompact({
                     flex: 1,
                   }}
                 >
-                  {tool.name}
+                  {research.name}
                 </Title>
 
                 {/* Desktop stats */}
                 {!isMobile && (
                   <Group gap="md" style={{ flexShrink: 0 }}>
-                    {techCount > 0 && (
-                      <StatPill
-                        icon={<IconStack2 size={14} color={PRIMARY} />}
-                        value={techCount}
-                      />
-                    )}
                     {teamCount > 0 && (
                       <StatPill
                         icon={<IconUsers size={14} color={PRIMARY} />}
                         value={teamCount}
                       />
                     )}
+                    {publicationsCount > 0 && (
+                      <StatPill
+                        icon={<IconFileText size={14} color={PRIMARY} />}
+                        value={publicationsCount}
+                      />
+                    )}
                   </Group>
                 )}
               </Group>
 
-              {/* Tagline */}
+              {/* Short description */}
               <Text
                 size={isMobile ? "sm" : "md"}
                 fw={600}
                 style={{ color: "#334155", lineHeight: 1.4 }}
               >
-                {tool.tagline}
+                {research.shortDescription}
               </Text>
 
               {/* Description */}
@@ -234,24 +236,26 @@ export function ToolCardCompact({
                 size="sm"
                 style={{ color: "#64748b", lineHeight: 1.6, flex: 1 }}
               >
-                {tool.description}
+                {research.description}
               </Text>
 
               {/* Mobile stats with labels */}
               {isMobile && (
                 <Group gap="lg" mt="auto" pt="xs">
-                  {techCount > 0 && (
-                    <StatPill
-                      icon={<IconStack2 size={14} color={PRIMARY} />}
-                      value={techCount}
-                      label={techCount === 1 ? "tech" : "techs"}
-                    />
-                  )}
                   {teamCount > 0 && (
                     <StatPill
                       icon={<IconUsers size={14} color={PRIMARY} />}
                       value={teamCount}
                       label={teamCount === 1 ? "member" : "members"}
+                    />
+                  )}
+                  {publicationsCount > 0 && (
+                    <StatPill
+                      icon={<IconFileText size={14} color={PRIMARY} />}
+                      value={publicationsCount}
+                      label={
+                        publicationsCount === 1 ? "publication" : "publications"
+                      }
                     />
                   )}
                 </Group>
@@ -284,7 +288,7 @@ export function ToolCardCompact({
                       fw={800}
                       style={{ color: "white", letterSpacing: 0.5 }}
                     >
-                      View tool
+                      View research
                     </Text>
                     <ThemeIcon
                       size="xl"

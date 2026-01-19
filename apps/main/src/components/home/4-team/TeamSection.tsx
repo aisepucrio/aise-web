@@ -78,8 +78,6 @@ const useTeamData = () => {
   return { teamData, isLoading, hasError };
 };
 
-// Using SectionWithHeader for consistent layout
-
 // Componente de loading
 const LoadingState = () => (
   <Center h={400}>

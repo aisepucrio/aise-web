@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Container, Text, Loader, Center, Stack } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import SectionWithHeader from "@/components/home/SectionWithHeader";
@@ -47,7 +47,7 @@ const useAwardedPublications = () => {
         if (!mounted) return;
 
         const awarded = (data.publications || []).filter(
-          (p) => typeof p.awards === "string" && p.awards.trim().length > 0
+          (p) => typeof p.awards === "string" && p.awards.trim().length > 0,
         );
 
         setHasError(false);
