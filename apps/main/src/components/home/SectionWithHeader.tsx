@@ -33,7 +33,7 @@ export default function SectionWithHeader({
   children,
 }: SectionWithHeaderProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.25 });
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
   const isMobile = useMediaQuery("(max-width: 62em)");
 
   return (

@@ -18,12 +18,8 @@ const MotionBox = motion(Box as any);
 export default function AboutUsSection() {
   const theme = useMantineTheme();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const isMobile = useMediaQuery(
-    `(max-width: ${theme.breakpoints.md})`,
-    undefined,
-    { getInitialValueInEffect: true },
-  );
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
+  const isMobile = useMediaQuery("(max-width: 62em)");
 
   const paragraph = homeContent.mission.paragraph;
 
