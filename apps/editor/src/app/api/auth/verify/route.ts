@@ -5,6 +5,9 @@ import { requireCSRF } from "@/lib/csrf-protection";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+// DEV MODE
+const DEV_MODE = process.env.DEV_MODE === "true";
+
 /**
  * Verifies Google ID token and sets HttpOnly session cookie
  * Client sends the token once, server stores it securely
@@ -13,6 +16,25 @@ export async function POST(request: NextRequest) {
   try {
     requireCSRF(request);
     const { idToken } = await request.json();
+
+    // DEV MODE
+    // When in DEV MODE, accept a special token to bypass authentication
+    if (DEV_MODE && idToken === "debug-token") {
+      const response = NextResponse.json({
+        email: "debug@localhost",
+        role: "admin",
+      });
+
+      response.cookies.set("auth-token", "debug-token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 7,
+        path: "/",
+      });
+
+      return response;
+    }
 
     if (!idToken) {
       return NextResponse.json({ error: "ID token required" }, { status: 400 });

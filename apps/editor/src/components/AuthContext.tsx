@@ -15,6 +15,9 @@ import {
 } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
+// DEV MODE
+const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true";
+
 interface User {
   email: string;
   role: "user" | "admin";
@@ -40,6 +43,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Fetch current session user (cookie is sent automatically)
   const refreshUser = useCallback(async () => {
+    // DEV MODE
+    if (DEV_MODE) {
+      setUser({ email: "debug@localhost", role: "admin" });
+      return;
+    }
+
     try {
       const res = await fetch("/api/auth/me", { credentials: "include" });
 
@@ -74,6 +83,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Verify token server-side (sets HttpOnly cookie), then load user from /me
   const login = async (idToken: string): Promise<boolean> => {
+    // DEV MODE
+    if (DEV_MODE) {
+      setUser({ email: "debug@localhost", role: "admin" });
+      return true;
+    }
+
     try {
       const res = await fetch("/api/auth/verify", {
         method: "POST",

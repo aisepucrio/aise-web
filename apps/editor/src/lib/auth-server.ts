@@ -9,6 +9,9 @@ import { readSheetData } from "@/lib/google-sheet-server-services";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+// DEV MODE
+const DEV_MODE = process.env.DEV_MODE === "true";
+
 export interface UserSession {
   email: string;
   role: "user" | "admin";
@@ -101,6 +104,15 @@ function getAuthToken(request: NextRequest): string | null {
 
 /** Requires authenticated user - returns session or throws 401 */
 export async function requireUser(request: NextRequest): Promise<UserSession> {
+  // DEV MODE
+  if (DEV_MODE) {
+    return {
+      email: "debug@localhost",
+      role: "admin",
+      emailVerified: true,
+    };
+  }
+
   const token = getAuthToken(request);
   const session = token ? await validateUserAuth(token) : null;
 
@@ -112,6 +124,14 @@ export async function requireUser(request: NextRequest): Promise<UserSession> {
 }
 
 export async function requireAdmin(request: NextRequest): Promise<UserSession> {
+  // DEV MODE
+  if (DEV_MODE) {
+    return {
+      email: "debug@localhost",
+      role: "admin",
+      emailVerified: true,
+    };
+  }
   const session = await requireUser(request);
 
   if (session.role !== "admin") {

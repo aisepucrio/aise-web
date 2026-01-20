@@ -62,6 +62,10 @@ FIREBASE_PRIVATE_KEY=
 Arquivo: `apps/editor/.env.local`
 
 ```env
+# SOMENTE CRIE EM DESENVOLVIMENTO (bypass auth)
+DEV_MODE=true
+NEXT_PUBLIC_DEV_MODE=true
+
 # URL do site principal
 NEXT_PUBLIC_PUBLISH_API_URL=
 
