@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     if (!apiToken) {
       return NextResponse.json(
         { error: "Website API token not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     if (!baseUrl) {
       return NextResponse.json(
         { error: "Publish API URL not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -45,20 +45,20 @@ export async function POST(request: NextRequest) {
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.error || "Publish failed");
+      throw new Error(result.error || "Publicação falhou");
     }
 
     return NextResponse.json({
       success: true,
-      message: result.message || "Published successfully",
+      message: result.message || "Publicação realizada com sucesso",
       count: result.count,
     });
   } catch (error: any) {
     if (error instanceof NextResponse) return error;
     console.error("Publish error:", error);
     return NextResponse.json(
-      { error: error.message || "Publish failed" },
-      { status: 500 }
+      { error: error.message || "Publicação falhou" },
+      { status: 500 },
     );
   }
 }

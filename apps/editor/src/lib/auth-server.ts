@@ -25,6 +25,7 @@ let allowedUsersCache: LoginSheetRow[] | null = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
+// Verify Google ID token and return user info
 async function verifyGoogleToken(
   idToken: string,
 ): Promise<{ email: string; emailVerified: boolean } | null> {
@@ -42,11 +43,12 @@ async function verifyGoogleToken(
       emailVerified: Boolean(payload.email_verified),
     };
   } catch (error) {
-    console.error("Token verification failed:", error);
+    console.error("Falha na verificação do token:", error);
     return null;
   }
 }
 
+// Load allowed users from Google Sheet with caching
 async function getAllowedUsers(): Promise<LoginSheetRow[]> {
   const now = Date.now();
   if (allowedUsersCache && now - cacheTimestamp < CACHE_TTL_MS) {
@@ -72,6 +74,7 @@ async function getAllowedUsers(): Promise<LoginSheetRow[]> {
   return allowedUsersCache;
 }
 
+// Validate user auth and return session or null
 export async function validateUserAuth(
   idToken: string,
 ): Promise<UserSession | null> {
@@ -113,7 +116,7 @@ export async function requireAdmin(request: NextRequest): Promise<UserSession> {
 
   if (session.role !== "admin") {
     throw NextResponse.json(
-      { error: "Admin access required" },
+      { error: "Acesso de administrador necessário" },
       { status: 403 },
     );
   }

@@ -6,8 +6,9 @@ import { useState, useEffect, useMemo } from "react";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { EXAMPLE_TOOL } from "@/lib/examples";
+import { authFetchJson } from "@/lib/auth-fetch";
 import { validateToolData, validateToolIdUnchanged } from "@/lib/validations";
-import { useEditPage } from "@/hooks/useEditPage";
+import { useEditPage } from "@/components/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { convertImgboxUrls } from "@/lib/imgbox";
 import { ToolDetailView, ToolHeroCard, ToolCardCompact } from "@shared/ui";
@@ -105,9 +106,7 @@ export default function EditToolPage() {
     apiEndpoint: "/api/tools",
     exampleData: EXAMPLE_TOOL as any,
     fetchItem: async (id) => {
-      const res = await fetch("/api/tools");
-      if (!res.ok) return null;
-      const data = await res.json();
+      const data = await authFetchJson("/api/tools");
       const tools = data.tools || [];
       const tool = tools.find((t: any) => t.id === id);
       return tool ? convertFromSheetFormat(tool) : null;

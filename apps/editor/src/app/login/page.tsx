@@ -13,7 +13,7 @@ import {
   Alert,
 } from "@mantine/core";
 import { IconBrandGoogle, IconAlertCircle } from "@tabler/icons-react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/components/AuthContext";
 
 declare global {
   interface Window {
@@ -67,11 +67,11 @@ export default function LoginPage() {
         router.push("/");
       } else {
         setError(
-          "Authentication failed. Please ensure your email is authorized.",
+          "Falha na autenticação. Por favor, verifique se seu email está autorizado.",
         );
       }
     } catch (err) {
-      setError("An error occurred during login. Please try again.");
+      setError("Ocorreu um erro durante o login. Por favor, tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -116,7 +116,7 @@ export default function LoginPage() {
                   marginBottom: 8,
                 }}
               >
-                AISE Editor
+                AISE Web Editor
               </Title>
               <Text size="sm" c="dimmed">
                 Entre com sua conta Google
@@ -127,7 +127,7 @@ export default function LoginPage() {
               <Alert
                 icon={<IconAlertCircle size={16} />}
                 color="red"
-                title="Login Failed"
+                title="Falha no Login"
               >
                 {error}
               </Alert>

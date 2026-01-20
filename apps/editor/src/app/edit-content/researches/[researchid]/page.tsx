@@ -5,11 +5,12 @@ import { ResearchData } from "@/lib/types";
 import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { EXAMPLE_RESEARCH } from "@/lib/examples";
+import { authFetchJson } from "@/lib/auth-fetch";
 import {
   validateResearchData,
   validateResearchIdUnchanged,
 } from "@/lib/validations";
-import { useEditPage } from "@/hooks/useEditPage";
+import { useEditPage } from "@/components/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { ResearchDetailView } from "@shared/ui";
 import { ResearchCard } from "@shared/ui";
@@ -87,9 +88,7 @@ export default function EditResearchPage() {
     apiEndpoint: "/api/researches",
     exampleData: EXAMPLE_RESEARCH as any,
     fetchItem: async (id) => {
-      const res = await fetch("/api/researches");
-      if (!res.ok) return null;
-      const data = await res.json();
+      const data = await authFetchJson("/api/researches");
       const researches = data.researches || [];
       const research = researches.find((r: any) => r.id === id);
       return research ? convertFromSheetFormat(research) : null;

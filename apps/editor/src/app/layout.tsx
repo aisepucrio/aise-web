@@ -10,7 +10,7 @@ import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "./globals.css";
 import { Notifications } from "@mantine/notifications";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider } from "@/components/AuthContext";
 
 // Carrega a fonte Montserrat via next/font
 const montserrat = Montserrat({

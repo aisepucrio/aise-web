@@ -67,7 +67,6 @@ export default function GenericHomePage<T>({
 
   const loadItems = async () => {
     try {
-      // authFetchJson returns parsed JSON directly (throws on error)
       const data = await authFetchJson(apiEndpoint);
       const mappedItems = mapResponseToItems(data);
       setItems(mappedItems);

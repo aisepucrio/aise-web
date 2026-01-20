@@ -40,6 +40,6 @@ export function requireCSRF(request: NextRequest): void {
   const actual = getActualOrigin(request);
 
   if (!actual || actual !== expected) {
-    throw NextResponse.json({ error: "CSRF blocked" }, { status: 403 });
+    throw NextResponse.json({ error: "CSRF bloqueado" }, { status: 403 });
   }
 }

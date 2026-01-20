@@ -33,7 +33,7 @@ export interface UseEditPageOptions<T> {
   /** Validação adicional para items não-novos */
   validateExisting?: (
     data: T,
-    itemId: string
+    itemId: string,
   ) => { valid: boolean; errors: string[] };
 
   /** Indica se é um novo item baseado no ID */
@@ -119,7 +119,7 @@ export function useEditPage<T>({
           const data = await authFetchJson(apiEndpoint);
           const items = data[Object.keys(data)[0]] || [];
           const item = items.find(
-            (t: any) => t.id === itemId || t.email === itemId
+            (t: any) => t.id === itemId || t.email === itemId,
           );
 
           if (item) {

@@ -14,7 +14,7 @@ export async function authFetchJson<T = any>(
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
-    const err = new Error(error.error || "Request failed") as Error & {
+    const err = new Error(error.error || "Requisição falhou") as Error & {
       status: number;
     };
     err.status = response.status;

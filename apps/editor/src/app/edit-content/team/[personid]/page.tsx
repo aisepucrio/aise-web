@@ -9,7 +9,7 @@ import {
   validateMemberData,
   validateMemberEmailUnchanged,
 } from "@/lib/validations";
-import { useEditPage } from "@/hooks/useEditPage";
+import { useEditPage } from "@/components/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { PersonCard } from "@shared/ui";
 import { TeamMemberListItem } from "@shared/ui";
@@ -18,7 +18,7 @@ import { TeamMemberProfile } from "@shared/ui";
 import ProfileInstructions from "@/components/ProfileInstructions";
 import { convertImgboxUrls } from "@/lib/imgbox";
 import { authFetchJson } from "@/lib/auth-fetch";
-import { RequireAuth } from "@/contexts/AuthContext";
+import { RequireAuth } from "@/components/AuthContext";
 
 export default function EditContentPage() {
   const params = useParams();
@@ -45,11 +45,11 @@ export default function EditContentPage() {
     itemType: "membro",
     apiEndpoint: "/api/team",
     exampleData: EXAMPLE_TEAM_MEMBER,
-    fetchItem: async (email: string) => {
-      // authFetchJson returns parsed JSON directly (throws on error)
+    fetchItem: async (id) => {
       const data = await authFetchJson("/api/team");
-      const member = data.team?.find(
-        (m: TeamMemberData) => m.email.toLowerCase() === email.toLowerCase(),
+      const members = data.team || [];
+      const member = members.find(
+        (m: any) => m.email.toLowerCase() === id.toLowerCase(),
       );
       return member || null;
     },

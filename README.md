@@ -78,6 +78,10 @@ GOOGLE_PRIVATE_KEY=
 
 # Key da SERP API, busca automática de publicações
 SERPAPI_KEY=
+
+# Key para autenticação (cliente/servidor) ;  os dois são a mesma chave
+GOOGLE_CLIENT_ID=
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=
 ```
 
 ---

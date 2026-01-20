@@ -18,7 +18,7 @@ import ResearchesHomePage from "@/components/home/ResearchesHomePage";
 import PublicationsHomePage from "@/components/home/PublicationsHomePage";
 import ToolsHomePage from "@/components/home/ToolsHomePage";
 import PublishHomePage from "@/components/home/PublishHomePage";
-import { RequireAuth, useAuth } from "@/contexts/AuthContext";
+import { RequireAuth, useAuth } from "@/components/AuthContext";
 
 export default function HomePage() {
   const { user, logout, isAdmin } = useAuth();
@@ -79,7 +79,7 @@ export default function HomePage() {
                       WebkitTextFillColor: "transparent",
                     }}
                   >
-                    AISE Content Editor
+                    AISE Web Editor
                   </Title>
                 </Box>
                 <Button

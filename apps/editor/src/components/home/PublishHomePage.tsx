@@ -24,7 +24,7 @@ import {
 } from "@tabler/icons-react";
 import { convertImgboxUrls } from "@/lib/imgbox";
 import { authFetchJson } from "@/lib/auth-fetch";
-import { RequireAdmin } from "@/contexts/AuthContext";
+import { RequireAdmin } from "@/components/AuthContext";
 
 type PublishStatus = "idle" | "loading" | "success" | "error";
 
@@ -130,7 +130,7 @@ export default function PublishHomePage() {
       setMessages((prev) => ({
         ...prev,
         [section.id]:
-          result.message || `${dataArray.length} items published successfully!`,
+          result.message || `${dataArray.length} itens publicados com sucesso!`,
       }));
 
       // Clear status after 5 seconds
@@ -143,7 +143,7 @@ export default function PublishHomePage() {
       setMessages((prev) => ({
         ...prev,
         [section.id]:
-          error instanceof Error ? error.message : "Failed to publish data",
+          error instanceof Error ? error.message : "Falha ao publicar os dados",
       }));
     }
   };
@@ -182,119 +182,123 @@ export default function PublishHomePage() {
 
   return (
     <RequireAdmin>
-    <Container size="lg" py="xl">
-      <Stack gap="xl">
-        {/* Header */}
-        <div>
-          <Title
-            order={1}
-            size="h1"
-            mb="sm"
-            style={{ color: "var(--primary)", fontWeight: 800 }}
-          >
-            Publish Content
-          </Title>
-          <Text size="lg" c="dimmed">
-            Publish Google Sheets data directly to the website. The server will
-            read the spreadsheet and update JSON files automatically.
-          </Text>
-        </div>
-
-        {/* Info alert */}
-        <Alert
-          icon={<IconAlertCircle size={24} />}
-          title="How it works"
-          color="var(--primary)"
-          variant="light"
-          radius="lg"
-        >
-          <Text size="sm">
-            1. Edit data in Google Sheets (tabs: Team, Researches, Publications, Tools)
-            <br />
-            2. Click "Publish" on the desired section
-            <br />
-            3. The server will read the spreadsheet and update the website files automatically
-            <br />
-            <strong>Note: Only admins can publish to the website.</strong>
-          </Text>
-        </Alert>
-
-        {/* Cards de publicação */}
-        <Stack gap="md">
-          {sections.map((section) => (
-            <Card
-              key={section.id}
-              shadow="xs"
-              padding="lg"
-              radius="lg"
-              withBorder
+      <Container size="lg" py="xl">
+        <Stack gap="xl">
+          {/* Header */}
+          <div>
+            <Title
+              order={1}
+              size="h1"
+              mb="sm"
+              style={{ color: "var(--primary)", fontWeight: 800 }}
             >
-              <Group justify="space-between" align="flex-start">
-                <Group>
-                  <div
-                    style={{
-                      color: "var(--primary)",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    {section.icon}
-                  </div>
-                  <div>
-                    <Group gap="xs" mb={4}>
-                      <Text fw={600} size="lg">
-                        {section.name}
-                      </Text>
-                      <Badge
-                        size="sm"
-                        color={getStatusColor(statuses[section.id])}
-                      >
-                        {getStatusText(statuses[section.id])}
-                      </Badge>
-                    </Group>
-                    <Text size="sm" c="dimmed">
-                      {section.description}
-                    </Text>
-                    {messages[section.id] && (
-                      <Text
-                        size="sm"
-                        c={
-                          statuses[section.id] === "error"
-                            ? "red"
-                            : "var(--primary)"
-                        }
-                        mt="xs"
-                      >
-                        {messages[section.id]}
-                      </Text>
-                    )}
-                  </div>
-                </Group>
+              Publicar Conteúdo
+            </Title>
+            <Text size="lg" c="dimmed">
+              Publique os dados do Google Sheets diretamente no site. O servidor
+              lerá a planilha e atualizará os arquivos JSON automaticamente.
+            </Text>
+          </div>
 
-                <Button
-                  leftSection={
-                    statuses[section.id] === "loading" ? (
-                      <Loader size="xs" color="white" />
-                    ) : statuses[section.id] === "success" ? (
-                      <IconCheck size={16} />
-                    ) : (
-                      <IconUpload size={16} />
-                    )
-                  }
-                  color="var(--primary)"
-                  disabled={statuses[section.id] === "loading"}
-                  onClick={() => handlePublish(section)}
-                >
-                  {statuses[section.id] === "loading"
-                    ? "Publicando..."
-                    : "Publicar"}
-                </Button>
-              </Group>
-            </Card>
-          ))}
+          {/* Info alert */}
+          <Alert
+            icon={<IconAlertCircle size={24} />}
+            title="Como funciona"
+            color="var(--primary)"
+            variant="light"
+            radius="lg"
+          >
+            <Text size="sm">
+              1. Edite os dados no Google Sheets (abas: Team, Researches,
+              Publications, Tools)
+              <br />
+              2. Clique em "Publicar" na seção desejada
+              <br />
+              3. O servidor lerá a planilha e atualizará os arquivos do site
+              automaticamente
+              <br />
+              <strong>
+                Nota: Apenas administradores podem publicar no site.
+              </strong>
+            </Text>
+          </Alert>
+
+          {/* Cards de publicação */}
+          <Stack gap="md">
+            {sections.map((section) => (
+              <Card
+                key={section.id}
+                shadow="xs"
+                padding="lg"
+                radius="lg"
+                withBorder
+              >
+                <Group justify="space-between" align="flex-start">
+                  <Group>
+                    <div
+                      style={{
+                        color: "var(--primary)",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {section.icon}
+                    </div>
+                    <div>
+                      <Group gap="xs" mb={4}>
+                        <Text fw={600} size="lg">
+                          {section.name}
+                        </Text>
+                        <Badge
+                          size="sm"
+                          color={getStatusColor(statuses[section.id])}
+                        >
+                          {getStatusText(statuses[section.id])}
+                        </Badge>
+                      </Group>
+                      <Text size="sm" c="dimmed">
+                        {section.description}
+                      </Text>
+                      {messages[section.id] && (
+                        <Text
+                          size="sm"
+                          c={
+                            statuses[section.id] === "error"
+                              ? "red"
+                              : "var(--primary)"
+                          }
+                          mt="xs"
+                        >
+                          {messages[section.id]}
+                        </Text>
+                      )}
+                    </div>
+                  </Group>
+
+                  <Button
+                    leftSection={
+                      statuses[section.id] === "loading" ? (
+                        <Loader size="xs" color="white" />
+                      ) : statuses[section.id] === "success" ? (
+                        <IconCheck size={16} />
+                      ) : (
+                        <IconUpload size={16} />
+                      )
+                    }
+                    color="var(--primary)"
+                    disabled={statuses[section.id] === "loading"}
+                    onClick={() => handlePublish(section)}
+                  >
+                    {statuses[section.id] === "loading"
+                      ? "Publicando..."
+                      : "Publicar"}
+                  </Button>
+                </Group>
+              </Card>
+            ))}
+          </Stack>
         </Stack>
-      </Stack>
-    </Container>
+      </Container>
     </RequireAdmin>
   );
 }
