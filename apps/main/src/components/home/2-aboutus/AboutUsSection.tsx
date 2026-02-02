@@ -27,8 +27,9 @@ export default function AboutUsSection() {
     <Box
       ref={ref}
       style={{
-        width: "100%",
-        padding: isMobile ? "60px 0" : "100px 0",
+        width: "80%",
+        margin: "auto",
+        padding: isMobile ? "30px 0" : "60px 0",
       }}
     >
       <MotionBox
@@ -39,11 +40,11 @@ export default function AboutUsSection() {
         <Title
           order={2}
           style={{
-            fontSize: isMobile ? 42 : 64,
+            fontSize: isMobile ? 42 : 56,
             fontWeight: 800,
             color: theme.colors.dark[9],
             marginBottom: isMobile ? 40 : 60,
-            textAlign: "center",
+            textAlign: "left",
             letterSpacing: "-0.02em",
           }}
         >
@@ -52,15 +53,13 @@ export default function AboutUsSection() {
 
         <Box
           style={{
-            maxWidth: isMobile ? "100%" : "65%",
-            margin: "0 auto",
-            padding: isMobile ? "0 20px" : "0 40px",
+            maxWidth: isMobile ? "100%" : "100%",
           }}
         >
           <Text
             style={{
-              textAlign: "center",
-              fontSize: isMobile ? 20 : 24,
+              textAlign: "left",
+              fontSize: isMobile ? 20 : 20,
               lineHeight: 2.2,
               color: theme.colors.dark[7],
               fontWeight: 400,

@@ -146,7 +146,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, ease: "easeOut" }}
-                style={{ width: "100%" }}
+                style={{ width: "100%", marginTop: isMobile ? 0 : 200 }}
               >
                 <Title
                   order={1}
