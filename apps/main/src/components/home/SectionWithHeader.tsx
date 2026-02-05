@@ -37,20 +37,7 @@ export default function SectionWithHeader({
   const isMobile = useMediaQuery("(max-width: 62em)");
 
   return (
-    <MotionPaper
-      ref={ref}
-      initial={sectionMotion.initial}
-      animate={isInView ? sectionMotion.animate : sectionMotion.initial}
-      transition={sectionMotion.transition}
-      style={{
-        width: "100%",
-        position: "relative",
-        padding: isMobile ? 8 : 16,
-        borderRadius: 0,
-        background: "rgba(255, 255, 255, 0)",
-        backdropFilter: "blur(10px)",
-      }}
-    >
+    <>
       <Box style={{ width: "85%", margin: "auto" }}>
         <Box
           style={{
@@ -128,6 +115,6 @@ export default function SectionWithHeader({
         m="auto"
         style={{ borderRadius: "1rem" }}
       />
-    </MotionPaper>
+    </>
   );
 }

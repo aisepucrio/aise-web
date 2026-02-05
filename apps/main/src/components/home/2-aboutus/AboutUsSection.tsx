@@ -27,58 +27,52 @@ export default function AboutUsSection() {
     <Box
       ref={ref}
       style={{
-        width: "80%",
+        width: "100%",
         margin: "auto",
         padding: isMobile ? "30px 0" : "60px 0",
       }}
     >
-      <MotionBox
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-        transition={{ duration: 0.6, ease: [0.2, 0.6, 0.3, 1] }}
+      <Title
+        order={2}
+        style={{
+          fontSize: isMobile ? 42 : 56,
+          fontWeight: 800,
+          color: theme.colors.dark[9],
+          marginBottom: isMobile ? 40 : 60,
+          textAlign: "left",
+          letterSpacing: "-0.02em",
+        }}
       >
-        <Title
-          order={2}
+        {homeContent.mission.sectionTitle}
+      </Title>
+
+      <Box
+        style={{
+          maxWidth: isMobile ? "100%" : "100%",
+        }}
+      >
+        <Text
           style={{
-            fontSize: isMobile ? 42 : 56,
-            fontWeight: 800,
-            color: theme.colors.dark[9],
-            marginBottom: isMobile ? 40 : 60,
             textAlign: "left",
-            letterSpacing: "-0.02em",
+            fontSize: isMobile ? 20 : 20,
+            lineHeight: 2.2,
+            color: theme.colors.dark[7],
+            fontWeight: 400,
+            letterSpacing: "0.01em",
           }}
         >
-          {homeContent.mission.sectionTitle}
-        </Title>
+          {paragraph}
+        </Text>
+      </Box>
 
-        <Box
-          style={{
-            maxWidth: isMobile ? "100%" : "100%",
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "left",
-              fontSize: isMobile ? 20 : 20,
-              lineHeight: 2.2,
-              color: theme.colors.dark[7],
-              fontWeight: 400,
-              letterSpacing: "0.01em",
-            }}
-          >
-            {paragraph}
-          </Text>
-        </Box>
-
-        <Divider
-          mt={64}
-          color="#f8f9fa"
-          size="xl"
-          w="10%"
-          m="auto"
-          style={{ borderRadius: "1rem" }}
-        />
-      </MotionBox>
+      <Divider
+        mt={64}
+        color="#f8f9fa"
+        size="xl"
+        w="10%"
+        m="auto"
+        style={{ borderRadius: "1rem" }}
+      />
     </Box>
   );
 }
