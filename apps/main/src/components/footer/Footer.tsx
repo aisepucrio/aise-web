@@ -206,20 +206,7 @@ export default function Footer() {
                         {footerData.contact.address.floor}
                       </Text>
                     </Flex>
-                    <Flex align="center" gap="xs">
-                      <IconPhone size={16} color="#6b7280" />
-                      <Anchor
-                        c="gray.6"
-                        td="none"
-                        href={`tel:${footerData.contact.phone.replace(
-                          /\D/g,
-                          "",
-                        )}`}
-                        size="sm"
-                      >
-                        {footerData.contact.phone}
-                      </Anchor>
-                    </Flex>
+
                     <Flex align="center" gap="xs">
                       <IconMail size={16} color="#6b7280" />
                       <Anchor
