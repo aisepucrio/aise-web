@@ -105,7 +105,7 @@ const useResearchPublications = (research: Research | null) => {
         ) {
           const relatedPublications = (publicationsData.publications || [])
             .filter((publication: any) =>
-              research.publication_relationships?.includes(publication.title)
+              research.publication_relationships?.includes(publication.title),
             )
             .map((pub: any) => ({
               title: pub.title,
@@ -151,7 +151,7 @@ const useResearchTeam = (research: Research | null) => {
           research.team_relationships.length > 0
         ) {
           const memberRolesMap = new Map(
-            research.team_relationships.map((tm) => [tm.name, tm.roles || []])
+            research.team_relationships.map((tm) => [tm.name, tm.roles || []]),
           );
 
           const relatedMembers = teamData.team
@@ -199,7 +199,7 @@ const useResearchTools = (research: Research | null) => {
           research.tools_relationships.length > 0
         ) {
           const relatedTools = toolsData.tools.filter((tool: any) =>
-            research.tools_relationships?.includes(tool.id)
+            research.tools_relationships?.includes(tool.id),
           );
           setTools(relatedTools);
         }
@@ -272,7 +272,7 @@ export default function ResearchDetailPage() {
             <Text size="xl" c="white" fw={600}>
               Research line not found
             </Text>
-            <BackButton onClick={() => router.push("/researches")}>
+            <BackButton onClick={() => router.push("/research")}>
               Back to Research Lines
             </BackButton>
           </Stack>
