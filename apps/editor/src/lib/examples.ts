@@ -5,12 +5,12 @@
 import { VALID_POSITIONS } from "./validations";
 
 export const EXAMPLE_TEAM_MEMBER = {
-  name: "Example Member",
+  name: "Member",
   position: VALID_POSITIONS[0],
   university: "PUC-Rio",
   imageUrl: "https://imgbox.com/mZ8NXbYf",
   description:
-    "<NAME> is description here description here description here description here description here description here description here description here description here description here description here description here description here description here description here description here",
+    "<NAME> is description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat consequat ante ac ultricies. Morbi vel mi blandit nunc blandit gravida nec hendrerit magna. Integer eget nulla sed dolor convallis molestie nec vel magna. Proin pulvinar aliquam facilisis. In id commodo odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas tristique cursus mollis. Sed ut est laoreet, auctor velit sit amet, iaculis elit.",
   email: "member@university.edu",
   researchInterests: [
     "Artificial Intelligence",

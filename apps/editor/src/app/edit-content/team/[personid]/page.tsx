@@ -1,3 +1,6 @@
+//editContentPage              -> Pagina teste com mudança de edição / alteração dos itens do JSON
+//Pagina de Edicao do Conteudo
+
 "use client";
 
 import { useParams } from "next/navigation";
@@ -19,6 +22,7 @@ import ProfileInstructions from "@/components/ProfileInstructions";
 import { convertImgboxUrls } from "@/lib/imgbox";
 import { authFetchJson } from "@/lib/auth-fetch";
 import { RequireAuth } from "@/components/AuthContext";
+import TeamMemberFormEditor from "@/components/TeamMemberFormEditor"; // importado. TeamMemberFortEditor
 
 export default function EditContentPage() {
   const params = useParams();
@@ -34,10 +38,15 @@ export default function EditContentPage() {
     isSaving,
     isNewItem,
     jsonError,
-    parsedData,
-    validation,
-    lastSaved,
-    isAutoSaving,
+    //editMode="json"    -> antes
+    editMode,     // agora desestruturado do hook
+    //setEditMode={() => {}} // função vazia no JSX    -> antes
+    setEditMode,  // agora desestruturado do hook
+    parsedData,   
+    validation,   
+    lastSaved,    
+    isAutoSaving, 
+    updateField,  // foi criado, e como os outros, foi desestruturado do hook
     handleSave,
     handleReset,
   } = useEditPage<TeamMemberData>({
@@ -85,8 +94,8 @@ export default function EditContentPage() {
         jsonText={jsonText}
         setJsonText={setJsonText}
         jsonError={jsonError}
-        editMode="json"
-        setEditMode={() => {}}
+        editMode={editMode}           // incluido, agora esta dinâmico agora
+        setEditMode={setEditMode}     // incluido, agora esta dinâmico agora
         validation={validation}
         onSave={handleSave}
         onReset={handleReset}
@@ -94,6 +103,15 @@ export default function EditContentPage() {
         lastSaved={lastSaved}
         isAutoSaving={isAutoSaving}
         instructions={<ProfileInstructions />}
+        formEditor={                  // novo bloco incluido (formEditor), para o formulário  
+          parsedData ? (
+            <TeamMemberFormEditor
+              data={parsedData}
+              onChange={updateField}
+            />
+          ) : null
+        }
+        // display ja existente. Não foi alterado.
         preview={
           displayData ? (
             <Stack gap="lg">
