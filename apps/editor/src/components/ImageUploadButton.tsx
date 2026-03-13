@@ -38,7 +38,6 @@ interface ImageUploadResponse {
 }
 
 export default function ImageUploadButton({
-  value,
   onChange,
   label = "Imagem",
   description,
@@ -67,10 +66,8 @@ export default function ImageUploadButton({
   }, [selectedFile]);
 
   // Valores derivados usados pela UI.
-  const currentImageUrl = previewUrl ?? value ?? null;
-  const previewTitle = selectedFile
-    ? "Preview da nova imagem selecionada"
-    : "Imagem atual";
+  const currentImageUrl = previewUrl;
+  const previewTitle = "Preview da nova imagem selecionada";
 
   // Helpers de interacao com o input e com o modal.
   // Limpa a selecao atual e reseta o input para permitir escolher o mesmo
@@ -95,6 +92,7 @@ export default function ImageUploadButton({
 
   const closeModal = () => {
     setOpened(false);
+    clearSelection();
   };
 
   // Validacao e leitura do arquivo escolhido.
@@ -162,7 +160,6 @@ export default function ImageUploadButton({
       const uploadedImageUrl = await uploadImage(selectedFile);
       onChange(uploadedImageUrl);
       closeModal();
-      clearSelection();
     } catch (uploadError) {
       setError(
         uploadError instanceof Error
@@ -349,17 +346,14 @@ function ImageUploadModal({
               </>
             )}
 
-            {/* Enquanto nao ha novo arquivo, o modal oferece a escolha inicial. */}
-            {!selectedFile && (
-              <Button
-                variant="light"
-                color="var(--primary)"
-                leftSection={<IconUpload size={16} />}
-                onClick={onPickImage}
-              >
-                Escolher imagem
-              </Button>
-            )}
+            <Button
+              variant="light"
+              color="var(--primary)"
+              leftSection={<IconUpload size={16} />}
+              onClick={onPickImage}
+            >
+              Escolher imagem
+            </Button>
           </Stack>
         </Paper>
 
