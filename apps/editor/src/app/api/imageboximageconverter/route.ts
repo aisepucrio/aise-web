@@ -1,5 +1,3 @@
-// Código passível de simplificação e otimização, mas versão atual cobre os casos de uso.
-
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import { requireUser } from "@/lib/auth-server";
@@ -386,167 +384,40 @@ async function uploadToImgbox(
 
 // Abre a home do imgbox para obter o token CSRF e os cookies de sessao necessarios para os passos seguintes.
 async function openImgboxSession(): Promise<ImgboxSession> {
-  // O imgbox pode expor o token em paginas diferentes dependendo da sessao.
-  const candidatePaths = ["/", "/upload"];
-  let cookieHeader = "";
-  const extractionFailures: string[] = [];
+  // Primeiro abrimos a home para obter CSRF e cookies de sessao.
+  const response = await fetch(`${IMGBOX_BASE_URL}/`, {
+    headers: createImgboxHeaders({ origin: null, referer: null }),
+    cache: "no-store",
+  });
 
-  for (const path of candidatePaths) {
-    const response = await fetch(`${IMGBOX_BASE_URL}${path}`, {
-      headers: createImgboxHeaders({
-        cookieHeader,
-        origin: null,
-        referer: null,
-      }),
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      await readErrorResponse(
-        response,
-        `Nao foi possivel iniciar sessao com o imgbox em ${path}.`,
-      );
-    }
-
-    const html = await response.text();
-    cookieHeader = buildCookieHeader(cookieHeader, response);
-
-    const authenticityToken = extractAuthenticityToken(html);
-    if (authenticityToken) {
-      return {
-        authenticityToken,
-        cookieHeader,
-      };
-    }
-
-    extractionFailures.push(`${path}: ${describeTokenExtractionFailure(html)}`);
+  if (!response.ok) {
+    await readErrorResponse(
+      response,
+      "Nao foi possivel iniciar sessao com o imgbox.",
+    );
   }
 
-  throw new Error(
-    `Nao foi possivel obter authenticity_token do imgbox. ${extractionFailures.join(" | ")}`,
-  );
+  const html = await response.text();
+  const authenticityToken = extractAuthenticityToken(html);
+
+  if (!authenticityToken) {
+    throw new Error("Nao foi possivel obter authenticity_token do imgbox.");
+  }
+
+  return {
+    authenticityToken,
+    cookieHeader: buildCookieHeader("", response),
+  };
 }
 
 // O HTML do imgbox publica o CSRF em uma meta tag chamada "csrf-token".
 // Esse valor precisa seguir nos POSTs AJAX do fluxo de upload.
 function extractAuthenticityToken(html: string): string | null {
-  const csrfMetaContent = findTagAttributeValue({
-    html,
-    tagName: "meta",
-    matchAttributeName: "name",
-    matchAttributeValue: "csrf-token",
-    returnAttributeName: "content",
-  });
-
-  if (csrfMetaContent) {
-    return decodeHtmlAttribute(csrfMetaContent);
-  }
-
-  const authenticityInputValue = findTagAttributeValue({
-    html,
-    tagName: "input",
-    matchAttributeName: "name",
-    matchAttributeValue: "authenticity_token",
-    returnAttributeName: "value",
-  });
-
-  if (authenticityInputValue) {
-    return decodeHtmlAttribute(authenticityInputValue);
-  }
-
-  const escapedTokenMatch = html.match(
-    /["'](?:csrf-token|authenticity_token)["'][^"'<>]*["']([^"']{10,})["']/i,
+  const metaMatch = html.match(
+    /<meta[^>]+name=["']csrf-token["'][^>]+content=["']([^"']+)["']/i,
   );
 
-  if (escapedTokenMatch?.[1]) {
-    return decodeHtmlAttribute(escapedTokenMatch[1]);
-  }
-
-  return null;
-}
-
-function describeTokenExtractionFailure(html: string): string {
-  const normalizedHtml = html.replace(/\s+/g, " ").trim();
-  const preview = normalizedHtml.slice(0, 180);
-
-  if (!preview) {
-    return "HTML vazio na resposta inicial.";
-  }
-
-  if (
-    /captcha|cloudflare|verify you are human|attention required/i.test(html)
-  ) {
-    return `Resposta aparenta bloqueio anti-bot. Trecho: ${preview}`;
-  }
-
-  return `Nenhuma meta csrf-token nem input authenticity_token encontrada. Trecho: ${preview}`;
-}
-
-function findTagAttributeValue(params: {
-  html: string;
-  tagName: string;
-  matchAttributeName: string;
-  matchAttributeValue: string;
-  returnAttributeName: string;
-}): string | null {
-  const {
-    html,
-    tagName,
-    matchAttributeName,
-    matchAttributeValue,
-    returnAttributeName,
-  } = params;
-  const tagRegex = new RegExp(`<${tagName}\\b[^>]*>`, "gi");
-
-  for (const tagHtml of html.match(tagRegex) ?? []) {
-    const attributes = parseHtmlAttributes(tagHtml);
-    const currentAttributeValue = attributes.get(
-      matchAttributeName.toLowerCase(),
-    );
-
-    if (
-      currentAttributeValue?.toLowerCase() !== matchAttributeValue.toLowerCase()
-    ) {
-      continue;
-    }
-
-    const returnAttributeValue = attributes.get(
-      returnAttributeName.toLowerCase(),
-    );
-    if (returnAttributeValue) {
-      return returnAttributeValue;
-    }
-  }
-
-  return null;
-}
-
-function parseHtmlAttributes(tagHtml: string): Map<string, string> {
-  const attributes = new Map<string, string>();
-  const attributeRegex =
-    /([^\s=/>]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/g;
-
-  for (const match of tagHtml.matchAll(attributeRegex)) {
-    const attributeName = match[1]?.toLowerCase();
-    const attributeValue = match[2] ?? match[3] ?? match[4] ?? "";
-
-    if (!attributeName) {
-      continue;
-    }
-
-    attributes.set(attributeName, attributeValue);
-  }
-
-  return attributes;
-}
-
-function decodeHtmlAttribute(value: string): string {
-  return value
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;|&apos;/gi, "'")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">");
+  return metaMatch?.[1] ?? null;
 }
 
 // Esta funcao faz a chamada que o frontend do imgbox faria para obter os tokens temporarios antes do upload multipart.
