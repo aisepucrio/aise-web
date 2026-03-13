@@ -410,14 +410,23 @@ async function openImgboxSession(): Promise<ImgboxSession> {
   };
 }
 
-// O HTML do imgbox publica o CSRF em uma meta tag chamada "csrf-token".
-// Esse valor precisa seguir nos POSTs AJAX do fluxo de upload.
+// A home do imgbox pode expor o CSRF tanto em meta tag quanto em input hidden.
+// O fluxo atual usa esse valor nos POSTs seguintes, entao basta cobrir esses
+// dois formatos reais sem reintroduzir o scraping mais amplo que removemos.
 function extractAuthenticityToken(html: string): string | null {
   const metaMatch = html.match(
     /<meta[^>]+name=["']csrf-token["'][^>]+content=["']([^"']+)["']/i,
   );
 
-  return metaMatch?.[1] ?? null;
+  if (metaMatch?.[1]) {
+    return metaMatch[1];
+  }
+
+  const inputMatch = html.match(
+    /<input[^>]+name=["']authenticity_token["'][^>]+value=["']([^"']+)["']/i,
+  );
+
+  return inputMatch?.[1] ?? null;
 }
 
 // Esta funcao faz a chamada que o frontend do imgbox faria para obter os tokens temporarios antes do upload multipart.
