@@ -37,128 +37,34 @@ import {
   IconCode,
   IconBrain,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { TeamMemberData } from "@/lib/types";
 
-interface TeamMemberFormEditorProps {
-  data: TeamMemberData;
-  onChange: (field: keyof TeamMemberData, value: any) => void;
-}
 
 // Bloco "reutilizavel" que forma o visual de seção
 // além disso, é usado por todos os outros blocos abaixo. Dentro dele
-function SectionBlock({         //-> componente interno
-  icon,
-  title,
-  children,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Paper withBorder radius="md" p="md" style={{ borderColor: "var(--mantine-color-gray-2)" }}>
-      <Group gap="xs" mb="md">
-        <ActionIcon variant="light" color="var(--primary)" size="sm" radius="xl">
-          {icon}
-        </ActionIcon>
-        <Title order={6} style={{ color: "var(--primary)" }}>
-          {title}
-        </Title>
-      </Group>
-      {children}
-    </Paper>
-  );
-}
+import { SectionBlock } from "./SectionBlock";
 
 // Bloco de lista (strings) de tags (researchInterests, technologies, knowledge)
 // Possui badges (x) para remover as tags, input (+) para adicionar tags
-function TagListEditor({
-  //possível label com tradução da seção:
-  label,
-  values,
-  onChange,
-  placeholder,
-}: {
-  label: string;
-  values: string[];
-  onChange: (values: string[]) => void;
-  placeholder?: string;
-}) {
-  const [inputValue, setInputValue] = useState("");
+import { TagListEditor } from "./TagListEditor";
 
-  const handleAdd = () => {
-    const trimmed = inputValue.trim();
-    if (!trimmed || values.includes(trimmed)) return;
-    onChange([...values, trimmed]);
-    setInputValue("");
-  };
+import TooltipIcon from "./TooltipIcon";
 
-  const handleRemove = (index: number) => {
-    onChange(values.filter((_, i) => i !== index));
-  };
+import ImageUploadButton from "./ImageUploadButton";
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleAdd();
-    }
-  };
-
-  return (
-    <Stack gap="xs">
-      <Text size="sm" fw={500} c="dimmed">
-        {label}
-      </Text>
-      <Group gap="xs" wrap="wrap">
-        {values.map((val, idx) => (
-          <Badge
-            key={idx}
-            variant="light"
-            color="var(--primary)"
-            size="md"
-            radius="sm"
-            rightSection={
-              <ActionIcon
-                size="xs"
-                variant="transparent"
-                color="var(--primary)"
-                onClick={() => handleRemove(idx)}
-              >
-                <IconX size={10} />
-              </ActionIcon>
-            }
-          >
-            {val}
-          </Badge>
-        ))}
-      </Group>
-      <Group gap="xs">
-        <TextInput
-          placeholder={placeholder || "Adicionar..."}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.currentTarget.value)}
-          onKeyDown={handleKeyDown}
-          size="xs"
-          style={{ flex: 1 }}
-        />
-        <Button
-          size="xs"
-          variant="dark"
-          color="var(--primary)"
-          leftSection={<IconPlus size={12} />}
-          onClick={handleAdd}
-        >
-          Adicionar
-        </Button>
-      </Group>
-    </Stack>
-  );
+interface TeamMemberFormEditorProps {
+  data: TeamMemberData;
+  //mudanca aplicada para o tooltipicon
+  onChange: (field: keyof TeamMemberData, value: any) => void;
+  tooltip?: ReactNode;
 }
 
-export default function TeamMemberFormEditor({
-  data,
-  onChange,
+
+export default function TeamMemberFormEditor({ 
+  data, 
+  onChange, 
+  tooltip,
 }: TeamMemberFormEditorProps) {
   const socialLinks = data.socialLinks || {};
 
@@ -168,6 +74,14 @@ export default function TeamMemberFormEditor({
 
   return (
     <Stack gap="md">
+      {/* Tooltip global no topo — instruções passadas pelo pai */}
+      {tooltip && (
+        <Group justify="flex-end">
+          <TooltipIcon position="left">{tooltip}</TooltipIcon>
+        </Group>
+      )}
+
+
       {/* Informações Básicas/Iniciais Padrão do membro do TEAM */}
       <SectionBlock icon={<IconUser size={14} />} title="Informações Básicas">
         <SimpleGrid cols={2} spacing="xs">
@@ -205,15 +119,12 @@ export default function TeamMemberFormEditor({
             size="sm"
           />
         </SimpleGrid>
-        {/* Inclusão por URL da foto do membro do TEAM */}
-        <TextInput
-          mt="xs"
+        {/* Inclusão por arquivofoto do membro do TEAM */}
+        <ImageUploadButton
           label="URL da Foto"
-          placeholder="https://..."
-          leftSection={<IconPhoto size={14} />}
+          description="JPG, JPEG ou PNG. Proporção 3:4 recomendada."
           value={data.imageUrl || ""}
-          onChange={(e) => onChange("imageUrl", e.currentTarget.value)}
-          size="sm"
+          onChange={(url) => onChange("imageUrl", url)}
         />
       </SectionBlock>
       
@@ -305,7 +216,7 @@ export default function TeamMemberFormEditor({
       {/* Seção com informações "fixas" e adicionáveis. Infos em "placas" */}
 
       {/* Research Interests */}
-      <SectionBlock icon={<IconFlask size={14} />} title="Research Interests">
+      <SectionBlock icon={<IconFlask size={14} />} title="Pesquisas de Interesse">
         <TagListEditor
         //possível label com tradução da seção:
           //label="Áreas de interesse"
@@ -316,7 +227,7 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Technologies */}
-      <SectionBlock icon={<IconCode size={14} />} title="Technologies">
+      <SectionBlock icon={<IconCode size={14} />} title="Tecnologias">
         <TagListEditor
         //possível label com tradução da seção:
           //label="Tecnologias utilizadas"
@@ -327,9 +238,8 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Knowledge */}
-      <SectionBlock icon={<IconBrain size={14} />} title="Knowledge">
+      <SectionBlock icon={<IconBrain size={14} />} title="Conhecimento">
         <TagListEditor
-        
         //possível label com tradução da seção:
           //label="Áreas de conhecimento"
           values={data.knowledge || []}

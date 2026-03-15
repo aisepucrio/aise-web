@@ -1,9 +1,12 @@
+//editContentPage              -> Pagina teste com mudança de edição / alteração dos itens do JSON
+//Pagina de Edicao do Conteudo
+
 "use client";
 
 import { useParams } from "next/navigation";
 import { ToolData } from "@/lib/types";
 import { useState, useEffect, useMemo } from "react";
-import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
+import { Center, Text, Stack, Box, Divider, Alert, List, Code } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { EXAMPLE_TOOL } from "@/lib/examples";
 import { authFetchJson } from "@/lib/auth-fetch";
@@ -16,14 +19,30 @@ import ToolInstructions from "@/components/ToolInstructions";
 import DateRangePicker from "@/components/DateRangePicker";
 import TeamRelationshipSelector from "@/components/TeamRelationshipSelector";
 import PublicationRelationshipSelector from "@/components/PublicationRelationshipSelector";
+import ToolFormEditor from "@/components/ToolMemberFormEditor"; // novo import
+
+// Conteúdo do tooltip — resumo das instruções de tool
+const toolTooltipContent = (
+  <Stack gap={6}>
+    <Text size="xs" fw={700}>Dicas rápidas:</Text>
+    <List size="xs" spacing={4}>
+      <List.Item><Code>id</Code>: kebab-case único (ex: my-awesome-tool).</List.Item>
+      <List.Item><Code>name</Code>: nome legível, 3–60 caracteres.</List.Item>
+      <List.Item><Code>tagline</Code>: frase curta, 10–100 caracteres.</List.Item>
+      <List.Item><Code>description</Code>: 2-3 sentenças, 50–300 caracteres.</List.Item>
+      <List.Item><Code>category</Code>: ex: "Data Analysis", "Automation".</List.Item>
+      <List.Item><Code>highlightImageUrl</Code>: upload no imgbox.com, 16:9 preferível.</List.Item>
+      <List.Item><Code>duration</Code>: formato "Jan 2025 – present".</List.Item>
+      <List.Item><Code>techStack</Code>: 2–10 tecnologias.</List.Item>
+    </List>
+  </Stack>
+);
 
 // Converte ToolData para formato dos componentes de card
 const convertToCardFormat = (toolData: ToolData) => {
   return {
     ...toolData,
-    // map highlightImageUrl to the expected imageUrl property for card components
     imageUrl: toolData.highlightImageUrl,
-    // provide a default status if missing so components that expect it won't error
     status: (toolData as any).status || "active",
   };
 };
@@ -128,7 +147,6 @@ export default function EditToolPage() {
 
   const displayData = convertedData || parsedData;
 
-  // Convert team and publication relationships to component format
   const teamMembers = useMemo(() => {
     return (
       displayData?.team_relationships?.map((rel: any) => ({
@@ -175,21 +193,28 @@ export default function EditToolPage() {
       isAutoSaving={isAutoSaving}
       instructions={<ToolInstructions />}
       formEditor={
-        displayData && (
+        parsedData && (
           <Stack gap="md" style={{ paddingRight: 8 }}>
+            {/* Novo FormEditor com todos os campos principais */}
+            <ToolFormEditor 
+              data={parsedData} 
+              onChange={updateField} 
+              tooltip={toolTooltipContent} // tooltip passado
+            />
+            {/* Seletores separados — mantidos como estavam */}
             <DateRangePicker
-              value={displayData.duration}
+              value={parsedData.duration}
               onChange={(val) => updateField("duration", val)}
               label="Duration"
               required
             />
             <TeamRelationshipSelector
-              value={displayData.team_relationships || ""}
+              value={parsedData.team_relationships || ""}
               onChange={(val) => updateField("team_relationships", val)}
               label="Team Relationships"
             />
             <PublicationRelationshipSelector
-              value={displayData.publication_relationships || ""}
+              value={parsedData.publication_relationships || ""}
               onChange={(val) => updateField("publication_relationships", val)}
               label="Publication Relationships"
             />
@@ -201,8 +226,7 @@ export default function EditToolPage() {
             >
               <Text size="xs">
                 <strong>Outros campos:</strong> Use o modo JSON para editar
-                tagline, description, longDescription, category, images,
-                objectives, features, techStack e links.
+                campos não listados acima.
               </Text>
             </Alert>
           </Stack>
@@ -215,7 +239,6 @@ export default function EditToolPage() {
               <Text size="sm" fw={600} mb="xs" c="dimmed">
                 Preview: Detail View
               </Text>
-
               <ToolDetailView
                 tool={convertToDetailViewFormat(displayData)}
                 teamMembers={teamMembers}

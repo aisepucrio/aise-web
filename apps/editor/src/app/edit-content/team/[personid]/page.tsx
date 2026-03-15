@@ -6,7 +6,7 @@
 import { useParams } from "next/navigation";
 import { TeamMemberData } from "@/lib/types";
 import { useState, useEffect } from "react";
-import { Center, Text, Stack, Box, Divider } from "@mantine/core";
+import { Center, Text, Stack, Box, Divider, List, Code } from "@mantine/core";
 import { EXAMPLE_TEAM_MEMBER } from "@/lib/examples";
 import {
   validateMemberData,
@@ -22,7 +22,24 @@ import ProfileInstructions from "@/components/ProfileInstructions";
 import { convertImgboxUrls } from "@/lib/imgbox";
 import { authFetchJson } from "@/lib/auth-fetch";
 import { RequireAuth } from "@/components/AuthContext";
-import TeamMemberFormEditor from "@/components/TeamMemberFormEditor"; // importado. TeamMemberFortEditor
+import TeamMemberFormEditor from "@/components/TeamMemberFormEditor"; // importado. TeamMemberFormEditor
+
+// Conteúdo do tooltip — resumo das instruções de perfil
+const teamTooltipContent = (
+  <Stack gap={6}>
+    <Text size="xs" fw={700}>Dicas rápidas:</Text>
+    <List size="xs" spacing={4}>
+      <List.Item><Code>Nome</Code>: formato First Last, 3–100 caracteres.</List.Item>
+      <List.Item><Code>Email</Code>: identificador único — não pode ser alterado após salvar.</List.Item>
+      <List.Item><Code>Position</Code>: use exatamente um dos valores válidos (ex: PhD Student).</List.Item>
+      <List.Item><Code>Image URL</Code>: upload no imgbox.com, foto 3:4 com rosto visível.</List.Item>
+      <List.Item><Code>Description</Code>: 50–750 caracteres, foco em formação e interesses.</List.Item>
+      <List.Item><Code>Research Interests</Code>: 2–10 itens em inglês.</List.Item>
+      <List.Item><Code>Technologies</Code>: 3–15 itens em inglês.</List.Item>
+      <List.Item><Code>Knowledge</Code>: 1–8 áreas em inglês.</List.Item>
+    </List>
+  </Stack>
+);
 
 export default function EditContentPage() {
   const params = useParams();
@@ -108,6 +125,7 @@ export default function EditContentPage() {
             <TeamMemberFormEditor
               data={parsedData}
               onChange={updateField}
+              tooltip={teamTooltipContent} // tooltip passado
             />
           ) : null
         }

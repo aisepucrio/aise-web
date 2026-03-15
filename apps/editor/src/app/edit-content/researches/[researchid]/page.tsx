@@ -1,8 +1,11 @@
+//editContentPage              -> Pagina teste com mudança de edição / alteração dos itens do JSON
+//Pagina de Edicao do Conteudo
+
 "use client";
 
 import { useParams } from "next/navigation";
 import { ResearchData } from "@/lib/types";
-import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
+import { Center, Text, Stack, Box, Divider, Alert, List, Code } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { EXAMPLE_RESEARCH } from "@/lib/examples";
 import { authFetchJson } from "@/lib/auth-fetch";
@@ -19,6 +22,23 @@ import DateRangePicker from "@/components/DateRangePicker";
 import TeamRelationshipSelector from "@/components/TeamRelationshipSelector";
 import PublicationRelationshipSelector from "@/components/PublicationRelationshipSelector";
 import ToolRelationshipSelector from "@/components/ToolRelationshipSelector";
+import ResearchFormEditor from "@/components/ResearchMemberFormEditor";
+
+// Conteúdo do tooltip — resumo das instruções de research
+const researchTooltipContent = (
+  <Stack gap={6}>
+    <Text size="xs" fw={700}>Dicas rápidas:</Text>
+    <List size="xs" spacing={4}>
+      <List.Item><Code>id</Code>: kebab-case único (ex: ai-for-health).</List.Item>
+      <List.Item><Code>name</Code>: nome legível, 3–80 caracteres.</List.Item>
+      <List.Item><Code>shortDescription</Code>: 2-3 sentenças, mín. 50 caracteres.</List.Item>
+      <List.Item><Code>longDescription</Code>: mín. 100 caracteres, idealmente 300–800.</List.Item>
+      <List.Item><Code>highlightImageUrl</Code>: upload no imgbox.com, 16:9 preferível.</List.Item>
+      <List.Item><Code>duration</Code>: formato "Jan 2025 – present".</List.Item>
+      <List.Item><Code>projects</Code>: 1–6 projetos com name, imageUrl e description.</List.Item>
+    </List>
+  </Stack>
+);
 
 // Converte ResearchData para formato dos componentes de card
 const convertToCardFormat = (researchData: ResearchData) => {
@@ -125,6 +145,14 @@ export default function EditResearchPage() {
       formEditor={
         parsedData && (
           <Stack gap="md" style={{ paddingRight: 8 }}>
+            {/* Novo FormEditor com todos os campos principais */}
+            <ResearchFormEditor 
+              data={parsedData} 
+              onChange={updateField} 
+              tooltip={researchTooltipContent} // tooltip passado
+            />
+
+            {/* Seletores separados — mantidos como estavam */}
             <DateRangePicker
               value={parsedData.duration}
               onChange={(val) => updateField("duration", val)}
@@ -155,8 +183,7 @@ export default function EditResearchPage() {
             >
               <Text size="xs">
                 <strong>Outros campos:</strong> Use o modo JSON para editar
-                name, shortDescription, longDescription, highlightImageUrl e
-                projects.
+                campos não listados acima.
               </Text>
             </Alert>
           </Stack>
