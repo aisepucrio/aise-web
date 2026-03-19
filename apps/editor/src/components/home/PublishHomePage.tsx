@@ -22,7 +22,6 @@ import {
   IconBook,
   IconFlask,
 } from "@tabler/icons-react";
-import { convertImgboxUrls } from "@/lib/imgbox";
 import { authFetchJson } from "@/lib/auth-fetch";
 import { RequireAdmin } from "@/components/AuthContext";
 
@@ -110,9 +109,6 @@ export default function PublishHomePage() {
         throw new Error("Invalid data format received from server");
       }
 
-      // Convert imgbox URLs before sending
-      const convertedData = await convertImgboxUrls(response);
-
       // Step 2: Publish to external website via secure backend endpoint
       // authFetchJson returns parsed JSON directly (throws on error)
       const result = await authFetchJson("/api/publish", {
@@ -122,7 +118,7 @@ export default function PublishHomePage() {
         },
         body: JSON.stringify({
           section: section.id,
-          data: convertedData,
+          data: response,
         }),
       });
 

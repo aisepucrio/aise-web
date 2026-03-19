@@ -5,7 +5,7 @@
 
 import { useParams } from "next/navigation";
 import { ToolData } from "@/lib/types";
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Center, Text, Stack, Box, Divider, Alert, List, Code } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { EXAMPLE_TOOL } from "@/lib/examples";
@@ -13,7 +13,6 @@ import { authFetchJson } from "@/lib/auth-fetch";
 import { validateToolData, validateToolIdUnchanged } from "@/lib/validations";
 import { useEditPage } from "@/components/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
-import { convertImgboxUrls } from "@/lib/imgbox";
 import { ToolDetailView, ToolHeroCard, ToolCardCompact } from "@shared/ui";
 import ToolInstructions from "@/components/ToolInstructions";
 import DateRangePicker from "@/components/DateRangePicker";
@@ -101,7 +100,6 @@ const convertFromSheetFormat = (sheetData: any): ToolData => {
 export default function EditToolPage() {
   const params = useParams();
   const toolId = decodeURIComponent(params?.toolid as string);
-  const [convertedData, setConvertedData] = useState<ToolData | null>(null);
 
   const {
     jsonText,
@@ -136,20 +134,9 @@ export default function EditToolPage() {
     getItemUrl: (data) => `/edit-content/tool/${encodeURIComponent(data.id)}`,
   });
 
-  // Convert imgbox URLs when parsedData changes
-  useEffect(() => {
-    if (parsedData) {
-      convertImgboxUrls(parsedData).then(setConvertedData);
-    } else {
-      setConvertedData(null);
-    }
-  }, [parsedData]);
-
-  const displayData = convertedData || parsedData;
-
   const teamMembers = useMemo(() => {
     return (
-      displayData?.team_relationships?.map((rel: any) => ({
+      parsedData?.team_relationships?.map((rel: any) => ({
         name: rel.name,
         position: "",
         imageUrl: "",
@@ -157,11 +144,11 @@ export default function EditToolPage() {
         roles: rel.roles || [],
       })) || []
     );
-  }, [displayData]);
+  }, [parsedData]);
 
   const publications = useMemo(() => {
     return (
-      displayData?.publication_relationships?.map((title: string) => ({
+      parsedData?.publication_relationships?.map((title: string) => ({
         title: title,
         link: "",
         authors_list: "",
@@ -170,7 +157,7 @@ export default function EditToolPage() {
         year: 0,
       })) || []
     );
-  }, [displayData]);
+  }, [parsedData]);
 
   return (
     <EditPageLayout
@@ -233,14 +220,14 @@ export default function EditToolPage() {
         )
       }
       preview={
-        displayData ? (
+        parsedData ? (
           <Stack gap="xl">
             <Box>
               <Text size="sm" fw={600} mb="xs" c="dimmed">
                 Preview: Detail View
               </Text>
               <ToolDetailView
-                tool={convertToDetailViewFormat(displayData)}
+                tool={convertToDetailViewFormat(parsedData)}
                 teamMembers={teamMembers}
                 publications={publications}
               />
@@ -250,7 +237,7 @@ export default function EditToolPage() {
               <Text size="sm" fw={600} mb="xs" c="dimmed">
                 Preview: Hero Card
               </Text>
-              <ToolHeroCard tool={convertToCardFormat(displayData)} index={0} />
+              <ToolHeroCard tool={convertToCardFormat(parsedData)} index={0} />
             </Box>
             <Divider />
             <Box>
@@ -259,7 +246,7 @@ export default function EditToolPage() {
               </Text>
               <div style={{ width: "50%", margin: "auto" }}>
                 <ToolCardCompact
-                  tool={convertToCardFormat(displayData)}
+                  tool={convertToCardFormat(parsedData)}
                   index={1}
                 />
               </div>

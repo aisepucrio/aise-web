@@ -5,7 +5,6 @@
 
 import { useParams } from "next/navigation";
 import { TeamMemberData } from "@/lib/types";
-import { useState, useEffect } from "react";
 import { Center, Text, Stack, Box, Divider, List, Code } from "@mantine/core";
 import { EXAMPLE_TEAM_MEMBER } from "@/lib/examples";
 import {
@@ -19,7 +18,6 @@ import { TeamMemberListItem } from "@shared/ui";
 import { TeamMemberGridItem } from "@shared/ui";
 import { TeamMemberProfile } from "@shared/ui";
 import ProfileInstructions from "@/components/ProfileInstructions";
-import { convertImgboxUrls } from "@/lib/imgbox";
 import { authFetchJson } from "@/lib/auth-fetch";
 import { RequireAuth } from "@/components/AuthContext";
 import TeamMemberFormEditor from "@/components/TeamMemberFormEditor"; // importado. TeamMemberFormEditor
@@ -44,9 +42,6 @@ const teamTooltipContent = (
 export default function EditContentPage() {
   const params = useParams();
   const personId = decodeURIComponent(params?.personid as string);
-  const [convertedData, setConvertedData] = useState<TeamMemberData | null>(
-    null,
-  );
 
   const {
     jsonText,
@@ -86,17 +81,6 @@ export default function EditContentPage() {
       `/edit-content/team/${encodeURIComponent(data.email)}`,
   });
 
-  // Convert imgbox URLs when parsedData changes
-  useEffect(() => {
-    if (parsedData) {
-      convertImgboxUrls(parsedData).then(setConvertedData);
-    } else {
-      setConvertedData(null);
-    }
-  }, [parsedData]);
-
-  const displayData = convertedData || parsedData;
-
   return (
     <RequireAuth>
       <EditPageLayout
@@ -131,13 +115,13 @@ export default function EditContentPage() {
         }
         // display ja existente. Não foi alterado.
         preview={
-          displayData ? (
+          parsedData ? (
             <Stack gap="lg">
               <Box>
                 <Text size="sm" fw={600} c="dimmed" mb="xs">
                   Página de Perfil Completo
                 </Text>
-                <TeamMemberProfile member={displayData} />
+                <TeamMemberProfile member={parsedData} />
               </Box>
               <Divider />
 
@@ -147,21 +131,21 @@ export default function EditContentPage() {
                 </Text>
                 <Center>
                   <PersonCard
-                    key={`person-card-1-${displayData.imageUrl}`}
-                    name={displayData.name}
-                    position={displayData.position}
-                    imageUrl={displayData.imageUrl}
-                    description={displayData.description}
+                    key={`person-card-1-${parsedData.imageUrl}`}
+                    name={parsedData.name}
+                    position={parsedData.position}
+                    imageUrl={parsedData.imageUrl}
+                    description={parsedData.description}
                     cardWidth={240}
                   />
                   <PersonCard
-                    key={`person-card-2-${displayData.imageUrl}`}
-                    name={displayData.name}
-                    position={displayData.position}
-                    imageUrl={displayData.imageUrl}
-                    description={displayData.description}
+                    key={`person-card-2-${parsedData.imageUrl}`}
+                    name={parsedData.name}
+                    position={parsedData.position}
+                    imageUrl={parsedData.imageUrl}
+                    description={parsedData.description}
                     cardWidth={240}
-                    roles={displayData.knowledge?.slice(0, 2)}
+                    roles={parsedData.knowledge?.slice(0, 2)}
                   />
                 </Center>
               </Box>
@@ -175,8 +159,8 @@ export default function EditContentPage() {
                 <Center>
                   <Box style={{ width: "35%" }}>
                     <TeamMemberListItem
-                      key={`member-horizontal-${displayData.imageUrl}`}
-                      member={displayData}
+                      key={`member-horizontal-${parsedData.imageUrl}`}
+                      member={parsedData}
                     />
                   </Box>
                 </Center>
@@ -191,8 +175,8 @@ export default function EditContentPage() {
                 <Center>
                   <Box style={{ width: "35%" }}>
                     <TeamMemberGridItem
-                      key={`member-vertical-${displayData.imageUrl}`}
-                      member={displayData}
+                      key={`member-vertical-${parsedData.imageUrl}`}
+                      member={parsedData}
                     />
                   </Box>
                 </Center>
