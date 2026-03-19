@@ -8,7 +8,7 @@ export const EXAMPLE_TEAM_MEMBER = {
   name: "Member",
   position: VALID_POSITIONS[0],
   university: "PUC-Rio",
-  imageUrl: "https://imgbox.com/mZ8NXbYf",
+  imageUrl: "https://images2.imgbox.com/c3/91/mZ8NXbYf_o.jpg",
   description:
     "<NAME> is description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc volutpat consequat ante ac ultricies. Morbi vel mi blandit nunc blandit gravida nec hendrerit magna. Integer eget nulla sed dolor convallis molestie nec vel magna. Proin pulvinar aliquam facilisis. In id commodo odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas tristique cursus mollis. Sed ut est laoreet, auctor velit sit amet, iaculis elit.",
   email: "member@university.edu",
@@ -51,9 +51,9 @@ export const EXAMPLE_TOOL = {
   category: "Data Science",
   highlightImageUrl: "https://imgbox.com/V1F45enR",
   galleryImagesUrl: [
-    "https://imgbox.com/V1F45enR",
-    "https://imgbox.com/V1F45enR",
-    "https://imgbox.com/V1F45enR",
+    "https://images2.imgbox.com/06/9d/V1F45enR_o.jpg",
+    "https://images2.imgbox.com/06/9d/V1F45enR_o.jpg",
+    "https://images2.imgbox.com/06/9d/V1F45enR_o.jpg",
   ],
   duration: "Jan 2025 – present",
   objectives: [
