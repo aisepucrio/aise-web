@@ -161,7 +161,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
     <Stack gap="md">
 
       {/* Informações Básicas */}
-      <SectionBlock icon={<IconTool size={14} />} title="Informações Básicas">
+      <SectionBlock icon={<IconTool size={14} />} title="Informações Básicas" required>
         <SimpleGrid cols={2} spacing="xs">
           <TextInput
             label={
@@ -247,7 +247,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       </SectionBlock>
 
       {/* Imagens */}
-      <SectionBlock icon={<IconPhoto size={14} />} title="Imagens">
+      <SectionBlock icon={<IconPhoto size={14} />} title="Imagens" required>
         <ImageUploadButton
           label="Imagem de Destaque"
           description="JPG, JPEG ou PNG. Proporção 16:9 recomendada."
@@ -269,7 +269,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       </SectionBlock>
 
       {/* Descrições */}
-      <SectionBlock icon={<IconAlignLeft size={14} />} title="Descrições">
+      <SectionBlock icon={<IconAlignLeft size={14} />} title="Descrições" required>
         <Stack gap="xs">
           <Textarea
             label={
@@ -321,7 +321,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       </SectionBlock>
 
       {/* Objetivos */}
-      <SectionBlock icon={<IconTarget size={14} />} title="Objetivos">
+      <SectionBlock icon={<IconTarget size={14} />} title="Objetivos" required>
         <StringListEditor
           label="Lista de objetivos"
           tooltip={
@@ -337,7 +337,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       </SectionBlock>
 
       {/* Features */}
-      <SectionBlock icon={<IconStar size={14} />} title="Features">
+      <SectionBlock icon={<IconStar size={14} />} title="Features" required>
         <StringListEditor
           label="Principais funcionalidades"
           tooltip={
@@ -353,7 +353,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       </SectionBlock>
 
       {/* Tech Stack */}
-      <SectionBlock icon={<IconCode size={14} />} title="Tech Stack">
+      <SectionBlock icon={<IconCode size={14} />} title="Tech Stack" required>
         <StringListEditor
           label="Tecnologias utilizadas"
           tooltip={
@@ -370,7 +370,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       </SectionBlock>
 
       {/* Links */}
-      <SectionBlock icon={<IconLink size={14} />} title="Links">
+      <SectionBlock icon={<IconLink size={14} />} title="Links" required>
         <Stack gap="xs">
           <Text size="xs" c="dimmed">Todos opcionais. URLs devem começar com http:// ou https://.</Text>
           <TextInput

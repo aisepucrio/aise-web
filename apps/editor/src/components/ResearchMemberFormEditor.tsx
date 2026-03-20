@@ -130,7 +130,7 @@ export default function ResearchFormEditor({
     <Stack gap="md">
 
       {/* Informações Básicas */}
-      <SectionBlock icon={<IconFlask size={14} />} title="Informações Básicas">
+      <SectionBlock icon={<IconFlask size={14} />} title="Informações Básicas" required>
         <Stack gap="xs">
           <TextInput
             label={
@@ -183,7 +183,7 @@ export default function ResearchFormEditor({
       </SectionBlock>
 
       {/* Descrições */}
-      <SectionBlock icon={<IconAlignLeft size={14} />} title="Descrições">
+      <SectionBlock icon={<IconAlignLeft size={14} />} title="Descrições" required>
         <Stack gap="xs">
           <Textarea
             label={
@@ -236,7 +236,7 @@ export default function ResearchFormEditor({
       </SectionBlock>
 
       {/* Projects */}
-      <SectionBlock icon={<IconFolder size={14} />} title="Projetos">
+      <SectionBlock icon={<IconFolder size={14} />} title="Projetos" required>
         <Stack gap="sm">
           {/* FieldLabel usado diretamente como elemento, igual aos outros campos */}
           <FieldLabel

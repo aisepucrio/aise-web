@@ -1,12 +1,14 @@
-import { ActionIcon, Group, Paper, Title } from "@mantine/core";
+import { ActionIcon, Group, Paper, Text, Title } from "@mantine/core";
 
-export function SectionBlock({         //-> componente interno
+export function SectionBlock({
   icon,
   title,
+  required,
   children,
 }: {
   icon: React.ReactNode;
   title: string;
+  required?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -18,6 +20,9 @@ export function SectionBlock({         //-> componente interno
         <Title order={6} style={{ color: "var(--primary)" }}>
           {title}
         </Title>
+        {required && (
+          <Text span size="sm" c="red" fw={700}>*</Text>
+        )}
       </Group>
       {children}
     </Paper>

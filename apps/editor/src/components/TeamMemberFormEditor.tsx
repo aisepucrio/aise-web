@@ -58,7 +58,7 @@ export default function TeamMemberFormEditor({
     <Stack gap="md">
 
       {/* Informações Básicas */}
-      <SectionBlock icon={<IconUser size={14} />} title="Informações Básicas">
+      <SectionBlock icon={<IconUser size={14} />} title="Informações Básicas" required>
         <SimpleGrid cols={2} spacing="xs">
           <TextInput
             label={
@@ -160,7 +160,7 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Descrição */}
-      <SectionBlock icon={<IconBook size={14} />} title="Descrição">
+      <SectionBlock icon={<IconBook size={14} />} title="Descrição" required>
         <Textarea
           label={
             <FieldLabel
@@ -189,7 +189,7 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Contato */}
-      <SectionBlock icon={<IconMail size={14} />} title="Contato">
+      <SectionBlock icon={<IconMail size={14} />} title="Contato" required>
         <TextInput
           label={
             <FieldLabel
@@ -302,7 +302,7 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Research Interests */}
-      <SectionBlock icon={<IconFlask size={14} />} title="Pesquisas de Interesse">
+      <SectionBlock icon={<IconFlask size={14} />} title="Pesquisas de Interesse" required>
         <TagListEditor
           values={data.researchInterests || []}
           onChange={(val) => onChange("researchInterests", val)}
@@ -320,7 +320,7 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Technologies */}
-      <SectionBlock icon={<IconCode size={14} />} title="Tecnologias">
+      <SectionBlock icon={<IconCode size={14} />} title="Tecnologias" required>
         <TagListEditor
           values={data.technologies || []}
           onChange={(val) => onChange("technologies", val)}
@@ -338,7 +338,7 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Knowledge */}
-      <SectionBlock icon={<IconBrain size={14} />} title="Conhecimento">
+      <SectionBlock icon={<IconBrain size={14} />} title="Conhecimento" required>
         <TagListEditor
           values={data.knowledge || []}
           onChange={(val) => onChange("knowledge", val)}
