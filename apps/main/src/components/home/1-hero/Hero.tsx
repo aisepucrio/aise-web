@@ -2,14 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  BackgroundImage,
-  Overlay,
-  Container,
-  Title,
-  Text,
-  rem,
-} from "@mantine/core";
+import Image from "next/image";
+import { Overlay, Container, Title, Text, rem } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import homeContent from "@/../public/json/home.json";
 
@@ -18,9 +12,8 @@ export default function Hero() {
   const isMobile = useMediaQuery("(max-width: 62em)");
 
   return (
-    <BackgroundImage
+    <div
       id="hero-root"
-      src={homeContent.hero.imgsrc}
       aria-label="Main section with background image"
       style={{
         width: "100%",
@@ -35,6 +28,15 @@ export default function Hero() {
         backgroundSize: "cover",
       }}
     >
+      <Image
+        src={homeContent.hero.imgsrc}
+        alt=""
+        aria-hidden
+        fill
+        priority
+        style={{ objectFit: "cover" }}
+      />
+
       <Overlay
         zIndex={0}
         aria-hidden
@@ -187,6 +189,6 @@ export default function Hero() {
           </div>
         </motion.div>
       </Container>
-    </BackgroundImage>
+    </div>
   );
 }
