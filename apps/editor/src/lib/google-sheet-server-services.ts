@@ -11,6 +11,7 @@ import { google } from "googleapis";
 export interface TeamMemberData {
   name: string;
   position: string;
+  is_alumni?: boolean;
   university?: string;
   imageUrl: string;
   description: string;
@@ -107,9 +108,10 @@ export const TEAM_COLUMNS = {
   GOOGLE_SCHOLAR: 13,
   ORCID: 14,
   BIRTHDAY: 15,
+  IS_ALUMNI: 16,
 } as const;
 
-export const TEAM_RANGE = "A:P";
+export const TEAM_RANGE = "A:Q";
 
 export const PUBLICATION_COLUMNS = {
   TITLE: 0,
@@ -306,6 +308,10 @@ function splitByCommaOrPipe(cell?: string): string[] {
     .filter(Boolean);
 }
 
+function parseBooleanCell(cell?: string): boolean {
+  return String(cell || "").trim().toLowerCase() === "true";
+}
+
 export function parseTeamRelationships(
   str: string
 ): Array<{ name: string; roles: string[] }> {
@@ -395,6 +401,7 @@ export function parseTeamRow(row: string[]): TeamMemberData {
   return {
     name: row[C.NAME] || "",
     position: row[C.POSITION] || "",
+    is_alumni: parseBooleanCell(row[C.IS_ALUMNI]),
     university:
       row[C.UNIVERSITY] && row[C.UNIVERSITY].trim() ? row[C.UNIVERSITY] : "",
     imageUrl: row[C.IMAGE_URL] || "",
@@ -504,7 +511,7 @@ export function parseSheetRows(
 
 export function serializeTeamRow(member: TeamMemberData): string[] {
   const C = TEAM_COLUMNS;
-  const row = Array(16).fill("");
+  const row = Array(17).fill("");
 
   // Keeps original behavior: empty university for "PUC-Rio" or missing
   const uniCell =
@@ -528,6 +535,7 @@ export function serializeTeamRow(member: TeamMemberData): string[] {
   row[C.GOOGLE_SCHOLAR] = member.socialLinks?.googleScholar || "";
   row[C.ORCID] = member.socialLinks?.orcid || "";
   row[C.BIRTHDAY] = member.birthday || "";
+  row[C.IS_ALUMNI] = member.is_alumni ? "true" : "";
 
   return row;
 }

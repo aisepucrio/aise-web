@@ -9,6 +9,8 @@ interface TeamMember {
   name: string;
   imageUrl: string;
   description: string;
+  position?: string;
+  is_alumni?: boolean;
   university?: string;
 }
 
@@ -76,6 +78,16 @@ export const TeamMemberListItem: React.FC<TeamMemberListItemProps> = ({
                 >
                   {member.name}
                 </Text>
+                {member.is_alumni && member.position && (
+                  <Badge
+                    size={isMobile ? "xs" : "sm"}
+                    color="gray"
+                    variant="light"
+                    style={{ backgroundColor: "#f1f3f5", color: "#495057" }}
+                  >
+                    {member.position}
+                  </Badge>
+                )}
                 {member.university && (
                   <Badge
                     size={isMobile ? "xs" : "sm"}

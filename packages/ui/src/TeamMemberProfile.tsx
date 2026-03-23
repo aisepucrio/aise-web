@@ -22,6 +22,7 @@ import { useMediaQuery } from "@mantine/hooks";
 export type TeamMember = {
   name: string;
   position?: string;
+  is_alumni?: boolean;
   imageUrl: string;
   description?: string;
   university?: string;
@@ -115,7 +116,7 @@ export default function TeamMemberProfile({ member }: TeamMemberProfileProps) {
                     onClick={async () => {
                       try {
                         await navigator.clipboard.writeText(
-                          member.email as string
+                          member.email as string,
                         );
                       } catch {}
                     }}
@@ -171,22 +172,42 @@ export default function TeamMemberProfile({ member }: TeamMemberProfileProps) {
                           {member.name}
                         </Title>
 
-                        <Badge
-                          size={isMobile ? "lg" : "xl"}
-                          variant="light"
-                          color="var(--primary)"
-                          style={{
-                            fontSize: isMobile ? "0.9rem" : "1rem",
-                            fontWeight: 600,
-                            padding: isMobile ? "10px 16px" : "12px 20px",
-                            marginLeft: isMobile ? 0 : 6,
-                            marginBottom: isMobile ? 16 : 0,
-                            alignSelf: isMobile ? "center" : undefined,
-                          }}
+                        <Group
+                          gap="sm"
+                          justify={isMobile ? "center" : "flex-start"}
                         >
-                          {member.position}{" "}
-                          {member.university && `- ${member.university}`}
-                        </Badge>
+                          <Badge
+                            size={isMobile ? "lg" : "xl"}
+                            variant="light"
+                            color="var(--primary)"
+                            style={{
+                              fontSize: isMobile ? "0.9rem" : "1rem",
+                              fontWeight: 600,
+                              padding: isMobile ? "10px 16px" : "12px 20px",
+                              marginLeft: isMobile ? 0 : 6,
+                              marginBottom: isMobile ? 16 : 0,
+                              alignSelf: isMobile ? "center" : undefined,
+                            }}
+                          >
+                            {member.position}{" "}
+                            {member.university && `- ${member.university}`}
+                          </Badge>
+                          {member.is_alumni ? (
+                            <Badge
+                              size={isMobile ? "lg" : "xl"}
+                              color="gray"
+                              variant="light"
+                              style={{
+                                fontSize: isMobile ? "0.9rem" : "1rem",
+                                fontWeight: 600,
+                                backgroundColor: "#f1f3f5",
+                                color: "#495057",
+                              }}
+                            >
+                              Alumni
+                            </Badge>
+                          ) : null}
+                        </Group>
                       </div>
                     </div>
 

@@ -2,8 +2,8 @@
 
 /**
  * Editor em formato de formulário em blocos para membros de TEAM.
- * 
- * Cria uma nova "page" para preenchimento no estilo de formulário, 
+ *
+ * Cria uma nova "page" para preenchimento no estilo de formulário,
  * sendo outra opção da textarea JSON.
  */
 
@@ -20,6 +20,7 @@ import {
   Button,
   Divider,
   SimpleGrid,
+  Switch,
 } from "@mantine/core";
 import {
   IconUser,
@@ -40,7 +41,6 @@ import {
 import { ReactNode, useState } from "react";
 import { TeamMemberData } from "@/lib/types";
 
-
 // Bloco "reutilizavel" que forma o visual de seção
 // além disso, é usado por todos os outros blocos abaixo. Dentro dele
 import { SectionBlock } from "./SectionBlock";
@@ -60,10 +60,9 @@ interface TeamMemberFormEditorProps {
   tooltip?: ReactNode;
 }
 
-
-export default function TeamMemberFormEditor({ 
-  data, 
-  onChange, 
+export default function TeamMemberFormEditor({
+  data,
+  onChange,
   tooltip,
 }: TeamMemberFormEditorProps) {
   const socialLinks = data.socialLinks || {};
@@ -81,7 +80,13 @@ export default function TeamMemberFormEditor({
         </Group>
       )}
 
-
+      <Switch
+        checked={Boolean(data.is_alumni)}
+        onChange={(e) => onChange("is_alumni", e.currentTarget.checked)}
+        label="É alumni"
+        size="md"
+        color="var(--primary)"
+      />
       {/* Informações Básicas/Iniciais Padrão do membro do TEAM */}
       <SectionBlock icon={<IconUser size={14} />} title="Informações Básicas">
         <SimpleGrid cols={2} spacing="xs">
@@ -127,7 +132,7 @@ export default function TeamMemberFormEditor({
           onChange={(url) => onChange("imageUrl", url)}
         />
       </SectionBlock>
-      
+
       {/* textArea (caixa de texto) para se escrever uma breve descrição do novo membro do TEAM */}
       <SectionBlock icon={<IconBook size={14} />} title="Descrição">
         <Textarea
@@ -162,7 +167,9 @@ export default function TeamMemberFormEditor({
             placeholder="linkedin.com/in/usuario"
             leftSection={<IconBrandLinkedin size={14} />}
             value={socialLinks.linkedin || ""}
-            onChange={(e) => updateSocialLink("linkedin", e.currentTarget.value)}
+            onChange={(e) =>
+              updateSocialLink("linkedin", e.currentTarget.value)
+            }
             size="sm"
           />
           {/* Link do Github */}
@@ -180,7 +187,9 @@ export default function TeamMemberFormEditor({
             placeholder="example.com"
             leftSection={<IconWorld size={14} />}
             value={socialLinks.personalWebsite || ""}
-            onChange={(e) => updateSocialLink("personalWebsite", e.currentTarget.value)}
+            onChange={(e) =>
+              updateSocialLink("personalWebsite", e.currentTarget.value)
+            }
             size="sm"
           />
           {/* Lattes */}
@@ -198,7 +207,9 @@ export default function TeamMemberFormEditor({
             placeholder="scholar.google.com/citations?user=..."
             leftSection={<IconLink size={14} />}
             value={socialLinks.googleScholar || ""}
-            onChange={(e) => updateSocialLink("googleScholar", e.currentTarget.value)}
+            onChange={(e) =>
+              updateSocialLink("googleScholar", e.currentTarget.value)
+            }
             size="sm"
           />
           {/* ORCID */}
@@ -216,9 +227,12 @@ export default function TeamMemberFormEditor({
       {/* Seção com informações "fixas" e adicionáveis. Infos em "placas" */}
 
       {/* Research Interests */}
-      <SectionBlock icon={<IconFlask size={14} />} title="Pesquisas de Interesse">
+      <SectionBlock
+        icon={<IconFlask size={14} />}
+        title="Pesquisas de Interesse"
+      >
         <TagListEditor
-        //possível label com tradução da seção:
+          //possível label com tradução da seção:
           //label="Áreas de interesse"
           values={data.researchInterests || []}
           onChange={(val) => onChange("researchInterests", val)}
@@ -229,7 +243,7 @@ export default function TeamMemberFormEditor({
       {/* Technologies */}
       <SectionBlock icon={<IconCode size={14} />} title="Tecnologias">
         <TagListEditor
-        //possível label com tradução da seção:
+          //possível label com tradução da seção:
           //label="Tecnologias utilizadas"
           values={data.technologies || []}
           onChange={(val) => onChange("technologies", val)}
@@ -240,7 +254,7 @@ export default function TeamMemberFormEditor({
       {/* Knowledge */}
       <SectionBlock icon={<IconBrain size={14} />} title="Conhecimento">
         <TagListEditor
-        //possível label com tradução da seção:
+          //possível label com tradução da seção:
           //label="Áreas de conhecimento"
           values={data.knowledge || []}
           onChange={(val) => onChange("knowledge", val)}

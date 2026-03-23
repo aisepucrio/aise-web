@@ -9,7 +9,6 @@ export const VALID_POSITIONS = [
   "MSc Student",
   "BSc Student",
   "Collaborator",
-  "Alumni",
 ] as const;
 
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -341,6 +340,12 @@ export function validateMemberData(member: TeamMemberData): ValidationResult {
   requireEmail(errors, member.email);
 
   requireEnum(errors, "Position", member.position, VALID_POSITIONS);
+  if (
+    member.is_alumni !== undefined &&
+    typeof member.is_alumni !== "boolean"
+  ) {
+    errors.push("✖ is_alumni: Deve ser booleano (true ou false)");
+  }
 
   if (isBlank(member.imageUrl)) {
     errors.push("✖ Image URL: Campo obrigatório");

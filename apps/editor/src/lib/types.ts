@@ -1,6 +1,7 @@
 export interface TeamMemberData {
   name: string;
   position: string;
+  is_alumni?: boolean;
   university?: string;
   imageUrl: string;
   description: string;

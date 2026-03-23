@@ -11,6 +11,7 @@ export const Tool = z.object({
 export const TeamMember = z.object({
   name: z.string().min(1),
   position: z.string().min(1),
+  is_alumni: z.boolean().optional(),
 }).passthrough();
 
 // Schema para publicação

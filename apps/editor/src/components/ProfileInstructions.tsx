@@ -123,10 +123,32 @@ export default function ProfileInstructions() {
               <Badge variant="outline" color="gray">
                 Collaborator
               </Badge>
-              <Badge variant="outline" color="gray">
-                Alumni
-              </Badge>
             </Group>
+          </List>
+        </Box>
+
+        {/* Alumni */}
+        <Box mb="md">
+          <Group gap="xs" mb={6}>
+            <Text
+              fw={700}
+              size="sm"
+              style={{ color: "var(--mantine-color-dark-8)" }}
+            >
+              É alumni
+            </Text>
+            <Badge size="xs" color="gray">
+              Opcional
+            </Badge>
+          </Group>
+          <List size="sm" spacing={6}>
+            <List.Item>
+              Ative quando a pessoa for alumni do laboratório.
+            </List.Item>
+            <List.Item>
+              Isso não substitui o <Code>Position</Code>; o cargo principal deve
+              continuar preenchido normalmente.
+            </List.Item>
           </List>
         </Box>
 

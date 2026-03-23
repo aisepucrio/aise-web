@@ -1,13 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, Stack, Box, Text, Badge, MantineProvider } from "@mantine/core";
+import {
+  Card,
+  Stack,
+  Box,
+  Text,
+  Badge,
+  Group,
+  MantineProvider,
+} from "@mantine/core";
 import { motion } from "framer-motion";
 
 interface TeamMember {
   name: string;
   imageUrl: string;
   description: string;
+  position?: string;
+  is_alumni?: boolean;
   university?: string;
 }
 
@@ -78,20 +88,37 @@ export const TeamMemberGridItem: React.FC<TeamMemberGridItemProps> = ({
                 {member.name}
               </Text>
 
-              {member.university && (
-                <Badge
-                  size="sm"
-                  color="gray"
-                  variant="light"
-                  style={{
-                    marginTop: 6,
-                    backgroundColor: "#f1f3f5",
-                    color: "#495057",
-                    display: "inline-block",
-                  }}
-                >
-                  {member.university}
-                </Badge>
+              {(member.university || (member.is_alumni && member.position)) && (
+                <Group gap={6} justify="center" mt={6}>
+                  {member.is_alumni && member.position && (
+                    <Badge
+                      size="sm"
+                      color="gray"
+                      variant="light"
+                      style={{
+                        backgroundColor: "#f1f3f5",
+                        color: "#495057",
+                        display: "inline-block",
+                      }}
+                    >
+                      {member.position}
+                    </Badge>
+                  )}
+                  {member.university && (
+                    <Badge
+                      size="sm"
+                      color="gray"
+                      variant="light"
+                      style={{
+                        backgroundColor: "#f1f3f5",
+                        color: "#495057",
+                        display: "inline-block",
+                      }}
+                    >
+                      {member.university}
+                    </Badge>
+                  )}
+                </Group>
               )}
 
               <Text
