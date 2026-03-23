@@ -9,16 +9,10 @@
 
 import {
   Stack,
+  Select,
   TextInput,
   Textarea,
-  Paper,
-  Title,
-  Text,
   Group,
-  Badge,
-  ActionIcon,
-  Button,
-  Divider,
   SimpleGrid,
   Switch,
 } from "@mantine/core";
@@ -30,16 +24,14 @@ import {
   IconWorld,
   IconBook,
   IconCake,
-  IconPhoto,
   IconLink,
-  IconX,
-  IconPlus,
   IconFlask,
   IconCode,
   IconBrain,
 } from "@tabler/icons-react";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { TeamMemberData } from "@/lib/types";
+import { VALID_POSITIONS } from "@/lib/validations";
 
 // Bloco "reutilizavel" que forma o visual de seção
 // além disso, é usado por todos os outros blocos abaixo. Dentro dele
@@ -56,7 +48,10 @@ import ImageUploadButton from "./ImageUploadButton";
 interface TeamMemberFormEditorProps {
   data: TeamMemberData;
   //mudanca aplicada para o tooltipicon
-  onChange: (field: keyof TeamMemberData, value: any) => void;
+  onChange: (
+    field: keyof TeamMemberData,
+    value: TeamMemberData[keyof TeamMemberData]
+  ) => void;
   tooltip?: ReactNode;
 }
 
@@ -99,11 +94,12 @@ export default function TeamMemberFormEditor({
             size="sm"
           />
           {/* Cargo/Posição que o membro do TEAM possui */}
-          <TextInput
+          <Select
             label="Cargo / Posição"
-            placeholder="Ex: Laboratory Head"
+            placeholder="Selecione um cargo"
+            data={VALID_POSITIONS}
             value={data.position || ""}
-            onChange={(e) => onChange("position", e.currentTarget.value)}
+            onChange={(value) => onChange("position", value || "")}
             size="sm"
           />
           {/* Universidade do membro do TEAM */}
