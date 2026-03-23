@@ -4,8 +4,8 @@
 // Pelo que pesquisei, o campo do mantine TextInput aceita qualquer ReactNode na prop do label; 
 
 // O componente FieldLabel faz com que consiga ser um "label composto de mais de 1 item":
-// na pratica, o FieldLabel transforma o label normal: " TITLE ", em: " TITLE     i ", onde i é o tooltipicon
-
+// na pratica, o FieldLabel transforma o label normal: " TITLE ", em: " TITLE     i ", onde i é o tooltipicon4
+// (por exemplo, no label do TextInput)
 
 import { Group, Text } from "@mantine/core";
 import TooltipIcon from "./TooltipIcon";
