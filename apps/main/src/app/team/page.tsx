@@ -39,17 +39,25 @@ const useTeamData = () => {
         if (!res.ok) throw new Error("Falha ao carregar dados");
         const data: TeamData = await res.json();
 
-        // Ordena todos os membros (por position e nome)
-        const sortedMembers = sortTeamMembers(data.team);
+        const activeMembers = sortTeamMembers(
+          data.team.filter((member) => !member.is_alumni)
+        );
+        const alumniMembers = sortTeamMembers(
+          data.team.filter((member) => member.is_alumni)
+        );
 
         // Agrupa mantendo a ordem
         const grouped: GroupedTeam = {};
-        sortedMembers.forEach((m) => {
+        activeMembers.forEach((m) => {
           if (!grouped[m.position]) {
             grouped[m.position] = [];
           }
           grouped[m.position].push(m);
         });
+
+        if (alumniMembers.length > 0) {
+          grouped.Alumni = alumniMembers;
+        }
 
         if (mounted) {
           setTeamData(grouped);
