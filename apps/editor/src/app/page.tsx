@@ -17,7 +17,7 @@ import TeamHomePage from "@/components/home/TeamHomePage";
 import ResearchesHomePage from "@/components/home/ResearchesHomePage";
 import PublicationsHomePage from "@/components/home/PublicationsHomePage";
 import ToolsHomePage from "@/components/home/ToolsHomePage";
-import PublishHomePage from "@/components/home/PublishHomePage";
+import PublishHomePage from "@/components/home/publish/PublishHomePage";
 import { RequireAuth, useAuth } from "@/components/AuthContext";
 
 export default function HomePage() {
