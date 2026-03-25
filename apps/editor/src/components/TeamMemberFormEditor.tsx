@@ -18,6 +18,7 @@ import {
   Button,
   SimpleGrid,
   List,
+  Select,
 } from "@mantine/core";
 import {
   IconUser,
@@ -81,7 +82,7 @@ export default function TeamMemberFormEditor({
             onChange={(e) => onChange("name", e.currentTarget.value)}
             size="sm"
           />
-          <TextInput
+          <Select
             label={
               <FieldLabel
                 text="Cargo / Posição"
@@ -106,9 +107,18 @@ export default function TeamMemberFormEditor({
                 }
               />
             }
-            placeholder="Ex: Laboratory Head"
-            value={data.position || ""}
-            onChange={(e) => onChange("position", e.currentTarget.value)}
+            placeholder="Selecione o cargo / posição"
+            data={[
+              "Laboratory Head",
+              "Postdoctoral Researcher",
+              "PhD Student",
+              "MSc Student",
+              "BSc Student",
+              "Collaborator",
+              "Alumni",
+            ]}
+            value={data.position || null}
+            onChange={(val) => onChange("position", val ?? "")}
             size="sm"
           />
           <TextInput
