@@ -37,6 +37,7 @@ import ImageUploadButton from "./ImageUploadButton";
 interface ResearchFormEditorProps {
   data: ResearchData;
   onChange: (field: keyof ResearchData, value: any) => void;
+  tooltip?: React.ReactNode;
 }
 
 function ProjectItemEditor({

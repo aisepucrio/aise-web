@@ -44,6 +44,7 @@ import ImageUploadButton from "./ImageUploadButton";
 interface TeamMemberFormEditorProps {
   data: TeamMemberData;
   onChange: (field: keyof TeamMemberData, value: any) => void;
+  tooltip?: React.ReactNode;
 }
 
 export default function TeamMemberFormEditor({

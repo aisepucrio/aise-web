@@ -43,6 +43,7 @@ import { FieldLabel } from "./FieldLabel";
 interface ToolFormEditorProps {
   data: ToolData;
   onChange: (field: keyof ToolData, value: any) => void;
+  tooltip?: React.ReactNode;
 }
 
 // Editor de lista de strings — suporta tooltip via FieldLabel
