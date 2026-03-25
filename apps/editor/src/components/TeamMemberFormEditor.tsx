@@ -160,7 +160,31 @@ export default function TeamMemberFormEditor({
           />
         </SimpleGrid>
 
-        {/* Descrição - nova */}
+        {/* Contato - ATT */}
+        <Space h="md" />
+        <TextInput
+          label={
+            <FieldLabel
+              text="Email de contato"
+              tooltip={
+                <Stack gap={4}>
+                  <List size="xs" spacing={4}>
+                    <List.Item>Email válido — identificador único na planilha.</List.Item>
+                    <List.Item>Não pode ser alterado após salvar.</List.Item>
+                    <List.Item>Evite exemplo@example.com ou similares.</List.Item>
+                  </List>
+                </Stack>
+              }
+            />
+          }
+          placeholder="membro@universidade.edu"
+          leftSection={<IconMail size={14} />}
+          value={data.email || ""}
+          onChange={(e) => onChange("email", e.currentTarget.value)}
+          size="sm"
+        />
+
+        {/* Descrição - ATT */}
         <Space h="md" /> 
         <Textarea
           label={
@@ -196,7 +220,7 @@ export default function TeamMemberFormEditor({
         />
       </SectionBlock>
 
-      {/* Descrição -  ANTIGA */}
+      {/* Descrição - ANTIGA */}
       {/*
       <SectionBlock icon={<IconBook size={14} />} title="Descrição" required>
         <Textarea
@@ -226,7 +250,8 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
       */}
 
-      {/* Contato */}
+      {/* Contato - ANTIGO*/}
+      {/*
       <SectionBlock icon={<IconMail size={14} />} title="Contato" required>
         <TextInput
           label={
@@ -250,6 +275,7 @@ export default function TeamMemberFormEditor({
           size="sm"
         />
       </SectionBlock>
+      */}
 
       {/* Redes Sociais */}
       <SectionBlock icon={<IconLink size={14} />} title="Redes Sociais">
