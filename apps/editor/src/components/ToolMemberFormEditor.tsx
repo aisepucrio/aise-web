@@ -169,7 +169,6 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
                 text="ID"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>Identificador único em formato <strong>kebab-case</strong>.</List.Item>
                       <List.Item>Apenas letras minúsculas, números e hífens. Sem espaços.</List.Item>
@@ -190,7 +189,6 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
                 text="Nome"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>Nome legível do tool (3–60 caracteres).</List.Item>
                       <List.Item>Ex.: "AI Content Generator", "Smart Dashboard".</List.Item>
@@ -210,7 +208,6 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
                 text="Tagline"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>Frase curta descrevendo o propósito (10–100 caracteres).</List.Item>
                       <List.Item>Ex.: "Transform data into insights with AI".</List.Item>
@@ -230,7 +227,6 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
                 text="Categoria"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <Text size="xs">Escolha a categoria que melhor se adequa ao tool.</Text>
                     <Text size="xs">Ex.: "Data Analysis", "Content Generation", "Image Processing", "Automation", "Visualization".</Text>
                   </Stack>
@@ -277,7 +273,6 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
                 text="Descrição Curta"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>2–3 sentenças, 50–300 caracteres.</List.Item>
                       <List.Item>Explique o que o tool faz e seu propósito principal.</List.Item>

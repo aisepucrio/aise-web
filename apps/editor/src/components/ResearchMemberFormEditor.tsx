@@ -138,7 +138,6 @@ export default function ResearchFormEditor({
                 text="ID"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>Identificador único em formato <strong>kebab-case</strong>.</List.Item>
                       <List.Item>Apenas letras minúsculas, números e hífens. Sem espaços.</List.Item>
@@ -159,7 +158,6 @@ export default function ResearchFormEditor({
                 text="Nome"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>Nome legível da research line (3–80 caracteres).</List.Item>
                       <List.Item>Ex.: "Artificial Intelligence for Healthcare".</List.Item>
@@ -191,7 +189,6 @@ export default function ResearchFormEditor({
                 text="Descrição Curta"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>2–3 sentenças, mínimo 50 caracteres.</List.Item>
                       <List.Item>Explique o foco principal e objetivo da linha de pesquisa.</List.Item>
@@ -214,7 +211,6 @@ export default function ResearchFormEditor({
                 text="Descrição Longa"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>Mínimo 100 caracteres, idealmente 300–800.</List.Item>
                       <List.Item>Contextualize background, objetivos, metodologias e impacto esperado.</List.Item>

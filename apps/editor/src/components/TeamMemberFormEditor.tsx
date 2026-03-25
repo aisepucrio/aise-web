@@ -67,7 +67,7 @@ export default function TeamMemberFormEditor({
                 text="Nome"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
+                    {/* <Badge size="xs" color="red">Obrigatório</Badge> */}
                     <List size="xs" spacing={4}>
                       <List.Item>Formato <strong>First Last</strong> (sem títulos como Dr., Prof.).</List.Item>
                       <List.Item>Mínimo 3, máximo 100 caracteres.</List.Item>
@@ -88,7 +88,6 @@ export default function TeamMemberFormEditor({
                 text="Cargo / Posição"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="red">Obrigatório</Badge>
                     <Text size="xs">Escolha exatamente um:</Text>
                     <Group gap={4} wrap="wrap">
                       {[
@@ -127,7 +126,6 @@ export default function TeamMemberFormEditor({
                 text="Universidade"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="gray">Opcional</Badge>
                     <List size="xs" spacing={4}>
                       <List.Item>Valor padrão: <strong>PUC-Rio</strong>. Não altere se for da PUC.</List.Item>
                       <List.Item>Caso contrário, insira a sigla da sua instituição.</List.Item>
@@ -148,7 +146,6 @@ export default function TeamMemberFormEditor({
                 text="Data de Nascimento"
                 tooltip={
                   <Stack gap={4}>
-                    <Badge size="xs" color="gray">Opcional</Badge>
                     <Text size="xs">Formato DD/MM/AAAA. Ex.: 25/03/1990.</Text>
                   </Stack>
                 }
@@ -177,7 +174,6 @@ export default function TeamMemberFormEditor({
               text="Descrição"
               tooltip={
                 <Stack gap={4}>
-                  <Badge size="xs" color="red">Obrigatório</Badge>
                   <List size="xs" spacing={4}>
                     <List.Item>50–750 caracteres.</List.Item>
                     <List.Item>Foque em formação, projetos, interesses e experiências.</List.Item>
@@ -206,7 +202,6 @@ export default function TeamMemberFormEditor({
               text="Email"
               tooltip={
                 <Stack gap={4}>
-                  <Badge size="xs" color="red">Obrigatório</Badge>
                   <List size="xs" spacing={4}>
                     <List.Item>Email válido — identificador único na planilha.</List.Item>
                     <List.Item>Não pode ser alterado após salvar.</List.Item>
@@ -319,7 +314,6 @@ export default function TeamMemberFormEditor({
           placeholder="Ex: Artificial Intelligence"
           tooltip={
             <Stack gap={4}>
-              <Badge size="xs" color="red">Obrigatório</Badge>
               <List size="xs" spacing={4}>
                 <List.Item>2–10 itens, em inglês.</List.Item>
                 <List.Item>Ex.: "Machine Learning", "Computer Vision", "NLP".</List.Item>
@@ -337,7 +331,6 @@ export default function TeamMemberFormEditor({
           placeholder="Ex: Python"
           tooltip={
             <Stack gap={4}>
-              <Badge size="xs" color="red">Obrigatório</Badge>
               <List size="xs" spacing={4}>
                 <List.Item>3–15 itens, em inglês.</List.Item>
                 <List.Item>Ex.: "Python", "JavaScript", "TensorFlow", "React", "Docker".</List.Item>
@@ -355,7 +348,6 @@ export default function TeamMemberFormEditor({
           placeholder="Ex: Frontend"
           tooltip={
             <Stack gap={4}>
-              <Badge size="xs" color="red">Obrigatório</Badge>
               <List size="xs" spacing={4}>
                 <List.Item>1–8 áreas, em inglês.</List.Item>
                 <List.Item>Ex.: "Backend Development", "Data Science", "DevOps".</List.Item>
