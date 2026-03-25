@@ -19,6 +19,7 @@ import {
   SimpleGrid,
   List,
   Select,
+  Space,
 } from "@mantine/core";
 import {
   IconUser,
@@ -158,6 +159,35 @@ export default function TeamMemberFormEditor({
             size="sm"
           />
         </SimpleGrid>
+
+        {/* Descrição - nova */}
+        <Space h="md" /> 
+        <Textarea
+          label={
+            <FieldLabel
+              text="Descrição"
+              tooltip={
+                <Stack gap={4}>
+                  <List size="xs" spacing={4}>
+                    <List.Item>50–750 caracteres.</List.Item>
+                    <List.Item>Foque em formação, projetos, interesses e experiências.</List.Item>
+                    <List.Item>Sugestão: <strong>&lt;NAME&gt; is a &lt;POSITION&gt; ...</strong></List.Item>
+                    <List.Item>Ex.: "João Silva is a MSc. Student interested in machine learning..."</List.Item>
+                  </List>
+                </Stack>
+              }
+            />
+          }
+          placeholder="Escreva a descrição do membro..."
+          value={data.description || ""}
+          onChange={(e) => onChange("description", e.currentTarget.value)}
+          autosize
+          minRows={3}
+          maxRows={6}
+          size="sm"
+        />
+        
+
         <ImageUploadButton
           label="URL da Foto"
           description="JPG, JPEG ou PNG. Proporção 3:4 recomendada."
@@ -166,7 +196,8 @@ export default function TeamMemberFormEditor({
         />
       </SectionBlock>
 
-      {/* Descrição */}
+      {/* Descrição -  ANTIGA */}
+      {/*
       <SectionBlock icon={<IconBook size={14} />} title="Descrição" required>
         <Textarea
           label={
@@ -193,6 +224,7 @@ export default function TeamMemberFormEditor({
           size="sm"
         />
       </SectionBlock>
+      */}
 
       {/* Contato */}
       <SectionBlock icon={<IconMail size={14} />} title="Contato" required>
