@@ -12,10 +12,25 @@ import TooltipIcon from "./TooltipIcon";
 import { ReactNode } from "react";
 
 // helper que monta o label com o ℹ inline
-export function FieldLabel({ text, tooltip }: { text: string; tooltip: ReactNode }) {
+export function FieldLabel({ 
+  text, 
+  tooltip, 
+  required = false 
+}: { 
+  text: string; 
+  tooltip: ReactNode; 
+  required?: boolean; 
+}) {
   return (
-    <Group gap={4} wrap="nowrap">
-      <Text size="sm" fw={500}>{text}</Text>
+    <Group justify="space-between" wrap="nowrap">
+      <Text size="sm" fw={500}>
+        {text}
+        {required && (
+          <Text span c="red" ml={5}>
+            *
+          </Text>
+        )}
+      </Text>
       <TooltipIcon position="top">{tooltip}</TooltipIcon>
     </Group>
   );

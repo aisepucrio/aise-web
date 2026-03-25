@@ -60,12 +60,13 @@ export default function TeamMemberFormEditor({
     <Stack gap="md">
 
       {/* Informações Básicas */}
-      <SectionBlock icon={<IconUser size={14} />} title="Informações Básicas" required>
+      <SectionBlock icon={<IconUser size={14} />} title="Informações Básicas">
         <SimpleGrid cols={2} spacing="xs">
           <TextInput
             label={
               <FieldLabel
                 text="Nome"
+                required
                 tooltip={
                   <Stack gap={4}>
                     {/* <Badge size="xs" color="red">Obrigatório</Badge> */}
@@ -87,6 +88,7 @@ export default function TeamMemberFormEditor({
             label={
               <FieldLabel
                 text="Cargo / Posição"
+                required
                 tooltip={
                   <Stack gap={4}>
                     <Text size="xs">Escolha exatamente um:</Text>
@@ -145,6 +147,7 @@ export default function TeamMemberFormEditor({
             label={
               <FieldLabel
                 text="Data de Nascimento"
+                required
                 tooltip={
                   <Stack gap={4}>
                     <Text size="xs">Formato DD/MM/AAAA. Ex.: 25/03/1990.</Text>
@@ -166,6 +169,7 @@ export default function TeamMemberFormEditor({
           label={
             <FieldLabel
               text="Email de contato"
+              required
               tooltip={
                 <Stack gap={4}>
                   <List size="xs" spacing={4}>
@@ -190,6 +194,7 @@ export default function TeamMemberFormEditor({
           label={
             <FieldLabel
               text="Descrição"
+              required
               tooltip={
                 <Stack gap={4}>
                   <List size="xs" spacing={4}>
@@ -211,7 +216,6 @@ export default function TeamMemberFormEditor({
           size="sm"
         />
         
-
         <ImageUploadButton
           label="URL da Foto"
           description="JPG, JPEG ou PNG. Proporção 3:4 recomendada."
