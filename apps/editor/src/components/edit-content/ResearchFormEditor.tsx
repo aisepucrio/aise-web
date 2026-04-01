@@ -200,11 +200,16 @@ export default function ResearchFormEditor({
       <SectionBlock
         icon={<IconFlask size={14} />}
         title="Informações Básicas"
-        required
       >
         <Stack gap="xs">
           <TextInput
-            label={<FieldLabel text="ID" tooltip={RESEARCH_FIELD_TOOLTIPS.id} />}
+            label={
+              <FieldLabel
+                text="ID"
+                tooltip={RESEARCH_FIELD_TOOLTIPS.id}
+                required
+              />
+            }
             placeholder="minha-linha-de-pesquisa"
             value={data.id || ""}
             onChange={(e) => onChange("id", e.currentTarget.value)}
@@ -212,7 +217,11 @@ export default function ResearchFormEditor({
           />
           <TextInput
             label={
-              <FieldLabel text="Nome" tooltip={RESEARCH_FIELD_TOOLTIPS.name} />
+              <FieldLabel
+                text="Nome"
+                tooltip={RESEARCH_FIELD_TOOLTIPS.name}
+                required
+              />
             }
             placeholder="Nome da linha de pesquisa"
             value={data.name || ""}
@@ -222,6 +231,7 @@ export default function ResearchFormEditor({
           <ImageUploadSection
             label="Imagem de Destaque"
             description="JPG, JPEG ou PNG. Proporção 16:9 recomendada."
+            required
             value={data.highlightImageUrl || ""}
             onChange={(url) => onChange("highlightImageUrl", url)}
           />
@@ -232,7 +242,6 @@ export default function ResearchFormEditor({
       <SectionBlock
         icon={<IconAlignLeft size={14} />}
         title="Descrições"
-        required
       >
         <Stack gap="xs">
           <Textarea
@@ -240,6 +249,7 @@ export default function ResearchFormEditor({
               <FieldLabel
                 text="Descrição Curta"
                 tooltip={RESEARCH_FIELD_TOOLTIPS.shortDescription}
+                required
               />
             }
             placeholder="2-3 frases sobre a linha de pesquisa..."
@@ -257,6 +267,7 @@ export default function ResearchFormEditor({
               <FieldLabel
                 text="Descrição Longa"
                 tooltip={RESEARCH_FIELD_TOOLTIPS.longDescription}
+                required
               />
             }
             placeholder="Contexto, objetivos, metodologias e impacto esperado..."

@@ -231,18 +231,29 @@ export default function ToolFormEditor({
       <SectionBlock
         icon={<IconTool size={14} />}
         title="Informações Básicas"
-        required
       >
         <SimpleGrid cols={2} spacing="xs">
           <TextInput
-            label={<FieldLabel text="ID" tooltip={TOOL_FIELD_TOOLTIPS.id} />}
+            label={
+              <FieldLabel
+                text="ID"
+                tooltip={TOOL_FIELD_TOOLTIPS.id}
+                required
+              />
+            }
             placeholder="meu-tool-id"
             value={data.id || ""}
             onChange={(e) => onChange("id", e.currentTarget.value)}
             size="sm"
           />
           <TextInput
-            label={<FieldLabel text="Nome" tooltip={TOOL_FIELD_TOOLTIPS.name} />}
+            label={
+              <FieldLabel
+                text="Nome"
+                tooltip={TOOL_FIELD_TOOLTIPS.name}
+                required
+              />
+            }
             placeholder="Nome da ferramenta"
             value={data.name || ""}
             onChange={(e) => onChange("name", e.currentTarget.value)}
@@ -250,7 +261,11 @@ export default function ToolFormEditor({
           />
           <TextInput
             label={
-              <FieldLabel text="Tagline" tooltip={TOOL_FIELD_TOOLTIPS.tagline} />
+              <FieldLabel
+                text="Tagline"
+                tooltip={TOOL_FIELD_TOOLTIPS.tagline}
+                required
+              />
             }
             placeholder="Frase curta de descrição"
             value={data.tagline || ""}
@@ -262,6 +277,7 @@ export default function ToolFormEditor({
               <FieldLabel
                 text="Categoria"
                 tooltip={TOOL_FIELD_TOOLTIPS.category}
+                required
               />
             }
             placeholder="Ex: Data Science"
@@ -274,10 +290,11 @@ export default function ToolFormEditor({
       </SectionBlock>
 
       {/* Imagens */}
-      <SectionBlock icon={<IconPhoto size={14} />} title="Imagens" required>
+      <SectionBlock icon={<IconPhoto size={14} />} title="Imagens">
         <ImageUploadSection
           label="Imagem de Destaque"
           description="JPG, JPEG ou PNG. Proporção 16:9 recomendada."
+          required
           value={data.highlightImageUrl || ""}
           onChange={(url) => onChange("highlightImageUrl", url)}
         />
@@ -303,7 +320,6 @@ export default function ToolFormEditor({
       <SectionBlock
         icon={<IconAlignLeft size={14} />}
         title="Descrições"
-        required
       >
         <Stack gap="xs">
           <Textarea
@@ -311,6 +327,7 @@ export default function ToolFormEditor({
               <FieldLabel
                 text="Descrição Curta"
                 tooltip={TOOL_FIELD_TOOLTIPS.description}
+                required
               />
             }
             placeholder="2-3 frases sobre o tool..."
@@ -326,6 +343,7 @@ export default function ToolFormEditor({
               <FieldLabel
                 text="Descrição Longa"
                 tooltip={TOOL_FIELD_TOOLTIPS.longDescription}
+                required
               />
             }
             placeholder="Descrição detalhada com contexto, motivação e impacto..."

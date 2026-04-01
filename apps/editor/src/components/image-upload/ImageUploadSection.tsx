@@ -18,6 +18,7 @@ export interface ImageUploadSectionProps {
   onChange: (imageUrl: string) => void;
   label?: string;
   description?: string;
+  required?: boolean;
 }
 
 export default function ImageUploadSection({
@@ -25,6 +26,7 @@ export default function ImageUploadSection({
   onChange,
   label = "Imagem",
   description,
+  required = false,
 }: ImageUploadSectionProps) {
   const [opened, setOpened] = useState(false);
   const imageUrl = value?.trim() || "";
@@ -35,6 +37,11 @@ export default function ImageUploadSection({
       <Stack gap="xs" mt="xs">
         <Text size="sm" fw={500}>
           {label}
+          {required && (
+            <Text component="span" c="red" ml={5}>
+              *
+            </Text>
+          )}
         </Text>
 
         <Paper
