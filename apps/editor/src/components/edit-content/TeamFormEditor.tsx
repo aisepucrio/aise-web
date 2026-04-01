@@ -304,6 +304,7 @@ export default function TeamFormEditor({
         <ImageUploadSection
           label="Foto de Perfil"
           description="Envie uma imagem JPG, JPEG ou PNG. A proporção 3:4 é a mais indicada."
+          required
           value={data.imageUrl || ""}
           onChange={(url) => onChange("imageUrl", url)}
         />
