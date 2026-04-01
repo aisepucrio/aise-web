@@ -151,16 +151,34 @@ export default function EditResearchPage() {
               onChange={(val) => updateField("team_relationships", val)}
               label="Team Relationships"
               showRoles={false}
+              tooltip={
+                <Text size="xs">
+                  Selecione os membros ligados a esta research. Aqui o vínculo
+                  registra apenas quem participa da linha de pesquisa.
+                </Text>
+              }
             />
             <PublicationRelationshipSelector
               value={parsedData.publication_relationships || ""}
               onChange={(val) => updateField("publication_relationships", val)}
               label="Publication Relationships"
+              tooltip={
+                <Text size="xs">
+                  Relacione as publicações conectadas a esta research para
+                  compor as referências e resultados associados.
+                </Text>
+              }
             />
             <ToolRelationshipSelector
               value={parsedData.tool_relationships || ""}
               onChange={(val) => updateField("tool_relationships", val)}
               label="Tool Relationships"
+              tooltip={
+                <Text size="xs">
+                  Vincule os tools que apoiam, derivam ou materializam esta
+                  linha de pesquisa.
+                </Text>
+              }
             />
           </Stack>
         )

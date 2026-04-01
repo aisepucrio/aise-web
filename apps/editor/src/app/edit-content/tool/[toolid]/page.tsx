@@ -176,11 +176,23 @@ export default function EditToolPage() {
               value={parsedData.team_relationships || ""}
               onChange={(val) => updateField("team_relationships", val)}
               label="Team Relationships"
+              tooltip={
+                <Text size="xs">
+                  Selecione os membros envolvidos neste tool e ajuste os papéis
+                  de cada pessoa quando necessário.
+                </Text>
+              }
             />
             <PublicationRelationshipSelector
               value={parsedData.publication_relationships || ""}
               onChange={(val) => updateField("publication_relationships", val)}
               label="Publication Relationships"
+              tooltip={
+                <Text size="xs">
+                  Relacione publicações que documentam, fundamentam ou citam
+                  este tool.
+                </Text>
+              }
             />
           </Stack>
         )

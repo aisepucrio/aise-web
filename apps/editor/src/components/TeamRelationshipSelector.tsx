@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import {
   Box,
   Group,
@@ -22,6 +22,7 @@ import {
   IconTrash,
   IconAlertCircle,
 } from "@tabler/icons-react";
+import { SectionBlock } from "./SectionBlock";
 
 interface TeamMember {
   name: string;
@@ -39,6 +40,7 @@ interface TeamRelationshipSelectorProps {
   onChange: (value: Array<{ name: string; roles: string[] }>) => void; // Retorna array
   label?: string;
   showRoles?: boolean; // Se false, não mostra seleção de roles
+  tooltip?: ReactNode;
 }
 
 export default function TeamRelationshipSelector({
@@ -46,6 +48,7 @@ export default function TeamRelationshipSelector({
   onChange,
   label = "Team Relationships",
   showRoles = true,
+  tooltip,
 }: TeamRelationshipSelectorProps) {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [relationships, setRelationships] = useState<TeamRelationship[]>([]);
@@ -152,35 +155,13 @@ export default function TeamRelationshipSelector({
     updateValue(newRels);
   };
 
-  if (loading) {
-    return (
-      <Paper p="md" radius="lg" withBorder>
-        <Center py="xl">
-          <Loader size="md" color="var(--primary)" />
-        </Center>
-      </Paper>
-    );
-  }
-
-  if (error) {
-    return (
-      <Alert icon={<IconAlertCircle />} title="Erro" color="red" radius="lg">
-        {error}
-      </Alert>
-    );
-  }
-
   return (
-    <Paper p="md" radius="lg" withBorder>
-      <Stack gap="md">
-        {/* Header */}
-        <Group justify="space-between">
-          <Group gap="xs">
-            <IconUsers size={20} color="var(--primary)" />
-            <Text size="sm" fw={600} c="var(--primary)">
-              {label}
-            </Text>
-          </Group>
+    <SectionBlock
+      icon={<IconUsers size={14} />}
+      title={label}
+      tooltip={tooltip}
+      headerRight={
+        !loading && !error ? (
           <Button
             size="xs"
             leftSection={<IconPlus size={16} />}
@@ -190,121 +171,128 @@ export default function TeamRelationshipSelector({
           >
             Adicionar Membro
           </Button>
-        </Group>
+        ) : null
+      }
+    >
+      {loading ? (
+        <Center py="xl">
+          <Loader size="md" color="var(--primary)" />
+        </Center>
+      ) : error ? (
+        <Alert icon={<IconAlertCircle />} title="Erro" color="red" radius="lg">
+          {error}
+        </Alert>
+      ) : (
+        <Stack gap="md">
+          {conflicts.length > 0 && (
+            <Alert
+              icon={<IconAlertCircle />}
+              title="Conflito Detectado"
+              color="orange"
+              radius="lg"
+            >
+              <Text size="sm">
+                Os seguintes membros não existem mais na planilha de Team:
+              </Text>
+              <Stack gap="xs" mt="xs">
+                {conflicts.map((name, idx) => (
+                  <Badge key={idx} color="orange" variant="light">
+                    {name}
+                  </Badge>
+                ))}
+              </Stack>
+              <Text size="sm" mt="xs">
+                Remova-os ou atualize com nomes válidos.
+              </Text>
+            </Alert>
+          )}
 
-        {/* Alerta de conflitos */}
-        {conflicts.length > 0 && (
-          <Alert
-            icon={<IconAlertCircle />}
-            title="Conflito Detectado"
-            color="orange"
-            radius="lg"
-          >
-            <Text size="sm">
-              Os seguintes membros não existem mais na planilha de Team:
+          {relationships.length === 0 ? (
+            <Text size="sm" c="dimmed" ta="center" py="md">
+              Nenhum membro adicionado. Clique em "Adicionar Membro" para
+              começar.
             </Text>
-            <Stack gap="xs" mt="xs">
-              {conflicts.map((name, idx) => (
-                <Badge key={idx} color="orange" variant="light">
-                  {name}
-                </Badge>
-              ))}
-            </Stack>
-            <Text size="sm" mt="xs">
-              Remova-os ou atualize com nomes válidos.
-            </Text>
-          </Alert>
-        )}
+          ) : (
+            <Stack gap="md">
+              {relationships.map((rel, index) => {
+                const member = teamMembers.find((m) => m.name === rel.name);
+                const availableRoles = member?.knowledge || [];
+                const hasConflict = conflicts.includes(rel.name);
 
-        {/* Lista de relacionamentos */}
-        {relationships.length === 0 ? (
-          <Text size="sm" c="dimmed" ta="center" py="md">
-            Nenhum membro adicionado. Clique em "Adicionar Membro" para começar.
-          </Text>
-        ) : (
-          <Stack gap="md">
-            {relationships.map((rel, index) => {
-              const member = teamMembers.find((m) => m.name === rel.name);
-              const availableRoles = member?.knowledge || [];
-              const hasConflict = conflicts.includes(rel.name);
-
-              return (
-                <Paper
-                  key={index}
-                  p="sm"
-                  radius="lg"
-                  withBorder
-                  style={{
-                    borderColor: hasConflict ? "#fd7e14" : undefined,
-                  }}
-                >
-                  <Group align="flex-start" wrap="nowrap">
-                    <Stack gap="xs" style={{ flex: 1 }}>
-                      {/* Seleção de membro */}
-                      <Select
-                        placeholder="Selecione um membro"
-                        data={teamMembers.map((m) => ({
-                          value: m.name,
-                          label: `${m.name} (${m.email})`,
-                        }))}
-                        value={rel.name || null}
-                        onChange={(val) => handleNameChange(index, val || "")}
-                        searchable
-                        error={
-                          hasConflict ? "Membro não encontrado" : undefined
-                        }
-                        styles={{
-                          option: { color: "#000" }, // texto das opções
-                          input: { color: "#000" }, // texto selecionado no input
-                        }}
-                      />
-
-                      {/* Seleção de roles (apenas se membro válido e showRoles = true) */}
-                      {showRoles && rel.name && !hasConflict && (
-                        <MultiSelect
-                          placeholder="Selecione os cargos/roles"
-                          data={availableRoles}
-                          value={rel.roles}
-                          onChange={(vals) => handleRolesChange(index, vals)}
+                return (
+                  <Paper
+                    key={index}
+                    p="sm"
+                    radius="lg"
+                    withBorder
+                    style={{
+                      borderColor: hasConflict ? "#fd7e14" : undefined,
+                    }}
+                  >
+                    <Group align="flex-start" wrap="nowrap">
+                      <Stack gap="xs" style={{ flex: 1 }}>
+                        <Select
+                          placeholder="Selecione um membro"
+                          data={teamMembers.map((m) => ({
+                            value: m.name,
+                            label: `${m.name} (${m.email})`,
+                          }))}
+                          value={rel.name || null}
+                          onChange={(val) => handleNameChange(index, val || "")}
                           searchable
-                          description={
-                            availableRoles.length === 0
-                              ? "Este membro não tem knowledge cadastrada"
-                              : `${availableRoles.length} knowledge(s) disponível(is)`
+                          error={
+                            hasConflict ? "Membro não encontrado" : undefined
                           }
                           styles={{
-                            option: { color: "#000" }, // texto das opções
-                            input: { color: "#000" }, // texto selecionado no input
+                            option: { color: "#000" },
+                            input: { color: "#000" },
                           }}
                         />
-                      )}
-                    </Stack>
 
-                    {/* Botão de remover */}
-                    <ActionIcon
-                      color="red"
-                      variant="light"
-                      onClick={() => handleRemoveRelationship(index)}
-                      size="lg"
-                    >
-                      <IconTrash size={18} />
-                    </ActionIcon>
-                  </Group>
-                </Paper>
-              );
-            })}
-          </Stack>
-        )}
+                        {showRoles && rel.name && !hasConflict && (
+                          <MultiSelect
+                            placeholder="Selecione os cargos/roles"
+                            data={availableRoles}
+                            value={rel.roles}
+                            onChange={(vals) => handleRolesChange(index, vals)}
+                            searchable
+                            description={
+                              availableRoles.length === 0
+                                ? "Este membro não tem knowledge cadastrada"
+                                : `${availableRoles.length} knowledge(s) disponível(is)`
+                            }
+                            styles={{
+                              option: { color: "#000" },
+                              input: { color: "#000" },
+                            }}
+                          />
+                        )}
+                      </Stack>
 
-        {/* Preview do valor */}
-        {relationships.length > 0 && (
-          <Box>
-            <Text size="xs" c="dimmed">
-              {relationships.length} membro(s) selecionado(s)
-            </Text>
-          </Box>
-        )}
-      </Stack>
-    </Paper>
+                      <ActionIcon
+                        color="red"
+                        variant="light"
+                        onClick={() => handleRemoveRelationship(index)}
+                        size="lg"
+                      >
+                        <IconTrash size={18} />
+                      </ActionIcon>
+                    </Group>
+                  </Paper>
+                );
+              })}
+            </Stack>
+          )}
+
+          {relationships.length > 0 && (
+            <Box>
+              <Text size="xs" c="dimmed">
+                {relationships.length} membro(s) selecionado(s)
+              </Text>
+            </Box>
+          )}
+        </Stack>
+      )}
+    </SectionBlock>
   );
 }
