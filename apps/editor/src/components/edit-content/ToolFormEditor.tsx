@@ -28,7 +28,7 @@ import { ReactNode, useState } from "react";
 import { ToolData } from "@/lib/types";
 
 import { SectionBlock } from "../SectionBlock";
-import ImageUploadButton from "../ImageUploadButton";
+import ImageUploadSection from "../image-upload/ImageUploadSection";
 
 import { FieldLabel } from "../FieldLabel";
 
@@ -386,7 +386,7 @@ export default function ToolFormEditor({
 
       {/* Imagens */}
       <SectionBlock icon={<IconPhoto size={14} />} title="Imagens" required>
-        <ImageUploadButton
+        <ImageUploadSection
           label="Imagem de Destaque"
           description="JPG, JPEG ou PNG. Proporção 16:9 recomendada."
           value={data.highlightImageUrl || ""}

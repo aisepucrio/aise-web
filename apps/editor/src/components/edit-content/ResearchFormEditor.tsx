@@ -24,7 +24,7 @@ import { ResearchData } from "@/lib/types";
 
 import { SectionBlock } from "../SectionBlock";
 import { FieldLabel } from "../FieldLabel";
-import ImageUploadButton from "../ImageUploadButton";
+import ImageUploadSection from "../image-upload/ImageUploadSection";
 
 const RESEARCH_FIELD_TOOLTIPS = {
   projectName: (
@@ -139,7 +139,7 @@ function ProjectItemEditor({
           onChange={(e) => onChange(index, "name", e.currentTarget.value)}
           size="xs"
         />
-        <ImageUploadButton
+        <ImageUploadSection
           label="Imagem do Projeto"
           description="JPG, JPEG ou PNG."
           value={project.imageUrl || ""}
@@ -219,7 +219,7 @@ export default function ResearchFormEditor({
             onChange={(e) => onChange("name", e.currentTarget.value)}
             size="sm"
           />
-          <ImageUploadButton
+          <ImageUploadSection
             label="Imagem de Destaque"
             description="JPG, JPEG ou PNG. Proporção 16:9 recomendada."
             value={data.highlightImageUrl || ""}

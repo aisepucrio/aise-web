@@ -30,7 +30,7 @@ import { SectionBlock } from "../SectionBlock";
 import { TagListEditor } from "../TagListEditor";
 import { FieldLabel } from "../FieldLabel";
 import Tooltip from "../Tooltip";
-import ImageUploadButton from "../ImageUploadButton";
+import ImageUploadSection from "../image-upload/ImageUploadSection";
 
 const TEAM_FIELD_TOOLTIPS = {
   name: (
@@ -301,7 +301,7 @@ export default function TeamFormEditor({
           size="sm"
         />
 
-        <ImageUploadButton
+        <ImageUploadSection
           label="Foto de Perfil"
           description="Envie uma imagem JPG, JPEG ou PNG. A proporção 3:4 é a mais indicada."
           value={data.imageUrl || ""}
