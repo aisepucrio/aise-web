@@ -7,7 +7,6 @@ import {
   Paper,
   Text,
   Group,
-  Badge,
   ActionIcon,
   Button,
   Divider,
@@ -79,12 +78,19 @@ const RESEARCH_FIELD_TOOLTIPS = {
   ),
   projects: (
     <Stack gap={4}>
-      <Badge size="xs" color="gray">
-        Opcional
-      </Badge>
       <List size="xs" spacing={4}>
-        <List.Item>1–6 projetos recomendado.</List.Item>
-        <List.Item>Cada projeto tem nome, imagem e descrição.</List.Item>
+        <List.Item>
+          Use esta seção para registrar os projetos que fazem parte desta linha
+          de pesquisa ou que ajudam a materializar seus objetivos.
+        </List.Item>
+        <List.Item>
+          Cada projeto pode incluir nome, imagem e uma descrição curta sobre o
+          foco, a entrega ou o problema que ele aborda.
+        </List.Item>
+        <List.Item>
+          Prefira listar iniciativas concretas e distintas, evitando itens
+          genéricos ou repetidos.
+        </List.Item>
       </List>
     </Stack>
   ),
@@ -282,12 +288,12 @@ export default function ResearchFormEditor({
       </SectionBlock>
 
       {/* Projects */}
-      <SectionBlock icon={<IconFolder size={14} />} title="Projetos" required>
+      <SectionBlock
+        icon={<IconFolder size={14} />}
+        title="Projetos"
+        tooltip={RESEARCH_FIELD_TOOLTIPS.projects}
+      >
         <Stack gap="sm">
-          <FieldLabel
-            text="Projetos"
-            tooltip={RESEARCH_FIELD_TOOLTIPS.projects}
-          />
           {projects.length === 0 && (
             <Text size="xs" c="dimmed" ta="center" py="xs">
               Nenhum projeto adicionado ainda.
