@@ -42,7 +42,7 @@ export const EXAMPLE_TOOL = {
   longDescription:
     "A detailed description explaining the tool's background, motivation, key features, and impact. This can be several paragraphs long and provide comprehensive context about the project.",
   category: "Data Science",
-  highlightImageUrl: "https://imgbox.com/V1F45enR",
+  highlightImageUrl: "https://images2.imgbox.com/06/9d/V1F45enR_o.jpg",
   galleryImagesUrl: [
     "https://images2.imgbox.com/06/9d/V1F45enR_o.jpg",
     "https://images2.imgbox.com/06/9d/V1F45enR_o.jpg",
@@ -62,12 +62,6 @@ export const EXAMPLE_TOOL = {
   techStack: ["Next.js", "TypeScript", "Python", "PostgreSQL"],
   team_relationships: [],
   publication_relationships: [],
-  links: {
-    webapp: "example.com",
-    github: "github.com/example/repo",
-    api: "api.example.com",
-    docs: "docs.example.com",
-  },
 } as const;
 
 export const EXAMPLE_RESEARCH = {
