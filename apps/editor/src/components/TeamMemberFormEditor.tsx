@@ -15,12 +15,9 @@ import {
   Text,
   Group,
   Badge,
-  ActionIcon,
-  Button,
   SimpleGrid,
   Switch,
   List,
-  Select,
   Space,
 } from "@mantine/core";
 import {
@@ -29,26 +26,25 @@ import {
   IconBrandLinkedin,
   IconBrandGithub,
   IconWorld,
-  IconBook,
   IconCake,
   IconLink,
   IconFlask,
   IconCode,
   IconBrain,
 } from "@tabler/icons-react";
-import { ReactNode } from "react";
 import { TeamMemberData } from "@/lib/types";
 import { VALID_POSITIONS } from "@/lib/validations";
 import { SectionBlock } from "./SectionBlock";
 import { TagListEditor } from "./TagListEditor";
 import { FieldLabel } from "./FieldLabel";
 import ImageUploadButton from "./ImageUploadButton";
+import TooltipIcon from "./TooltipIcon";
 
 interface TeamMemberFormEditorProps {
   data: TeamMemberData;
   onChange: (
     field: keyof TeamMemberData,
-    value: TeamMemberData[keyof TeamMemberData]
+    value: TeamMemberData[keyof TeamMemberData],
   ) => void;
   tooltip?: React.ReactNode;
 }
@@ -92,9 +88,14 @@ export default function TeamMemberFormEditor({
                   <Stack gap={4}>
                     {/* <Badge size="xs" color="red">Obrigatório</Badge> */}
                     <List size="xs" spacing={4}>
-                      <List.Item>Formato <strong>First Last</strong> (sem títulos como Dr., Prof.).</List.Item>
+                      <List.Item>
+                        Formato <strong>First Last</strong> (sem títulos como
+                        Dr., Prof.).
+                      </List.Item>
                       <List.Item>Mínimo 3, máximo 100 caracteres.</List.Item>
-                      <List.Item>Ex.: "João Silva". Evite apelidos ou apenas iniciais.</List.Item>
+                      <List.Item>
+                        Ex.: "João Silva". Evite apelidos ou apenas iniciais.
+                      </List.Item>
                     </List>
                   </Stack>
                 }
@@ -106,12 +107,6 @@ export default function TeamMemberFormEditor({
             size="sm"
           />
           {/* Cargo/Posição que o membro do TEAM possui */}
-          <Select
-            label="Cargo / Posição"
-            placeholder="Selecione um cargo"
-            data={VALID_POSITIONS}
-            value={data.position || ""}
-            onChange={(value) => onChange("position", value || "")}
           <Select
             label={
               <FieldLabel
@@ -130,7 +125,9 @@ export default function TeamMemberFormEditor({
                         "Collaborator",
                         "Alumni",
                       ].map((p) => (
-                        <Badge key={p} size="xs" variant="outline" color="gray">{p}</Badge>
+                        <Badge key={p} size="xs" variant="outline" color="gray">
+                          {p}
+                        </Badge>
                       ))}
                     </Group>
                   </Stack>
@@ -138,15 +135,7 @@ export default function TeamMemberFormEditor({
               />
             }
             placeholder="Selecione o cargo / posição"
-            data={[
-              "Laboratory Head",
-              "Postdoctoral Researcher",
-              "PhD Student",
-              "MSc Student",
-              "BSc Student",
-              "Collaborator",
-              "Alumni",
-            ]}
+            data={VALID_POSITIONS}
             value={data.position || null}
             onChange={(val) => onChange("position", val ?? "")}
             size="sm"
@@ -158,8 +147,13 @@ export default function TeamMemberFormEditor({
                 tooltip={
                   <Stack gap={4}>
                     <List size="xs" spacing={4}>
-                      <List.Item>Valor padrão: <strong>PUC-Rio</strong>. Não altere se for da PUC.</List.Item>
-                      <List.Item>Caso contrário, insira a sigla da sua instituição.</List.Item>
+                      <List.Item>
+                        Valor padrão: <strong>PUC-Rio</strong>. Não altere se
+                        for da PUC.
+                      </List.Item>
+                      <List.Item>
+                        Caso contrário, insira a sigla da sua instituição.
+                      </List.Item>
                       <List.Item>Ex.: UERJ, UFRJ, MIT.</List.Item>
                     </List>
                   </Stack>
@@ -201,9 +195,13 @@ export default function TeamMemberFormEditor({
               tooltip={
                 <Stack gap={4}>
                   <List size="xs" spacing={4}>
-                    <List.Item>Email válido — identificador único na planilha.</List.Item>
+                    <List.Item>
+                      Email válido — identificador único na planilha.
+                    </List.Item>
                     <List.Item>Não pode ser alterado após salvar.</List.Item>
-                    <List.Item>Evite exemplo@example.com ou similares.</List.Item>
+                    <List.Item>
+                      Evite exemplo@example.com ou similares.
+                    </List.Item>
                   </List>
                 </Stack>
               }
@@ -217,7 +215,7 @@ export default function TeamMemberFormEditor({
         />
 
         {/* Descrição - ATT */}
-        <Space h="md" /> 
+        <Space h="md" />
         <Textarea
           label={
             <FieldLabel
@@ -227,9 +225,17 @@ export default function TeamMemberFormEditor({
                 <Stack gap={4}>
                   <List size="xs" spacing={4}>
                     <List.Item>50–750 caracteres.</List.Item>
-                    <List.Item>Foque em formação, projetos, interesses e experiências.</List.Item>
-                    <List.Item>Sugestão: <strong>&lt;NAME&gt; is a &lt;POSITION&gt; ...</strong></List.Item>
-                    <List.Item>Ex.: "João Silva is a MSc. Student interested in machine learning..."</List.Item>
+                    <List.Item>
+                      Foque em formação, projetos, interesses e experiências.
+                    </List.Item>
+                    <List.Item>
+                      Sugestão:{" "}
+                      <strong>&lt;NAME&gt; is a &lt;POSITION&gt; ...</strong>
+                    </List.Item>
+                    <List.Item>
+                      Ex.: "João Silva is a MSc. Student interested in machine
+                      learning..."
+                    </List.Item>
                   </List>
                 </Stack>
               }
@@ -243,7 +249,7 @@ export default function TeamMemberFormEditor({
           maxRows={6}
           size="sm"
         />
-        
+
         <ImageUploadButton
           label="URL da Foto"
           description="JPG, JPEG ou PNG. Proporção 3:4 recomendada."
@@ -362,7 +368,9 @@ export default function TeamMemberFormEditor({
             label={
               <FieldLabel
                 text="Lattes"
-                tooltip={<Text size="xs">Ex.: lattes.cnpq.br/1234567890123456.</Text>}
+                tooltip={
+                  <Text size="xs">Ex.: lattes.cnpq.br/1234567890123456.</Text>
+                }
               />
             }
             placeholder="lattes.cnpq.br/..."
@@ -375,7 +383,11 @@ export default function TeamMemberFormEditor({
             label={
               <FieldLabel
                 text="Google Scholar"
-                tooltip={<Text size="xs">Ex.: scholar.google.com/citations?user=XXXXX.</Text>}
+                tooltip={
+                  <Text size="xs">
+                    Ex.: scholar.google.com/citations?user=XXXXX.
+                  </Text>
+                }
               />
             }
             placeholder="scholar.google.com/citations?user=..."
@@ -390,7 +402,9 @@ export default function TeamMemberFormEditor({
             label={
               <FieldLabel
                 text="ORCID"
-                tooltip={<Text size="xs">Ex.: orcid.org/0000-0000-0000-0000.</Text>}
+                tooltip={
+                  <Text size="xs">Ex.: orcid.org/0000-0000-0000-0000.</Text>
+                }
               />
             }
             placeholder="orcid.org/0000-0000-0000-0000"
@@ -403,9 +417,13 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Research Interests */}
-      <SectionBlock icon={<IconFlask size={14} />} title="Pesquisas de Interesse" required>
+      <SectionBlock
+        icon={<IconFlask size={14} />}
+        title="Pesquisas de Interesse"
+        required
+      >
         <TagListEditor
-        //possível label com tradução da seção:
+          //possível label com tradução da seção:
           //label="Áreas de interesse"
           values={data.researchInterests || []}
           onChange={(val) => onChange("researchInterests", val)}
@@ -414,7 +432,9 @@ export default function TeamMemberFormEditor({
             <Stack gap={4}>
               <List size="xs" spacing={4}>
                 <List.Item>2–10 itens, em inglês.</List.Item>
-                <List.Item>Ex.: "Machine Learning", "Computer Vision", "NLP".</List.Item>
+                <List.Item>
+                  Ex.: "Machine Learning", "Computer Vision", "NLP".
+                </List.Item>
               </List>
             </Stack>
           }
@@ -424,7 +444,7 @@ export default function TeamMemberFormEditor({
       {/* Technologies */}
       <SectionBlock icon={<IconCode size={14} />} title="Tecnologias" required>
         <TagListEditor
-        //possível label com tradução da seção:
+          //possível label com tradução da seção:
           //label="Tecnologias utilizadas"
           values={data.technologies || []}
           onChange={(val) => onChange("technologies", val)}
@@ -433,7 +453,9 @@ export default function TeamMemberFormEditor({
             <Stack gap={4}>
               <List size="xs" spacing={4}>
                 <List.Item>3–15 itens, em inglês.</List.Item>
-                <List.Item>Ex.: "Python", "JavaScript", "TensorFlow", "React", "Docker".</List.Item>
+                <List.Item>
+                  Ex.: "Python", "JavaScript", "TensorFlow", "React", "Docker".
+                </List.Item>
               </List>
             </Stack>
           }
@@ -441,9 +463,13 @@ export default function TeamMemberFormEditor({
       </SectionBlock>
 
       {/* Knowledge */}
-      <SectionBlock icon={<IconBrain size={14} />} title="Conhecimento" required>
+      <SectionBlock
+        icon={<IconBrain size={14} />}
+        title="Conhecimento"
+        required
+      >
         <TagListEditor
-        //possível label com tradução da seção:
+          //possível label com tradução da seção:
           //label="Áreas de conhecimento"
           values={data.knowledge || []}
           onChange={(val) => onChange("knowledge", val)}
@@ -452,7 +478,9 @@ export default function TeamMemberFormEditor({
             <Stack gap={4}>
               <List size="xs" spacing={4}>
                 <List.Item>1–8 áreas, em inglês.</List.Item>
-                <List.Item>Ex.: "Backend Development", "Data Science", "DevOps".</List.Item>
+                <List.Item>
+                  Ex.: "Backend Development", "Data Science", "DevOps".
+                </List.Item>
               </List>
             </Stack>
           }
