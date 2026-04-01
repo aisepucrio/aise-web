@@ -195,7 +195,7 @@ export default function ImageUploadButton({
           style={{ borderColor: "var(--mantine-color-gray-3)" }}
         >
           <Group justify="space-between" align="center" wrap="nowrap">
-            <Group gap="sm" wrap="nowrap">
+            <Group gap="sm" wrap="nowrap" style={{ flex: 1, minWidth: 0 }}>
               <ThemeIcon
                 size="lg"
                 radius="xl"
@@ -221,9 +221,10 @@ export default function ImageUploadButton({
               variant="light"
               color="var(--primary)"
               leftSection={<IconPhoto size={16} />}
+              style={{ flexShrink: 0 }}
               onClick={() => setOpened(true)}
             >
-              Selecionar imagem
+              Selecionar
             </Button>
           </Group>
         </Paper>
