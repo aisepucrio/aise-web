@@ -7,12 +7,14 @@ export function SectionBlock({
   title,
   required,
   tooltip,
+  headerRight,
   children,
 }: {
   icon: ReactNode;
   title: string;
   required?: boolean;
   tooltip?: ReactNode;
+  headerRight?: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -27,10 +29,15 @@ export function SectionBlock({
         {required && (
           <Text span size="sm" c="red" fw={700}>*</Text>
         )}
-        {tooltip && (
-          <Box ml="auto">
-            <Tooltip position="top">{tooltip}</Tooltip>
-          </Box>
+        {(tooltip || headerRight) && (
+          <Group gap="xs" ml="auto" wrap="nowrap">
+            {headerRight}
+            {tooltip && (
+              <Box>
+                <Tooltip position="top">{tooltip}</Tooltip>
+              </Box>
+            )}
+          </Group>
         )}
       </Group>
       {children}

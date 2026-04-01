@@ -7,7 +7,6 @@ import {
   Textarea,
   Text,
   Group,
-  Badge,
   SimpleGrid,
   Switch,
   List,
@@ -30,6 +29,7 @@ import { VALID_POSITIONS } from "@/lib/validations";
 import { SectionBlock } from "../SectionBlock";
 import { TagListEditor } from "../TagListEditor";
 import { FieldLabel } from "../FieldLabel";
+import Tooltip from "../Tooltip";
 import ImageUploadButton from "../ImageUploadButton";
 
 const TEAM_FIELD_TOOLTIPS = {
@@ -37,9 +37,10 @@ const TEAM_FIELD_TOOLTIPS = {
     <Stack gap={4}>
       <List size="xs" spacing={4}>
         <List.Item>
-          Formato <strong>First Last</strong> (sem títulos como Dr., Prof.).
+          Informe seu nome no formato <strong>First Last</strong>, sem títulos
+          como Dr. ou Prof.
         </List.Item>
-        <List.Item>Mínimo 3, máximo 100 caracteres.</List.Item>
+        <List.Item>Use entre 3 e 100 caracteres.</List.Item>
         <List.Item>
           Ex.: "João Silva". Evite apelidos ou apenas iniciais.
         </List.Item>
@@ -48,24 +49,19 @@ const TEAM_FIELD_TOOLTIPS = {
   ),
   position: (
     <Stack gap={4}>
-      <Text size="xs">Escolha exatamente um:</Text>
-      <Group gap={4} wrap="wrap">
-        {VALID_POSITIONS.map((position) => (
-          <Badge key={position} size="xs" variant="outline" color="gray">
-            {position}
-          </Badge>
-        ))}
-      </Group>
+      <Text size="xs">
+        Selecione sua posição no time entre as opções disponíveis.
+      </Text>
     </Stack>
   ),
   university: (
     <Stack gap={4}>
       <List size="xs" spacing={4}>
         <List.Item>
-          Valor padrão: <strong>PUC-Rio</strong>. Não altere se for da PUC.
+          Se você é da <strong>PUC-Rio</strong>, pode manter o valor padrão.
         </List.Item>
         <List.Item>
-          Caso contrário, insira a sigla da sua instituição.
+          Se não for, informe a sigla da sua instituição.
         </List.Item>
         <List.Item>Ex.: UERJ, UFRJ, MIT.</List.Item>
       </List>
@@ -73,27 +69,30 @@ const TEAM_FIELD_TOOLTIPS = {
   ),
   birthday: (
     <Stack gap={4}>
-      <Text size="xs">Formato DD/MM/AAAA. Ex.: 25/03/1990.</Text>
+      <Text size="xs">
+        Informe a data usada para aniversário no formato DD/MM/AAAA.
+      </Text>
     </Stack>
   ),
   email: (
     <Stack gap={4}>
       <List size="xs" spacing={4}>
-        <List.Item>Email válido — identificador único na planilha.</List.Item>
-        <List.Item>Não pode ser alterado após salvar.</List.Item>
-        <List.Item>Evite exemplo@example.com ou similares.</List.Item>
+        <List.Item>Informe um email válido como seu identificador único.</List.Item>
+        <List.Item>Esse email aparece no site, então escolha com critério.</List.Item>
+        <List.Item>Depois de salvar, você não poderá alterá-lo.</List.Item>
       </List>
     </Stack>
   ),
   description: (
     <Stack gap={4}>
       <List size="xs" spacing={4}>
-        <List.Item>50–750 caracteres.</List.Item>
+        <List.Item>Escreva entre 50 e 750 caracteres.</List.Item>
         <List.Item>
-          Foque em formação, projetos, interesses e experiências.
+          Foque na sua formação, nos seus projetos, interesses e experiências.
         </List.Item>
         <List.Item>
-          Sugestão: <strong>&lt;NAME&gt; is a &lt;POSITION&gt; ...</strong>
+          Você pode seguir algo como{" "}
+          <strong>&lt;NAME&gt; is a &lt;POSITION&gt; ...</strong>
         </List.Item>
         <List.Item>
           Ex.: "João Silva is a MSc. Student interested in machine learning..."
@@ -101,18 +100,28 @@ const TEAM_FIELD_TOOLTIPS = {
       </List>
     </Stack>
   ),
-  linkedin: <Text size="xs">Ex.: linkedin.com/in/usuario.</Text>,
-  github: <Text size="xs">Ex.: github.com/usuario.</Text>,
-  personalWebsite: <Text size="xs">Ex.: example.com.</Text>,
-  lattes: <Text size="xs">Ex.: lattes.cnpq.br/1234567890123456.</Text>,
-  googleScholar: (
-    <Text size="xs">Ex.: scholar.google.com/citations?user=XXXXX.</Text>
+  socialLinks: (
+    <Stack gap={4}>
+      <List size="xs" spacing={4}>
+        <List.Item>Todos os campos desta seção são opcionais.</List.Item>
+        <List.Item>
+          Se quiser, adicione seu link ou identificador público em cada
+          plataforma.
+        </List.Item>
+        <List.Item>
+          Use os placeholders de cada campo como referência de formato.
+        </List.Item>
+      </List>
+    </Stack>
   ),
-  orcid: <Text size="xs">Ex.: orcid.org/0000-0000-0000-0000.</Text>,
   researchInterests: (
     <Stack gap={4}>
       <List size="xs" spacing={4}>
-        <List.Item>2–10 itens, em inglês.</List.Item>
+        <List.Item>Adicione de 2 a 10 interesses de pesquisa, em inglês.</List.Item>
+        <List.Item>
+          Inclua temas e áreas que você pesquisa ou quer pesquisar mais a
+          fundo.
+        </List.Item>
         <List.Item>
           Ex.: "Machine Learning", "Computer Vision", "NLP".
         </List.Item>
@@ -122,7 +131,11 @@ const TEAM_FIELD_TOOLTIPS = {
   technologies: (
     <Stack gap={4}>
       <List size="xs" spacing={4}>
-        <List.Item>3–15 itens, em inglês.</List.Item>
+        <List.Item>Adicione de 3 a 15 tecnologias, em inglês.</List.Item>
+        <List.Item>
+          Liste ferramentas, linguagens, frameworks, bibliotecas e plataformas
+          que você usa no seu trabalho.
+        </List.Item>
         <List.Item>
           Ex.: "Python", "JavaScript", "TensorFlow", "React", "Docker".
         </List.Item>
@@ -132,11 +145,23 @@ const TEAM_FIELD_TOOLTIPS = {
   knowledge: (
     <Stack gap={4}>
       <List size="xs" spacing={4}>
-        <List.Item>1–8 áreas, em inglês.</List.Item>
+        <List.Item>Adicione de 1 a 8 áreas de conhecimento, em inglês.</List.Item>
+        <List.Item>
+          Inclua frentes mais amplas da sua atuação ou especialidade, além de
+          tecnologias específicas.
+        </List.Item>
         <List.Item>
           Ex.: "Backend Development", "Data Science", "DevOps".
         </List.Item>
       </List>
+    </Stack>
+  ),
+  alumni: (
+    <Stack gap={4}>
+      <Text size="xs">
+        Marque esta opção se você já fez parte do time, mas não atua mais
+        atualmente.
+      </Text>
     </Stack>
   ),
 } satisfies Record<string, React.ReactNode>;
@@ -161,15 +186,28 @@ export default function TeamFormEditor({
 
   return (
     <Stack gap="md">
-      <Switch
-        checked={Boolean(data.is_alumni)}
-        onChange={(e) => onChange("is_alumni", e.currentTarget.checked)}
-        label="É alumni"
-        size="md"
-        color="var(--primary)"
-      />
       {/* Informações Básicas/Iniciais Padrão do membro do TEAM */}
-      <SectionBlock icon={<IconUser size={14} />} title="Informações Básicas">
+      <SectionBlock
+        icon={<IconUser size={14} />}
+        title="Informações Básicas"
+        headerRight={
+          <Switch
+            checked={Boolean(data.is_alumni)}
+            onChange={(e) => onChange("is_alumni", e.currentTarget.checked)}
+            size="sm"
+            color="var(--primary)"
+            labelPosition="left"
+            label={
+              <Group gap={4} wrap="nowrap">
+                <Tooltip position="top">{TEAM_FIELD_TOOLTIPS.alumni}</Tooltip>
+                <Text size="sm" fw={500}>
+                  Alumni
+                </Text>
+              </Group>
+            }
+          />
+        }
+      >
         <SimpleGrid cols={2} spacing="xs">
           <TextInput
             label={
@@ -179,7 +217,7 @@ export default function TeamFormEditor({
                 required
               />
             }
-            placeholder="Nome completo"
+            placeholder="Seu nome completo"
             value={data.name || ""}
             onChange={(e) => onChange("name", e.currentTarget.value)}
             size="sm"
@@ -193,7 +231,7 @@ export default function TeamFormEditor({
                 required
               />
             }
-            placeholder="Selecione o cargo / posição"
+            placeholder="Selecione sua posição no time"
             data={VALID_POSITIONS}
             value={data.position || null}
             onChange={(val) => onChange("position", val ?? "")}
@@ -206,7 +244,7 @@ export default function TeamFormEditor({
                 tooltip={TEAM_FIELD_TOOLTIPS.university}
               />
             }
-            placeholder="Ex: PUC-Rio"
+            placeholder="Sua instituição. Ex.: PUC-Rio"
             value={data.university || ""}
             onChange={(e) => onChange("university", e.currentTarget.value)}
             size="sm"
@@ -237,7 +275,7 @@ export default function TeamFormEditor({
               required
             />
           }
-          placeholder="membro@universidade.edu"
+          placeholder="seuemail@universidade.edu"
           leftSection={<IconMail size={14} />}
           value={data.email || ""}
           onChange={(e) => onChange("email", e.currentTarget.value)}
@@ -254,7 +292,7 @@ export default function TeamFormEditor({
               required
             />
           }
-          placeholder="Escreva a descrição do membro..."
+          placeholder="Escreva sua descrição..."
           value={data.description || ""}
           onChange={(e) => onChange("description", e.currentTarget.value)}
           autosize
@@ -265,25 +303,21 @@ export default function TeamFormEditor({
 
         <ImageUploadButton
           label="Foto de Perfil"
-          description="JPG, JPEG ou PNG. Proporção 3:4 recomendada."
+          description="Envie uma imagem JPG, JPEG ou PNG. A proporção 3:4 é a mais indicada."
           value={data.imageUrl || ""}
           onChange={(url) => onChange("imageUrl", url)}
         />
       </SectionBlock>
 
       {/* Redes Sociais */}
-      <SectionBlock icon={<IconLink size={14} />} title="Redes Sociais">
+      <SectionBlock
+        icon={<IconLink size={14} />}
+        title="Redes Sociais"
+        tooltip={TEAM_FIELD_TOOLTIPS.socialLinks}
+      >
         <Stack gap="xs">
-          <Text size="xs" c="dimmed">
-            Os links de Redes Sociais são opcionais.
-          </Text>
           <TextInput
-            label={
-              <FieldLabel
-                text="LinkedIn"
-                tooltip={TEAM_FIELD_TOOLTIPS.linkedin}
-              />
-            }
+            label="LinkedIn"
             placeholder="linkedin.com/in/usuario"
             leftSection={<IconBrandLinkedin size={14} />}
             value={socialLinks.linkedin || ""}
@@ -293,9 +327,7 @@ export default function TeamFormEditor({
             size="sm"
           />
           <TextInput
-            label={
-              <FieldLabel text="GitHub" tooltip={TEAM_FIELD_TOOLTIPS.github} />
-            }
+            label="GitHub"
             placeholder="github.com/usuario"
             leftSection={<IconBrandGithub size={14} />}
             value={socialLinks.github || ""}
@@ -303,12 +335,7 @@ export default function TeamFormEditor({
             size="sm"
           />
           <TextInput
-            label={
-              <FieldLabel
-                text="Site Pessoal"
-                tooltip={TEAM_FIELD_TOOLTIPS.personalWebsite}
-              />
-            }
+            label="Site Pessoal"
             placeholder="example.com"
             leftSection={<IconWorld size={14} />}
             value={socialLinks.personalWebsite || ""}
@@ -318,9 +345,7 @@ export default function TeamFormEditor({
             size="sm"
           />
           <TextInput
-            label={
-              <FieldLabel text="Lattes" tooltip={TEAM_FIELD_TOOLTIPS.lattes} />
-            }
+            label="Lattes"
             placeholder="lattes.cnpq.br/..."
             leftSection={<IconLink size={14} />}
             value={socialLinks.lattes || ""}
@@ -328,12 +353,7 @@ export default function TeamFormEditor({
             size="sm"
           />
           <TextInput
-            label={
-              <FieldLabel
-                text="Google Scholar"
-                tooltip={TEAM_FIELD_TOOLTIPS.googleScholar}
-              />
-            }
+            label="Google Scholar"
             placeholder="scholar.google.com/citations?user=..."
             leftSection={<IconLink size={14} />}
             value={socialLinks.googleScholar || ""}
@@ -343,9 +363,7 @@ export default function TeamFormEditor({
             size="sm"
           />
           <TextInput
-            label={
-              <FieldLabel text="ORCID" tooltip={TEAM_FIELD_TOOLTIPS.orcid} />
-            }
+            label="ORCID"
             placeholder="orcid.org/0000-0000-0000-0000"
             leftSection={<IconLink size={14} />}
             value={socialLinks.orcid || ""}
