@@ -333,7 +333,7 @@ export function EditPageLayout({
                 )}
               </Box>
 
-              <Divider my="md" />
+              <Divider mb="md" mt="sm" />
 
               <Group justify="space-between">
                 <Button
