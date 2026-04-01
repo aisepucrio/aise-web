@@ -27,8 +27,8 @@ import {
 import { TeamMemberData } from "@/lib/types";
 import { VALID_POSITIONS } from "@/lib/validations";
 import { SectionBlock } from "../SectionBlock";
-import { TagListEditor } from "../TagListEditor";
 import { FieldLabel } from "../FieldLabel";
+import { StringListEditor } from "../StringListEditor";
 import Tooltip from "../Tooltip";
 import ImageUploadSection from "../image-upload/ImageUploadSection";
 
@@ -380,7 +380,7 @@ export default function TeamFormEditor({
         required
         tooltip={TEAM_FIELD_TOOLTIPS.researchInterests}
       >
-        <TagListEditor
+        <StringListEditor
           //possível label com tradução da seção:
           //label="Áreas de interesse"
           values={data.researchInterests || []}
@@ -396,7 +396,7 @@ export default function TeamFormEditor({
         required
         tooltip={TEAM_FIELD_TOOLTIPS.technologies}
       >
-        <TagListEditor
+        <StringListEditor
           //possível label com tradução da seção:
           //label="Tecnologias utilizadas"
           values={data.technologies || []}
@@ -412,7 +412,7 @@ export default function TeamFormEditor({
         required
         tooltip={TEAM_FIELD_TOOLTIPS.knowledge}
       >
-        <TagListEditor
+        <StringListEditor
           //possível label com tradução da seção:
           //label="Áreas de conhecimento"
           values={data.knowledge || []}

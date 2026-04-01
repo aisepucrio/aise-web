@@ -4,11 +4,6 @@ import {
   Stack,
   TextInput,
   Textarea,
-  Text,
-  Group,
-  Badge,
-  ActionIcon,
-  Button,
   List,
   SimpleGrid,
 } from "@mantine/core";
@@ -16,21 +11,20 @@ import {
   IconTool,
   IconPhoto,
   IconLink,
-  IconX,
-  IconPlus,
   IconAlignLeft,
   IconTarget,
   IconStar,
   IconCode,
   IconTag,
 } from "@tabler/icons-react";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { ToolData } from "@/lib/types";
 
 import { SectionBlock } from "../SectionBlock";
 import ImageUploadSection from "../image-upload/ImageUploadSection";
 
 import { FieldLabel } from "../FieldLabel";
+import { StringListEditor } from "../StringListEditor";
 
 const TOOL_FIELD_TOOLTIPS = {
   id: (
@@ -200,130 +194,10 @@ const TOOL_FIELD_TOOLTIPS = {
 
 interface ToolFormEditorProps {
   data: ToolData;
-  onChange: (field: keyof ToolData, value: any) => void;
-}
-
-// Editor de lista de strings — suporta tooltip via FieldLabel
-function StringListEditor({
-  label,
-  tooltip,
-  values,
-  onChange,
-  placeholder,
-  asBadge = false,
-}: {
-  label?: string;
-  tooltip?: ReactNode;
-  values: string[];
-  onChange: (values: string[]) => void;
-  placeholder?: string;
-  asBadge?: boolean;
-}) {
-  const [inputValue, setInputValue] = useState("");
-
-  const handleAdd = () => {
-    const trimmed = inputValue.trim();
-    if (!trimmed || values.includes(trimmed)) return;
-    onChange([...values, trimmed]);
-    setInputValue("");
-  };
-
-  const handleRemove = (index: number) => {
-    onChange(values.filter((_, i) => i !== index));
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleAdd();
-    }
-  };
-
-  return (
-    <Stack gap="xs">
-      {/* Se tiver tooltip, usa FieldLabel. Senão, texto simples. */}
-      {label && tooltip ? (
-        <FieldLabel text={label} tooltip={tooltip} />
-      ) : label ? (
-        <Text size="sm" fw={500} c="dimmed">
-          {label}
-        </Text>
-      ) : null}
-      <Stack gap="xs">
-        {asBadge ? (
-          <Group gap="xs" wrap="wrap">
-            {values.map((val, idx) => (
-              <Badge
-                key={idx}
-                variant="light"
-                color="var(--primary)"
-                size="md"
-                radius="sm"
-                rightSection={
-                  <ActionIcon
-                    size="xs"
-                    variant="transparent"
-                    color="var(--primary)"
-                    onClick={() => handleRemove(idx)}
-                  >
-                    <IconX size={10} />
-                  </ActionIcon>
-                }
-              >
-                {val}
-              </Badge>
-            ))}
-          </Group>
-        ) : (
-          <Stack gap={4}>
-            {values.map((val, idx) => (
-              <Group key={idx} gap="xs" wrap="nowrap">
-                <Text
-                  size="sm"
-                  style={{
-                    flex: 1,
-                    padding: "6px 10px",
-                    background: "var(--mantine-color-gray-0)",
-                    borderRadius: 6,
-                    border: "1px solid var(--mantine-color-gray-2)",
-                  }}
-                >
-                  {val}
-                </Text>
-                <ActionIcon
-                  size="sm"
-                  variant="light"
-                  color="red"
-                  onClick={() => handleRemove(idx)}
-                >
-                  <IconX size={12} />
-                </ActionIcon>
-              </Group>
-            ))}
-          </Stack>
-        )}
-      </Stack>
-      <Group gap="xs">
-        <TextInput
-          placeholder={placeholder || "Adicionar..."}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.currentTarget.value)}
-          onKeyDown={handleKeyDown}
-          size="xs"
-          style={{ flex: 1 }}
-        />
-        <Button
-          size="xs"
-          variant="light"
-          color="var(--primary)"
-          leftSection={<IconPlus size={12} />}
-          onClick={handleAdd}
-        >
-          Adicionar
-        </Button>
-      </Group>
-    </Stack>
-  );
+  onChange: <Field extends keyof ToolData>(
+    field: Field,
+    value: ToolData[Field],
+  ) => void;
 }
 
 export default function ToolFormEditor({
@@ -398,6 +272,7 @@ export default function ToolFormEditor({
           values={data.galleryImagesUrl || []}
           onChange={(val) => onChange("galleryImagesUrl", val)}
           placeholder="https://..."
+          variant="list"
         />
       </SectionBlock>
 
@@ -452,6 +327,7 @@ export default function ToolFormEditor({
           values={data.objectives || []}
           onChange={(val) => onChange("objectives", val)}
           placeholder="Ex: Automatizar análise de dados"
+          variant="list"
         />
       </SectionBlock>
 
@@ -466,6 +342,7 @@ export default function ToolFormEditor({
           values={data.features || []}
           onChange={(val) => onChange("features", val)}
           placeholder="Ex: Dashboard interativo"
+          variant="list"
         />
       </SectionBlock>
 
@@ -480,7 +357,7 @@ export default function ToolFormEditor({
           values={data.techStack || []}
           onChange={(val) => onChange("techStack", val)}
           placeholder="Ex: Next.js"
-          asBadge
+          variant="badges"
         />
       </SectionBlock>
 
