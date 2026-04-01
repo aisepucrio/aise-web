@@ -23,6 +23,8 @@ export interface StringListEditorProps {
   placeholder?: string;
   variant?: StringListEditorVariant;
   addButtonLabel?: string;
+  hideInput?: boolean;
+  onAddButtonClick?: () => void;
 }
 
 // Editor reutilizável para listas de texto com a mesma lógica e dois modos visuais.
@@ -34,6 +36,8 @@ export function StringListEditor({
   placeholder = "Adicionar...",
   variant = "badges",
   addButtonLabel = "Adicionar",
+  hideInput = false,
+  onAddButtonClick,
 }: StringListEditorProps) {
   const [draftValue, setDraftValue] = useState("");
 
@@ -85,22 +89,25 @@ export function StringListEditor({
         <TextList values={values} onRemove={removeItem} />
       )}
 
-      {/* Área de entrada para incluir novos itens na lista. */}
+      {/* Por padrão o editor mostra input + botão; em fluxos especiais pode mostrar só o botão. */}
       <Group gap="xs">
-        <TextInput
-          placeholder={placeholder}
-          value={draftValue}
-          onChange={(event) => setDraftValue(event.currentTarget.value)}
-          onKeyDown={handleKeyDown}
-          size="xs"
-          style={{ flex: 1 }}
-        />
+        {!hideInput && (
+          <TextInput
+            placeholder={placeholder}
+            value={draftValue}
+            onChange={(event) => setDraftValue(event.currentTarget.value)}
+            onKeyDown={handleKeyDown}
+            size="xs"
+            style={{ flex: 1 }}
+          />
+        )}
         <Button
           size="xs"
           variant="filled"
           color="var(--primary)"
           leftSection={<IconPlus size={12} />}
-          onClick={addItem}
+          onClick={onAddButtonClick ?? addItem}
+          style={hideInput ? { width: "100%" } : undefined}
           styles={{
             root: {
               color: "white",

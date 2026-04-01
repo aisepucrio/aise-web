@@ -17,10 +17,11 @@ import {
   IconCode,
   IconTag,
 } from "@tabler/icons-react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { ToolData } from "@/lib/types";
 
 import { SectionBlock } from "../SectionBlock";
+import ImageUploadModal from "../image-upload/ImageUploadModal";
 import ImageUploadSection from "../image-upload/ImageUploadSection";
 
 import { FieldLabel } from "../FieldLabel";
@@ -204,10 +205,24 @@ export default function ToolFormEditor({
   data,
   onChange,
 }: ToolFormEditorProps) {
+  const [isAddingGalleryImage, setIsAddingGalleryImage] = useState(false);
   const links = data.links || {};
+  const galleryImages = data.galleryImagesUrl || [];
 
   const updateLink = (key: string, value: string) => {
     onChange("links", { ...links, [key]: value });
+  };
+
+  const handleGalleryImageChange = (imageUrl: string) => {
+    if (!imageUrl) {
+      return;
+    }
+
+    if (!galleryImages.includes(imageUrl)) {
+      onChange("galleryImagesUrl", [...galleryImages, imageUrl]);
+    }
+
+    setIsAddingGalleryImage(false);
   };
 
   return (
@@ -269,10 +284,18 @@ export default function ToolFormEditor({
         <StringListEditor
           label="Galeria de Imagens (URLs)"
           tooltip={TOOL_FIELD_TOOLTIPS.galleryImagesUrl}
-          values={data.galleryImagesUrl || []}
+          values={galleryImages}
           onChange={(val) => onChange("galleryImagesUrl", val)}
-          placeholder="https://..."
+          addButtonLabel="Adicionar imagem"
+          hideInput
+          onAddButtonClick={() => setIsAddingGalleryImage(true)}
           variant="list"
+        />
+        <ImageUploadModal
+          opened={isAddingGalleryImage}
+          value=""
+          onClose={() => setIsAddingGalleryImage(false)}
+          onChange={handleGalleryImageChange}
         />
       </SectionBlock>
 
