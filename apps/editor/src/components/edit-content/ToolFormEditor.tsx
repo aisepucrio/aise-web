@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * Editor em formato de formulário em blocos para Tools.
- * 
- * Cria uma nova "page" para preenchimento no estilo de formulário, 
- * sendo outra opção da textarea JSON.
- */
-
 import {
   Stack,
   TextInput,
@@ -34,16 +27,118 @@ import {
 import { ReactNode, useState } from "react";
 import { ToolData } from "@/lib/types";
 
-import { SectionBlock } from "./SectionBlock";
-import TooltipIcon from "./TooltipIcon";
-import ImageUploadButton from "./ImageUploadButton";
+import { SectionBlock } from "../SectionBlock";
+import ImageUploadButton from "../ImageUploadButton";
 
-import { FieldLabel } from "./FieldLabel";
+import { FieldLabel } from "../FieldLabel";
+
+const TOOL_FIELD_TOOLTIPS = {
+  id: (
+    <Stack gap={4}>
+      <List size="xs" spacing={4}>
+        <List.Item>
+          Identificador único em formato <strong>kebab-case</strong>.
+        </List.Item>
+        <List.Item>
+          Apenas letras minúsculas, números e hífens. Sem espaços.
+        </List.Item>
+        <List.Item>Ex.: my-awesome-tool, data-analyzer-v2.</List.Item>
+      </List>
+    </Stack>
+  ),
+  name: (
+    <Stack gap={4}>
+      <List size="xs" spacing={4}>
+        <List.Item>Nome legível do tool (3–60 caracteres).</List.Item>
+        <List.Item>Ex.: "AI Content Generator", "Smart Dashboard".</List.Item>
+      </List>
+    </Stack>
+  ),
+  tagline: (
+    <Stack gap={4}>
+      <List size="xs" spacing={4}>
+        <List.Item>
+          Frase curta descrevendo o propósito (10–100 caracteres).
+        </List.Item>
+        <List.Item>Ex.: "Transform data into insights with AI".</List.Item>
+      </List>
+    </Stack>
+  ),
+  category: (
+    <Stack gap={4}>
+      <Text size="xs">Escolha a categoria que melhor se adequa ao tool.</Text>
+      <Text size="xs">
+        Ex.: "Data Analysis", "Content Generation", "Image Processing",
+        "Automation", "Visualization".
+      </Text>
+    </Stack>
+  ),
+  galleryImagesUrl: (
+    <Stack gap={4}>
+      <Badge size="xs" color="gray">
+        Opcional
+      </Badge>
+      <Text size="xs">Array de URLs de imagens para galeria.</Text>
+    </Stack>
+  ),
+  description: (
+    <Stack gap={4}>
+      <List size="xs" spacing={4}>
+        <List.Item>2–3 sentenças, 50–300 caracteres.</List.Item>
+        <List.Item>
+          Explique o que o tool faz e seu propósito principal.
+        </List.Item>
+      </List>
+    </Stack>
+  ),
+  longDescription: (
+    <Stack gap={4}>
+      <Badge size="xs" color="gray">
+        Opcional
+      </Badge>
+      <List size="xs" spacing={4}>
+        <List.Item>200–2000 caracteres.</List.Item>
+        <List.Item>
+          Explique contexto, motivação, funcionalidades e impacto.
+        </List.Item>
+      </List>
+    </Stack>
+  ),
+  objectives: (
+    <Stack gap={4}>
+      <Badge size="xs" color="gray">
+        Opcional
+      </Badge>
+      <Text size="xs">Lista de objetivos do projeto (1–5 itens).</Text>
+    </Stack>
+  ),
+  features: (
+    <Stack gap={4}>
+      <Badge size="xs" color="gray">
+        Opcional
+      </Badge>
+      <Text size="xs">Principais funcionalidades (2–8 itens).</Text>
+    </Stack>
+  ),
+  techStack: (
+    <Stack gap={4}>
+      <Badge size="xs" color="gray">
+        Opcional
+      </Badge>
+      <Text size="xs">Tecnologias utilizadas (2–10 itens).</Text>
+    </Stack>
+  ),
+  webapp: <Text size="xs">URL da aplicação web. Ex.: example.com.</Text>,
+  github: (
+    <Text size="xs">Repositório do projeto. Ex.: github.com/example/repo.</Text>
+  ),
+  api: <Text size="xs">Endpoint da API. Ex.: api.example.com.</Text>,
+  docs: <Text size="xs">Documentação do projeto. Ex.: docs.example.com.</Text>,
+} satisfies Record<string, ReactNode>;
 
 interface ToolFormEditorProps {
   data: ToolData;
   onChange: (field: keyof ToolData, value: any) => void;
-  tooltip?: React.ReactNode;
 }
 
 // Editor de lista de strings — suporta tooltip via FieldLabel
@@ -88,7 +183,9 @@ function StringListEditor({
       {tooltip ? (
         <FieldLabel text={label} tooltip={tooltip} />
       ) : (
-        <Text size="sm" fw={500} c="dimmed">{label}</Text>
+        <Text size="sm" fw={500} c="dimmed">
+          {label}
+        </Text>
       )}
       <Stack gap="xs">
         {asBadge ? (
@@ -101,7 +198,12 @@ function StringListEditor({
                 size="md"
                 radius="sm"
                 rightSection={
-                  <ActionIcon size="xs" variant="transparent" color="var(--primary)" onClick={() => handleRemove(idx)}>
+                  <ActionIcon
+                    size="xs"
+                    variant="transparent"
+                    color="var(--primary)"
+                    onClick={() => handleRemove(idx)}
+                  >
                     <IconX size={10} />
                   </ActionIcon>
                 }
@@ -126,7 +228,12 @@ function StringListEditor({
                 >
                   {val}
                 </Text>
-                <ActionIcon size="sm" variant="light" color="red" onClick={() => handleRemove(idx)}>
+                <ActionIcon
+                  size="sm"
+                  variant="light"
+                  color="red"
+                  onClick={() => handleRemove(idx)}
+                >
                   <IconX size={12} />
                 </ActionIcon>
               </Group>
@@ -143,7 +250,13 @@ function StringListEditor({
           size="xs"
           style={{ flex: 1 }}
         />
-        <Button size="xs" variant="light" color="var(--primary)" leftSection={<IconPlus size={12} />} onClick={handleAdd}>
+        <Button
+          size="xs"
+          variant="light"
+          color="var(--primary)"
+          leftSection={<IconPlus size={12} />}
+          onClick={handleAdd}
+        >
           Adicionar
         </Button>
       </Group>
@@ -151,7 +264,10 @@ function StringListEditor({
   );
 }
 
-export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) {
+export default function ToolFormEditor({
+  data,
+  onChange,
+}: ToolFormEditorProps) {
   const links = data.links || {};
 
   const updateLink = (key: string, value: string) => {
@@ -160,44 +276,22 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
 
   return (
     <Stack gap="md">
-
       {/* Informações Básicas */}
-      <SectionBlock icon={<IconTool size={14} />} title="Informações Básicas" required>
+      <SectionBlock
+        icon={<IconTool size={14} />}
+        title="Informações Básicas"
+        required
+      >
         <SimpleGrid cols={2} spacing="xs">
           <TextInput
-            label={
-              <FieldLabel
-                text="ID"
-                tooltip={
-                  <Stack gap={4}>
-                    <List size="xs" spacing={4}>
-                      <List.Item>Identificador único em formato <strong>kebab-case</strong>.</List.Item>
-                      <List.Item>Apenas letras minúsculas, números e hífens. Sem espaços.</List.Item>
-                      <List.Item>Ex.: my-awesome-tool, data-analyzer-v2.</List.Item>
-                    </List>
-                  </Stack>
-                }
-              />
-            }
+            label={<FieldLabel text="ID" tooltip={TOOL_FIELD_TOOLTIPS.id} />}
             placeholder="meu-tool-id"
             value={data.id || ""}
             onChange={(e) => onChange("id", e.currentTarget.value)}
             size="sm"
           />
           <TextInput
-            label={
-              <FieldLabel
-                text="Nome"
-                tooltip={
-                  <Stack gap={4}>
-                    <List size="xs" spacing={4}>
-                      <List.Item>Nome legível do tool (3–60 caracteres).</List.Item>
-                      <List.Item>Ex.: "AI Content Generator", "Smart Dashboard".</List.Item>
-                    </List>
-                  </Stack>
-                }
-              />
-            }
+            label={<FieldLabel text="Nome" tooltip={TOOL_FIELD_TOOLTIPS.name} />}
             placeholder="Nome da ferramenta"
             value={data.name || ""}
             onChange={(e) => onChange("name", e.currentTarget.value)}
@@ -205,17 +299,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
           />
           <TextInput
             label={
-              <FieldLabel
-                text="Tagline"
-                tooltip={
-                  <Stack gap={4}>
-                    <List size="xs" spacing={4}>
-                      <List.Item>Frase curta descrevendo o propósito (10–100 caracteres).</List.Item>
-                      <List.Item>Ex.: "Transform data into insights with AI".</List.Item>
-                    </List>
-                  </Stack>
-                }
-              />
+              <FieldLabel text="Tagline" tooltip={TOOL_FIELD_TOOLTIPS.tagline} />
             }
             placeholder="Frase curta de descrição"
             value={data.tagline || ""}
@@ -226,12 +310,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
             label={
               <FieldLabel
                 text="Categoria"
-                tooltip={
-                  <Stack gap={4}>
-                    <Text size="xs">Escolha a categoria que melhor se adequa ao tool.</Text>
-                    <Text size="xs">Ex.: "Data Analysis", "Content Generation", "Image Processing", "Automation", "Visualization".</Text>
-                  </Stack>
-                }
+                tooltip={TOOL_FIELD_TOOLTIPS.category}
               />
             }
             placeholder="Ex: Data Science"
@@ -253,12 +332,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
         />
         <StringListEditor
           label="Galeria de Imagens (URLs)"
-          tooltip={
-            <Stack gap={4}>
-              <Badge size="xs" color="gray">Opcional</Badge>
-              <Text size="xs">Array de URLs de imagens para galeria.</Text>
-            </Stack>
-          }
+          tooltip={TOOL_FIELD_TOOLTIPS.galleryImagesUrl}
           values={data.galleryImagesUrl || []}
           onChange={(val) => onChange("galleryImagesUrl", val)}
           placeholder="https://..."
@@ -266,20 +340,17 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       </SectionBlock>
 
       {/* Descrições */}
-      <SectionBlock icon={<IconAlignLeft size={14} />} title="Descrições" required>
+      <SectionBlock
+        icon={<IconAlignLeft size={14} />}
+        title="Descrições"
+        required
+      >
         <Stack gap="xs">
           <Textarea
             label={
               <FieldLabel
                 text="Descrição Curta"
-                tooltip={
-                  <Stack gap={4}>
-                    <List size="xs" spacing={4}>
-                      <List.Item>2–3 sentenças, 50–300 caracteres.</List.Item>
-                      <List.Item>Explique o que o tool faz e seu propósito principal.</List.Item>
-                    </List>
-                  </Stack>
-                }
+                tooltip={TOOL_FIELD_TOOLTIPS.description}
               />
             }
             placeholder="2-3 frases sobre o tool..."
@@ -294,15 +365,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
             label={
               <FieldLabel
                 text="Descrição Longa"
-                tooltip={
-                  <Stack gap={4}>
-                    <Badge size="xs" color="gray">Opcional</Badge>
-                    <List size="xs" spacing={4}>
-                      <List.Item>200–2000 caracteres.</List.Item>
-                      <List.Item>Explique contexto, motivação, funcionalidades e impacto.</List.Item>
-                    </List>
-                  </Stack>
-                }
+                tooltip={TOOL_FIELD_TOOLTIPS.longDescription}
               />
             }
             placeholder="Descrição detalhada com contexto, motivação e impacto..."
@@ -320,12 +383,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       <SectionBlock icon={<IconTarget size={14} />} title="Objetivos" required>
         <StringListEditor
           label="Lista de objetivos"
-          tooltip={
-            <Stack gap={4}>
-              <Badge size="xs" color="gray">Opcional</Badge>
-              <Text size="xs">Lista de objetivos do projeto (1–5 itens).</Text>
-            </Stack>
-          }
+          tooltip={TOOL_FIELD_TOOLTIPS.objectives}
           values={data.objectives || []}
           onChange={(val) => onChange("objectives", val)}
           placeholder="Ex: Automatizar análise de dados"
@@ -336,12 +394,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       <SectionBlock icon={<IconStar size={14} />} title="Features" required>
         <StringListEditor
           label="Principais funcionalidades"
-          tooltip={
-            <Stack gap={4}>
-              <Badge size="xs" color="gray">Opcional</Badge>
-              <Text size="xs">Principais funcionalidades (2–8 itens).</Text>
-            </Stack>
-          }
+          tooltip={TOOL_FIELD_TOOLTIPS.features}
           values={data.features || []}
           onChange={(val) => onChange("features", val)}
           placeholder="Ex: Dashboard interativo"
@@ -352,12 +405,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       <SectionBlock icon={<IconCode size={14} />} title="Tech Stack" required>
         <StringListEditor
           label="Tecnologias utilizadas"
-          tooltip={
-            <Stack gap={4}>
-              <Badge size="xs" color="gray">Opcional</Badge>
-              <Text size="xs">Tecnologias utilizadas (2–10 itens).</Text>
-            </Stack>
-          }
+          tooltip={TOOL_FIELD_TOOLTIPS.techStack}
           values={data.techStack || []}
           onChange={(val) => onChange("techStack", val)}
           placeholder="Ex: Next.js"
@@ -368,13 +416,12 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
       {/* Links */}
       <SectionBlock icon={<IconLink size={14} />} title="Links" required>
         <Stack gap="xs">
-          <Text size="xs" c="dimmed">Todos opcionais. URLs devem começar com http:// ou https://.</Text>
+          <Text size="xs" c="dimmed">
+            Todos opcionais. URLs devem começar com http:// ou https://.
+          </Text>
           <TextInput
             label={
-              <FieldLabel
-                text="Web App"
-                tooltip={<Text size="xs">URL da aplicação web. Ex.: example.com.</Text>}
-              />
+              <FieldLabel text="Web App" tooltip={TOOL_FIELD_TOOLTIPS.webapp} />
             }
             placeholder="example.com"
             leftSection={<IconLink size={14} />}
@@ -384,10 +431,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
           />
           <TextInput
             label={
-              <FieldLabel
-                text="GitHub"
-                tooltip={<Text size="xs">Repositório do projeto. Ex.: github.com/example/repo.</Text>}
-              />
+              <FieldLabel text="GitHub" tooltip={TOOL_FIELD_TOOLTIPS.github} />
             }
             placeholder="github.com/example/repo"
             leftSection={<IconLink size={14} />}
@@ -396,12 +440,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
             size="sm"
           />
           <TextInput
-            label={
-              <FieldLabel
-                text="API"
-                tooltip={<Text size="xs">Endpoint da API. Ex.: api.example.com.</Text>}
-              />
-            }
+            label={<FieldLabel text="API" tooltip={TOOL_FIELD_TOOLTIPS.api} />}
             placeholder="api.example.com"
             leftSection={<IconLink size={14} />}
             value={links.api || ""}
@@ -410,10 +449,7 @@ export default function ToolFormEditor({ data, onChange }: ToolFormEditorProps) 
           />
           <TextInput
             label={
-              <FieldLabel
-                text="Docs"
-                tooltip={<Text size="xs">Documentação do projeto. Ex.: docs.example.com.</Text>}
-              />
+              <FieldLabel text="Docs" tooltip={TOOL_FIELD_TOOLTIPS.docs} />
             }
             placeholder="docs.example.com"
             leftSection={<IconLink size={14} />}

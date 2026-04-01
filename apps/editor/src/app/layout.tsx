@@ -27,6 +27,19 @@ const theme = createTheme({
   headings: { fontFamily: "var(--font-montserrat), Montserrat, sans-serif" },
   fontFamilyMonospace: "ui-monospace, SFMono-Regular, Menlo, monospace",
   primaryColor: "indigo",
+  components: {
+    InputWrapper: {
+      defaultProps: {
+        labelElement: "div",
+        labelProps: {
+          style: {
+            display: "block",
+            width: "100%",
+          },
+        },
+      },
+    },
+  },
 });
 
 export const metadata: Metadata = {

@@ -5,11 +5,11 @@
  * Renderiza um ícone e no hover mostra uma caixa com conteúdo customizável (ReactNode)
  */
 
-import { Tooltip, ActionIcon, Box } from "@mantine/core";
+import { Tooltip as MantineTooltip, ActionIcon, Box } from "@mantine/core";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { ReactNode } from "react";
 
-export interface TooltipIconProps {
+export interface TooltipProps {
   /** Conteúdo exibido dentro do tooltip (instruções específicas) */
   children: ReactNode;
 
@@ -31,14 +31,14 @@ export interface TooltipIconProps {
   icon?: ReactNode;
 }
 
-export default function TooltipIcon({
+export default function Tooltip({
   children,
   position = "right",
   width = 260,
   icon,
-}: TooltipIconProps) {
+}: TooltipProps) {
   return (
-    <Tooltip
+    <MantineTooltip
       label={<Box style={{ maxWidth: width }}>{children}</Box>}
       position={position}
       withArrow
@@ -57,6 +57,6 @@ export default function TooltipIcon({
       >
         {icon ?? <IconInfoCircle size={16} />}
       </ActionIcon>
-    </Tooltip>
+    </MantineTooltip>
   );
 }

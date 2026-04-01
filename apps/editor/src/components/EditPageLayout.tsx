@@ -67,9 +67,6 @@ export interface EditPageLayoutProps {
 
   // Preview
   preview: ReactNode;
-
-  // Instruções (opcional)
-  instructions?: ReactNode;
 }
 
 export function EditPageLayout({
@@ -92,7 +89,6 @@ export function EditPageLayout({
   lastSaved,
   isAutoSaving,
   preview,
-  instructions,
 }: EditPageLayoutProps) {
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -192,7 +188,7 @@ export function EditPageLayout({
                       Salvo há{" "}
                       <Text span fw={500}>
                         {Math.floor(
-                          (currentTime.getTime() - lastSaved.getTime()) / 1000
+                          (currentTime.getTime() - lastSaved.getTime()) / 1000,
                         )}
                         s
                       </Text>
@@ -203,9 +199,6 @@ export function EditPageLayout({
             </Stack>
           </Group>
         </Paper>
-
-        {/* Instruções (se fornecidas) */}
-        {instructions}
 
         {/* Alert de novo item */}
         {isNewItem && (

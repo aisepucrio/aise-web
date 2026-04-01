@@ -1,7 +1,15 @@
-import { ActionIcon, Badge, Button, Group, Stack, Text, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Badge,
+  Button,
+  Group,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { ReactNode, useState } from "react";
-import TooltipIcon from "./TooltipIcon";
+import { FieldLabel } from "./FieldLabel";
 
 export function TagListEditor({
   //possível label com tradução da seção:
@@ -39,16 +47,11 @@ export function TagListEditor({
 
   return (
     <Stack gap="xs">
-      {/* Label com ℹ à direita — só renderiza se houver label ou tooltip */}
-      {(label || tooltip) && (
-        <Group justify="space-between" wrap="nowrap" w="100%">
-          <Text size="sm" fw={500} c="dimmed">
-            {label}
-          </Text>
-          {tooltip && (
-            <TooltipIcon position="top-end">{tooltip}</TooltipIcon>
-          )}
-        </Group>
+      {label && tooltip && <FieldLabel text={label} tooltip={tooltip} />}
+      {label && !tooltip && (
+        <Text size="sm" fw={500} c="dimmed">
+          {label}
+        </Text>
       )}
       <Group gap="xs" wrap="wrap">
         {values.map((val, idx) => (
@@ -84,7 +87,6 @@ export function TagListEditor({
         />
         <Button
           size="xs"
-          variant="dark"
           color="var(--primary)"
           leftSection={<IconPlus size={12} />}
           onClick={handleAdd}

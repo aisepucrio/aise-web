@@ -6,7 +6,7 @@
 import { useParams } from "next/navigation";
 import { ToolData } from "@/lib/types";
 import { useMemo } from "react";
-import { Center, Text, Stack, Box, Divider, Alert, List, Code } from "@mantine/core";
+import { Center, Text, Stack, Box, Divider, Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { EXAMPLE_TOOL } from "@/lib/examples";
 import { authFetchJson } from "@/lib/auth-fetch";
@@ -14,28 +14,10 @@ import { validateToolData, validateToolIdUnchanged } from "@/lib/validations";
 import { useEditPage } from "@/components/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
 import { ToolDetailView, ToolHeroCard, ToolCardCompact } from "@shared/ui";
-import ToolInstructions from "@/components/ToolInstructions";
 import DateRangePicker from "@/components/DateRangePicker";
 import TeamRelationshipSelector from "@/components/TeamRelationshipSelector";
 import PublicationRelationshipSelector from "@/components/PublicationRelationshipSelector";
-import ToolFormEditor from "@/components/ToolMemberFormEditor"; // novo import
-
-// Conteúdo do tooltip — resumo das instruções de tool
-const toolTooltipContent = (
-  <Stack gap={6}>
-    <Text size="xs" fw={700}>Dicas rápidas:</Text>
-    <List size="xs" spacing={4}>
-      <List.Item><Code>id</Code>: kebab-case único (ex: my-awesome-tool).</List.Item>
-      <List.Item><Code>name</Code>: nome legível, 3–60 caracteres.</List.Item>
-      <List.Item><Code>tagline</Code>: frase curta, 10–100 caracteres.</List.Item>
-      <List.Item><Code>description</Code>: 2-3 sentenças, 50–300 caracteres.</List.Item>
-      <List.Item><Code>category</Code>: ex: "Data Analysis", "Automation".</List.Item>
-      <List.Item><Code>highlightImageUrl</Code>: upload no imgbox.com, 16:9 preferível.</List.Item>
-      <List.Item><Code>duration</Code>: formato "Jan 2025 – present".</List.Item>
-      <List.Item><Code>techStack</Code>: 2–10 tecnologias.</List.Item>
-    </List>
-  </Stack>
-);
+import ToolFormEditor from "@/components/edit-content/ToolFormEditor";
 
 // Converte ToolData para formato dos componentes de card
 const convertToCardFormat = (toolData: ToolData) => {
@@ -178,16 +160,11 @@ export default function EditToolPage() {
       isSaving={isSaving}
       lastSaved={lastSaved}
       isAutoSaving={isAutoSaving}
-      instructions={<ToolInstructions />}
       formEditor={
         parsedData && (
           <Stack gap="md" style={{ paddingRight: 8 }}>
             {/* Novo FormEditor com todos os campos principais */}
-            <ToolFormEditor 
-              data={parsedData} 
-              onChange={updateField} 
-              tooltip={toolTooltipContent} // tooltip passado
-            />
+            <ToolFormEditor data={parsedData} onChange={updateField} />
             {/* Seletores separados — mantidos como estavam */}
             <DateRangePicker
               value={parsedData.duration}

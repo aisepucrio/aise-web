@@ -5,7 +5,7 @@
 
 import { useParams } from "next/navigation";
 import { TeamMemberData } from "@/lib/types";
-import { Center, Text, Stack, Box, Divider, List, Code } from "@mantine/core";
+import { Center, Text, Stack, Box, Divider } from "@mantine/core";
 import { EXAMPLE_TEAM_MEMBER } from "@/lib/examples";
 import {
   validateMemberData,
@@ -17,27 +17,9 @@ import { PersonCard } from "@shared/ui";
 import { TeamMemberListItem } from "@shared/ui";
 import { TeamMemberGridItem } from "@shared/ui";
 import { TeamMemberProfile } from "@shared/ui";
-import ProfileInstructions from "@/components/ProfileInstructions";
 import { authFetchJson } from "@/lib/auth-fetch";
 import { RequireAuth } from "@/components/AuthContext";
-import TeamMemberFormEditor from "@/components/TeamMemberFormEditor"; // importado. TeamMemberFormEditor
-
-// Conteúdo do tooltip — resumo das instruções de perfil
-const teamTooltipContent = (
-  <Stack gap={6}>
-    <Text size="xs" fw={700}>Dicas rápidas:</Text>
-    <List size="xs" spacing={4}>
-      <List.Item><Code>Nome</Code>: formato First Last, 3–100 caracteres.</List.Item>
-      <List.Item><Code>Email</Code>: identificador único — não pode ser alterado após salvar.</List.Item>
-      <List.Item><Code>Position</Code>: use exatamente um dos valores válidos (ex: PhD Student).</List.Item>
-      <List.Item><Code>Image URL</Code>: upload no imgbox.com, foto 3:4 com rosto visível.</List.Item>
-      <List.Item><Code>Description</Code>: 50–750 caracteres, foco em formação e interesses.</List.Item>
-      <List.Item><Code>Research Interests</Code>: 2–10 itens em inglês.</List.Item>
-      <List.Item><Code>Technologies</Code>: 3–15 itens em inglês.</List.Item>
-      <List.Item><Code>Knowledge</Code>: 1–8 áreas em inglês.</List.Item>
-    </List>
-  </Stack>
-);
+import TeamFormEditor from "@/components/edit-content/TeamFormEditor";
 
 export default function EditContentPage() {
   const params = useParams();
@@ -51,14 +33,14 @@ export default function EditContentPage() {
     isNewItem,
     jsonError,
     //editMode="json"    -> antes
-    editMode,     // agora desestruturado do hook
+    editMode, // agora desestruturado do hook
     //setEditMode={() => {}} // função vazia no JSX    -> antes
-    setEditMode,  // agora desestruturado do hook
-    parsedData,   
-    validation,   
-    lastSaved,    
-    isAutoSaving, 
-    updateField,  // foi criado, e como os outros, foi desestruturado do hook
+    setEditMode, // agora desestruturado do hook
+    parsedData,
+    validation,
+    lastSaved,
+    isAutoSaving,
+    updateField, // foi criado, e como os outros, foi desestruturado do hook
     handleSave,
     handleReset,
   } = useEditPage<TeamMemberData>({
@@ -95,22 +77,18 @@ export default function EditContentPage() {
         jsonText={jsonText}
         setJsonText={setJsonText}
         jsonError={jsonError}
-        editMode={editMode}           // incluido, agora esta dinâmico agora
-        setEditMode={setEditMode}     // incluido, agora esta dinâmico agora
+        editMode={editMode} // incluido, agora esta dinâmico agora
+        setEditMode={setEditMode} // incluido, agora esta dinâmico agora
         validation={validation}
         onSave={handleSave}
         onReset={handleReset}
         isSaving={isSaving}
         lastSaved={lastSaved}
         isAutoSaving={isAutoSaving}
-        instructions={<ProfileInstructions />}
-        formEditor={                  // novo bloco incluido (formEditor), para o formulário  
+        formEditor={
+          // novo bloco incluido (formEditor), para o formulário
           parsedData ? (
-            <TeamMemberFormEditor
-              data={parsedData}
-              onChange={updateField}
-              tooltip={teamTooltipContent} // tooltip passado
-            />
+            <TeamFormEditor data={parsedData} onChange={updateField} />
           ) : null
         }
         // display ja existente. Não foi alterado.
