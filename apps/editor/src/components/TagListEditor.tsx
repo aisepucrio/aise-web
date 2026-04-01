@@ -1,18 +1,21 @@
 import { ActionIcon, Badge, Button, Group, Stack, Text, TextInput } from "@mantine/core";
 import { IconPlus, IconX } from "@tabler/icons-react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
+import TooltipIcon from "./TooltipIcon";
 
- export function TagListEditor({
+export function TagListEditor({
   //possível label com tradução da seção:
   label,
   values,
   onChange,
   placeholder,
+  tooltip,
 }: {
   label?: string;
   values: string[];
   onChange: (values: string[]) => void;
   placeholder?: string;
+  tooltip?: ReactNode;
 }) {
   const [inputValue, setInputValue] = useState("");
 
@@ -36,9 +39,17 @@ import { useState } from "react";
 
   return (
     <Stack gap="xs">
-      <Text size="sm" fw={500} c="dimmed">
-        {label}
-      </Text>
+      {/* Label com ℹ à direita — só renderiza se houver label ou tooltip */}
+      {(label || tooltip) && (
+        <Group justify="space-between" wrap="nowrap" w="100%">
+          <Text size="sm" fw={500} c="dimmed">
+            {label}
+          </Text>
+          {tooltip && (
+            <TooltipIcon position="top-end">{tooltip}</TooltipIcon>
+          )}
+        </Group>
+      )}
       <Group gap="xs" wrap="wrap">
         {values.map((val, idx) => (
           <Badge

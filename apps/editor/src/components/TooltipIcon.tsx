@@ -55,7 +55,7 @@ export default function TooltipIcon({
         radius="xl"
         style={{ cursor: "help" }}
       >
-        {icon ?? <IconInfoCircle size={14} />}
+        {icon ?? <IconInfoCircle size={16} />}
       </ActionIcon>
     </Tooltip>
   );
