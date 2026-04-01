@@ -162,17 +162,6 @@ export default function EditResearchPage() {
               onChange={(val) => updateField("tool_relationships", val)}
               label="Tool Relationships"
             />
-            <Alert
-              icon={<IconAlertCircle />}
-              color="blue"
-              variant="light"
-              radius="lg"
-            >
-              <Text size="xs">
-                <strong>Outros campos:</strong> Use o modo JSON para editar
-                campos não listados acima.
-              </Text>
-            </Alert>
           </Stack>
         )
       }

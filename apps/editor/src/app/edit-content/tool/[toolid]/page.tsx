@@ -182,17 +182,6 @@ export default function EditToolPage() {
               onChange={(val) => updateField("publication_relationships", val)}
               label="Publication Relationships"
             />
-            <Alert
-              icon={<IconAlertCircle />}
-              color="blue"
-              variant="light"
-              radius="lg"
-            >
-              <Text size="xs">
-                <strong>Outros campos:</strong> Use o modo JSON para editar
-                campos não listados acima.
-              </Text>
-            </Alert>
           </Stack>
         )
       }
