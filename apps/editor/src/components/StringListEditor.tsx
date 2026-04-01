@@ -78,7 +78,7 @@ export function StringListEditor({
   );
 
   return (
-    <Stack gap="xs">
+    <Stack gap="xs" my="sm">
       {/* Cabeçalho opcional do campo. */}
       {labelNode}
 
