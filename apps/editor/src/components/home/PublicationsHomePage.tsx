@@ -16,6 +16,7 @@ import {
   Loader,
   Alert,
   Modal,
+  Anchor,
 } from "@mantine/core";
 import {
   IconDownload,
@@ -74,7 +75,7 @@ export default function PublicationsHomePage() {
       const data = await response.json();
       const pubs = data.publications || [];
       setPublications(pubs);
-      setOriginalPublications(pubs);
+      setOriginalPublications(pubs.map((pub: Publication) => ({ ...pub })));
     } catch (error) {
       showMessage("Erro ao carregar publicações", "error");
     } finally {
@@ -175,9 +176,13 @@ export default function PublicationsHomePage() {
 
   const saveEdit = () => {
     if (editingIndex === null) return;
-    const updated = [...publications];
-    updated[editingIndex].awards = editValue;
-    setPublications(updated);
+    setPublications((current) =>
+      current.map((publication, index) =>
+        index === editingIndex
+          ? { ...publication, awards: editValue }
+          : publication,
+      ),
+    );
     setEditingIndex(null);
     showMessage("Award editado (salve para aplicar)", "success");
   };
@@ -311,75 +316,111 @@ export default function PublicationsHomePage() {
                 Nenhuma publicação encontrada. Use "Coletar" para buscar dados.
               </Text>
             ) : (
-              <Table striped highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Título</Table.Th>
-                    <Table.Th>Ano</Table.Th>
-                    <Table.Th>Citações</Table.Th>
-                    <Table.Th>Awards</Table.Th>
-                    <Table.Th>Ações</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {publications.map((pub, index) => (
-                    <Table.Tr key={index}>
-                      <Table.Td style={{ maxWidth: 400 }}>
-                        <Text size="sm" lineClamp={2}>
-                          {pub.title}
-                        </Text>
-                      </Table.Td>
-                      <Table.Td>{pub.year}</Table.Td>
-                      <Table.Td>{pub.citation_number}</Table.Td>
-                      <Table.Td>
-                        {editingIndex === index ? (
+              <div style={{ overflowX: "auto" }}>
+                <Table striped highlightOnHover miw={1100}>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Ações</Table.Th>
+                      <Table.Th>Awards</Table.Th>
+                      <Table.Th>Título</Table.Th>
+                      <Table.Th>Autores</Table.Th>
+                      <Table.Th>Publicação</Table.Th>
+                      <Table.Th>Link</Table.Th>
+                      <Table.Th>Ano</Table.Th>
+                      <Table.Th>Citações</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {publications.map((pub, index) => (
+                      <Table.Tr key={index}>
+                        <Table.Td>
                           <Group gap="xs">
-                            <TextInput
-                              value={editValue}
-                              onChange={(e) => setEditValue(e.target.value)}
-                              size="xs"
-                              style={{ flex: 1 }}
-                            />
                             <ActionIcon
                               color="var(--primary)"
-                              onClick={saveEdit}
-                              size="sm"
+                              onClick={() => startEdit(index)}
+                              disabled={editingIndex !== null}
                             >
-                              <IconCheck size={14} />
+                              <IconEdit size={16} />
                             </ActionIcon>
                             <ActionIcon
                               color="red"
-                              onClick={cancelEdit}
-                              size="sm"
+                              onClick={() => handleDelete(index)}
                             >
-                              <IconX size={14} />
+                              <IconTrash size={16} />
                             </ActionIcon>
                           </Group>
-                        ) : (
-                          <Text size="sm">{pub.awards || "-"}</Text>
-                        )}
-                      </Table.Td>
-                      <Table.Td>
-                        <Group gap="xs">
-                          <ActionIcon
-                            color="var(--primary)"
-                            onClick={() => startEdit(index)}
-                            disabled={editingIndex !== null}
-                          >
-                            <IconEdit size={16} />
-                          </ActionIcon>
-                          <ActionIcon
-                            color="red"
-                            onClick={() => handleDelete(index)}
-                          >
-                            <IconTrash size={16} />
-                          </ActionIcon>
-                        </Group>
-                      </Table.Td>
-                    </Table.Tr>
-                  ))}
-                </Table.Tbody>
-              </Table>
+                        </Table.Td>
+                        <Table.Td>
+                          {editingIndex === index ? (
+                            <Group gap="xs">
+                              <TextInput
+                                value={editValue}
+                                onChange={(e) => setEditValue(e.target.value)}
+                                size="xs"
+                                style={{ flex: 1 }}
+                              />
+                              <ActionIcon
+                                color="var(--primary)"
+                                onClick={saveEdit}
+                                size="sm"
+                              >
+                                <IconCheck size={14} />
+                              </ActionIcon>
+                              <ActionIcon
+                                color="red"
+                                onClick={cancelEdit}
+                                size="sm"
+                              >
+                                <IconX size={14} />
+                              </ActionIcon>
+                            </Group>
+                          ) : (
+                            <Text size="sm">{pub.awards || "-"}</Text>
+                          )}
+                        </Table.Td>
+                        <Table.Td style={{ maxWidth: 400 }}>
+                          <Text size="sm" lineClamp={2}>
+                            {pub.title}
+                          </Text>
+                        </Table.Td>
+                        <Table.Td style={{ maxWidth: 280 }}>
+                          <Text size="sm" lineClamp={2}>
+                            {pub.authors_list || "-"}
+                          </Text>
+                        </Table.Td>
+                        <Table.Td style={{ maxWidth: 260 }}>
+                          <Text size="sm" lineClamp={2}>
+                            {pub.publication_place || "-"}
+                          </Text>
+                        </Table.Td>
+                        <Table.Td style={{ maxWidth: 160 }}>
+                          {pub.link ? (
+                            <Anchor
+                              href={pub.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              size="sm"
+                              style={{
+                                display: "block",
+                                maxWidth: 140,
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              Abrir link
+                            </Anchor>
+                          ) : (
+                            <Text size="sm">-</Text>
+                          )}
+                        </Table.Td>
+                        <Table.Td>{pub.year}</Table.Td>
+                        <Table.Td>{pub.citation_number}</Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+              </div>
             )}
           </Stack>
         </Card>

@@ -32,17 +32,12 @@ export interface TeamMemberData {
 
 export interface Publication {
   title: string;
-  authors: string;
-  venue: string;
+  link: string;
+  authors_list: string;
+  publication_place: string;
+  citation_number: number;
   year: string;
-  doi?: string;
-
-  // Sheet extras (used by the existing sheet model)
-  citation_number?: number;
-  awards?: string;
-  link?: string;
-  authors_list?: string;
-  publication_place?: string;
+  awards: string;
 }
 
 export interface Tool {
@@ -427,11 +422,11 @@ export function parsePublicationRow(row: string[]): Publication {
 
   return {
     title: row[C.TITLE] || "",
-    authors: row[C.AUTHORS_LIST] || "",
-    venue: row[C.PUBLICATION_PLACE] || "",
-    year: row[C.YEAR] || "",
-    doi: row[C.LINK] || "",
+    link: row[C.LINK] || "",
+    authors_list: row[C.AUTHORS_LIST] || "",
+    publication_place: row[C.PUBLICATION_PLACE] || "",
     citation_number: parseInt(row[C.CITATION_NUMBER] || "0", 10),
+    year: row[C.YEAR] || "",
     awards: row[C.AWARDS] || "",
   };
 }
