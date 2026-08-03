@@ -8,5 +8,8 @@
   "scripts": {
     "dev:editor": "npm run dev --workspace apps/editor",
     "dev:main": "npm run dev --workspace apps/main"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1101.0"
   }
 }
