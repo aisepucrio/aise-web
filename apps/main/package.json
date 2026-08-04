@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mantine/core": "^8.3.7",
+    "@shared/s3-images": "0.0.1",
     "@mantine/hooks": "^8.3.7",
     "@mantine/notifications": "^8.3.7",
     "@shared/ui": "0.0.1",

@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireBearer } from "@/app/api/lib/auth";
 import { getJsonByKey, setJsonByKey } from "@/app/api/lib/contentRepository";
+import { signContentImages } from "@/app/api/lib/signContentImages";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -29,7 +30,7 @@ export async function GET() {
         { status: 404, headers: corsHeaders() }
       );
     }
-    return NextResponse.json(data, { headers: corsHeaders() });
+    return NextResponse.json(await signContentImages(data), { headers: { ...corsHeaders(), "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("Error reading researches from Firestore:", error);
     return NextResponse.json(

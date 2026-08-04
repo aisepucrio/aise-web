@@ -8,6 +8,7 @@ import {
 import { validateToolBeforeUpdate } from "@/lib/validations";
 import { requireUser, requireAdmin } from "@/lib/auth-server";
 import { requireCSRF } from "@/lib/csrf-protection";
+import { signContentImages } from "@/lib/sign-content-images-server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
     }
 
     const tools = parseSheetRows(rows, "tools");
-    return NextResponse.json({ tools });
+    return NextResponse.json({ tools: await signContentImages(tools) });
   } catch (error: any) {
     if (error instanceof NextResponse) return error;
     return NextResponse.json({ error: error.message }, { status: 500 });
