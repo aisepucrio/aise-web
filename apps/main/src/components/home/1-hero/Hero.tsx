@@ -29,7 +29,7 @@ export default function Hero() {
       }}
     >
       <Image
-        src={homeContent.hero.imgsrc}
+        src="/images/allimage.jpeg"
         alt=""
         aria-hidden
         fill
