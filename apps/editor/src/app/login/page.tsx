@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Box,
   Paper,
   Title,
   Text,
-  Button,
   Container,
   Stack,
   Alert,
 } from "@mantine/core";
-import { IconBrandGoogle, IconAlertCircle } from "@tabler/icons-react";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { useAuth } from "@/components/AuthContext";
 
 declare global {
@@ -25,7 +24,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { login, isAuthenticated } = useAuth();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const googleButtonRef = useRef<HTMLDivElement>(null);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -34,30 +33,7 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, router]);
 
-  // Load Google Sign-In script
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      if (window.google) {
-        window.google.accounts.id.initialize({
-          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-          callback: handleCredentialResponse,
-        });
-      }
-    };
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   const handleCredentialResponse = async (response: any) => {
-    setLoading(true);
     setError("");
 
     try {
@@ -70,18 +46,40 @@ export default function LoginPage() {
           "Falha na autenticação. Por favor, verifique se seu email está autorizado.",
         );
       }
-    } catch (err) {
+    } catch {
       setError("Ocorreu um erro durante o login. Por favor, tente novamente.");
-    } finally {
-      setLoading(false);
     }
   };
 
-  const handleGoogleLogin = () => {
-    if (window.google) {
-      window.google.accounts.id.prompt();
-    }
-  };
+  // Render Google's user-initiated button. Calling prompt() from our custom
+  // button is unreliable in Safari/macOS.
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      if (window.google && googleButtonRef.current) {
+        window.google.accounts.id.initialize({
+          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+          callback: handleCredentialResponse,
+        });
+        window.google.accounts.id.renderButton(googleButtonRef.current, {
+          theme: "outline",
+          size: "large",
+          text: "signin_with",
+          shape: "rectangular",
+          width: googleButtonRef.current.offsetWidth || 360,
+        });
+      }
+    };
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <Box
@@ -133,18 +131,7 @@ export default function LoginPage() {
               </Alert>
             )}
 
-            <Button
-              leftSection={<IconBrandGoogle size={20} />}
-              size="lg"
-              fullWidth
-              onClick={handleGoogleLogin}
-              loading={loading}
-              style={{
-                background: "var(--primary)",
-              }}
-            >
-              Entre com sua conta Google
-            </Button>
+            <Box ref={googleButtonRef} style={{ minHeight: 40, width: "100%" }} />
 
             <Text size="xs" c="dimmed" ta="center">
               Apenas membros autorizados do AISE Lab podem acessar este editor.
