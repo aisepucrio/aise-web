@@ -1,7 +1,7 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@shared/ui"],
+  transpilePackages: ["@shared/ui", "@shared/s3-images"],
   eslint: {
     ignoreDuringBuilds: true, // ignora erros de lint durante o build
   },

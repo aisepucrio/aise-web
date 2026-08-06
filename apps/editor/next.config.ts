@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  transpilePackages: ["@shared/ui"],
+  transpilePackages: ["@shared/ui", "@shared/s3-images"],
   reactCompiler: true,
   images: {
     remotePatterns: [

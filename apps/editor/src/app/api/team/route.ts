@@ -7,6 +7,7 @@ import {
 import { validateMemberBeforeUpdate } from "@/lib/validations";
 import { requireUser, requireAdmin } from "@/lib/auth-server";
 import { requireCSRF } from "@/lib/csrf-protection";
+import { signContentImages } from "@/lib/sign-content-images-server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,7 +27,7 @@ export async function GET(request: NextRequest) {
     }
 
     const team = parseSheetRows(rows, "team");
-    return NextResponse.json({ team });
+    return NextResponse.json({ team: await signContentImages(team) });
   } catch (error: any) {
     if (error instanceof NextResponse) return error;
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -3,6 +3,7 @@
  */
 
 import { google } from "googleapis";
+import { getImageObjectKey } from "@shared/s3-images";
 
 // ============================================================================
 // Types
@@ -504,6 +505,8 @@ export function parseSheetRows(
 // Serializers (typed object -> sheet row)
 // ============================================================================
 
+const stableImageReference = (value: string) => getImageObjectKey(value) ?? value;
+
 export function serializeTeamRow(member: TeamMemberData): string[] {
   const C = TEAM_COLUMNS;
   const row = Array(17).fill("");
@@ -517,7 +520,7 @@ export function serializeTeamRow(member: TeamMemberData): string[] {
   row[C.NAME] = member.name;
   row[C.POSITION] = member.position;
   row[C.UNIVERSITY] = uniCell;
-  row[C.IMAGE_URL] = member.imageUrl;
+  row[C.IMAGE_URL] = stableImageReference(member.imageUrl);
   row[C.DESCRIPTION] = member.description;
   row[C.EMAIL] = member.email;
   row[C.RESEARCH_INTERESTS] = arrayToString(member.researchInterests);
@@ -560,8 +563,8 @@ export function serializeToolRow(tool: Tool): string[] {
   row[C.DESCRIPTION] = tool.description;
   row[C.LONG_DESCRIPTION] = tool.longDescription || "";
   row[C.CATEGORY] = tool.category;
-  row[C.HIGHLIGHT_IMAGE_URL] = tool.highlightImageUrl || "";
-  row[C.GALLERY_IMAGES_URL] = arrayToString(tool.galleryImagesUrl);
+  row[C.HIGHLIGHT_IMAGE_URL] = stableImageReference(tool.highlightImageUrl || "");
+  row[C.GALLERY_IMAGES_URL] = arrayToString(tool.galleryImagesUrl?.map(stableImageReference));
   row[C.DURATION] = tool.duration;
   row[C.OBJECTIVES] = arrayToString(tool.objectives);
   row[C.FEATURES] = arrayToString(tool.features);
@@ -588,9 +591,14 @@ export function serializeResearchRow(research: Research): string[] {
   row[C.NAME] = research.name;
   row[C.SHORT_DESCRIPTION] = research.shortDescription;
   row[C.LONG_DESCRIPTION] = research.longDescription || "";
-  row[C.HIGHLIGHT_IMAGE_URL] = research.highlightImageUrl || "";
+  row[C.HIGHLIGHT_IMAGE_URL] = stableImageReference(research.highlightImageUrl || "");
   row[C.DURATION] = research.duration;
-  row[C.PROJECTS] = serializeProjects(research.projects);
+  row[C.PROJECTS] = serializeProjects(
+    research.projects?.map((project) => ({
+      ...project,
+      imageUrl: stableImageReference(project.imageUrl),
+    })),
+  );
   row[C.TEAM_RELATIONSHIPS] = serializeTeamRelationships(
     research.team_relationships
   );

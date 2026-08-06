@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { getSignedImageUrl } from "@shared/s3-images";
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import { requireUser } from "@/lib/auth-server";
@@ -83,7 +84,6 @@ interface ProcessedImage {
 }
 
 interface StorageUploadResult {
-  // Unica informacao que precisamos devolver ao frontend.
   imageUrl: string;
 }
 
@@ -276,11 +276,6 @@ function getRequiredEnv(name: string): string {
   return value;
 }
 
-// Remove a barra final para evitar URLs com barras duplicadas.
-function removeTrailingSlash(value: string): string {
-  return value.replace(/\/+$/, "");
-}
-
 // Cria o cliente usando o endpoint e as credenciais apenas no servidor.
 function createS3Client(): S3Client {
   return new S3Client({
@@ -294,13 +289,9 @@ function createS3Client(): S3Client {
   });
 }
 
-// Envia o JPEG processado e devolve uma URL permanente no mesmo formato usado pelo frontend.
+// Envia o JPEG e devolve uma chave persistível com URL temporária para preview.
 async function uploadToS3(image: ProcessedImage): Promise<StorageUploadResult> {
-  const endpoint = removeTrailingSlash(getRequiredEnv("S3_ENDPOINT"));
   const bucket = getRequiredEnv("S3_BUCKET");
-  const publicBaseUrl = removeTrailingSlash(
-    process.env.S3_PUBLIC_BASE_URL ?? `${endpoint}/${bucket}`,
-  );
   const objectKey = `images/${randomUUID()}.jpg`;
   const imageBuffer = await readImageBuffer(image.file);
 
@@ -316,7 +307,7 @@ async function uploadToS3(image: ProcessedImage): Promise<StorageUploadResult> {
   );
 
   return {
-    imageUrl: `${publicBaseUrl}/${objectKey}`,
+    imageUrl: await getSignedImageUrl(objectKey),
   };
 }
 
