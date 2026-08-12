@@ -86,6 +86,14 @@ SERPAPI_KEY=
 # Key para autenticação (cliente/servidor) ;  os dois são a mesma chave
 GOOGLE_CLIENT_ID=
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=
+
+# Configuração do storage compatível com S3 para imagens
+S3_ENDPOINT=
+S3_BUCKET=
+S3_REGION=
+S3_ACCESS_KEY_ID=
+S3_SECRET_ACCESS_KEY=
+S3_PUBLIC_BASE_URL=
 ```
 
 ---
