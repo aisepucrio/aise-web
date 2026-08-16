@@ -623,6 +623,16 @@ export async function updateTeamMember(
   const row = serializeTeamRow(member);
 
   if (isNew) {
+    const existingRowNumber = await findRowByField(
+      sheetName,
+      TEAM_COLUMNS.EMAIL,
+      member.email,
+    );
+
+    if (existingRowNumber !== null) {
+      throw new Error("Já existe um membro cadastrado com este email");
+    }
+
     await appendRow(sheetName, TEAM_RANGE, row);
     return;
   }
