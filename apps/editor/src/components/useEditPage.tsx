@@ -246,7 +246,11 @@ export function useEditPage<T>({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(parsedData),
+        body: JSON.stringify({
+          ...parsedData,
+          isNew: false,
+          originalItemId: itemId,
+        }),
       });
 
       setLastSaved(new Date());
@@ -296,7 +300,11 @@ export function useEditPage<T>({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(parsedData),
+        body: JSON.stringify({
+          ...parsedData,
+          isNew: isNewItem,
+          originalItemId: itemId,
+        }),
       });
 
       const now = new Date();
@@ -309,10 +317,11 @@ export function useEditPage<T>({
         icon: <IconCheck />,
       });
 
-      // Se era novo, redireciona para a URL correta
-      if (isNewItem && getItemUrl) {
+      // A URL identifica a linha editada. Após salvar, usa os dados atuais
+      // para abrir a URL correta (inclusive quando o email foi alterado).
+      if (getItemUrl) {
         const newUrl = getItemUrl(parsedData);
-        console.log(`[useEditPage] Redirecionando novo item para: ${newUrl}`);
+        console.log(`[useEditPage] Redirecionando item para: ${newUrl}`);
         router.push(newUrl);
       } else if (isNewItem) {
         setIsNewItem(false);

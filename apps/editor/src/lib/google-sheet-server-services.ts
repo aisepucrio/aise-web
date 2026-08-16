@@ -616,7 +616,8 @@ export function serializeResearchRow(research: Research): string[] {
 
 export async function updateTeamMember(
   member: TeamMemberData,
-  isNew: boolean
+  isNew: boolean,
+  originalEmail: string = member.email,
 ): Promise<void> {
   const sheetName = process.env.TEAM_SHEET_NAME || "Team";
   const row = serializeTeamRow(member);
@@ -629,12 +630,11 @@ export async function updateTeamMember(
   const rowNumber = await findRowByField(
     sheetName,
     TEAM_COLUMNS.EMAIL,
-    member.email
+    originalEmail,
   );
 
   if (rowNumber === null) {
-    await appendRow(sheetName, TEAM_RANGE, row);
-    return;
+    throw new Error("Membro não encontrado para atualização");
   }
 
   await updateRow(sheetName, rowNumber, TEAM_RANGE, row);
