@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  readSheetData,
-  parseSheetRows,
-  updateResearch,
-  type Research,
-} from "@/lib/google-sheet-server-services";
+import { listResearches, upsertResearch, researchExists, type LegacyResearch } from "@shared/db";
 import { validateResearchBeforeUpdate } from "@/lib/validations";
 import { requireUser, requireAdmin } from "@/lib/auth-server";
 import { requireCSRF } from "@/lib/csrf-protection";
@@ -17,17 +12,7 @@ export async function GET(request: NextRequest) {
   try {
     await requireUser(request);
 
-    const sheetName = process.env.RESEARCHES_SHEET_NAME || "Researches";
-    const rows = await readSheetData(sheetName);
-
-    if (rows.length < 2) {
-      return NextResponse.json(
-        { ok: false, error: "Planilha vazia" },
-        { status: 404 },
-      );
-    }
-
-    const researches = parseSheetRows(rows, "researches");
+    const researches = await listResearches();
     return NextResponse.json({ researches: await signContentImages(researches) });
   } catch (error: any) {
     if (error instanceof NextResponse) return error;
@@ -82,18 +67,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const sheetName = process.env.RESEARCHES_SHEET_NAME || "Researches";
-    const rows = await readSheetData(sheetName);
+    const isNew = !(await researchExists(data.id));
 
-    let isNew = true;
-    for (let i = 1; i < rows.length; i++) {
-      if (rows[i][0] === data.id) {
-        isNew = false;
-        break;
-      }
-    }
-
-    await updateResearch(data as Research, isNew);
+    await upsertResearch(data as LegacyResearch, isNew);
 
     return NextResponse.json({
       success: true,

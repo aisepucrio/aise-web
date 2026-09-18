@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { TeamPayload } from "@/app/api/lib/schemas";
 import { requireBearer } from "@/app/api/lib/auth";
-import { getJsonByKey, setJsonByKey } from "@/app/api/lib/contentRepository";
+import { listTeamMembers, replaceTeamMembers } from "@shared/db";
 import { signContentImages } from "@/app/api/lib/signContentImages";
 
 export const dynamic = "force-dynamic";
@@ -21,19 +21,13 @@ export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders() });
 }
 
-// GET - Leitura pública do Blob
+// GET - Leitura pública (só membros ativos)
 export async function GET() {
   try {
-    const data = await getJsonByKey("lab/team.json");
-    if (!data) {
-      return NextResponse.json(
-        { error: "Team data not found" },
-        { status: 404, headers: corsHeaders() }
-      );
-    }
-    return NextResponse.json(await signContentImages(data), { headers: { ...corsHeaders(), "Cache-Control": "no-store" } });
+    const team = await listTeamMembers({ onlyActive: true });
+    return NextResponse.json(await signContentImages({ team }), { headers: { ...corsHeaders(), "Cache-Control": "no-store" } });
   } catch (error) {
-    console.error("Error reading team from Firestore:", error);
+    console.error("Error reading team from Postgres:", error);
     return NextResponse.json(
       { error: "Team data not found" },
       { status: 404, headers: corsHeaders() }
@@ -59,15 +53,16 @@ export async function POST(req: NextRequest) {
 
     const parsed = TeamPayload.parse(teamData);
 
-    // Salva no Firestore (mantendo contrato de resposta)
-    await setJsonByKey("lab/team.json", { team: parsed });
+    // Upsert de quem está no payload; quem não está mais vira is_active=false
+    // (não apaga — preserva a identidade de login desses membros)
+    await replaceTeamMembers(parsed as any);
 
     return NextResponse.json(
       {
         ok: true,
         count: parsed.length,
         message: `${parsed.length} team members published successfully`,
-        blob: { url: null, pathname: `firestore://lab/team.json` },
+        blob: { url: null, pathname: `postgres://team` },
       },
       { headers: corsHeaders() }
     );
