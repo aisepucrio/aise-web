@@ -1,0 +1,282 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // erro falso positivo da extensao do Prisma no VSCode
+}
+
+// ============================================================
+// Enums
+// ============================================================
+
+enum TeamRole {
+  admin
+  user
+}
+
+enum TeamMemberItemType {
+  research_interest
+  technology
+  knowledge
+}
+
+enum ToolItemType {
+  objective
+  feature
+  tech_stack
+}
+
+// ============================================================
+// Team
+// ============================================================
+
+model Team_Members {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  birth_date   DateTime? @db.Date
+  google_email String    @unique
+  // DBML não define default para role; fixamos "user" como padrão seguro
+  // (privilégio mínimo) já que esse campo controla acesso admin no editor.
+  role         TeamRole  @default(user)
+  is_active    Boolean   @default(true)
+
+  editable                        Team_Member_Editables?
+  research_areas_team_members     Research_Areas_Team_Members[]
+  research_projects_team_members  Research_Projects_Team_Members[]
+  tools_team_members              Tools_Team_Members[]
+}
+
+model Team_Member_Editables {
+  id             Int @id @default(autoincrement())
+  team_member_id Int @unique // 1:1 com Team_Members — sem histórico de versões
+
+  position        String?
+  university      String?
+  imageUrl        String?
+  description     String?
+  contact_email   String?
+
+  lattes          String?
+  personalWebsite String?
+  linkedin        String?
+  github          String?
+  googleScholar   String?
+  orcid           String?
+
+  is_alumni Boolean @default(false)
+
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  published_at DateTime?
+  // "Tem mudança não publicada" não é campo — é derivado na query:
+  // updated_at > published_at (ou published_at IS NULL).
+
+  team_member Team_Members        @relation(fields: [team_member_id], references: [id], onDelete: Cascade)
+  items       Team_Member_Items[]
+}
+
+model Team_Member_Items {
+  id                      Int @id @default(autoincrement())
+  team_member_editable_id Int
+
+  type        TeamMemberItemType
+  title       String?
+  description String?
+  value       String
+  position    Int?
+
+  editable Team_Member_Editables @relation(fields: [team_member_editable_id], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// Research
+// ============================================================
+
+model Research_Areas {
+  id                Int     @id @default(autoincrement())
+  slug              String  @unique
+  name              String?
+  shortDescription  String?
+  longDescription   String?
+  highlightImageUrl String?
+  duration          String?
+
+  projects                     Research_Projects[]
+  research_areas_team_members  Research_Areas_Team_Members[]
+  research_areas_tools         Research_Areas_Tools[]
+  research_areas_publications  Research_Areas_Publications[]
+}
+
+model Research_Projects {
+  id               Int  @id @default(autoincrement())
+  research_area_id Int?
+
+  name        String?
+  imageUrl    String?
+  description String?
+  position    Int?
+
+  research_area                  Research_Areas?                  @relation(fields: [research_area_id], references: [id], onDelete: Cascade)
+  research_projects_team_members Research_Projects_Team_Members[]
+  research_projects_tools        Research_Projects_Tools[]
+  research_projects_publications Research_Projects_Publications[]
+}
+
+// --- Relações no nível da Research inteira ---
+model Research_Areas_Team_Members {
+  id               Int  @id @default(autoincrement())
+  research_area_id Int?
+  team_member_id   Int?
+
+  role     String? // uma linha por role, mesmo padrão de Tools_Team_Members
+  position Int?
+
+  research_area Research_Areas? @relation(fields: [research_area_id], references: [id], onDelete: Cascade)
+  team_member   Team_Members?   @relation(fields: [team_member_id], references: [id], onDelete: Cascade)
+}
+
+model Research_Areas_Tools {
+  id               Int  @id @default(autoincrement())
+  research_area_id Int?
+  tool_id          Int?
+  position         Int?
+
+  research_area Research_Areas? @relation(fields: [research_area_id], references: [id], onDelete: Cascade)
+  tool          Tools?          @relation(fields: [tool_id], references: [id], onDelete: Cascade)
+}
+
+model Research_Areas_Publications {
+  id               Int  @id @default(autoincrement())
+  research_area_id Int?
+  publication_id   Int?
+  position         Int?
+
+  research_area Research_Areas? @relation(fields: [research_area_id], references: [id], onDelete: Cascade)
+  publication   Publications?   @relation(fields: [publication_id], references: [id], onDelete: Cascade)
+}
+
+// --- Relações no nível de Research_Project (uso futuro) ---
+model Research_Projects_Team_Members {
+  id                   Int  @id @default(autoincrement())
+  research_project_id Int?
+  team_member_id       Int?
+  position             Int?
+
+  research_project Research_Projects? @relation(fields: [research_project_id], references: [id], onDelete: Cascade)
+  team_member      Team_Members?      @relation(fields: [team_member_id], references: [id], onDelete: Cascade)
+}
+
+model Research_Projects_Tools {
+  id                  Int  @id @default(autoincrement())
+  research_project_id Int?
+  tool_id             Int?
+  position            Int?
+
+  research_project Research_Projects? @relation(fields: [research_project_id], references: [id], onDelete: Cascade)
+  tool             Tools?              @relation(fields: [tool_id], references: [id], onDelete: Cascade)
+}
+
+model Research_Projects_Publications {
+  id                  Int @id @default(autoincrement())
+  research_project_id Int
+  publication_id      Int
+  position            Int?
+
+  research_project Research_Projects @relation(fields: [research_project_id], references: [id], onDelete: Cascade)
+  publication      Publications      @relation(fields: [publication_id], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// Publications
+// ============================================================
+
+model Publications {
+  id                Int     @id @default(autoincrement())
+  title             String
+  link              String?
+  authors_list      String?
+  publication_place String?
+  citation_number   Int?
+  year              Int?
+  awards            String?
+  acronym           String?
+
+  research_areas_publications    Research_Areas_Publications[]
+  research_projects_publications Research_Projects_Publications[]
+  tools_publications              Tools_Publications[]
+}
+
+model Tools_Publications {
+  id             Int @id @default(autoincrement())
+  tool_id        Int
+  publication_id Int
+  position       Int?
+
+  tool        Tools        @relation(fields: [tool_id], references: [id], onDelete: Cascade)
+  publication Publications @relation(fields: [publication_id], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// Tools
+// ============================================================
+
+model Tools {
+  id                Int     @id @default(autoincrement())
+  slug              String  @unique
+  name              String?
+  tagline           String?
+  description       String?
+  longDescription   String?
+  category          String?
+  highlightImageUrl String?
+  duration          String?
+
+  link_webapp String?
+  link_github String?
+  link_api    String?
+  link_docs   String?
+
+  is_active Boolean @default(true)
+
+  items                   Tool_Items[]
+  gallery_images          Tool_Gallery_Images[]
+  research_areas_tools    Research_Areas_Tools[]
+  research_projects_tools Research_Projects_Tools[]
+  tools_team_members      Tools_Team_Members[]
+  tools_publications      Tools_Publications[]
+}
+
+model Tool_Items {
+  id      Int @id @default(autoincrement())
+  tool_id Int
+
+  type     ToolItemType
+  value    String
+  position Int?
+
+  tool Tools @relation(fields: [tool_id], references: [id], onDelete: Cascade)
+}
+
+model Tool_Gallery_Images {
+  id      Int @id @default(autoincrement())
+  tool_id Int
+
+  imageUrl String
+  position Int?
+
+  tool Tools @relation(fields: [tool_id], references: [id], onDelete: Cascade)
+}
+
+model Tools_Team_Members {
+  id             Int  @id @default(autoincrement())
+  tool_id        Int?
+  team_member_id Int?
+
+  role     String?
+  position Int?
+
+  tool        Tools?        @relation(fields: [tool_id], references: [id], onDelete: Cascade)
+  team_member Team_Members? @relation(fields: [team_member_id], references: [id], onDelete: Cascade)
+}

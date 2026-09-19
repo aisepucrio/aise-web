@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { requireBearer } from "@/app/api/lib/auth";
-import { getJsonByKey, setJsonByKey } from "@/app/api/lib/contentRepository";
+import { listResearches, replaceResearches } from "@shared/db";
 import { signContentImages } from "@/app/api/lib/signContentImages";
 
 export const dynamic = "force-dynamic";
@@ -20,19 +20,13 @@ export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders() });
 }
 
-// GET - Leitura pública do Blob
+// GET - Leitura pública
 export async function GET() {
   try {
-    const data = await getJsonByKey("lab/researches.json");
-    if (!data) {
-      return NextResponse.json(
-        { error: "Researches data not found" },
-        { status: 404, headers: corsHeaders() }
-      );
-    }
-    return NextResponse.json(await signContentImages(data), { headers: { ...corsHeaders(), "Cache-Control": "no-store" } });
+    const researches = await listResearches();
+    return NextResponse.json(await signContentImages({ researches }), { headers: { ...corsHeaders(), "Cache-Control": "no-store" } });
   } catch (error) {
-    console.error("Error reading researches from Firestore:", error);
+    console.error("Error reading researches from Postgres:", error);
     return NextResponse.json(
       { error: "Researches data not found" },
       { status: 404, headers: corsHeaders() }
@@ -56,15 +50,16 @@ export async function POST(req: NextRequest) {
     // Aceita tanto array direto quanto objeto com chave "researches"
     const researchesData = Array.isArray(body) ? body : body.researches;
 
-    // Salva no Firestore
-    await setJsonByKey("lab/researches.json", { researches: researchesData });
+    // Apaga e recria tudo (Research_Areas não é referenciada como FK
+    // obrigatória por mais nada, então isso é seguro)
+    await replaceResearches(researchesData);
 
     return NextResponse.json(
       {
         ok: true,
         count: researchesData.length,
         message: `${researchesData.length} research lines published successfully`,
-        blob: { url: null, pathname: `firestore://lab/researches.json` },
+        blob: { url: null, pathname: `postgres://researches` },
       },
       { headers: corsHeaders() }
     );
