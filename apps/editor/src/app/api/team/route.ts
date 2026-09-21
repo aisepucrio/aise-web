@@ -74,7 +74,8 @@ export async function POST(request: NextRequest) {
     await requireUser(request);
 
     const member = data.member || data;
-    const isNew = data.isNew !== undefined ? data.isNew : false;
+    const isNew = data.isNew === true;
+    const originalEmail = data.originalItemId || member.email;
 
     const validation = validateMemberBeforeUpdate(member);
     if (!validation.valid) {
@@ -84,7 +85,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await updateTeamMember(member, isNew);
+    await updateTeamMember(member, isNew, originalEmail);
 
     return NextResponse.json({
       success: true,

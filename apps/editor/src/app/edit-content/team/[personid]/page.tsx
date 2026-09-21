@@ -9,7 +9,6 @@ import { Center, Text, Stack, Box, Divider } from "@mantine/core";
 import { EXAMPLE_TEAM_MEMBER } from "@/lib/examples";
 import {
   validateMemberData,
-  validateMemberEmailUnchanged,
 } from "@/lib/validations";
 import { useEditPage } from "@/components/useEditPage";
 import { EditPageLayout } from "@/components/EditPageLayout";
@@ -57,7 +56,6 @@ export default function EditContentPage() {
       return member || null;
     },
     validate: validateMemberData,
-    validateExisting: validateMemberEmailUnchanged,
     isNewItemId: (id) => id === "new" || !id || id === "undefined",
     getItemUrl: (data) =>
       `/edit-content/team/${encodeURIComponent(data.email)}`,

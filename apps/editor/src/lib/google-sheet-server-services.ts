@@ -616,12 +616,23 @@ export function serializeResearchRow(research: Research): string[] {
 
 export async function updateTeamMember(
   member: TeamMemberData,
-  isNew: boolean
+  isNew: boolean,
+  originalEmail: string = member.email,
 ): Promise<void> {
   const sheetName = process.env.TEAM_SHEET_NAME || "Team";
   const row = serializeTeamRow(member);
 
   if (isNew) {
+    const existingRowNumber = await findRowByField(
+      sheetName,
+      TEAM_COLUMNS.EMAIL,
+      member.email,
+    );
+
+    if (existingRowNumber !== null) {
+      throw new Error("Já existe um membro cadastrado com este email");
+    }
+
     await appendRow(sheetName, TEAM_RANGE, row);
     return;
   }
@@ -629,12 +640,11 @@ export async function updateTeamMember(
   const rowNumber = await findRowByField(
     sheetName,
     TEAM_COLUMNS.EMAIL,
-    member.email
+    originalEmail,
   );
 
   if (rowNumber === null) {
-    await appendRow(sheetName, TEAM_RANGE, row);
-    return;
+    throw new Error("Membro não encontrado para atualização");
   }
 
   await updateRow(sheetName, rowNumber, TEAM_RANGE, row);

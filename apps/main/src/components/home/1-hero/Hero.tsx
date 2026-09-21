@@ -1,15 +1,40 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Overlay, Container, Title, Text, rem } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import homeContent from "@/../public/json/home.json";
 
+const carouselDotStyle: React.CSSProperties = {
+  width: 9,
+  height: 9,
+  padding: 0,
+  border: "1px solid #fff",
+  borderRadius: "50%",
+  background: "#fff",
+  cursor: "pointer",
+  transition: "opacity 0.2s ease, transform 0.2s ease",
+};
+
+const heroImages = [
+  { src: "/images/IMG_3191.jpeg", alt: "" },
+  { src: "/images/allimage.jpeg", alt: "" },
+];
+
 /* Hero section with background image + layered overlays + centered text block */
 export default function Hero() {
   const isMobile = useMediaQuery("(max-width: 62em)");
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroImages.length);
+    }, 10000);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   return (
     <div
@@ -28,14 +53,65 @@ export default function Hero() {
         backgroundSize: "cover",
       }}
     >
-      <Image
-        src="/images/allimage.jpeg"
-        alt=""
-        aria-hidden
-        fill
-        priority
-        style={{ objectFit: "cover" }}
-      />
+      <div
+        aria-label="Hero image carousel"
+        aria-roledescription="carousel"
+        style={{ position: "absolute", inset: 0 }}
+      >
+        {heroImages.map((image, index) => (
+          <motion.div
+            key={image.src}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${index + 1} of ${heroImages.length}`}
+            aria-hidden={activeSlide !== index}
+            initial={false}
+            animate={{ opacity: activeSlide === index ? 1 : 0 }}
+            transition={{ duration: 1.1, ease: "easeInOut" }}
+            style={{ position: "absolute", inset: 0 }}
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              priority={index === 0}
+              sizes="100vw"
+              style={{ objectFit: "cover" }}
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      <div
+        role="tablist"
+        aria-label="Choose hero image"
+        style={{
+          position: "absolute",
+          zIndex: 3,
+          bottom: isMobile ? 20 : 28,
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          gap: 8,
+        }}
+      >
+        {heroImages.map((image, index) => (
+          <button
+            key={image.src}
+            type="button"
+            role="tab"
+            aria-selected={activeSlide === index}
+            aria-label={`Show hero image ${index + 1}`}
+            onClick={() => setActiveSlide(index)}
+            style={{
+              ...carouselDotStyle,
+              opacity: activeSlide === index ? 1 : 0.55,
+              transform: activeSlide === index ? "scale(1.15)" : "scale(1)",
+            }}
+          />
+        ))}
+      </div>
 
       <Overlay
         zIndex={0}
@@ -156,7 +232,7 @@ export default function Hero() {
                     color: "#fff",
                     fontWeight: 850,
                     letterSpacing: "-0.02em",
-                    textWrap: "balance" as any,
+                    textWrap: "balance",
                     fontSize: isMobile ? rem(26) : "clamp(1.8rem, 4vw, 3rem)",
                     lineHeight: 1.05,
                     whiteSpace: "pre-line",
