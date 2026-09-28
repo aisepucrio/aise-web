@@ -100,33 +100,55 @@ export default function PublicationsHomePage() {
 
       const { publications: newPubs } = await response.json();
 
-      // 2. Se for append, filtra duplicatas (por título)
+      // 2. No append, atualiza citações existentes e adiciona apenas novos títulos
       let finalPubs = newPubs;
+      let updatedCitations = 0;
+      let nextPublications = publications;
       if (mode === "append") {
+        const scrapedByTitle = new Map<string, Publication>();
+        newPubs.forEach((pub: Publication) => {
+          scrapedByTitle.set(pub.title.toLowerCase(), pub);
+        });
+        nextPublications = publications.map((publication) => {
+          const scraped = scrapedByTitle.get(publication.title.toLowerCase());
+          if (!scraped) return publication;
+          if (publication.citation_number !== scraped.citation_number) {
+            updatedCitations++;
+            return { ...publication, citation_number: scraped.citation_number };
+          }
+          return publication;
+        });
         const existingTitles = new Set(
-          publications.map((p) => p.title.toLowerCase()),
+          publications.map((publication) => publication.title.toLowerCase()),
         );
         finalPubs = newPubs.filter(
-          (p: Publication) => !existingTitles.has(p.title.toLowerCase()),
+          (pub: Publication) => !existingTitles.has(pub.title.toLowerCase()),
         );
-
-        if (finalPubs.length === 0) {
-          showMessage("Nenhuma publicação nova encontrada", "success");
-          setScraping(false);
-          return;
-        }
       }
 
       // 3. Atualiza estado local
       if (mode === "replace") {
         setPublications(finalPubs);
       } else {
-        setPublications([...publications, ...finalPubs]);
+        setPublications([...nextPublications, ...finalPubs]);
+      }
+
+      if (
+        mode === "append" &&
+        finalPubs.length === 0 &&
+        updatedCitations === 0
+      ) {
+        showMessage("Nenhuma publicação nova ou citação atualizada", "success");
+        return;
       }
 
       showMessage(
         `${finalPubs.length} publicação(ões) ${
           mode === "replace" ? "carregadas" : "adicionadas"
+        }${
+          updatedCitations
+            ? ` e citações atualizadas em ${updatedCitations} publicação(ões)`
+            : ""
         }`,
         "success",
       );
