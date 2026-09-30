@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getJsonByKey } from "@/app/api/lib/contentRepository";
+import { listTeamMembers } from "@shared/db";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -18,21 +18,14 @@ export async function OPTIONS() {
 
 export async function GET() {
   try {
-    const data = await getJsonByKey("lab/team.json");
-
-    if (!data || !data.team || !Array.isArray(data.team)) {
-      return NextResponse.json(
-        { error: "Team data not found" },
-        { status: 404, headers: corsHeaders() }
-      );
-    }
+    const team = await listTeamMembers({ onlyActive: true });
 
     const researchInterestsSet = new Set<string>();
     const technologiesSet = new Set<string>();
     const knowledgeSet = new Set<string>();
 
     // Scrape all team members
-    data.team.forEach((member: any) => {
+    team.forEach((member) => {
       if (Array.isArray(member.researchInterests)) {
         member.researchInterests.forEach((item: string) => {
           researchInterestsSet.add(item.toLowerCase().trim());

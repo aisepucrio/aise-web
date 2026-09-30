@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  readSheetData,
-  parseSheetRows,
-  updatePublications,
-} from "@/lib/google-sheet-server-services";
+  listPublications,
+  appendPublications,
+  replacePublications,
+} from "@shared/db";
 import { requireUser, requireAdmin } from "@/lib/auth-server";
 import { requireCSRF } from "@/lib/csrf-protection";
 
@@ -14,17 +14,7 @@ export async function GET(request: NextRequest) {
   try {
     await requireUser(request);
 
-    const sheetName = process.env.PUBLICATIONS_SHEET_NAME || "Publications";
-    const rows = await readSheetData(sheetName);
-
-    if (rows.length < 2) {
-      return NextResponse.json(
-        { ok: false, error: "Planilha vazia" },
-        { status: 404 },
-      );
-    }
-
-    const publications = parseSheetRows(rows, "publications");
+    const publications = await listPublications();
     return NextResponse.json({ publications });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -76,7 +66,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
     }
 
-    await updatePublications(publications, mode);
+    if (mode === "replace") {
+      await replacePublications(publications);
+    } else {
+      await appendPublications(publications);
+    }
 
     return NextResponse.json({
       ok: true,

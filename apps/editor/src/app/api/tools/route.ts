@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  readSheetData,
-  parseSheetRows,
-  updateTool,
-  type Tool,
-} from "@/lib/google-sheet-server-services";
+import { listTools, upsertTool, toolExists, type LegacyTool } from "@shared/db";
 import { validateToolBeforeUpdate } from "@/lib/validations";
 import { requireUser, requireAdmin } from "@/lib/auth-server";
 import { requireCSRF } from "@/lib/csrf-protection";
@@ -17,17 +12,7 @@ export async function GET(request: NextRequest) {
   try {
     await requireUser(request);
 
-    const sheetName = process.env.TOOLS_SHEET_NAME || "Tools";
-    const rows = await readSheetData(sheetName);
-
-    if (rows.length < 2) {
-      return NextResponse.json(
-        { ok: false, error: "Planilha vazia" },
-        { status: 404 },
-      );
-    }
-
-    const tools = parseSheetRows(rows, "tools");
+    const tools = await listTools();
     return NextResponse.json({ tools: await signContentImages(tools) });
   } catch (error: any) {
     if (error instanceof NextResponse) return error;
@@ -82,18 +67,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const sheetName = process.env.TOOLS_SHEET_NAME || "Tools";
-    const rows = await readSheetData(sheetName);
+    const isNew = !(await toolExists(data.id));
 
-    let isNew = true;
-    for (let i = 1; i < rows.length; i++) {
-      if (rows[i][0] === data.id) {
-        isNew = false;
-        break;
-      }
-    }
-
-    await updateTool(data as Tool, isNew);
+    await upsertTool(data as LegacyTool, isNew);
 
     return NextResponse.json({
       success: true,

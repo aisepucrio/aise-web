@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PublicationsPayload } from "@/app/api/lib/schemas";
 import { requireBearer } from "@/app/api/lib/auth";
-import { getJsonByKey, setJsonByKey } from "@/app/api/lib/contentRepository";
+import { listPublications, replacePublications } from "@shared/db";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -20,19 +20,13 @@ export async function OPTIONS() {
   return NextResponse.json({}, { status: 200, headers: corsHeaders() });
 }
 
-// GET - Leitura pública do Blob
+// GET - Leitura pública
 export async function GET() {
   try {
-    const data = await getJsonByKey("lab/publications.json");
-    if (!data) {
-      return NextResponse.json(
-        { error: "Publications data not found" },
-        { status: 404, headers: corsHeaders() }
-      );
-    }
-    return NextResponse.json(data, { headers: corsHeaders() });
+    const publications = await listPublications();
+    return NextResponse.json({ publications }, { headers: corsHeaders() });
   } catch (error) {
-    console.error("Error reading publications from Firestore:", error);
+    console.error("Error reading publications from Postgres:", error);
     return NextResponse.json(
       { error: "Publications data not found" },
       { status: 404, headers: corsHeaders() }
@@ -57,15 +51,15 @@ export async function POST(req: NextRequest) {
 
     const parsed = PublicationsPayload.parse(publicationsData);
 
-    // Salva no Firestore (mantendo contrato de resposta)
-    await setJsonByKey("lab/publications.json", { publications: parsed });
+    // Substitui todo o conteúdo (mantendo contrato de resposta)
+    await replacePublications(parsed);
 
     return NextResponse.json(
       {
         ok: true,
         count: parsed.length,
         message: `${parsed.length} publications published successfully`,
-        blob: { url: null, pathname: `firestore://lab/publications.json` },
+        blob: { url: null, pathname: `postgres://publications` },
       },
       { headers: corsHeaders() }
     );

@@ -10,6 +10,18 @@ function getRequiredEnv(name: string): string {
   return value;
 }
 
+let warnedMissingConfig = false;
+
+/** Verifica se o S3 está configurado, sem lançar erro (ao contrário de getRequiredEnv). */
+function isConfigured(): boolean {
+  return !!(
+    process.env.S3_ENDPOINT &&
+    process.env.S3_BUCKET &&
+    process.env.S3_ACCESS_KEY_ID &&
+    process.env.S3_SECRET_ACCESS_KEY
+  );
+}
+
 let client: S3Client | undefined;
 
 function getConfig() {
@@ -75,6 +87,18 @@ export async function getSignedImageUrl(objectKey: string): Promise<string> {
 export async function getSignedImageUrls(
   objectKeys: readonly string[],
 ): Promise<string[]> {
+  // Sem S3 configurado (ex: dev local sem Garage), não há como assinar —
+  // devolve as referências originais em vez de derrubar a rota inteira.
+  if (!isConfigured()) {
+    if (!warnedMissingConfig) {
+      console.warn(
+        "[s3-images] S3 não configurado — pulando assinatura de imagens (URLs originais serão usadas).",
+      );
+      warnedMissingConfig = true;
+    }
+    return [...objectKeys];
+  }
+
   const signed = new Map<string, Promise<string>>();
   return Promise.all(objectKeys.map((objectKey) => {
     const key = getImageObjectKey(objectKey);

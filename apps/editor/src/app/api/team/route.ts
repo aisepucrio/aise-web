@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  readSheetData,
-  parseSheetRows,
-  updateTeamMember,
-} from "@/lib/google-sheet-server-services";
+import { listTeamMembers, upsertTeamMember } from "@shared/db";
 import { validateMemberBeforeUpdate } from "@/lib/validations";
 import { requireUser, requireAdmin } from "@/lib/auth-server";
 import { requireCSRF } from "@/lib/csrf-protection";
@@ -16,17 +12,7 @@ export async function GET(request: NextRequest) {
   try {
     await requireUser(request); // Auth check
 
-    const sheetName = process.env.TEAM_SHEET_NAME || "Team";
-    const rows = await readSheetData(sheetName);
-
-    if (rows.length < 2) {
-      return NextResponse.json(
-        { ok: false, error: "Planilha vazia" },
-        { status: 404 },
-      );
-    }
-
-    const team = parseSheetRows(rows, "team");
+    const team = await listTeamMembers();
     return NextResponse.json({ team: await signContentImages(team) });
   } catch (error: any) {
     if (error instanceof NextResponse) return error;
@@ -85,7 +71,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await updateTeamMember(member, isNew, originalEmail);
+    await upsertTeamMember(member, isNew, originalEmail);
 
     return NextResponse.json({
       success: true,
