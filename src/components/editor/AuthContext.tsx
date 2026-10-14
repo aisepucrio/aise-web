@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const res = await fetch("/api/auth/me", { credentials: "include" });
+      const res = await fetch("/api/editor/auth/me", { credentials: "include" });
 
       if (res.ok) {
         const data = await res.json();
@@ -90,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const res = await fetch("/api/auth/verify", {
+      const res = await fetch("/api/editor/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idToken }),
@@ -110,7 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Clear server-side session cookie and reset local state
   const logout = async () => {
     try {
-      await fetch("/api/auth/logout", {
+      await fetch("/api/editor/auth/logout", {
         method: "POST",
         credentials: "include",
       });

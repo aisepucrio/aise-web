@@ -116,7 +116,7 @@ export default function ImageUploadModal({
       formData.append("image", selectedFile);
 
       const response = await authFetchJson<ImageUploadResponse>(
-        "/api/imageboximageconverter",
+        "/api/editor/images",
         {
           method: "POST",
           body: formData,

@@ -12,7 +12,7 @@ import "./globals.css";
 // Carrega a fonte Montserrat via next/font
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
+  weight: "variable", // Montserrat é variable font — carrega todos os pesos num arquivo só
   variable: "--font-montserrat",
   display: "swap",
 });

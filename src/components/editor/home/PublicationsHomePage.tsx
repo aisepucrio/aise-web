@@ -90,7 +90,7 @@ export default function PublicationsHomePage() {
 
     try {
       // 1. Busca via SerpAPI
-      const response = await fetch("/api/serpapi", {
+      const response = await fetch("/api/editor/serpapi", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ authorId, yearCutoff }),
