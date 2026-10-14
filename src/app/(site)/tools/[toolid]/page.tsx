@@ -1,0 +1,300 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Box, Loader, Center, Stack, Text, Container } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import FlickeringGrid from "@/components/main/FlickeringGrid";
+import BackButton from "@/components/main/BackButton";
+import {
+  ToolDetailView,
+  PersonCardProps,
+  PublicationCardProps,
+} from "@/components/ui";
+import { motion } from "framer-motion";
+
+// Tipos
+type Tool = {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  longDescription?: string;
+  highlightImageUrl: string;
+  galleryImagesUrl?: string[];
+  category: string;
+  status: string;
+  duration: string;
+  sponsor?: string;
+  objectives?: string[];
+  features?: string[];
+  techStack?: string[];
+  links?: {
+    webapp?: string;
+    github?: string;
+    api?: string;
+    docs?: string;
+  };
+  team_relationships?: Array<{
+    name: string;
+    roles: string[];
+  }>;
+  publication_relationships?: string[];
+};
+
+type ToolsData = { tools: Tool[] };
+
+// Hook: carrega um projeto específico da API
+const useTool = (id: string) => {
+  const [tool, setTool] = useState<Tool | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    const controller = new AbortController();
+
+    const load = async () => {
+      try {
+        const res = await fetch("/api/tools", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!res.ok) throw new Error("Falha no carregamento");
+
+        const data: ToolsData = await res.json();
+        const found = data.tools.find((p) => p.id === id);
+
+        if (!mounted) return;
+        if (found) {
+          setTool(found);
+        } else {
+          console.error("Tool not found:", id);
+        }
+      } catch (error) {
+        if (!mounted) return;
+        console.error("Error loading tool:", error);
+      } finally {
+        mounted && setIsLoading(false);
+      }
+    };
+
+    load();
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
+  }, [id]);
+
+  return { tool, isLoading };
+};
+
+// Hook: carrega publications relacionados ao projeto (usando relacionamentos embutidos)
+const useToolPublications = (tool: Tool | null) => {
+  const [publications, setPublications] = useState<PublicationCardProps[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!tool) {
+      setIsLoading(false);
+      return;
+    }
+
+    const load = async () => {
+      try {
+        const publicationsRes = await fetch("/api/publications");
+        const publicationsData = await publicationsRes.json();
+
+        if (
+          tool.publication_relationships &&
+          tool.publication_relationships.length > 0
+        ) {
+          const relatedPublications = (publicationsData.publications || [])
+            .filter((publication: any) =>
+              tool.publication_relationships?.includes(publication.title)
+            )
+            .map((pub: any) => ({
+              title: pub.title,
+              link: pub.link,
+              authors_list: pub.authors_list,
+              publication_place: pub.publication_place,
+              citation_number: pub.citation_number,
+              year: pub.year,
+            }));
+          setPublications(relatedPublications);
+        }
+      } catch (error) {
+        console.error("Error loading tool publications:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    load();
+  }, [tool]);
+
+  return { publications, isLoading };
+};
+
+// Hook: carrega membros do time relacionados ao projeto (usando relacionamentos embutidos)
+const useToolTeam = (tool: Tool | null) => {
+  const [teamMembers, setTeamMembers] = useState<PersonCardProps[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!tool) {
+      setIsLoading(false);
+      return;
+    }
+
+    const load = async () => {
+      try {
+        const teamRes = await fetch("/api/team");
+        const teamData = await teamRes.json();
+
+        if (tool.team_relationships && tool.team_relationships.length > 0) {
+          // Criar um mapa de nomes para roles
+          const memberRolesMap = new Map(
+            tool.team_relationships.map((tm) => [tm.name, tm.roles || []])
+          );
+
+          const relatedMembers = teamData.team
+            .filter((member: any) => memberRolesMap.has(member.name))
+            .map((member: any) => ({
+              name: member.name,
+              position: member.position,
+              imageUrl: member.imageUrl,
+              description: member.description,
+              roles: memberRolesMap.get(member.name) || [],
+            }));
+          setTeamMembers(relatedMembers);
+        }
+      } catch (error) {
+        console.error("Error loading tool team:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    load();
+  }, [tool]);
+
+  return { teamMembers, isLoading };
+};
+
+export default function ToolDetailPage() {
+  const params = useParams<{ toolid?: string }>();
+  const router = useRouter();
+  const toolId = (params?.toolid ?? "") as string;
+  const { tool, isLoading } = useTool(toolId);
+  const { publications, isLoading: publicationsLoading } =
+    useToolPublications(tool);
+  const { teamMembers, isLoading: teamLoading } = useToolTeam(tool);
+  const isMobile = useMediaQuery("(max-width: 62em)");
+  const [gridKey, setGridKey] = useState(0);
+
+  // Espera TODOS os dados carregarem antes de renderizar
+  const isFullyLoaded = !isLoading && !publicationsLoading && !teamLoading;
+
+  useEffect(() => {
+    if (isFullyLoaded) {
+      const timer = setTimeout(() => setGridKey((prev) => prev + 1), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isFullyLoaded]);
+
+  // Loading state - espera todos os dados
+  if (!isFullyLoaded) {
+    return (
+      <Box
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          backgroundColor: "var(--primary)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Loader size="lg" color="white" />
+      </Box>
+    );
+  }
+
+  // Tool não encontrado
+  if (!tool) {
+    return (
+      <Box
+        style={{
+          minHeight: "80vh",
+          backgroundColor: "var(--primary)",
+          paddingTop: isMobile ? 80 : 100,
+        }}
+      >
+        <Center h={400}>
+          <Stack align="center" gap="lg">
+            <Text size="xl" c="white" fw={600}>
+              Tool not found
+            </Text>
+            <BackButton onClick={() => router.push("/tools")}>
+              Back to Tools
+            </BackButton>
+          </Stack>
+        </Center>
+      </Box>
+    );
+  }
+
+  const toolData = {
+    name: tool.name,
+    tagline: tool.tagline,
+    description: tool.description,
+    longDescription: tool.longDescription,
+    imageUrl: tool.highlightImageUrl,
+    duration: tool.duration,
+    techStack: tool.techStack,
+    objectives: tool.objectives,
+    features: tool.features,
+    gallery: tool.galleryImagesUrl,
+    links: tool.links,
+  };
+
+  return (
+    <Box
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        backgroundColor: "var(--primary)",
+        paddingTop: isMobile ? 80 : 100,
+        paddingBottom: isMobile ? 60 : 80,
+        overflow: "hidden",
+      }}
+    >
+      <FlickeringGrid
+        key={gridKey}
+        squareSize={8}
+        gridGap={6}
+        color="rgb(255, 255, 255)"
+        maxOpacity={0.4}
+        flickerChance={0.005}
+      />
+
+      <Container size="xl" style={{ position: "relative", zIndex: 1 }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <BackButton onClick={() => router.push("/tools")}>
+            Back to Tools
+          </BackButton>
+
+          <ToolDetailView
+            tool={toolData}
+            teamMembers={teamMembers}
+            publications={publications}
+          />
+        </motion.div>
+      </Container>
+    </Box>
+  );
+}
