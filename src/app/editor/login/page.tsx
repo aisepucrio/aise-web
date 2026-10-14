@@ -29,7 +29,7 @@ export default function LoginPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/");
+      router.push("/editor");
     }
   }, [isAuthenticated, router]);
 
@@ -40,7 +40,7 @@ export default function LoginPage() {
       const success = await login(response.credential);
 
       if (success) {
-        router.push("/");
+        router.push("/editor");
       } else {
         setError(
           "Falha na autenticação. Por favor, verifique se seu email está autorizado.",

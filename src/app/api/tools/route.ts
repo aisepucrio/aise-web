@@ -12,9 +12,9 @@ const mockTools: ToolData[] = [
     description:
       "Ferramenta completa para recomendação automática de publicações.",
     category: "AI",
-    highlightImageUrl: "",
+    highlightImageUrl: "/images/logos/logo.png",
     galleryImagesUrl: [],
-    duration: "Jan 2025 – presente",
+    duration: "Jan 2025 – present",
     objectives: ["Recomendar artigos", "Facilitar pesquisa"],
     features: ["Busca semântica"],
     techStack: ["Python", "FastAPI", "Postgres"],

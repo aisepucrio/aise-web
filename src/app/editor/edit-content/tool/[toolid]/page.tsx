@@ -113,7 +113,7 @@ export default function EditToolPage() {
     validate: validateToolData,
     validateExisting: validateToolIdUnchanged,
     isNewItemId: (id) => id === "new-tool",
-    getItemUrl: (data) => `/edit-content/tool/${encodeURIComponent(data.id)}`,
+    getItemUrl: (data) => `/editor/edit-content/tool/${encodeURIComponent(data.id)}`,
   });
 
   const teamMembers = useMemo(() => {

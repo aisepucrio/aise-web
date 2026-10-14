@@ -137,7 +137,7 @@ export function useEditPage<T>({
           message: `Erro ao carregar dados. Redirecionando...`,
           color: "red",
         });
-        setTimeout(() => router.push("/"), 2000);
+        setTimeout(() => router.push("/editor"), 2000);
       } finally {
         setIsLoading(false);
       }

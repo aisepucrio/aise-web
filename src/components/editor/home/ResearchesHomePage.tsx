@@ -19,7 +19,7 @@ export default function ResearchesHomePage() {
       apiEndpoint="/api/researches"
       newItemValue="__NEW_RESEARCH__"
       newItemLabel="+ Criar nova research"
-      newItemRoute="/edit-content/researches/new-research"
+      newItemRoute="/editor/edit-content/researches/new-research"
       mapResponseToItems={(data) => {
         const researchesList = data.researches || [];
         return researchesList.map((research: any) => ({
@@ -30,7 +30,7 @@ export default function ResearchesHomePage() {
       }}
       getItemValue={(item) => item.id}
       getItemLabel={(item) => item.name}
-      getItemRoute={(value) => `/edit-content/researches/${value}`}
+      getItemRoute={(value) => `/editor/edit-content/researches/${value}`}
     />
   );
 }

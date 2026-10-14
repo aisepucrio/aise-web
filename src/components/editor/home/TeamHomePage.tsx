@@ -19,7 +19,7 @@ export default function TeamHomePage() {
       apiEndpoint="/api/team"
       newItemValue="__NEW_MEMBER__"
       newItemLabel="+ Cadastrar novo membro"
-      newItemRoute="/edit-content/team/new"
+      newItemRoute="/editor/edit-content/team/new"
       mapResponseToItems={(data) => {
         const team = data.team || [];
         return team
@@ -32,7 +32,7 @@ export default function TeamHomePage() {
       getItemValue={(item) => item.email}
       getItemLabel={(item) => `${item.name} (${item.email})`}
       getItemRoute={(value) =>
-        `/edit-content/team/${encodeURIComponent(value)}`
+        `/editor/edit-content/team/${encodeURIComponent(value)}`
       }
     />
   );

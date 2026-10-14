@@ -149,7 +149,7 @@ export function EditPageLayout({
                 leftSection={<IconArrowLeft size={18} />}
                 variant="light"
                 color="var(--primary)"
-                onClick={() => router.push("/")}
+                onClick={() => router.push("/editor")}
               >
                 Voltar
               </Button>

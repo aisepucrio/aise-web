@@ -58,7 +58,7 @@ export default function EditContentPage() {
     validate: validateMemberData,
     isNewItemId: (id) => id === "new" || !id || id === "undefined",
     getItemUrl: (data) =>
-      `/edit-content/team/${encodeURIComponent(data.email)}`,
+      `/editor/edit-content/team/${encodeURIComponent(data.email)}`,
   });
 
   return (

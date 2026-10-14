@@ -9,9 +9,10 @@ const mockResearches: ResearchData[] = [
     id: "research-diversity",
     name: "Diversidade em IA",
     shortDescription: "Linha de pesquisa sobre diversidade em sistemas de IA",
-    longDescription: "Descrição longa sobre os objetivos da linha de pesquisa.",
-    highlightImageUrl: "",
-    duration: "Jan 2025 – presente",
+    longDescription:
+      "Descrição longa sobre os objetivos da linha de pesquisa, cobrindo desafios de representatividade e viés em sistemas de inteligência artificial aplicados ao contexto acadêmico.",
+    highlightImageUrl: "/images/logos/logo.png",
+    duration: "Jan 2025 – present",
     projects: [
       { name: "Projeto A", imageUrl: "", description: "Descrição do projeto A" },
     ],

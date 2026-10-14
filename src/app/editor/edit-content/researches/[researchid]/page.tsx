@@ -109,7 +109,7 @@ export default function EditResearchPage() {
     validateExisting: validateResearchIdUnchanged,
     isNewItemId: (id) => id === "new-research",
     getItemUrl: (data) =>
-      `/edit-content/researches/${encodeURIComponent(data.id)}`,
+      `/editor/edit-content/researches/${encodeURIComponent(data.id)}`,
   });
 
   return (

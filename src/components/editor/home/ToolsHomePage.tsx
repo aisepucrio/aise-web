@@ -19,7 +19,7 @@ export default function ToolsHomePage() {
       apiEndpoint="/api/tools"
       newItemValue="__NEW_TOOL__"
       newItemLabel="+ Criar novo tool"
-      newItemRoute="/edit-content/tool/new-tool"
+      newItemRoute="/editor/edit-content/tool/new-tool"
       mapResponseToItems={(data) => {
         const toolsList = data.tools || [];
         return toolsList.map((tool: any) => ({
@@ -30,7 +30,7 @@ export default function ToolsHomePage() {
       }}
       getItemValue={(item) => item.id}
       getItemLabel={(item) => `${item.name} (${item.category})`}
-      getItemRoute={(value) => `/edit-content/tool/${value}`}
+      getItemRoute={(value) => `/editor/edit-content/tool/${value}`}
     />
   );
 }

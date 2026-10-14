@@ -76,8 +76,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Redirect if not authenticated (except on login page)
   useEffect(() => {
-    if (!loading && !user && pathname !== "/login") {
-      router.replace("/login");
+    if (!loading && !user && pathname !== "/editor/login") {
+      router.replace("/editor/login");
     }
   }, [loading, user, pathname, router]);
 
@@ -118,7 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error("Logout failed:", error);
     } finally {
       setUser(null);
-      router.replace("/login");
+      router.replace("/editor/login");
     }
   };
 
