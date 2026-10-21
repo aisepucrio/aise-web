@@ -1,39 +1,47 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { Publication } from "@/lib/types";
+import { listPublications, appendPublications, replacePublications } from "@shared/db";
+import { requireUser } from "@/lib/auth-server";
+import { requireCSRF } from "@/lib/csrf-protection";
 
-// Mock pra validar o front migrado. A leitura/escrita real no Postgres
-// (via Prisma, hoje em packages/db/src/publications.ts) entra nesta
-// mesma rota numa etapa seguinte, fora do escopo deste passo.
-const mockPublications: Publication[] = [
-  {
-    title: "RAISE: um sistema de recomendação",
-    link: "",
-    authors_list: "Lovelace, A.; Turing, A.",
-    publication_place: "",
-    citation_number: 0,
-    year: "2026",
-    awards: "",
-  },
-];
-
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json({ publications: mockPublications });
+  try {
+    const publications = await listPublications();
+    return NextResponse.json(
+      { publications },
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  } catch (error: unknown) {
+    console.error("Error reading publications:", error);
+    return NextResponse.json({ error: "Publications data not found" }, { status: 500 });
+  }
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  try {
+    requireCSRF(request);
+    await requireUser(request);
 
-  if (!Array.isArray(body?.publications)) {
-    return NextResponse.json(
-      { error: "Lista de publicações é obrigatória" },
-      { status: 400 },
-    );
+    const { publications, mode } = await request.json();
+    if (!Array.isArray(publications) || !["append", "replace"].includes(mode)) {
+      return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
+    }
+
+    if (mode === "replace") {
+      await replacePublications(publications);
+    } else {
+      await appendPublications(publications);
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `${publications.length} publicações ${mode === "replace" ? "substituídas" : "adicionadas"}`,
+    });
+  } catch (error: unknown) {
+    if (error instanceof NextResponse) return error;
+    const message = error instanceof Error ? error.message : "Erro ao salvar publicações";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  return NextResponse.json({
-    success: true,
-    message: "Publicações salvas (mock)",
-  });
 }

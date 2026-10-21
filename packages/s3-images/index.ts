@@ -63,7 +63,9 @@ function getObjectKeyFromUrl(reference: string): string | null {
   try {
     url = new URL(reference);
   } catch {
-    throw new Error("Referência de imagem S3 inválida.");
+    // Não é uma URL absoluta (ex: caminho local "/images/logos/logo.png",
+    // ou string vazia) — não é uma referência do nosso bucket, não um erro.
+    return null;
   }
   const prefix = `/${getConfig().bucket}/`;
   return url.pathname.startsWith(prefix)

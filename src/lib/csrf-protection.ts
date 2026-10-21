@@ -1,8 +1,5 @@
-// csrf.ts
-/**
- * CSRF protection for cookie-based auth:
- * For state-changing methods, require same-origin via Origin/Referer.
- */
+// CSRF protection for cookie-based auth:
+// For state-changing methods, require same-origin via Origin/Referer.
 
 import { NextRequest, NextResponse } from "next/server";
 

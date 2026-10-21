@@ -1,7 +1,3 @@
-/**
- * Utilitário para buscar publicações via SerpAPI
- */
-
 export interface RawPublication {
   title?: string;
   link?: string;
@@ -36,7 +32,6 @@ function firstNonEmpty(...values: Array<unknown>): string {
     const trimmed = value.trim();
     if (trimmed) return trimmed;
   }
-
   return "";
 }
 
@@ -46,31 +41,19 @@ function firstLinkedResource(raw: RawPublication): string {
 }
 
 function getPublicationPlace(raw: RawPublication): string {
-  return firstNonEmpty(
-    raw.publication_place,
-    raw.publication,
-    raw.journal,
-    raw.conference,
-    raw.book,
-  );
+  return firstNonEmpty(raw.publication_place, raw.publication, raw.journal, raw.conference, raw.book);
 }
 
-// Normaliza uma publicação raw para o formato padronizado
 function normalizePublication(raw: RawPublication): Publication | null {
   const title = firstNonEmpty(raw.title);
   const link = firstNonEmpty(raw.link, firstLinkedResource(raw));
   const authors_list = firstNonEmpty(raw.authors_list, raw.authors);
   const publication_place = getPublicationPlace(raw);
 
-  // Extrai citation_number
   let citation_number = 0;
   if (typeof raw.citation_number === "number") {
     citation_number = raw.citation_number;
-  } else if (
-    raw.cited_by &&
-    typeof raw.cited_by === "object" &&
-    raw.cited_by.value !== undefined
-  ) {
+  } else if (raw.cited_by && typeof raw.cited_by === "object" && raw.cited_by.value !== undefined) {
     const v = parseInt(String(raw.cited_by.value), 10);
     citation_number = isNaN(v) ? 0 : v;
   } else if (typeof raw.cited_by === "number") {
@@ -78,25 +61,15 @@ function normalizePublication(raw: RawPublication): Publication | null {
   }
 
   const year = String(raw.year || "");
-
-  // Retorna null se não tiver título
   if (!title) return null;
 
-  return {
-    title,
-    link,
-    authors_list,
-    publication_place,
-    citation_number,
-    year,
-    awards: "",
-  };
+  return { title, link, authors_list, publication_place, citation_number, year, awards: "" };
 }
 
 async function fetchPublicationDetails(
   authorId: string,
   citationId: string,
-  apiKey: string
+  apiKey: string,
 ): Promise<RawPublication | null> {
   const params = new URLSearchParams({
     engine: "google_scholar_author",
@@ -124,7 +97,7 @@ async function fetchPublicationDetails(
 async function enrichPublicationIfNeeded(
   raw: RawPublication,
   authorId: string,
-  apiKey: string
+  apiKey: string,
 ): Promise<RawPublication> {
   const hasRequiredDetails =
     firstNonEmpty(raw.link, firstLinkedResource(raw)) &&
@@ -133,11 +106,7 @@ async function enrichPublicationIfNeeded(
 
   if (hasRequiredDetails || !raw.citation_id) return raw;
 
-  const details = await fetchPublicationDetails(
-    authorId,
-    raw.citation_id,
-    apiKey
-  );
+  const details = await fetchPublicationDetails(authorId, raw.citation_id, apiKey);
   if (!details) return raw;
 
   return {
@@ -149,19 +118,14 @@ async function enrichPublicationIfNeeded(
     citation_number: raw.citation_number ?? details.citation_number,
     link: firstNonEmpty(raw.link, firstLinkedResource(raw), details.link),
     authors_list: firstNonEmpty(raw.authors_list, raw.authors, details.authors),
-    publication_place: firstNonEmpty(
-      raw.publication_place,
-      raw.publication,
-      getPublicationPlace(details)
-    ),
+    publication_place: firstNonEmpty(raw.publication_place, raw.publication, getPublicationPlace(details)),
   };
 }
 
-// Busca publicações da SerpAPI
 export async function fetchPublications(
   authorId: string,
   yearCutoff: number,
-  apiKey: string
+  apiKey: string,
 ): Promise<Publication[]> {
   const allArticles: RawPublication[] = [];
   let start = 0;
@@ -193,12 +157,9 @@ export async function fetchPublications(
   }
 
   const enrichedArticles = await Promise.all(
-    allArticles.map((article) =>
-      enrichPublicationIfNeeded(article, authorId, apiKey)
-    )
+    allArticles.map((article) => enrichPublicationIfNeeded(article, authorId, apiKey)),
   );
 
-  // Normaliza e filtra por ano
   return enrichedArticles
     .map(normalizePublication)
     .filter((pub): pub is Publication => {

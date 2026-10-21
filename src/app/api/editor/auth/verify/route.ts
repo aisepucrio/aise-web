@@ -1,20 +1,54 @@
 import { NextRequest, NextResponse } from "next/server";
+import { validateUserAuth } from "@/lib/auth-server";
+import { requireCSRF } from "@/lib/csrf-protection";
 
-// Mock: aceita qualquer idToken e cria uma sessão fake (cookie httpOnly).
-// A validação real do token do Google e a consulta de permissão em
-// Team_Members entram aqui numa etapa seguinte, fora do escopo deste passo.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+const DEV_MODE = process.env.DEV_MODE === "true";
+
+/**
+ * Verifica o ID token do Google e seta o cookie de sessão HttpOnly.
+ * O cliente manda o token uma vez só; o servidor guarda ele no cookie.
+ */
 export async function POST(request: NextRequest) {
-  const { idToken } = await request.json();
+  try {
+    requireCSRF(request);
+    const { idToken } = await request.json();
 
-  if (!idToken) {
-    return NextResponse.json({ error: "ID token required" }, { status: 400 });
+    if (DEV_MODE && idToken === "debug-token") {
+      const response = NextResponse.json({ email: "debug@localhost", role: "admin" });
+      response.cookies.set("auth-token", "debug-token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 7,
+        path: "/",
+      });
+      return response;
+    }
+
+    if (!idToken) {
+      return NextResponse.json({ error: "ID token required" }, { status: 400 });
+    }
+
+    const session = await validateUserAuth(idToken);
+    if (!session) {
+      return NextResponse.json({ error: "Invalid or unauthorized user" }, { status: 401 });
+    }
+
+    const response = NextResponse.json({ email: session.email, role: session.role });
+    response.cookies.set("auth-token", idToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 7, // 7 dias
+      path: "/",
+    });
+    return response;
+  } catch (error: unknown) {
+    if (error instanceof NextResponse) return error;
+    console.error("Auth verification error:", error);
+    return NextResponse.json({ error: "Authentication failed" }, { status: 500 });
   }
-
-  const response = NextResponse.json({ email: "mock@aiselab.com", role: "admin" });
-  response.cookies.set("auth-token", "mock-session", {
-    httpOnly: true,
-    sameSite: "strict",
-    path: "/",
-  });
-  return response;
 }

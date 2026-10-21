@@ -1,44 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { ResearchData } from "@/lib/types";
+import { listResearches, upsertResearch, researchExists, type LegacyResearch } from "@shared/db";
+import { validateResearchBeforeUpdate } from "@/lib/validations";
+import { requireUser } from "@/lib/auth-server";
+import { requireCSRF } from "@/lib/csrf-protection";
+import { signContentImages } from "@/lib/sign-content-images";
 
-// Mock pra validar o front migrado. A leitura/escrita real no Postgres
-// (via Prisma, hoje em packages/db/src/research.ts) entra nesta mesma
-// rota numa etapa seguinte, fora do escopo deste passo.
-const mockResearches: ResearchData[] = [
-  {
-    id: "research-diversity",
-    name: "Diversidade em IA",
-    shortDescription: "Linha de pesquisa sobre diversidade em sistemas de IA",
-    longDescription:
-      "Descrição longa sobre os objetivos da linha de pesquisa, cobrindo desafios de representatividade e viés em sistemas de inteligência artificial aplicados ao contexto acadêmico.",
-    highlightImageUrl: "/images/logos/logo.png",
-    duration: "Jan 2025 – present",
-    projects: [
-      { name: "Projeto A", imageUrl: "", description: "Descrição do projeto A" },
-    ],
-    team_relationships: [{ name: "Ada Lovelace" }],
-    publication_relationships: ["RAISE: um sistema de recomendação"],
-    tool_relationships: ["tool-raise"],
-  },
-];
-
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+// Research_Areas não tem is_active (nada referencia Research como FK
+// obrigatória), então, diferente de Team/Tools, não existe filtro admin/público.
 export async function GET() {
-  return NextResponse.json({ researches: mockResearches });
+  try {
+    const researches = await listResearches();
+    return NextResponse.json(
+      { researches: await signContentImages(researches) },
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  } catch (error: unknown) {
+    console.error("Error reading researches:", error);
+    return NextResponse.json({ error: "Researches data not found" }, { status: 500 });
+  }
 }
 
 export async function POST(request: NextRequest) {
-  const research = await request.json();
+  try {
+    requireCSRF(request);
+    await requireUser(request);
 
-  if (!research?.name) {
-    return NextResponse.json({ error: "Nome é obrigatório" }, { status: 400 });
+    const data = await request.json();
+    const validation = validateResearchBeforeUpdate(data);
+    if (!validation.valid) {
+      return NextResponse.json({ error: validation.errors.join(", ") }, { status: 400 });
+    }
+
+    const isNew = !(await researchExists(data.id));
+    await upsertResearch(data as LegacyResearch, isNew);
+
+    return NextResponse.json({
+      success: true,
+      message: isNew ? "Research criada com sucesso" : "Research atualizada com sucesso",
+    });
+  } catch (error: unknown) {
+    if (error instanceof NextResponse) return error;
+    const message = error instanceof Error ? error.message : "Erro ao salvar research";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  return NextResponse.json({
-    success: true,
-    message: research.isNew
-      ? "Research adicionado (mock)"
-      : "Research atualizado (mock)",
-  });
 }

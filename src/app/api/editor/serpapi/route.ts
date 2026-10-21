@@ -1,30 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { Publication } from "@/lib/types";
+import { fetchPublications } from "@/lib/serpapi";
+import { requireUser } from "@/lib/auth-server";
+import { requireCSRF } from "@/lib/csrf-protection";
 
-// Mock: devolve resultados fixos em vez de consultar a SerpAPI de verdade.
-// O cliente real (hoje em apps/editor/src/lib/serpapi.ts) entra aqui numa
-// etapa seguinte, fora do escopo deste passo.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+// Busca publicações via SerpAPI. A rota antiga não exigia login (qualquer um
+// podia gastar a cota da API); agora exige sessão, já que estamos tocando
+// nela mesmo.
 export async function POST(request: NextRequest) {
-  const { authorId, yearCutoff } = await request.json();
+  try {
+    requireCSRF(request);
+    await requireUser(request);
 
-  if (!authorId || !yearCutoff) {
-    return NextResponse.json(
-      { error: "authorId e yearCutoff obrigatórios" },
-      { status: 400 },
-    );
+    const { authorId, yearCutoff } = await request.json();
+
+    const apiKey = process.env.SERPAPI_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: "SERPAPI_KEY não configurada" }, { status: 500 });
+    }
+    if (!authorId || !yearCutoff) {
+      return NextResponse.json({ error: "authorId e yearCutoff obrigatórios" }, { status: 400 });
+    }
+
+    const publications = await fetchPublications(authorId, yearCutoff, apiKey);
+    return NextResponse.json({ publications });
+  } catch (error: unknown) {
+    if (error instanceof NextResponse) return error;
+    const message = error instanceof Error ? error.message : "Falha ao buscar publicações";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  const mockResults: Publication[] = [
-    {
-      title: "Attention Is All You Need",
-      link: "https://arxiv.org/abs/1706.03762",
-      authors_list: "Vaswani et al.",
-      publication_place: "NeurIPS",
-      citation_number: 100000,
-      year: "2017",
-      awards: "",
-    },
-  ];
-
-  return NextResponse.json({ publications: mockResults });
 }

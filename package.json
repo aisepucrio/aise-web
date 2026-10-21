@@ -2,21 +2,31 @@
   "name": "aise-web",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate --schema=packages/db/prisma/schema.prisma"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1102.0",
     "@mantine/core": "^8.3.7",
     "@mantine/hooks": "^8.3.7",
     "@mantine/notifications": "^8.3.7",
+    "@shared/db": "*",
+    "@shared/s3-images": "*",
     "@tabler/icons-react": "^3.35.0",
     "framer-motion": "^12.23.24",
+    "google-auth-library": "^10.5.0",
+    "googleapis": "^164.1.0",
     "next": "^16.0.10",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
