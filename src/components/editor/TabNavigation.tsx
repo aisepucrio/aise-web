@@ -6,7 +6,7 @@ import {
   IconFlask,
   IconBook,
   IconTool,
-  IconUpload,
+  IconCalendarEvent,
 } from "@tabler/icons-react";
 import { ReactNode } from "react";
 
@@ -40,9 +40,9 @@ export const TABS: TabItem[] = [
     icon: <IconTool size={18} />,
   },
   {
-    id: "publish",
-    label: "Publicar",
-    icon: <IconUpload size={18} />,
+    id: "birthdays",
+    label: "Aniversários",
+    icon: <IconCalendarEvent size={18} />,
   },
 ];
 
@@ -59,7 +59,7 @@ export default function TabNavigation({
 }: TabNavigationProps) {
   // Filter tabs based on admin status
   const visibleTabs = TABS.filter(
-    (tab) => tab.id !== "publish" || isAdmin
+    (tab) => tab.id !== "birthdays" || isAdmin
   );
 
   return (

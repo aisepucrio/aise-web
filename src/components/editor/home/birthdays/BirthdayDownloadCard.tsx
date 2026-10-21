@@ -2,7 +2,7 @@
 
 import { IconCalendarEvent, IconDownload } from "@tabler/icons-react";
 import { authFetchJson } from "@/components/editor/lib/auth-fetch";
-import PublishSectionCard from "./PublishSectionCard";
+import ActionStatusCard from "./ActionStatusCard";
 
 type TeamMemberBirthday = {
   name?: string;
@@ -135,7 +135,7 @@ export default function BirthdayDownloadCard() {
   };
 
   return (
-    <PublishSectionCard
+    <ActionStatusCard
       name="Datas de Aniversario"
       description="Baixa um arquivo .ics com os aniversarios anuais do team."
       icon={<IconCalendarEvent size={24} />}

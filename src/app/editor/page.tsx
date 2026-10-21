@@ -17,7 +17,7 @@ import TeamHomePage from "@/components/editor/home/TeamHomePage";
 import ResearchesHomePage from "@/components/editor/home/ResearchesHomePage";
 import PublicationsHomePage from "@/components/editor/home/PublicationsHomePage";
 import ToolsHomePage from "@/components/editor/home/ToolsHomePage";
-import PublishHomePage from "@/components/editor/home/publish/PublishHomePage";
+import BirthdaysHomePage from "@/components/editor/home/birthdays/BirthdaysHomePage";
 import { RequireAuth, useAuth } from "@/components/editor/AuthContext";
 
 export default function HomePage() {
@@ -36,9 +36,8 @@ export default function HomePage() {
         return <PublicationsHomePage />;
       case "tools":
         return <ToolsHomePage />;
-      case "publish":
-        // Only render publish page for admins
-        return isAdmin ? <PublishHomePage /> : <TeamHomePage />;
+      case "birthdays":
+        return isAdmin ? <BirthdaysHomePage /> : <TeamHomePage />;
       default:
         return <TeamHomePage />;
     }
